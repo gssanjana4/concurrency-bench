@@ -2,7 +2,7 @@
 
 Sanjana Gopnal Swamy (independent researcher). Artifact version v2. Code: MIT licence (`LICENSE`). Data: CC BY 4.0 (`data/LICENSE.txt`), model outputs subject to the providers' terms; intended for research use.
 
-Pre-registrations: Study 1 https://osf.io/a5vec (registered 2026-10-31); Study 2 https://osf.io/zj3an (registered 2026-11-09, `date_registered` 2026-11-09T18:35:24Z). Both texts are in `preregistration/`. An archived copy with a DOI will be linked here when the paper is posted. Repository: https://github.com/gssanjana4/concurrency-bench.
+Pre-registrations: Study 1 https://osf.io/a5vec (registered 2026-10-31); Study 2 https://osf.io/zj3an (registered 2026-11-09, `date_registered` 2026-11-09T18:35:24Z). Both texts are in `preregistration/`. Archived copy of this repository, with the paper source and the two PDFs in the same record: https://doi.org/10.5281/zenodo.24226165. Repository: https://github.com/gssanjana4/concurrency-bench.
 
 ## What this is
 
@@ -16,7 +16,7 @@ Two pre-registered studies of whether LLM agents, each in its own conversation, 
 | `src4_batch/` | Study 1 batch drivers (Sonnet 5, Fable 5, Gemini 4 Argon episodes) and their offline tests (not frozen) |
 | `src_sql/` | the exploratory SQL slice of Study 1 (post hoc, not pre-registered) |
 | `orchestrators_as_run/` | the orchestrator scripts exactly as run on the author's Mac for Study 1, with their own `SHA256SUMS` and README |
-| `paper/latex/` | the Study 1 number pipeline: every script that produces a Study 1 number, its tests, `deviations.csv`, `build.sh`; the paper source and PDF are not in this artifact (the paper is the preprint cited below) |
+| `paper/latex/` | the Study 1 number pipeline: every script that produces a Study 1 number, its tests, `deviations.csv`, `build.sh`; the paper source and PDF are not in this artifact; they are in the same archived record (`paper-source-v1.zip` and the two PDFs) |
 | `paper/` | (no compiled paper in this build) |
 | `paper/audit/` | the pre-specified H5 transcript audit of Study 1 (performed by an AI agent) and the scoring spot-checks |
 | `preregistration/` | the two registration texts: `PREREGISTRATION.md` (Study 1) and `PREREGISTRATION_STUDY2.md` (Study 2); `paper/PREREGISTRATION.md` is the copy the pipeline reads |
@@ -86,7 +86,7 @@ python3 src5/rescore5.py --cap 24 --out cap24.csv data/results5/study2/n2-*/tran
 ### Tests
 
 ```
-cd src5 && python3 -m unittest tests5 && cd ..                       # 91 harness tests, about 6 s
+cd src5 && python3 -m unittest tests5 && cd ..                       # 91 harness tests, about 6 s (one of them needs the anthropic SDK importable)
 cd src5_batch && python3 -m unittest tests_batch tests_gemini && cd ..   # 59 batch-path tests incl. the equivalence gate; needs the anthropic SDK; ~17 min
 python3 src5/validity5.py --out validity_rerun                           # reference-policy validity table (372 rows, 0 required failures; ~3 min)
 bash run_conc_study2.sh --dry-run --base results5/study2_dry             # whole grid with fake models, no keys, no money (needs the anthropic SDK importable); then dry_check5
@@ -117,7 +117,7 @@ python3 reference_policies.py --analysis ../analysis # POST HOC scripted referen
 cd ../../src4 && python3 -m unittest tests4 tests_full4 tests_model4   # harness tests
 ```
 
-`confirmatory.json` should equal `reference_outputs/study1_analysis/confirmatory.json` except for the input paths. `make_numbers4.py --check` and `paper/latex/tests/` also need the paper source (`main.tex`, `facts/`), which is not in this artifact. Study 1 harness tests in `src4_batch/` import the frozen harness through `src4_batch/frozen.py`, whose own FREEZE gate does not read `FREEZE_OVERRIDE.json`; they pass on this unredacted copy.
+`confirmatory.json` should equal `reference_outputs/study1_analysis/confirmatory.json` except for the input paths. `make_numbers4.py --check` and `paper/latex/tests/` also need the paper source (`main.tex`, `facts/`), which is in `paper-source-v1.zip` of the archived record. Study 1 harness tests in `src4_batch/` import the frozen harness through `src4_batch/frozen.py`, whose own FREEZE gate does not read `FREEZE_OVERRIDE.json`; they pass on this unredacted copy.
 
 ## FREEZE override
 
@@ -132,12 +132,12 @@ Excluded: `batch_state/` and `held_for_pair/` directories, `__pycache__`, `.env`
 
 ## AI use
 
-The code in this artifact (the Study 1 and Study 2 harnesses, batch drivers, scorers, analysis scripts, tests, this build script and this README) was written by an AI coding assistant (Claude, Anthropic) under the author's direction; the two registration texts were drafted by the same assistant from the author's decisions and reviewed by her before filing (their own AI-assistance sections say so). The author chose the research question, scope and budget, reviewed and approved the designs, hypotheses and analysis plans, filed both registrations under her own account and ran the experiments on her machine with her API credit (the Study 2 run was started by a queued job on her Mac after the registration was filed; `STUDY2_RUN_LOG.md`). The pre-specified H5 transcript audit of Study 1 (`paper/audit/`), the pre-spend design reviews that led to Study 2 and the post-run verification of Study 2 were performed by AI agents. The author spot-checked 20 Study 2 episodes on 13 November 2026 from plain-language descriptions of each episode read aloud by the AI assistant, without seeing the stored labels: 15 of the 20 first judgements agreed with the labels, and all 20 after the assistant, which knew the labels, restated the task rule for the five that disagreed (`paper/audit/AUTHOR_SPOT_CHECK_answers.json`). The paper's Acknowledgments carry its AI-use statement in two sentences; the full account, section by section, of what an AI assistant drafted is `AI_DRAFTED_SECTIONS.md`, next to the paper source in the archived artifact.
+The code in this artifact (the Study 1 and Study 2 harnesses, batch drivers, scorers, analysis scripts, tests, this build script and this README) was written by an AI coding assistant (Claude, Anthropic) under the author's direction; the two registration texts were drafted by the same assistant from the author's decisions and reviewed by her before filing (their own AI-assistance sections say so). The author chose the research question, scope and budget, reviewed and approved the designs, hypotheses and analysis plans, filed both registrations under her own account and ran the experiments on her machine with her API credit (the Study 2 run was started by a queued job on her Mac after the registration was filed; `STUDY2_RUN_LOG.md`). The pre-specified H5 transcript audit of Study 1 (`paper/audit/`), the pre-spend design reviews that led to Study 2 and the post-run verification of Study 2 were performed by AI agents. The author spot-checked 20 Study 2 episodes on 13 November 2026 from plain-language descriptions of each episode read aloud by the AI assistant, without seeing the stored labels: 15 of the 20 first judgements agreed with the labels, and all 20 after the assistant, which knew the labels, restated the task rule for the five that disagreed (`paper/audit/AUTHOR_SPOT_CHECK_answers.json`). The paper's Acknowledgments carry its AI-use statement in two sentences; the full account, section by section, of what an AI assistant drafted is `AI_DRAFTED_SECTIONS.md`, in `paper-source-v1.zip` of the archived record.
 
 ## Cite
 
 ```
-Gopnal Swamy, Sanjana. Do LLM Agents Coordinate on Shared Records? Two Pre-registered Studies of Optional Protection on a Record API. 2026. Preprint, forthcoming. Code and data: https://github.com/gssanjana4/concurrency-bench
+Gopnal Swamy, Sanjana. Do LLM Agents Coordinate on Shared Records? Two Pre-registered Studies of Optional Protection on a Record API. 2026. Preprint. Code and data: https://doi.org/10.5281/zenodo.24226165 and https://github.com/gssanjana4/concurrency-bench
 ```
 
 ```bibtex
@@ -145,9 +145,9 @@ Gopnal Swamy, Sanjana. Do LLM Agents Coordinate on Shared Records? Two Pre-regis
   author       = {Gopnal Swamy, Sanjana},
   title        = {Do LLM Agents Coordinate on Shared Records? Two Pre-registered Studies of Optional Protection on a Record API},
   year         = {2026},
-  howpublished = {Preprint, forthcoming},
-  note         = {Code and data: https://github.com/gssanjana4/concurrency-bench; pre-registrations https://osf.io/a5vec and https://osf.io/zj3an}
+  howpublished = {Preprint},
+  note         = {Code and data: https://doi.org/10.5281/zenodo.24226165 and https://github.com/gssanjana4/concurrency-bench; pre-registrations https://osf.io/a5vec and https://osf.io/zj3an}
 }
 ```
 
-Built 2026-11-14 (UTC) by `tools/make_artifact_v2.py` (public mode); 11,272 files. Study 2 transcripts: probe-anthropic 896, probe-gemini 896, probe-openrouter 896, n2-anthropic 992, n2-gemini 672, n2-openrouter 640. Wrappers included: run_conc_s2go.sh, run_conc_s2dry.sh, run_conc_elig.sh.
+Built 2026-11-14 (UTC) by `tools/make_artifact_v2.py` (public mode); 11,272 files. Study 2 transcripts: probe-anthropic 896, probe-gemini 896, probe-openrouter 896, n2-anthropic 992, n2-gemini 672, n2-openrouter 640. Wrappers included: run_conc_s2go.sh, run_conc_s2dry.sh, run_conc_elig.sh. `README.md` and `paper/latex/README.md` were edited by hand after the build, on 2026-11-14 (archive DOI, citation, a test note, the marker sentence), and their lines in `SHA256SUMS` were refreshed.
