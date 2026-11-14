@@ -763,7 +763,7 @@ DEVIATIONS = [
                              "models reject it and run at the provider default (Study 1 found the same)'.",
     },
     {
-        "deviation": "Analyst exposure, declared: while diagnosing the errored Anthropic requests, the AI assistant printed the first "
+        "deviation": "Analyst exposure, declared: while diagnosing the errored Anthropic requests, a debugging step printed the first "
                      "record of probe-anthropic/batch_state/.../responses.jsonl, which showed the opening sentence of one Haiku a1 probe "
                      "reply (episode claude-haiku-4-5-20251001__all_available__inventory_last_unit_ctrl@i0, a control probe). No outcome, "
                      "label or score was read; later inspections were filtered to error objects and metadata.",

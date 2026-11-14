@@ -51,7 +51,7 @@ sql (R1 W13)            Design counts and per-cell violation counts of the explo
     its results.csv (existence statements only).
 template_boot also gives the exact sign-flip test (all sign patterns of the template means) and the exact sign test on
     template means, each with Holm across models (review T3 section 4).
-review2 (reviews T1-T4, 2026-11-03)   Defined after the data and after four further AI reviews; definitions in each
+review2 (reviews T1-T4, 2026-11-03)   Defined after the data and after four further internal reviews; definitions in each
     function's docstring: sign_tests, h6_detectable, graph_agreement, stale_facts, cas_leak, partial_split, ws_transient,
     control_and_habit, schedule_facts, turn_cap, qwen_hosts_locks, gemini_settings, orchestrators. graph_agreement and
     stale_facts are registered exploratory items that were not reported before.

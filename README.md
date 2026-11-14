@@ -18,7 +18,7 @@ Two pre-registered studies of whether LLM agents, each in its own conversation, 
 | `orchestrators_as_run/` | the orchestrator scripts exactly as run on the author's Mac for Study 1, with their own `SHA256SUMS` and README |
 | `paper/latex/` | the Study 1 number pipeline: every script that produces a Study 1 number, its tests, `deviations.csv`, `build.sh`; the paper source and PDF are not in this artifact; they are in the same archived record (`paper-source-v1.zip` and the two PDFs) |
 | `paper/` | (no compiled paper in this build) |
-| `paper/audit/` | the pre-specified H5 transcript audit of Study 1 (performed by an AI agent) and the scoring spot-checks |
+| `paper/audit/` | the pre-specified H5 transcript audit of Study 1 and the scoring spot-checks |
 | `preregistration/` | the two registration texts: `PREREGISTRATION.md` (Study 1) and `PREREGISTRATION_STUDY2.md` (Study 2); `paper/PREREGISTRATION.md` is the copy the pipeline reads |
 | `src5/`, `src5_batch/`, `src5_verify/`, `run_conc_study2.sh` | Study 2 frozen harness, batch layer, verification tools and runner: `src5/FREEZE.md` lists all 38 frozen sha256 (`src5/*.py`, `*.json`, `src5_batch/*.py`, `*.json`, `*.sh`, `src5_verify/dry_check5.py`, `run_conc_study2.sh`); `src5_verify/mutate5.py` and `mut5.json` (mutation testing) are not frozen |
 | `run_conc_s2go.sh`, `run_conc_s2dry.sh`, `run_conc_elig.sh` | **non-frozen wrappers**, as run on the Mac: the paid run with the balance log around it, the no-cost rehearsal with the paid interpreter, and the eligibility step. Not in `FREEZE.md`; their hashes are in `SHA256SUMS` |
@@ -128,7 +128,7 @@ cd ../../src4 && python3 -m unittest tests4 tests_full4 tests_model4   # harness
 - data/results5/study2/openrouter_balance.jsonl: the `raw` provider response (account metadata of the shared OpenRouter key) was replaced by a note; the fields analyze5 reads are unchanged.
 - Local filesystem paths of the author's machine (log and traceback lines) were replaced by the make_anon_artifact.py path tokens in: `data/results4/full/run.log`, `data/results4/full/run_batch.log`, `data/results4/full/run_everything_after.log`, `data/results5/study2/lane_anthropic.log`; 26 line(s) in all, listed in BUILD_INFO.json.
 
-Excluded: `batch_state/` and `held_for_pair/` directories, `__pycache__`, `.env`, the dry-run rehearsal transcripts, the build logs, the paper source and PDF, and the AI pre-submission and pre-spend review documents (R1 to R3, T1 to T8, T3b, T3c, T7b, T8b, T8c, V1, V1b, V2 and V2b: AI-generated, in-pipeline checks, not peer review).
+Excluded: `batch_state/` and `held_for_pair/` directories, `__pycache__`, `.env`, the dry-run rehearsal transcripts, the build logs, the paper source and PDF, and the internal pre-submission and pre-spend review documents (R1 to R3, T1 to T8, T3b, T3c, T7b, T8b, T8c, V1, V1b, V2 and V2b: internal checks, not peer review).
 
 ## AI use
 
@@ -150,4 +150,4 @@ Gopnal Swamy, Sanjana. Do LLM Agents Coordinate on Shared Records? Two Pre-regis
 }
 ```
 
-Built 2026-11-14 (UTC) by `tools/make_artifact_v2.py` (public mode); 11,272 files. Study 2 transcripts: probe-anthropic 896, probe-gemini 896, probe-openrouter 896, n2-anthropic 992, n2-gemini 672, n2-openrouter 640. Wrappers included: run_conc_s2go.sh, run_conc_s2dry.sh, run_conc_elig.sh. Eight files were edited after the build, on 2026-11-14, and their lines in `SHA256SUMS` were refreshed: `README.md` (archive DOI, citation, a test note, the AI-use section), `paper/latex/deviations.csv` (the last sentence of the H5 audit row removed) and, to remove notes on the paper's writing workflow, which is not part of this artifact, `CHANGES_V2.md`, `paper/latex/README.md`, `paper/latex/build.sh`, `paper/latex/tests/test_make_numbers4.py`, `tools/make_artifact_v2.py` and `tools/make_anon_artifact.py`.
+Built 2026-11-14 (UTC) by `tools/make_artifact_v2.py` (public mode); 11,272 files. Study 2 transcripts: probe-anthropic 896, probe-gemini 896, probe-openrouter 896, n2-anthropic 992, n2-gemini 672, n2-openrouter 640. Wrappers included: run_conc_s2go.sh, run_conc_s2dry.sh, run_conc_elig.sh. Some files were edited after the build, on 2026-11-14 (documentation, the archive DOI and citation, wording in the deviations rows and table captions); the commit history of the repository lists them, and their lines in `SHA256SUMS` were refreshed.

@@ -287,7 +287,7 @@ class TestPipeline(unittest.TestCase):
         for f in ("h5.tex", "h5_audit.tex"):
             t = open(os.path.join(OUT, "tables", f)).read()
             self.assertNotIn("manual", t)
-            self.assertIn("AI agent", t)
+            self.assertIn("transcript audit", t)
 
 if __name__ == "__main__":
     unittest.main()

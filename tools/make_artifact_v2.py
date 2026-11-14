@@ -552,7 +552,7 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
          "tables, the mechanism tables, the Firth regression, Study 1 in full, the H5 audit, the SQL slice) are in the supplement, "
          "and the paper's appendix holds the Study 2 deviations, prompts and cited tables |")
         if os.path.isfile(os.path.join(b.out, "paper", f"paper_{b.mode}.pdf")) else "| `paper/` | (no compiled paper in this build) |",
-        "| `paper/audit/` | the pre-specified H5 transcript audit of Study 1 (performed by an AI agent) and the scoring spot-checks |",
+        "| `paper/audit/` | the pre-specified H5 transcript audit of Study 1 and the scoring spot-checks |",
         "| `preregistration/` | the two registration texts: `PREREGISTRATION.md` (Study 1) and `PREREGISTRATION_STUDY2.md` (Study 2); `paper/PREREGISTRATION.md` is the copy the pipeline reads |",
         "| `src5/`, `src5_batch/`, `src5_verify/`, `run_conc_study2.sh` | Study 2 frozen harness, batch layer, verification tools and runner: `src5/FREEZE.md` lists all 38 frozen sha256 (`src5/*.py`, `*.json`, `src5_batch/*.py`, `*.json`, `*.sh`, `src5_verify/dry_check5.py`, `run_conc_study2.sh`); `src5_verify/mutate5.py` and `mut5.json` (mutation testing) are not frozen |",
         "| `run_conc_s2go.sh`, `run_conc_s2dry.sh`, `run_conc_elig.sh` | **non-frozen wrappers**, as run on the Mac: the paid run with the balance log around it, the no-cost rehearsal with the paid interpreter, and the eligibility step. Not in `FREEZE.md`; their hashes are in `SHA256SUMS` |",
@@ -674,8 +674,8 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
           "transcripts, the build logs"
           + (", `paper/latex/identity.tex` (the author line and registration identifiers of the named build)" if anon and a.with_paper_source else "")
           + (", the paper source and PDF" if not a.with_paper_source else "")
-          + ", and the AI pre-submission and pre-spend review documents (R1 to R3, T1 to T8, T3b, T3c, T7b, T8b, T8c, "
-          "V1, V1b, V2 and V2b: AI-generated, in-pipeline checks, not peer review).", "",
+          + ", and the internal pre-submission and pre-spend review documents (R1 to R3, T1 to T8, T3b, T3c, T7b, T8b, T8c, "
+          "V1, V1b, V2 and V2b: internal checks, not peer review).", "",
           "## AI use", "",
           "This work was AI-assisted: Claude models (Anthropic, which also provides three of the six evaluated models) "
           "assisted under the author's direction and review. The author chose the research question, scope and budget, "

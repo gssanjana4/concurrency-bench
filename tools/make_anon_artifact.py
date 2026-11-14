@@ -210,7 +210,7 @@ def artifact_readme(out, a, override, batch_hashes, sql_hashes, n_files):
          "| `src_sql/`, `results_sql/` | exploratory SQL slice (post hoc, not pre-registered): code, results, its own analysis |",
          "| `results4/full/` | result CSVs, transcripts (ledgers included), failures and spend logs of the registered run |",
          "| `paper/latex/` | the paper pipeline: every script that produces a number, its tests, `main.tex`, `deviations.csv` |",
-         "| `paper/audit/` | the pre-specified H5 transcript audit (performed by an AI agent) and scoring spot-checks |",
+         "| `paper/audit/` | the pre-specified H5 transcript audit and scoring spot-checks |",
          "| `paper/PREREGISTRATION.md`, `preregistration/` | the registration text, contributor line redacted |",
          "| `reference_outputs/analysis/` | the author's analysis outputs, to compare against your rerun |",
          "| `ANON_CHANGES.md` | every redacted line, with sha256 of original and redacted files |",

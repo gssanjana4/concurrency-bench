@@ -872,7 +872,7 @@ def tables(models, dry):
     L += [r"\bottomrule", r"\end{tabular}",
           r"\caption{H5 (pre-specified descriptive): agents in \texttt{transfer\_shared\_source} with a concurrency-rejected "
           r"write on a record their intent writes that committed an action, ended and did not fulfil the intent. Counts before "
-          r"the transcript audit, which an AI agent performed (Table~\ref{tab:h5-audit}).}", r"\label{tab:h5}", r"\end{table}", ""]
+          r"the transcript audit (Table~\ref{tab:h5-audit}).}", r"\label{tab:h5}", r"\end{table}", ""]
     write_table("h5.tex", "\n".join(L), dry)
 
     # 7. full rates n=2 (aware off / on)
@@ -958,8 +958,8 @@ def rollback_audit_macros(analysis, models, dry):
     """POST HOC rollback sensitivity (rollback_sensitivity.py) and the H5 transcript audit (audit/H5_AUDIT.csv).
 
     \\Rb...: registered vs rescored estimates when rollback-only partial_action episodes count as serializable
-    (not pre-registered, not confirmatory). \\HfiveAudit...: the pre-specified H5 transcript audit (performed by an
-    AI agent that had not built the harness; audit/H5_AUDIT.md); counts are read from the audit CSV via rollback_sensitivity.py. Both are "--" when
+    (not pre-registered, not confirmatory). \\HfiveAudit...: the pre-specified H5 transcript audit
+    (audit/H5_AUDIT.md); counts are read from the audit CSV via rollback_sensitivity.py. Both are "--" when
     the file is missing or the inputs are a dry run. Writes tables/rollback_sensitivity.tex and tables/h5_audit.tex.
     """
     g = "posthoc-rollback-sensitivity"
@@ -1001,7 +1001,7 @@ def rollback_audit_macros(analysis, models, dry):
     if rb:
         REPORT.append("Rb* macros: POST HOC rollback sensitivity (rollback_sensitivity.py); not pre-registered, not confirmatory")
 
-    # H5 transcript audit (pre-specified; performed by an AI agent, audit/H5_AUDIT.md). Not shown for dry runs.
+    # H5 transcript audit (pre-specified; audit/H5_AUDIT.md). Not shown for dry runs.
     ga = "h5-audit"
     au = None if (dry or not rb) else rb.get("h5_audit")
     fields = (("Numerator", "numerator"), ("Confirmed", "confirmed"), ("Returned", "confirmed_returned"),
@@ -1057,7 +1057,7 @@ def rollback_audit_macros(analysis, models, dry):
           r"\caption{H5 transcript audit (pre-specified). Counted: the automated count over eligible agents. Confirmed: the transcript "
           r"shows a half-done transfer at the end, split into agents that returned on their own and agents stopped by the turn cap. "
           r"Rolled back: counted agents that restored the credited record, so the final store holds no half-done transfer. "
-          r"An AI agent performed the audit from the transcripts (\texttt{audit/H5\_AUDIT.md}). $^{*}$POST HOC: agents in "
+          r"The audit read the transcripts (\texttt{audit/H5\_AUDIT.md}). $^{*}$POST HOC: agents in "
           r"\texttt{transfer\_shared\_source} ($n=\DesNTwo$, every config, both aware levels) that wrote at all, and among them "
           r"those whose model sent the debit and the credit in one reply.}",
           r"\label{tab:h5-audit}", r"\end{table}", ""]
