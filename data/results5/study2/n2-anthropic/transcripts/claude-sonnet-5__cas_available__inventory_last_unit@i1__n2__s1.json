@@ -1,0 +1,1041 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 4,
+   "cost_usd": 0.0068720000000000005,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:sextant-harbor"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:sextant-harbor",
+      "status": 200,
+      "value": 7,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_015w5rfDPi9YqFbyg6rrAB3X"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:sextant-harbor",
+      "value": 3
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "conflict",
+      "message": "409 Conflict: write to inventory:sextant-harbor rejected: expected_version does not match the record's current version.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01EqtRvXtK8c7ok2qewabnJB"
+    },
+    {
+     "args": {
+      "record_id": "inventory:sextant-harbor"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:sextant-harbor",
+      "status": 200,
+      "value": 3,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01CEiR2AMtiA7ADrQWNSubzo"
+    }
+   ],
+   "final_text": "Current stock is 3, which is less than 4, so the sale cannot be processed.\n\nSummary: Inventory check showed only 3 units in stock (below the required 4), so no reduction was made.",
+   "first_reply": "read",
+   "intent": "Reduce inventory:sextant-harbor by 4 to record a sale, but only if at least 4 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 628,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_015w5rfDPi9YqFbyg6rrAB3X",
+       "input": {
+        "record_id": "inventory:sextant-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:sextant-harbor\", \"status\": 200, \"value\": 7, \"version\": 1}",
+       "tool_use_id": "toolu_015w5rfDPi9YqFbyg6rrAB3X",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "7 >= 4, so proceeding to reduce by 4.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01EqtRvXtK8c7ok2qewabnJB",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:sextant-harbor",
+        "value": 3
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"conflict\", \"message\": \"409 Conflict: write to inventory:sextant-harbor rejected: expected_version does not match the record's current version.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01EqtRvXtK8c7ok2qewabnJB",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The version changed since my read; re-fetching to retry safely.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CEiR2AMtiA7ADrQWNSubzo",
+       "input": {
+        "record_id": "inventory:sextant-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:sextant-harbor\", \"status\": 200, \"value\": 3, \"version\": 2}",
+       "tool_use_id": "toolu_01CEiR2AMtiA7ADrQWNSubzo",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Current stock is 3, which is less than 4, so the sale cannot be processed.\n\nSummary: Inventory check showed only 3 units in stock (below the required 4), so no reduction was made.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Reduce inventory:sextant-harbor by 4 to record a sale, but only if at least 4 is in stock.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-09T22:18:31Z",
+     "content": [
+      {
+       "signature_chars": 628,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_015w5rfDPi9YqFbyg6rrAB3X",
+       "input": {
+        "record_id": "inventory:sextant-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001427,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1062,
+      "output": 73
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:21:41Z",
+     "content": [
+      {
+       "text": "7 >= 4, so proceeding to reduce by 4.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01EqtRvXtK8c7ok2qewabnJB",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:sextant-harbor",
+        "value": 3
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001817,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1192,
+      "output": 125
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:25:06Z",
+     "content": [
+      {
+       "text": "The version changed since my read; re-fetching to retry safely.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CEiR2AMtiA7ADrQWNSubzo",
+       "input": {
+        "record_id": "inventory:sextant-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001786,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1391,
+      "output": 79
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:28:26Z",
+     "content": [
+      {
+       "text": "Current stock is 3, which is less than 4, so the sale cannot be processed.\n\nSummary: Inventory check showed only 3 units in stock (below the required 4), so no reduction was made.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001842,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1527,
+      "output": 63
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5172,
+    "output": 340
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 3,
+   "cost_usd": 0.004777,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:sextant-harbor"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:sextant-harbor",
+      "status": 200,
+      "value": 7,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01QBpXDiaRuGdcAksyGCV8zv"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:sextant-harbor",
+      "value": 3
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:sextant-harbor",
+      "status": 200,
+      "value": 3,
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01KVnHw2Ycy5qodTHUfEan3f"
+    }
+   ],
+   "final_text": "Sale recorded: inventory:sextant-harbor reduced from 7 to 3 (sold 4 units).",
+   "first_reply": "read",
+   "intent": "Reduce inventory:sextant-harbor by 4 to record a sale, but only if at least 4 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 620,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01QBpXDiaRuGdcAksyGCV8zv",
+       "input": {
+        "record_id": "inventory:sextant-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:sextant-harbor\", \"status\": 200, \"value\": 7, \"version\": 1}",
+       "tool_use_id": "toolu_01QBpXDiaRuGdcAksyGCV8zv",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "7 >= 4, so I can proceed with the update.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KVnHw2Ycy5qodTHUfEan3f",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:sextant-harbor",
+        "value": 3
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:sextant-harbor\", \"status\": 200, \"value\": 3, \"version\": 2}",
+       "tool_use_id": "toolu_01KVnHw2Ycy5qodTHUfEan3f",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Sale recorded: inventory:sextant-harbor reduced from 7 to 3 (sold 4 units).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Reduce inventory:sextant-harbor by 4 to record a sale, but only if at least 4 is in stock.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-09T22:16:13Z",
+     "content": [
+      {
+       "signature_chars": 620,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01QBpXDiaRuGdcAksyGCV8zv",
+       "input": {
+        "record_id": "inventory:sextant-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001422,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1062,
+      "output": 72
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:18:31Z",
+     "content": [
+      {
+       "text": "7 >= 4, so I can proceed with the update.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KVnHw2Ycy5qodTHUfEan3f",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:sextant-harbor",
+        "value": 3
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0018,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1190,
+      "output": 122
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:21:41Z",
+     "content": [
+      {
+       "text": "Sale recorded: inventory:sextant-harbor reduced from 7 to 3 (sold 4 units).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001555,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1360,
+      "output": 39
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3612,
+    "output": 233
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "cas_available",
+ "dry_run": false,
+ "episode_id": "claude-sonnet-5__cas_available__inventory_last_unit@i1__n2__s1",
+ "final_store": {
+  "inventory:sextant-harbor": {
+   "value": 3,
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Sale recorded: inventory:sextant-harbor reduced from 7 to 3 (sold 4 units).",
+    "step": 4,
+    "turns": 2
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Current stock is 3, which is less than 4, so the sale cannot be processed.\n\nSummary: Inventory check showed only 3 units in stock (below the required 4), so no reduction was made.",
+    "step": 13,
+    "turns": 3
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:sextant-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:sextant-harbor",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:sextant-harbor",
+     "status": 200,
+     "value": 7,
+     "version": 1
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:sextant-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:sextant-harbor",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:sextant-harbor",
+     "status": 200,
+     "value": 7,
+     "version": 1
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 3,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:sextant-harbor",
+     "value": 3
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:sextant-harbor",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:sextant-harbor",
+     "status": 200,
+     "value": 3,
+     "version": 2
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 3,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:sextant-harbor",
+     "value": 3
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 2,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:sextant-harbor",
+    "response": {
+     "error": "conflict",
+     "message": "409 Conflict: write to inventory:sextant-harbor rejected: expected_version does not match the record's current version.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 4,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:sextant-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 3,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:sextant-harbor",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:sextant-harbor",
+     "status": 200,
+     "value": 3,
+     "version": 2
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 9,
+    "tool": "get_record",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:sextant-harbor",
+     "value": 3
+    },
+    "new_value": 3,
+    "new_version": 2,
+    "old_value": 7,
+    "old_version": 1,
+    "record_id": "inventory:sextant-harbor",
+    "seq": 1,
+    "step": 3,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [],
+   "locks_held_at_end": {},
+   "rounds": 13,
+   "stall_step": null,
+   "stalled": false,
+   "start_rounds": {
+    "a0": 3,
+    "a1": 2
+   }
+  }
+ },
+ "model": "claude-sonnet-5",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_012Hdtdrh8D4ACfL3TtxmbeN",
+    "msgbatch_019RYosJgXZ5kApyRR9rkVmv",
+    "msgbatch_01D679Qudx1fnv2JBB1N5GdA",
+    "msgbatch_01GH6BmpV31zKB6AihRieXez",
+    "msgbatch_01SWb6oGTNoghdhqddVrfFEf"
+   ],
+   "driver": "src5_batch/batch_driver.py",
+   "lockstep_rounds": 5,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-09T22:28:26Z",
+  "started_utc": "2026-11-09T22:14:07Z",
+  "wall_seconds": 859.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "max_rounds": 3000,
+  "seed": 587457855106988763,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "turn_cap": 24
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "compensate": false,
+    "conflicts_seen": 1,
+    "contention_signals": 2,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 0,
+    "first_contention_call": 2,
+    "first_lock_call": null,
+    "first_protective": "cas",
+    "first_protective_call": 2,
+    "fulfilled": false,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": false,
+    "lock_after_contention": null,
+    "lock_effective": null,
+    "lock_granted": false,
+    "lock_leak": false,
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-sonnet-5",
+    "promote": false,
+    "protect_before_contention": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 1,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 0,
+    "first_contention_call": null,
+    "first_lock_call": null,
+    "first_protective": "cas",
+    "first_protective_call": 2,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": false,
+    "lock_after_contention": null,
+    "lock_effective": null,
+    "lock_granted": false,
+    "lock_leak": false,
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-sonnet-5",
+    "promote": false,
+    "protect_before_contention": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 2,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "conflict",
+  "committed_agents": [
+   "a1"
+  ],
+  "config": "cas_available",
+  "conflict_observed": true,
+  "cross_agent_edges": 2,
+  "cross_agent_record_edges": 2,
+  "cycle": [
+   "a0",
+   "a1",
+   "a0"
+  ],
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": false,
+  "dsg_cycle": true,
+  "dsg_cycle_committed": false,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "rw",
+    "record": "inventory:sextant-harbor",
+    "src": "a0",
+    "version": 1
+   },
+   {
+    "dst": "a0",
+    "kind": "wr",
+    "record": "inventory:sextant-harbor",
+    "src": "a1",
+    "version": 2
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "inventory_last_unit",
+  "fenced_stale_basis_seqs": [],
+  "fenced_unread_basis_seqs": [],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": false,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": false,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": false,
+  "interleaving": {
+   "first_mover": "a1",
+   "n_writers": 1,
+   "pattern": "R1R0W1",
+   "reads_overlap": true
+  },
+  "invariant_violations": [],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "clean",
+  "outcome_stratum": "clean",
+  "primary_label": null,
+  "rolled_back_agents": [],
+  "rounds": 13,
+  "serial_witness": [
+   "a1"
+  ],
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "inventory_last_unit@i1/n2"
+ },
+ "seed": 1,
+ "study": 2,
+ "task": {
+  "category": "conflict",
+  "description": "shared stock",
+  "factory": "inventory_last_unit",
+  "family": "inventory_last_unit",
+  "fingerprint": "8734175a9cc20ed14e51581aa697d65b92783aceab9ffc311f32b398910549c5",
+  "initial": {
+   "inventory:sextant-harbor": 7
+  },
+  "instance": 1,
+  "intents": {
+   "a0": "Reduce inventory:sextant-harbor by 4 to record a sale, but only if at least 4 is in stock.",
+   "a1": "Reduce inventory:sextant-harbor by 4 to record a sale, but only if at least 4 is in stock."
+  },
+  "kind": "inventory",
+  "name": "inventory_last_unit@i1/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 7,
+  "cost_usd": 0.011649,
+  "invalid_calls": 0,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 0,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 2,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 8784,
+   "output": 573
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

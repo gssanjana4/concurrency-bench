@@ -1,0 +1,1770 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 4,
+   "cost_usd": 0.036378,
+   "executions": [
+    {
+     "args": {
+      "lease_calls": 10,
+      "record_id": "account:float-harbor"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 10,
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01T86HS4RNMukwL11hvqw33q"
+    },
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200,
+      "value": "45.00",
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01TVZoNUQaGpY32bh7VHc9Kk"
+    },
+    {
+     "args": {
+      "record_id": "account:payee-harbor-fjord"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payee-harbor-fjord",
+      "status": 200,
+      "value": "95.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_018pBQxiqKj9JxDUGjr3N6vD"
+    },
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_016xbubwWT3nHCH5MaTbVWpS"
+    }
+   ],
+   "final_text": "Transfer aborted: account:float-harbor holds only 45.00, which is insufficient for the 80.00 transfer, so no funds were moved and the lock was released.",
+   "first_reply": "lock",
+   "intent": "Move 80.00 from account:float-harbor to account:payee-harbor-fjord, only if account:float-harbor has enough.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1896,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "I'll start by locking the source account to ensure a safe balance check and debit.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01T86HS4RNMukwL11hvqw33q",
+       "input": {
+        "lease_calls": 10,
+        "record_id": "account:float-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 10, \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200}",
+       "tool_use_id": "toolu_01T86HS4RNMukwL11hvqw33q",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Lock acquired. Now I'll read both account balances in parallel.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TVZoNUQaGpY32bh7VHc9Kk",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_018pBQxiqKj9JxDUGjr3N6vD",
+       "input": {
+        "record_id": "account:payee-harbor-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200, \"value\": \"45.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01TVZoNUQaGpY32bh7VHc9Kk",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payee-harbor-fjord\", \"status\": 200, \"value\": \"95.00\", \"version\": 1}",
+       "tool_use_id": "toolu_018pBQxiqKj9JxDUGjr3N6vD",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 828,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "The source account only has 45.00, which is insufficient for an 80.00 transfer. I'll abort and release the lock without making any changes.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_016xbubwWT3nHCH5MaTbVWpS",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200}",
+       "tool_use_id": "toolu_016xbubwWT3nHCH5MaTbVWpS",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transfer aborted: account:float-harbor holds only 45.00, which is insufficient for the 80.00 transfer, so no funds were moved and the lock was released.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Move 80.00 from account:float-harbor to account:payee-harbor-fjord, only if account:float-harbor has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-09T23:51:53Z",
+     "content": [
+      {
+       "signature_chars": 1896,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "I'll start by locking the source account to ensure a safe balance check and debit.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01T86HS4RNMukwL11hvqw33q",
+       "input": {
+        "lease_calls": 10,
+        "record_id": "account:float-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0127145,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1739,
+      "cache_write": 0,
+      "input": 99,
+      "output": 454
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:00:50Z",
+     "content": [
+      {
+       "text": "Lock acquired. Now I'll read both account balances in parallel.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TVZoNUQaGpY32bh7VHc9Kk",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_018pBQxiqKj9JxDUGjr3N6vD",
+       "input": {
+        "record_id": "account:payee-harbor-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0072745,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1739,
+      "cache_write": 0,
+      "input": 606,
+      "output": 135
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:06:18Z",
+     "content": [
+      {
+       "signature_chars": 828,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "The source account only has 45.00, which is insufficient for an 80.00 transfer. I'll abort and release the lock without making any changes.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_016xbubwWT3nHCH5MaTbVWpS",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0087845,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1739,
+      "cache_write": 0,
+      "input": 898,
+      "output": 137
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:09:18Z",
+     "content": [
+      {
+       "text": "Transfer aborted: account:float-harbor holds only 45.00, which is insufficient for the 80.00 transfer, so no funds were moved and the lock was released.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0076045,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1739,
+      "cache_write": 0,
+      "input": 1067,
+      "output": 56
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 6956,
+    "cache_write": 0,
+    "input": 2670,
+    "output": 782
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 6,
+   "cost_usd": 0.070857,
+   "executions": [
+    {
+     "args": {
+      "lease_calls": 12,
+      "record_id": "account:float-harbor"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 12,
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_012hNY38wDMMkQzFiwstW4ub"
+    },
+    {
+     "args": {
+      "lease_calls": 10,
+      "record_id": "account:payee-harbor-amber"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 10,
+      "ok": true,
+      "record_id": "account:payee-harbor-amber",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01SGzJz4P6SnPjPNcbnxvE7t"
+    },
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200,
+      "value": "125.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_018w85VGn5G9qECspv9wW8Pr"
+    },
+    {
+     "args": {
+      "record_id": "account:payee-harbor-amber"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payee-harbor-amber",
+      "status": 200,
+      "value": "95.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01U3UqJKrPepEZGhwNN6feLE"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "fencing_token": 1,
+      "record_id": "account:float-harbor",
+      "value": 45.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "lease_remaining": 8,
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200,
+      "value": "45.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01DandkVvVta7uSr2BZmVFiQ"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "fencing_token": 1,
+      "record_id": "account:payee-harbor-amber",
+      "value": 175.0
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 6,
+      "ok": true,
+      "record_id": "account:payee-harbor-amber",
+      "status": 200,
+      "value": "175.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_013qQxJK8BqD4sEJnQdwJXQj"
+    },
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01BrZZi7KtG5HL1rvsS54XmZ"
+    },
+    {
+     "args": {
+      "record_id": "account:payee-harbor-amber"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:payee-harbor-amber",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01QSWgkwjHTFrUHKo9xoZ947"
+    }
+   ],
+   "final_text": "Transferred 80.00 from account:float-harbor (125.00 \u2192 45.00) to account:payee-harbor-amber (95.00 \u2192 175.00) under locks, then released both locks.",
+   "first_reply": "lock",
+   "intent": "Move 80.00 from account:float-harbor to account:payee-harbor-amber, only if account:float-harbor has enough.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 2072,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "I'll start by locking the source account to safely check and modify its balance.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012hNY38wDMMkQzFiwstW4ub",
+       "input": {
+        "lease_calls": 12,
+        "record_id": "account:float-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 12, \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200}",
+       "tool_use_id": "toolu_012hNY38wDMMkQzFiwstW4ub",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I'll lock the destination account and read the source balance in parallel.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01SGzJz4P6SnPjPNcbnxvE7t",
+       "input": {
+        "lease_calls": 10,
+        "record_id": "account:payee-harbor-amber"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_018w85VGn5G9qECspv9wW8Pr",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 10, \"ok\": true, \"record_id\": \"account:payee-harbor-amber\", \"status\": 200}",
+       "tool_use_id": "toolu_01SGzJz4P6SnPjPNcbnxvE7t",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200, \"value\": \"125.00\", \"version\": 1}",
+       "tool_use_id": "toolu_018w85VGn5G9qECspv9wW8Pr",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 824,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "The source has 125.00, which is enough. I'll read the destination balance and debit the source in parallel.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01U3UqJKrPepEZGhwNN6feLE",
+       "input": {
+        "record_id": "account:payee-harbor-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01DandkVvVta7uSr2BZmVFiQ",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:float-harbor",
+        "value": 45.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payee-harbor-amber\", \"status\": 200, \"value\": \"95.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01U3UqJKrPepEZGhwNN6feLE",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"lease_remaining\": 8, \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200, \"value\": \"45.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01DandkVvVta7uSr2BZmVFiQ",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Debit succeeded. Now crediting the destination (95.00 + 80.00 = 175.00).",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013qQxJK8BqD4sEJnQdwJXQj",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:payee-harbor-amber",
+        "value": 175.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 6, \"ok\": true, \"record_id\": \"account:payee-harbor-amber\", \"status\": 200, \"value\": \"175.00\", \"version\": 2}",
+       "tool_use_id": "toolu_013qQxJK8BqD4sEJnQdwJXQj",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Both writes committed. Releasing both locks.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BrZZi7KtG5HL1rvsS54XmZ",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01QSWgkwjHTFrUHKo9xoZ947",
+       "input": {
+        "record_id": "account:payee-harbor-amber"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200}",
+       "tool_use_id": "toolu_01BrZZi7KtG5HL1rvsS54XmZ",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:payee-harbor-amber\", \"status\": 200}",
+       "tool_use_id": "toolu_01QSWgkwjHTFrUHKo9xoZ947",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transferred 80.00 from account:float-harbor (125.00 \u2192 45.00) to account:payee-harbor-amber (95.00 \u2192 175.00) under locks, then released both locks.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 3,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Move 80.00 from account:float-harbor to account:payee-harbor-amber, only if account:float-harbor has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-09T23:47:34Z",
+     "content": [
+      {
+       "signature_chars": 2072,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "I'll start by locking the source account to safely check and modify its balance.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012hNY38wDMMkQzFiwstW4ub",
+       "input": {
+        "lease_calls": 12,
+        "record_id": "account:float-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.014482,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1674,
+      "cache_write": 64,
+      "input": 99,
+      "output": 510
+     }
+    },
+    {
+     "at_utc": "2026-11-09T23:49:45Z",
+     "content": [
+      {
+       "text": "Now I'll lock the destination account and read the source balance in parallel.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01SGzJz4P6SnPjPNcbnxvE7t",
+       "input": {
+        "lease_calls": 10,
+        "record_id": "account:payee-harbor-amber"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_018w85VGn5G9qECspv9wW8Pr",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.008229,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1738,
+      "cache_write": 0,
+      "input": 662,
+      "output": 162
+     }
+    },
+    {
+     "at_utc": "2026-11-09T23:53:57Z",
+     "content": [
+      {
+       "signature_chars": 824,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "The source has 125.00, which is enough. I'll read the destination balance and debit the source in parallel.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01U3UqJKrPepEZGhwNN6feLE",
+       "input": {
+        "record_id": "account:payee-harbor-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01DandkVvVta7uSr2BZmVFiQ",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:float-harbor",
+        "value": 45.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.012159,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1738,
+      "cache_write": 0,
+      "input": 983,
+      "output": 255
+     }
+    },
+    {
+     "at_utc": "2026-11-09T23:55:44Z",
+     "content": [
+      {
+       "text": "Debit succeeded. Now crediting the destination (95.00 + 80.00 = 175.00).",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013qQxJK8BqD4sEJnQdwJXQj",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:payee-harbor-amber",
+        "value": 175.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.011984,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1738,
+      "cache_write": 0,
+      "input": 1398,
+      "output": 165
+     }
+    },
+    {
+     "at_utc": "2026-11-09T23:58:38Z",
+     "content": [
+      {
+       "text": "Both writes committed. Releasing both locks.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BrZZi7KtG5HL1rvsS54XmZ",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01QSWgkwjHTFrUHKo9xoZ947",
+       "input": {
+        "record_id": "account:payee-harbor-amber"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.012214,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1738,
+      "cache_write": 0,
+      "input": 1624,
+      "output": 129
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:03:02Z",
+     "content": [
+      {
+       "text": "Transferred 80.00 from account:float-harbor (125.00 \u2192 45.00) to account:payee-harbor-amber (95.00 \u2192 175.00) under locks, then released both locks.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.011789,
+     "index": 6,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1738,
+      "cache_write": 0,
+      "input": 1869,
+      "output": 63
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 10364,
+    "cache_write": 64,
+    "input": 6635,
+    "output": 1284
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "all_available",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__all_available__transfer_shared_source@i0__n2__s1",
+ "final_store": {
+  "account:float-harbor": {
+   "value": "45.00",
+   "version": 2
+  },
+  "account:payee-harbor-amber": {
+   "value": "175.00",
+   "version": 2
+  },
+  "account:payee-harbor-fjord": {
+   "value": "95.00",
+   "version": 1
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transferred 80.00 from account:float-harbor (125.00 \u2192 45.00) to account:payee-harbor-amber (95.00 \u2192 175.00) under locks, then released both locks.",
+    "step": 28,
+    "turns": 8
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transfer aborted: account:float-harbor holds only 45.00, which is insufficient for the 80.00 transfer, so no funds were moved and the lock was released.",
+    "step": 36,
+    "turns": 4
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 12,
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 12,
+    "own_call": 1,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 12,
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 2,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 10,
+     "record_id": "account:payee-harbor-amber"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 10,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:payee-harbor-amber",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 10,
+     "ok": true,
+     "record_id": "account:payee-harbor-amber",
+     "status": 200
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 5,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 3,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200,
+     "value": "125.00",
+     "version": 1
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:payee-harbor-amber"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payee-harbor-amber",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payee-harbor-amber",
+     "status": 200,
+     "value": "95.00",
+     "version": 1
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 11,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:float-harbor",
+     "value": 45.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 8,
+    "own_call": 5,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "lease_remaining": 8,
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200,
+     "value": "45.00",
+     "version": 2
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 14,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:payee-harbor-amber",
+     "value": 175.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 6,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:payee-harbor-amber",
+    "response": {
+     "lease_remaining": 6,
+     "ok": true,
+     "record_id": "account:payee-harbor-amber",
+     "status": 200,
+     "value": "175.00",
+     "version": 2
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 17,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 7,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 22,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:payee-harbor-amber"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 8,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:payee-harbor-amber",
+    "response": {
+     "ok": true,
+     "record_id": "account:payee-harbor-amber",
+     "status": 200
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 23,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 10,
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 10,
+    "own_call": 1,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 10,
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 23,
+    "tool": "acquire_lock",
+    "waited_rounds": 17
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 2,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200,
+     "value": "45.00",
+     "version": 2
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 27,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:payee-harbor-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 3,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payee-harbor-fjord",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payee-harbor-fjord",
+     "status": 200,
+     "value": "95.00",
+     "version": 1
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 28,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 32,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:float-harbor",
+     "value": 45.0
+    },
+    "new_value": "45.00",
+    "new_version": 2,
+    "old_value": "125.00",
+    "old_version": 1,
+    "record_id": "account:float-harbor",
+    "seq": 1,
+    "step": 14,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:payee-harbor-amber",
+     "value": 175.0
+    },
+    "new_value": "175.00",
+    "new_version": 2,
+    "old_value": "95.00",
+    "old_version": 1,
+    "record_id": "account:payee-harbor-amber",
+    "seq": 2,
+    "step": 17,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 12,
+     "own_call": 1,
+     "record_id": "account:float-harbor",
+     "seq": 1,
+     "step": 2,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 10,
+     "own_call": 2,
+     "record_id": "account:payee-harbor-amber",
+     "seq": 2,
+     "step": 5,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "account:float-harbor",
+     "seq": 7,
+     "step": 22,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "account:payee-harbor-amber",
+     "seq": 8,
+     "step": 23,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 10,
+     "own_call": 1,
+     "record_id": "account:float-harbor",
+     "seq": 9,
+     "step": 23,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a0",
+     "record_id": "account:float-harbor",
+     "seq": 12,
+     "step": 32,
+     "token": 2
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 36,
+   "stall_step": null,
+   "stalled": false,
+   "start_rounds": {
+    "a0": 6,
+    "a1": 2
+   }
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_01248wHHdZrTRz63znMcccws",
+    "msgbatch_012hXh6eXivbXZfXy9SW6BVx",
+    "msgbatch_012jEUgkzmyKYUyyYgL5sAPX",
+    "msgbatch_013Su2pcM5Yzt82bUKfQXhXC",
+    "msgbatch_016dxwHjsdyGkpWkJZnfoUvr",
+    "msgbatch_017BoxgCKoJ9xig3UeF6N1px",
+    "msgbatch_01AHzsLcCeoU7RNRFxPvi56S",
+    "msgbatch_01CvRLFUMyDcPAtkwyFMXr9p",
+    "msgbatch_01EXX3frAAhDZqnbxVARVoR9",
+    "msgbatch_01TxeCc4fo6YymcxPEXejR6j"
+   ],
+   "driver": "src5_batch/batch_driver.py",
+   "lockstep_rounds": 10,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-10T00:09:18Z",
+  "started_utc": "2026-11-09T23:45:33Z",
+  "wall_seconds": 1425.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "max_rounds": 3000,
+  "seed": 959880176490018481,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 2,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 0,
+    "first_contention_call": 1,
+    "first_lock_call": 1,
+    "first_protective": "lock",
+    "first_protective_call": 1,
+    "fulfilled": false,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": null,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_waits": 1,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 1,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-fable-5",
+    "promote": false,
+    "protect_before_contention": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": true,
+    "choices": [
+     "cas",
+     "lock"
+    ],
+    "committed_writes": 2,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 2,
+    "first_contention_call": null,
+    "first_lock_call": 1,
+    "first_protective": "lock",
+    "first_protective_call": 1,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": true,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-fable-5",
+    "promote": false,
+    "protect_before_contention": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 8,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "conflict",
+  "committed_agents": [
+   "a1"
+  ],
+  "config": "all_available",
+  "conflict_observed": false,
+  "cross_agent_edges": 1,
+  "cross_agent_record_edges": 1,
+  "cycle": null,
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": false,
+  "dsg_cycle": false,
+  "dsg_cycle_committed": false,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a0",
+    "kind": "wr",
+    "record": "account:float-harbor",
+    "src": "a1",
+    "version": 2
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "transfer_shared_source",
+  "fenced_stale_basis_seqs": [],
+  "fenced_unread_basis_seqs": [],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": false,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": false,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": false,
+  "interleaving": {
+   "first_mover": "a1",
+   "n_writers": 1,
+   "pattern": "R1W1R0",
+   "reads_overlap": false
+  },
+  "invariant_violations": [],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "clean",
+  "outcome_stratum": "clean",
+  "primary_label": null,
+  "rolled_back_agents": [],
+  "rounds": 36,
+  "serial_witness": [
+   "a1"
+  ],
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "transfer_shared_source@i0/n2"
+ },
+ "seed": 1,
+ "study": 2,
+ "task": {
+  "category": "conflict",
+  "description": "transfers from one source",
+  "factory": "transfer_shared_source",
+  "family": "transfer_shared_source",
+  "fingerprint": "98ae63ca11d2d7c0ddf98facad6dd4d8865f742d792f1e5f24ec8959d6195bde",
+  "initial": {
+   "account:float-harbor": "125.00",
+   "account:payee-harbor-amber": "95.00",
+   "account:payee-harbor-fjord": "95.00"
+  },
+  "instance": 0,
+  "intents": {
+   "a0": "Move 80.00 from account:float-harbor to account:payee-harbor-fjord, only if account:float-harbor has enough.",
+   "a1": "Move 80.00 from account:float-harbor to account:payee-harbor-amber, only if account:float-harbor has enough."
+  },
+  "kind": "account",
+  "name": "transfer_shared_source@i0/n2",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 10,
+  "cost_usd": 0.107235,
+  "invalid_calls": 0,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 4,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 4,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 17320,
+   "cache_write": 64,
+   "input": 9305,
+   "output": 2066
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

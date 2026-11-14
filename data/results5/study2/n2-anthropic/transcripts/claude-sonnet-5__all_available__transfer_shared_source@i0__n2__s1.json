@@ -1,0 +1,2182 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 9,
+   "cost_usd": 0.022672700000000004,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200,
+      "value": "125.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_017yk4NfpD1Mz79njeGYJeuD"
+    },
+    {
+     "args": {
+      "record_id": "account:payee-harbor-fjord"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payee-harbor-fjord",
+      "status": 200,
+      "value": "95.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_017i9jakispDYaSwdf9914gM"
+    },
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:float-harbor"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 5,
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_015wyKTM8eRzL4b1ofHMX7Uk"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "fencing_token": 2,
+      "record_id": "account:float-harbor",
+      "value": 45.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "conflict",
+      "message": "409 Conflict: write to account:float-harbor rejected: expected_version does not match the record's current version.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01WL27F1RA8K6aVtTCuPvzdX"
+    },
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200,
+      "value": "45.00",
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Vvtqfq75usfAejqwrdGuhc"
+    },
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "effects": [],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "list_effects",
+     "tool_use_id": "toolu_0123wri4jhovh2SLsfGBeQjV"
+    },
+    {
+     "args": {
+      "record_id": "account:payee-harbor-fjord"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "effects": [],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "list_effects",
+     "tool_use_id": "toolu_01JaHMnXC3v435hTjtB2gwn5"
+    },
+    {
+     "args": {
+      "record_id": "account:payee-harbor-fjord"
+     },
+     "completion": 5,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payee-harbor-fjord",
+      "status": 200,
+      "value": "95.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01XUGd9Bso9KzCNFbkeeRK4P"
+    },
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 6,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold a lock on account:float-harbor.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01BkBGSaG3igXS48UHW2WcDd"
+    },
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 7,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200,
+      "value": "45.00",
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01JqFPAVXvGkgQhai2iS27Km"
+    }
+   ],
+   "final_text": "Current balance of account:float-harbor is only 45.00 (after a concurrent change dropped it from 125.00), which is insufficient to cover the requested 80.00 transfer. Per the instruction to only move funds if there is enough balance, no transfer was made \u2014 no funds were moved from account:float-harbor to account:payee-harbor-fjord.",
+   "first_reply": "read",
+   "intent": "Move 80.00 from account:float-harbor to account:payee-harbor-fjord, only if account:float-harbor has enough.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 616,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_017yk4NfpD1Mz79njeGYJeuD",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_017i9jakispDYaSwdf9914gM",
+       "input": {
+        "record_id": "account:payee-harbor-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200, \"value\": \"125.00\", \"version\": 1}",
+       "tool_use_id": "toolu_017yk4NfpD1Mz79njeGYJeuD",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payee-harbor-fjord\", \"status\": 200, \"value\": \"95.00\", \"version\": 1}",
+       "tool_use_id": "toolu_017i9jakispDYaSwdf9914gM",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 848,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_015wyKTM8eRzL4b1ofHMX7Uk",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:float-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 5, \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200}",
+       "tool_use_id": "toolu_015wyKTM8eRzL4b1ofHMX7Uk",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01WL27F1RA8K6aVtTCuPvzdX",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 2,
+        "record_id": "account:float-harbor",
+        "value": 45.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"conflict\", \"message\": \"409 Conflict: write to account:float-harbor rejected: expected_version does not match the record's current version.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01WL27F1RA8K6aVtTCuPvzdX",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 796,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01Vvtqfq75usfAejqwrdGuhc",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200, \"value\": \"45.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01Vvtqfq75usfAejqwrdGuhc",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1740,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_0123wri4jhovh2SLsfGBeQjV",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "list_effects",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01JaHMnXC3v435hTjtB2gwn5",
+       "input": {
+        "record_id": "account:payee-harbor-fjord"
+       },
+       "name": "list_effects",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"effects\": [], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_0123wri4jhovh2SLsfGBeQjV",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"effects\": [], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01JaHMnXC3v435hTjtB2gwn5",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 984,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01XUGd9Bso9KzCNFbkeeRK4P",
+       "input": {
+        "record_id": "account:payee-harbor-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payee-harbor-fjord\", \"status\": 200, \"value\": \"95.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01XUGd9Bso9KzCNFbkeeRK4P",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 4476,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01BkBGSaG3igXS48UHW2WcDd",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold a lock on account:float-harbor.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01BkBGSaG3igXS48UHW2WcDd",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 932,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01JqFPAVXvGkgQhai2iS27Km",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200, \"value\": \"45.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01JqFPAVXvGkgQhai2iS27Km",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Current balance of account:float-harbor is only 45.00 (after a concurrent change dropped it from 125.00), which is insufficient to cover the requested 80.00 transfer. Per the instruction to only move funds if there is enough balance, no transfer was made \u2014 no funds were moved from account:float-harbor to account:payee-harbor-fjord.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 2,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Move 80.00 from account:float-harbor to account:payee-harbor-fjord, only if account:float-harbor has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-09T22:18:31Z",
+     "content": [
+      {
+       "signature_chars": 616,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_017yk4NfpD1Mz79njeGYJeuD",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_017i9jakispDYaSwdf9914gM",
+       "input": {
+        "record_id": "account:payee-harbor-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0008943,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1803,
+      "cache_write": 0,
+      "input": 99,
+      "output": 123
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:21:41Z",
+     "content": [
+      {
+       "signature_chars": 848,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_015wyKTM8eRzL4b1ofHMX7Uk",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:float-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0012293,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1803,
+      "cache_write": 0,
+      "input": 379,
+      "output": 134
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:28:26Z",
+     "content": [
+      {
+       "id": "toolu_01WL27F1RA8K6aVtTCuPvzdX",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 2,
+        "record_id": "account:float-harbor",
+        "value": 45.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013813,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1803,
+      "cache_write": 0,
+      "input": 566,
+      "output": 127
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:33:38Z",
+     "content": [
+      {
+       "signature_chars": 796,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01Vvtqfq75usfAejqwrdGuhc",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013333,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1803,
+      "cache_write": 0,
+      "input": 763,
+      "output": 78
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:35:39Z",
+     "content": [
+      {
+       "signature_chars": 1740,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_0123wri4jhovh2SLsfGBeQjV",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "list_effects",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01JaHMnXC3v435hTjtB2gwn5",
+       "input": {
+        "record_id": "account:payee-harbor-fjord"
+       },
+       "name": "list_effects",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0028143,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1803,
+      "cache_write": 0,
+      "input": 894,
+      "output": 348
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:38:10Z",
+     "content": [
+      {
+       "signature_chars": 984,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01XUGd9Bso9KzCNFbkeeRK4P",
+       "input": {
+        "record_id": "account:payee-harbor-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0021333000000000003,
+     "index": 6,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1803,
+      "cache_write": 0,
+      "input": 1338,
+      "output": 123
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:40:17Z",
+     "content": [
+      {
+       "signature_chars": 4476,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01BkBGSaG3igXS48UHW2WcDd",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0063093,
+     "index": 7,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1803,
+      "cache_write": 0,
+      "input": 1519,
+      "output": 922
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:42:27Z",
+     "content": [
+      {
+       "signature_chars": 932,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01JqFPAVXvGkgQhai2iS27Km",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0031713,
+     "index": 8,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1803,
+      "cache_write": 0,
+      "input": 2506,
+      "output": 97
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:45:52Z",
+     "content": [
+      {
+       "text": "Current balance of account:float-harbor is only 45.00 (after a concurrent change dropped it from 125.00), which is insufficient to cover the requested 80.00 transfer. Per the instruction to only move funds if there is enough balance, no transfer was made \u2014 no funds were moved from account:float-harbor to account:payee-harbor-fjord.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0034063,
+     "index": 9,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1803,
+      "cache_write": 0,
+      "input": 2656,
+      "output": 114
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 16227,
+    "cache_write": 0,
+    "input": 10720,
+    "output": 2066
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 5,
+   "cost_usd": 0.0071272,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200,
+      "value": "125.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01C575gpoBpfzqFmuceRbDby"
+    },
+    {
+     "args": {
+      "record_id": "account:payee-harbor-amber"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payee-harbor-amber",
+      "status": 200,
+      "value": "95.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01756MnXW1iAUcpKZtnzS3o9"
+    },
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:float-harbor"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 5,
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01NMypAxNXErhEYgThU9qubJ"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "fencing_token": 1,
+      "record_id": "account:float-harbor",
+      "value": 45.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 4,
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200,
+      "value": "45.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01CZzS8KuSkDqKBoh5Uz835k"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "account:payee-harbor-amber",
+      "value": 175.0
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:payee-harbor-amber",
+      "status": 200,
+      "value": "175.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01AvaZfLx6s5mWLvLJkhST6D"
+    },
+    {
+     "args": {
+      "record_id": "account:float-harbor"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:float-harbor",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01HaNu1vgZmiYDCZmait3Vww"
+    }
+   ],
+   "final_text": "Transferred 80.00 from account:float-harbor (125.00\u219245.00) to account:payee-harbor-amber (95.00\u2192175.00) successfully.",
+   "first_reply": "read",
+   "intent": "Move 80.00 from account:float-harbor to account:payee-harbor-amber, only if account:float-harbor has enough.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 616,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01C575gpoBpfzqFmuceRbDby",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01756MnXW1iAUcpKZtnzS3o9",
+       "input": {
+        "record_id": "account:payee-harbor-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200, \"value\": \"125.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01C575gpoBpfzqFmuceRbDby",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payee-harbor-amber\", \"status\": 200, \"value\": \"95.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01756MnXW1iAUcpKZtnzS3o9",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1020,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01NMypAxNXErhEYgThU9qubJ",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:float-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 5, \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200}",
+       "tool_use_id": "toolu_01NMypAxNXErhEYgThU9qubJ",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01CZzS8KuSkDqKBoh5Uz835k",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:float-harbor",
+        "value": 45.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 4, \"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200, \"value\": \"45.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01CZzS8KuSkDqKBoh5Uz835k",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01AvaZfLx6s5mWLvLJkhST6D",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:payee-harbor-amber",
+        "value": 175.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01HaNu1vgZmiYDCZmait3Vww",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:payee-harbor-amber\", \"status\": 200, \"value\": \"175.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01AvaZfLx6s5mWLvLJkhST6D",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:float-harbor\", \"status\": 200}",
+       "tool_use_id": "toolu_01HaNu1vgZmiYDCZmait3Vww",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transferred 80.00 from account:float-harbor (125.00\u219245.00) to account:payee-harbor-amber (95.00\u2192175.00) successfully.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 2,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Move 80.00 from account:float-harbor to account:payee-harbor-amber, only if account:float-harbor has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-09T22:16:13Z",
+     "content": [
+      {
+       "signature_chars": 616,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01C575gpoBpfzqFmuceRbDby",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01756MnXW1iAUcpKZtnzS3o9",
+       "input": {
+        "record_id": "account:payee-harbor-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0008892,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1802,
+      "cache_write": 0,
+      "input": 99,
+      "output": 122
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:18:31Z",
+     "content": [
+      {
+       "signature_chars": 1020,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01NMypAxNXErhEYgThU9qubJ",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:float-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0014022000000000001,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1802,
+      "cache_write": 0,
+      "input": 377,
+      "output": 169
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:21:41Z",
+     "content": [
+      {
+       "id": "toolu_01CZzS8KuSkDqKBoh5Uz835k",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:float-harbor",
+        "value": 45.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0014142,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1802,
+      "cache_write": 0,
+      "input": 599,
+      "output": 127
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:25:06Z",
+     "content": [
+      {
+       "id": "toolu_01AvaZfLx6s5mWLvLJkhST6D",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:payee-harbor-amber",
+        "value": 175.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01HaNu1vgZmiYDCZmait3Vww",
+       "input": {
+        "record_id": "account:float-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0017582000000000001,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1802,
+      "cache_write": 0,
+      "input": 783,
+      "output": 159
+     }
+    },
+    {
+     "at_utc": "2026-11-09T22:31:32Z",
+     "content": [
+      {
+       "text": "Transferred 80.00 from account:float-harbor (125.00\u219245.00) to account:payee-harbor-amber (95.00\u2192175.00) successfully.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0016634,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1674,
+      "cache_write": 128,
+      "input": 1071,
+      "output": 53
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 8882,
+    "cache_write": 128,
+    "input": 2929,
+    "output": 630
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "all_available",
+ "dry_run": false,
+ "episode_id": "claude-sonnet-5__all_available__transfer_shared_source@i0__n2__s1",
+ "final_store": {
+  "account:float-harbor": {
+   "value": "45.00",
+   "version": 2
+  },
+  "account:payee-harbor-amber": {
+   "value": "175.00",
+   "version": 2
+  },
+  "account:payee-harbor-fjord": {
+   "value": "95.00",
+   "version": 1
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transferred 80.00 from account:float-harbor (125.00\u219245.00) to account:payee-harbor-amber (95.00\u2192175.00) successfully.",
+    "step": 22,
+    "turns": 6
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Current balance of account:float-harbor is only 45.00 (after a concurrent change dropped it from 125.00), which is insufficient to cover the requested 80.00 transfer. Per the instruction to only move funds if there is enough balance, no transfer was made \u2014 no funds were moved from account:float-harbor to account:payee-harbor-fjord.",
+    "step": 38,
+    "turns": 10
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200,
+     "value": "125.00",
+     "version": 1
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:payee-harbor-amber"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 2,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payee-harbor-amber",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payee-harbor-amber",
+     "status": 200,
+     "value": "95.00",
+     "version": 1
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 3,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 5,
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 6,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200,
+     "value": "125.00",
+     "version": 1
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:payee-harbor-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 2,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payee-harbor-fjord",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payee-harbor-fjord",
+     "status": 200,
+     "value": "95.00",
+     "version": 1
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 7,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:float-harbor",
+     "value": 45.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 4,
+    "own_call": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "lease_remaining": 4,
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200,
+     "value": "45.00",
+     "version": 2
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 11,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:payee-harbor-amber",
+     "value": 175.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:payee-harbor-amber",
+    "response": {
+     "ok": true,
+     "record_id": "account:payee-harbor-amber",
+     "status": 200,
+     "value": "175.00",
+     "version": 2
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 16,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 17,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 5,
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 17,
+    "tool": "acquire_lock",
+    "waited_rounds": 6
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 2,
+     "record_id": "account:float-harbor",
+     "value": 45.0
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 4,
+    "own_call": 4,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "account:float-harbor",
+    "response": {
+     "error": "conflict",
+     "message": "409 Conflict: write to account:float-harbor rejected: expected_version does not match the record's current version.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 10,
+    "status": 409,
+    "step": 21,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200,
+     "value": "45.00",
+     "version": 2
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 25,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "effects": [],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 29,
+    "tool": "list_effects",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:payee-harbor-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 7,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:payee-harbor-fjord",
+    "response": {
+     "effects": [],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 13,
+    "status": 200,
+    "step": 30,
+    "tool": "list_effects",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:payee-harbor-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 8,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payee-harbor-fjord",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payee-harbor-fjord",
+     "status": 200,
+     "value": "95.00",
+     "version": 1
+    },
+    "seq": 14,
+    "status": 200,
+    "step": 31,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 9,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "account:float-harbor",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold a lock on account:float-harbor.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 15,
+    "status": 409,
+    "step": 34,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 10,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:float-harbor",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:float-harbor",
+     "status": 200,
+     "value": "45.00",
+     "version": 2
+    },
+    "seq": 16,
+    "status": 200,
+    "step": 36,
+    "tool": "get_record",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:float-harbor",
+     "value": 45.0
+    },
+    "new_value": "45.00",
+    "new_version": 2,
+    "old_value": "125.00",
+    "old_version": 1,
+    "record_id": "account:float-harbor",
+    "seq": 1,
+    "step": 11,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:payee-harbor-amber",
+     "value": 175.0
+    },
+    "new_value": "175.00",
+    "new_version": 2,
+    "old_value": "95.00",
+    "old_version": 1,
+    "record_id": "account:payee-harbor-amber",
+    "seq": 2,
+    "step": 16,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 5,
+     "own_call": 3,
+     "record_id": "account:float-harbor",
+     "seq": 3,
+     "step": 6,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "account:float-harbor",
+     "seq": 8,
+     "step": 17,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 5,
+     "own_call": 3,
+     "record_id": "account:float-harbor",
+     "seq": 9,
+     "step": 17,
+     "token": 2
+    },
+    {
+     "event": "expire",
+     "holder": "a0",
+     "own_call": 9,
+     "record_id": "account:float-harbor",
+     "seq": 15,
+     "step": 34,
+     "token": 2
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 38,
+   "stall_step": null,
+   "stalled": false,
+   "start_rounds": {
+    "a0": 6,
+    "a1": 2
+   }
+  }
+ },
+ "model": "claude-sonnet-5",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_012Hdtdrh8D4ACfL3TtxmbeN",
+    "msgbatch_019RYosJgXZ5kApyRR9rkVmv",
+    "msgbatch_01D679Qudx1fnv2JBB1N5GdA",
+    "msgbatch_01DsVChzBydDJmEqSnNSFXJF",
+    "msgbatch_01GH6BmpV31zKB6AihRieXez",
+    "msgbatch_01GdGYRYjLGV4fp3gy3k7EzK",
+    "msgbatch_01SWb6oGTNoghdhqddVrfFEf",
+    "msgbatch_01UnzWUPkAU49LsNdjJxeV9X",
+    "msgbatch_01VQbw9HaUgTLpn1stWSjERA",
+    "msgbatch_01VbcDZo7hxK2WrFMTf5TUMu",
+    "msgbatch_01VinuC1uPHio2J2uyQNToU1",
+    "msgbatch_01XQUtgWP8zx5aQVmnBw4T52"
+   ],
+   "driver": "src5_batch/batch_driver.py",
+   "lockstep_rounds": 12,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-09T22:45:52Z",
+  "started_utc": "2026-11-09T22:14:07Z",
+  "wall_seconds": 1905.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "max_rounds": 3000,
+  "seed": 959880176490018481,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": true,
+    "choices": [
+     "cas",
+     "lock"
+    ],
+    "committed_writes": 0,
+    "compensate": false,
+    "conflicts_seen": 1,
+    "contention_signals": 4,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 0,
+    "first_contention_call": 3,
+    "first_lock_call": 3,
+    "first_protective": "lock",
+    "first_protective_call": 3,
+    "fulfilled": false,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": null,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_waits": 1,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 1,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-sonnet-5",
+    "promote": false,
+    "protect_before_contention": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 10,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": true,
+    "choices": [
+     "cas",
+     "lock"
+    ],
+    "committed_writes": 2,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 1,
+    "fenced_unread_basis": 1,
+    "fenced_writes": 1,
+    "first_contention_call": null,
+    "first_lock_call": 3,
+    "first_protective": "lock",
+    "first_protective_call": 3,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": false,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-sonnet-5",
+    "promote": false,
+    "protect_before_contention": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 6,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "conflict",
+  "committed_agents": [
+   "a1"
+  ],
+  "config": "all_available",
+  "conflict_observed": true,
+  "cross_agent_edges": 2,
+  "cross_agent_record_edges": 2,
+  "cycle": [
+   "a0",
+   "a1",
+   "a0"
+  ],
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": false,
+  "dsg_cycle": true,
+  "dsg_cycle_committed": false,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "rw",
+    "record": "account:float-harbor",
+    "src": "a0",
+    "version": 1
+   },
+   {
+    "dst": "a0",
+    "kind": "wr",
+    "record": "account:float-harbor",
+    "src": "a1",
+    "version": 2
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "transfer_shared_source",
+  "fenced_stale_basis_seqs": [
+   1
+  ],
+  "fenced_unread_basis_seqs": [
+   1
+  ],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": true,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": false,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": false,
+  "interleaving": {
+   "first_mover": "a1",
+   "n_writers": 1,
+   "pattern": "R1R0W1",
+   "reads_overlap": true
+  },
+  "invariant_violations": [],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "clean",
+  "outcome_stratum": "clean",
+  "primary_label": null,
+  "rolled_back_agents": [],
+  "rounds": 38,
+  "serial_witness": [
+   "a1"
+  ],
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "transfer_shared_source@i0/n2"
+ },
+ "seed": 1,
+ "study": 2,
+ "task": {
+  "category": "conflict",
+  "description": "transfers from one source",
+  "factory": "transfer_shared_source",
+  "family": "transfer_shared_source",
+  "fingerprint": "98ae63ca11d2d7c0ddf98facad6dd4d8865f742d792f1e5f24ec8959d6195bde",
+  "initial": {
+   "account:float-harbor": "125.00",
+   "account:payee-harbor-amber": "95.00",
+   "account:payee-harbor-fjord": "95.00"
+  },
+  "instance": 0,
+  "intents": {
+   "a0": "Move 80.00 from account:float-harbor to account:payee-harbor-fjord, only if account:float-harbor has enough.",
+   "a1": "Move 80.00 from account:float-harbor to account:payee-harbor-amber, only if account:float-harbor has enough."
+  },
+  "kind": "account",
+  "name": "transfer_shared_source@i0/n2",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 14,
+  "cost_usd": 0.029799900000000004,
+  "invalid_calls": 0,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 4,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 9,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 25109,
+   "cache_write": 128,
+   "input": 13649,
+   "output": 2696
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

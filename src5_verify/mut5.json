@@ -1,0 +1,1118 @@
+[
+ {
+  "mid": "W01",
+  "file": "world5.py",
+  "old": "            lock.calls_left -= 1\n",
+  "new": "            lock.calls_left -= 0\n",
+  "desc": "leases never consumed",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W02",
+  "file": "world5.py",
+  "old": "            if lock.calls_left < 0:",
+  "new": "            if lock.calls_left < -1:",
+  "desc": "lease off by one",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W03",
+  "file": "world5.py",
+  "old": "            self._consume_leases(agent_id)\n",
+  "new": "",
+  "desc": "own calls do not consume leases",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W04",
+  "file": "world5.py",
+  "old": "            if lock.holder != agent_id:\n                log[\"conflict\"] = True\n                return 423",
+  "new": "            if False:\n                log[\"conflict\"] = True\n                return 423",
+  "desc": "other agents may write locked records",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W05",
+  "file": "world5.py",
+  "old": "            if tok is None:\n                return 428",
+  "new": "            if False:\n                return 428",
+  "desc": "holder may write without token",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W06",
+  "file": "world5.py",
+  "old": "            if tok < latest:",
+  "new": "            if tok > latest:",
+  "desc": "stale token check inverted",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W07",
+  "file": "world5.py",
+  "old": "            return 409, \"lease_expired\"",
+  "new": "            return None  # ",
+  "desc": "expired token accepted",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W08",
+  "file": "world5.py",
+  "old": "        if lock is None or lock.holder != agent_id:\n            return 409, \"not_lock_holder\", {\"error\": \"not_lock_holder\",\n                                            \"message\": f\"409 Conflict: you do not hold a lock on {rid}.\"}",
+  "new": "        if lock is None:\n            return 409, \"not_lock_holder\", {\"error\": \"not_lock_holder\",\n                                            \"message\": f\"409 Conflict: you do not hold a lock on {rid}.\"}",
+  "desc": "anyone may renew a lock",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W09",
+  "file": "world5.py",
+  "old": "            self._next_token[rid] = token + 1\n",
+  "new": "            self._next_token[rid] = token\n",
+  "desc": "fencing tokens not increasing",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W10",
+  "file": "world5.py",
+  "old": "        return {\"current_version\": record.version} if self.config.coordination.expose_versions else {}",
+  "new": "        return {\"current_version\": record.version}",
+  "desc": "423 leaks versions under locks",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "W11",
+  "file": "world5.py",
+  "old": "        if lease > self.config.max_lease_calls:",
+  "new": "        if False:",
+  "desc": "no maximum lease",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "W12",
+  "file": "world5.py",
+  "old": "        if record.value == holder:\n            body2: Dict[str, Any]",
+  "new": "        if record.value is not None and record.value != holder and self.config.coordination.conditional_writes != CAS_OFF:\n            return self._conflict(record, \"already has a different holder\", \"claim_conflict\", log)\n        if record.value == holder:\n            body2: Dict[str, Any]",
+  "desc": "V1 B1: claim test-and-set again under CAS",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W13",
+  "file": "world5.py",
+  "old": "        if expected is not None and expected != record.version:\n            body = self._conflict(record, \"version_conflict\", log)\n            if not self._written_by_other_since(record.record_id, expected, agent_id):\n                log[\"conflict\"] = False\n                return body[0], \"invalid_version\", body[2]\n            return body\n        return 200, None, self._commit(agent_id, record, value, \"update_record\"",
+  "new": "        if expected is not None and expected > record.version:\n            body = self._conflict(record, \"version_conflict\", log)\n            if not self._written_by_other_since(record.record_id, expected, agent_id):\n                log[\"conflict\"] = False\n                return body[0], \"invalid_version\", body[2]\n            return body\n        return 200, None, self._commit(agent_id, record, value, \"update_record\"",
+  "desc": "CAS accepts stale versions",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W16",
+  "file": "world5.py",
+  "old": "        if expected is not None and expected != record.version:\n            body = self._conflict(record, \"version_conflict\", log)\n            if not self._written_by_other_since(record.record_id, expected, agent_id):\n                log[\"conflict\"] = False\n                return body[0], \"invalid_version\", body[2]\n            return body\n        if record.value == holder:",
+  "new": "        if False:\n            body = self._conflict(record, \"version_conflict\", log)\n            if not self._written_by_other_since(record.record_id, expected, agent_id):\n                log[\"conflict\"] = False\n                return body[0], \"invalid_version\", body[2]\n            return body\n        if record.value == holder:",
+  "desc": "V1 B1: claim ignores expected_version",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W17",
+  "file": "world5.py",
+  "old": "LOCK_WAIT_ROUNDS = 150  #",
+  "new": "LOCK_WAIT_ROUNDS = 6  #",
+  "desc": "V1 B3: lock wait back to 6 rounds",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W24",
+  "file": "world5.py",
+  "old": "LOCK_WAIT_ROUNDS = 150  #",
+  "new": "LOCK_WAIT_ROUNDS = 48  #",
+  "desc": "R3 R1: lock wait back to V2's 48 rounds",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W25",
+  "file": "world5.py",
+  "old": "        return 409, reason, {\"error\": \"conflict\", \"message\": VERSION_MISMATCH_TEXT.format(record_id=record.record_id)}",
+  "new": "        return 409, reason, {\"error\": \"conflict\", \"message\": f\"409 Conflict: {record.record_id} was modified; current version is {record.version}.\",\n                             \"current_version\": record.version}",
+  "desc": "R3 item 6: 409 says 'was modified' and leaks the current version",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "W26",
+  "file": "world5.py",
+  "old": "            if not self._written_by_other_since(record.record_id, expected, agent_id):\n                log[\"conflict\"] = False\n                return body[0], \"invalid_version\", body[2]\n            return body\n        return 200, None, self._commit(agent_id, record, value, \"update_record\"",
+  "new": "            if not self._written_by_other_since(record.record_id, expected, agent_id):\n                log[\"conflict\"] = False\n                return body[0], \"invalid_version\", {**body[2], \"message\": body[2][\"message\"] + \" (no other write)\"}\n            return body\n        return 200, None, self._commit(agent_id, record, value, \"update_record\"",
+  "desc": "R3 item 6: invalid_version text differs from version_conflict (arm cue)",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "W18",
+  "file": "world5.py",
+  "old": "            token = self._next_token.get(rid, 1)\n",
+  "new": "            token = sum(self._next_token.values()) + 1\n",
+  "desc": "V1 B4: global fencing-token counter (control channel)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W19",
+  "file": "world5.py",
+  "old": "        msg = Message(self._inbox_count[to_agent], agent_id, to_agent, text, self.clock)",
+  "new": "        msg = Message(len(self._messages) + 1, agent_id, to_agent, text, self.clock)",
+  "desc": "V1 B4: global message ids",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W20",
+  "file": "world5.py",
+  "old": "                \"message\": f\"409 Conflict: your lock on {rid} has ended.\"}",
+  "new": "                \"message\": f\"409 Conflict: your lock on {rid} has ended; acquire it again.\"}",
+  "desc": "V1 B5: steering 409 text",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "W21",
+  "file": "world5.py",
+  "old": "                                         \"step\": self.clock, \"own_call\": self._own_calls[agent_id], \"seq\": self._seq_now()})",
+  "new": "                                         \"step\": self.clock, \"own_call\": self._own_calls[agent_id]})",
+  "desc": "V1 B6: expire events without seq",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W22",
+  "file": "world5.py",
+  "old": "                 \"(writes without it get 423). When",
+  "new": "                 \"(others get 423). When",
+  "desc": "V2 F1: peer cue back in lock text",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "W23",
+  "file": "world5.py",
+  "old": "ALIASES: Dict[str, str] = {\"all_available\": \"cas_available+locks\",",
+  "new": "ALIASES: Dict[str, str] = {\"all_available\": \"cas_available+locks+messages\",",
+  "desc": "V2 F4: messages (peer list) in all_available",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W14",
+  "file": "world5.py",
+  "old": "        if lock is None or lock.holder == agent_id:\n            return False",
+  "new": "        if True:\n            return False",
+  "desc": "acquire never waits",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "W15",
+  "file": "world5.py",
+  "old": "    if config.coordination.messages and peers:",
+  "new": "    if peers:",
+  "desc": "peer list shown without messages (cue)",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "C01",
+  "file": "scheduler5.py",
+  "old": "        world.release_all(r.agent_id)\n",
+  "new": "",
+  "desc": "locks not released at agent end",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "C02",
+  "file": "scheduler5.py",
+  "old": "                delay += r.rng_gap.randint(schedule.gap_min, schedule.gap_max)",
+  "new": "                delay += schedule.gap_max",
+  "desc": "fixed think time (Study 1 lockstep)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "C07",
+  "file": "scheduler5.py",
+  "old": "            if getattr(call, \"ends_turn\", True):",
+  "new": "            if call.tool in READ_TOOLS:",
+  "desc": "V1 B2: think gap after reads only",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "C08",
+  "file": "scheduler5.py",
+  "old": "                deadlock_rounds += 1\n",
+  "new": "                deadlock_rounds += 0\n",
+  "desc": "V2 F5: deadlock not recorded",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "C09",
+  "file": "scheduler5.py",
+  "old": "                    if isinstance(stop.value, AgentStop) and stop.value.reason in AGENT_STOP_REASONS:",
+  "new": "                    if False:",
+  "desc": "V2 sec. 5: truncation ends as returned",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "C03",
+  "file": "scheduler5.py",
+  "old": "        r.resume_at = 1 + random.Random(f\"{s}|{agent_id}|start\").randint(0, schedule.start_jitter)",
+  "new": "        r.resume_at = 1",
+  "desc": "no start jitter",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "C04",
+  "file": "scheduler5.py",
+  "old": "        order_rng.shuffle(order)\n",
+  "new": "",
+  "desc": "fixed round order (first mover a0)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "C05",
+  "file": "scheduler5.py",
+  "old": "                if clock - r.wait_start < world_config.lock_wait_rounds:",
+  "new": "                if False:",
+  "desc": "blocking lock wait disabled",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "C06",
+  "file": "scheduler5.py",
+  "old": "            if r.turns >= schedule.turn_cap:",
+  "new": "            if r.turns > schedule.turn_cap:",
+  "desc": "turn cap off by one",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S01",
+  "file": "score5.py",
+  "old": "            return prefix if key[1] == target else None",
+  "new": "            return prefix",
+  "desc": "serial witness ignores final state",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S02",
+  "file": "score5.py",
+  "old": "    for reader, reads in all_reads(ledger).items():\n        for record, version in reads:",
+  "new": "    for reader, reads in all_reads(ledger).items():\n        for record, version in sorted(reads)[-1:]:",
+  "desc": "DSG uses last read only",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S03",
+  "file": "score5.py",
+  "old": "            if src is not None and src != reader:\n                edges.add(Edge(src, reader, \"wr\"",
+  "new": "            if False:\n                edges.add(Edge(src, reader, \"wr\"",
+  "desc": "drop wr edges",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S04",
+  "file": "score5.py",
+  "old": "            if nxt is not None and nxt != reader:\n                edges.add(Edge(reader, nxt, \"rw\"",
+  "new": "            if False:\n                edges.add(Edge(reader, nxt, \"rw\"",
+  "desc": "drop rw edges",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S05",
+  "file": "score5.py",
+  "old": "        if nxt is not None and nxt != agent:\n            edges.add(Edge(agent, nxt, \"ww\"",
+  "new": "        if False:\n            edges.add(Edge(agent, nxt, \"ww\"",
+  "desc": "drop ww edges",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S06",
+  "file": "score5.py",
+  "old": "    return [e.seq for e in ledger.effects if bases[e.seq][0] < e.old_version and bases[e.seq][1] is not None]",
+  "new": "    return [e.seq for e in ledger.effects if bases[e.seq][0] < e.old_version]",
+  "desc": "lost_update = any stale write (blind incl.)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S07",
+  "file": "score5.py",
+  "old": "    return [e.seq for e in ledger.effects if bases[e.seq][0] < e.old_version]\n",
+  "new": "    return [e.seq for e in ledger.effects if bases[e.seq][0] < e.old_version - 1]\n",
+  "desc": "stale off by one",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S08",
+  "file": "score5.py",
+  "old": "        if isinstance(ev, int) and ev > bases[e.seq][0]:",
+  "new": "        if False:",
+  "desc": "laundered CAS never flagged",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S09",
+  "file": "score5.py",
+  "old": "    committed = tuple(sorted({e.agent_id for e in actions} - rb))",
+  "new": "    committed = tuple(sorted({e.agent_id for e in actions}))",
+  "desc": "rolled-back agents counted as committed",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S10",
+  "file": "score5.py",
+  "old": "        rolled = agent_id in rb\n",
+  "new": "        rolled = False\n",
+  "desc": "no rollback detection per agent",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S11",
+  "file": "score5.py",
+  "old": "        guard_violation = committed_any and not rolled and bool(guard_bad) and not missing",
+  "new": "        guard_violation = False",
+  "desc": "guard violation never flagged",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S12",
+  "file": "score5.py",
+  "old": "                   and bool(acted_records & set(intent.writes)) and not set(intent.writes) <= acted_records)",
+  "new": "                   and False)",
+  "desc": "missing leg never flagged",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S13",
+  "file": "score5.py",
+  "old": "        out_of_intent = bool(acted_records - set(intent.writes))",
+  "new": "        out_of_intent = False",
+  "desc": "out-of-intent never flagged",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S14",
+  "file": "score5.py",
+  "old": "            if e1.src == e2.dst and e1.dst == e2.src and e1.record != e2.record:",
+  "new": "            if e1.src == e2.dst and e1.dst == e2.src:",
+  "desc": "write skew allows same record",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S15",
+  "file": "score5.py",
+  "old": "        if any(inv.check(initial, s, ledger, task) for s in states):",
+  "new": "        if inv.check(initial, states[-1], ledger, task):",
+  "desc": "ever_violated = final only",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S16",
+  "file": "score5.py",
+  "old": "            if reader != a and reads & undone:",
+  "new": "            if reads & undone:",
+  "desc": "exposure counts the compensator itself",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S17",
+  "file": "score5.py",
+  "old": "    elif flags[\"compensated\"] and not fs_bad and not flags[\"violated_at_end\"] and not any(flags[k] for k in hard):",
+  "new": "    elif flags[\"compensated\"]:",
+  "desc": "compensated even when the final state is broken",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S18",
+  "file": "score5.py",
+  "old": "            if color[m] == GREY:",
+  "new": "            if color[m] == BLACK:",
+  "desc": "cycle detection broken",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S19",
+  "file": "score5.py",
+  "old": "    cycle = find_cycle(sessions(ledger), edges)",
+  "new": "    cycle = find_cycle(committed, edges)",
+  "desc": "DSG node set = committed only",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S20",
+  "file": "score5.py",
+  "old": "            and normalize_value(by_seq[c.effect_seq].new_value) == normalize_value(by_seq[c.effect_seq].old_value)",
+  "new": "            and True",
+  "desc": "promote counts value-changing writes",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S21",
+  "file": "score5.py",
+  "old": "    overlap = bool(writers) and all(fr < min((s for b, s in first_write.items() if b != a), default=10 ** 12)",
+  "new": "    overlap = bool(writers) and all(fr < max((s for b, s in first_write.items() if b != a), default=10 ** 12)",
+  "desc": "reads_overlap uses max",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S22",
+  "file": "score5.py",
+  "old": "        fulfilled = set(intent.writes) <= written and not rolled",
+  "new": "        fulfilled = bool(set(intent.writes) & written)",
+  "desc": "fulfilled = any written record",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S23",
+  "file": "score5.py",
+  "old": "        cross_agent_edges=cross + len(msgs), flags=flags,",
+  "new": "        cross_agent_edges=cross, flags=flags,",
+  "desc": "V1 B4: delivered messages not counted as cross-agent edges",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S24",
+  "file": "score5.py",
+  "old": "        if w is not None and w.grant_seq is not None and read_seq is not None and read_seq < w.grant_seq:",
+  "new": "        if False:",
+  "desc": "V1 B5: fenced_stale_basis never flagged",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S25",
+  "file": "score5.py",
+  "old": "            elif w.grant_seq is not None and not _live(w, c.seq):",
+  "new": "            elif False:",
+  "desc": "V1 B6: mutex gate ignores the lease window",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S26",
+  "file": "score5.py",
+  "old": "                if w.holder != c.agent_id:\n                    out.append(f\"call {c.seq}: {c.agent_id} wrote",
+  "new": "                if False:\n                    out.append(f\"call {c.seq}: {c.agent_id} wrote",
+  "desc": "V1 B6: mutex gate ignores non-holder writes",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S27",
+  "file": "score5.py",
+  "old": "            lock=any(c.tool == \"acquire_lock\" and c.reason not in WELL_FORMED_REFUSALS for c in calls),",
+  "new": "            lock=any(c.tool == \"acquire_lock\" and c.status == 200 for c in calls),",
+  "desc": "V2 F2: lock coded as granted only",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S28",
+  "file": "score5.py",
+  "old": "        dsg_basis_cycle=find_cycle(bnodes, bedges) is not None,",
+  "new": "        dsg_basis_cycle=find_cycle(sessions(ledger), edges) is not None,",
+  "desc": "basis DSG = all-reads DSG",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S29",
+  "file": "score5.py",
+  "old": "                  if e.seq != last_by_rec[e.record_id] and normalize_value(e.new_value) != restore[e.record_id]}",
+  "new": "                  if e.seq != last_by_rec[e.record_id]}",
+  "desc": "exposure counts restoring versions",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S30",
+  "file": "score5.py",
+  "old": "            cas=any(c.tool in WRITE_TOOLS and c.args.get(\"expected_version\") is not None",
+  "new": "            cas=any(c.tool == \"update_record\" and c.args.get(\"expected_version\") is not None",
+  "desc": "conditional claim not counted as CAS",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S31",
+  "file": "score5.py",
+  "old": "        unfulfilled_but_valid = (not fulfilled) and valid_at_end and end_reason not in NON_FINISH_ENDS",
+  "new": "        unfulfilled_but_valid = (not fulfilled) and valid_at_end",
+  "desc": "truncated agents counted as abandoning",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S32",
+  "file": "score5.py",
+  "old": "    before = None if first_prot_call is None or first_sig is None else first_prot_call <= first_sig",
+  "new": "    before = None if first_prot_call is None or first_sig is None else first_prot_call <= first_sig + 1",
+  "desc": "protection timing off by one",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S33",
+  "file": "score5.py",
+  "old": "            src = installer.get((c.record_id, c.read_version))\n            sig = sig or (src is not None and src != a)",
+  "new": "            src = installer.get((c.record_id, c.read_version))\n            sig = sig or src is not None",
+  "desc": "R3 C1: an own write read back counts as contention",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S34",
+  "file": "score5.py",
+  "old": "        sig = c.status == 423 or (c.status == 409 and c.conflict)",
+  "new": "        sig = c.status in (409, 423)",
+  "desc": "R3 C1: own 409s (invalid_version, lease_expired) count as contention",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S35",
+  "file": "score5.py",
+  "old": "    before = None if first_prot_call is None or first_sig is None else first_prot_call <= first_sig",
+  "new": "    before = None if first_prot_call is None or first_sig is None else first_prot_call < first_sig",
+  "desc": "R3 C1: a protective call that meets contention coded as reactive (V2 rule)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S36",
+  "file": "score5.py",
+  "old": "            if c.reason is None and granted.get(c.record_id, set()) - {a}:\n                sig = True",
+  "new": "            if False:\n                sig = True",
+  "desc": "R3 C1: a lock grant after another agent's lock is not a signal",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S37",
+  "file": "score5.py",
+  "old": "        sig = c.status == 423 or (c.status == 409 and c.conflict)",
+  "new": "        sig = c.status == 409 and c.conflict",
+  "desc": "R3 C1: a 423 (write refused by another agent's lock) is not a signal",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S38",
+  "file": "score5.py",
+  "old": "    lock_after = None if first_lock_call is None else (first_sig is not None and first_lock_call > first_sig)",
+  "new": "    lock_after = None if first_lock_call is None else (first_sig is not None and first_lock_call >= first_sig)",
+  "desc": "R3 C1: lock_after_contention counts a lock that met the signal",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S39",
+  "file": "score5.py",
+  "old": "                                  and not any(by_seq[s].agent_id == agent_id for s in unread_basis))),",
+  "new": "                                  )),",
+  "desc": "R3 item 3: a locked blind overwrite counts as effective locking",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S40",
+  "file": "score5.py",
+  "old": "        if g is None or not any(g < r < c.seq for r in reads.get((c.agent_id, c.record_id), [])):",
+  "new": "        if g is None or not any(r < c.seq for r in reads.get((c.agent_id, c.record_id), [])):",
+  "desc": "R3 item 3: a read before the grant counts as read under the token",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S41",
+  "file": "score5.py",
+  "old": "    cap_trunc = outcome == \"failed\" and any(s.end_reason == \"turn_cap\" for s in agents.values())",
+  "new": "    cap_trunc = False",
+  "desc": "R3 item 8: cap_truncated never set",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S42",
+  "file": "score5.py",
+  "old": "            if c.record_id in foot:\n                return \"indeterminate\"",
+  "new": "            if False:\n                return \"indeterminate\"",
+  "desc": "R3 item 8: 24-call re-score ignores what the cut agent changed later",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "S43",
+  "file": "score5.py",
+  "old": "    over = tuple(a for a in task.agent_ids if any((c.own_call or 0) > cap for c in ledger.calls_for(a)))",
+  "new": "    over = tuple(a for a in task.agent_ids if any((c.own_call or 0) > cap + 1 for c in ledger.calls_for(a)))",
+  "desc": "R3 item 8: re-score cap off by one",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "L02",
+  "file": "run5.py",
+  "old": "        fams[f].sort(key=lambda t: t.endswith(I.CONTROL_SUFFIX))  # contended first, then its control",
+  "new": "        fams[f].sort(key=lambda t: not t.endswith(I.CONTROL_SUFFIX))",
+  "desc": "R3 item 5: control before contended",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "L03",
+  "file": "run5.py",
+  "old": "            estimate = sum(episode_estimate(observed, c) for c in group)",
+  "new": "            estimate = episode_estimate(observed, cell)",
+  "desc": "R3 item 5: no pair reservation (per-episode gate)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "L04",
+  "file": "run5.py",
+  "old": "    if not all(done(c) or is_held(c) for c in pair):\n        return []",
+  "new": "    if False:\n        return []",
+  "desc": "R3 item 5: an episode is written without its matched partner",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "L05",
+  "file": "run5.py",
+  "old": "    for seed in seeds:\n        for i in range(max(k_instances, 1)):\n            for fam, fam_tasks in fams.items():",
+  "new": "    for fam, fam_tasks in fams.items():\n        for i in range(max(k_instances, 1)):\n            for seed in seeds:",
+  "desc": "R3 item 5: family-major order (a cut drops whole families)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "L06",
+  "file": "../run_conc_study2.sh",
+  "old": "LANES=(gemini anthropic openrouter)",
+  "new": "LANES=(anthropic openrouter gemini)",
+  "desc": "R3 item 5: Gemini lane not first",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "P02",
+  "file": "plan5.py",
+  "old": "    \"openrouter:openai/gpt-5.5-20260423\": 2,\n    \"openrouter:google/gemini-4-argon-20261013\": 8,",
+  "new": "    \"openrouter:openai/gpt-5.5-20260423\": 4,\n    \"openrouter:google/gemini-4-argon-20261013\": 8,",
+  "desc": "R3 item 4: GPT probes back to 4 instances",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "P03",
+  "file": "plan5.py",
+  "old": "    return extra * INPUT_USD_PER_MTOK[model] * cache * gem / 1e6",
+  "new": "    return 0.0",
+  "desc": "R3 item 4: tool-text tokens not priced",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "P04",
+  "file": "plan5.py",
+  "old": "    extra = max(0, menu_chars(config) - int(costs[\"study1_menu_chars\"][c1])) / CHARS_PER_TOKEN",
+  "new": "    extra = max(0, 2000 - int(costs[\"study1_menu_chars\"][c1])) / CHARS_PER_TOKEN",
+  "desc": "R3 item 4: menu size not read from the code (a longer tool text is not priced)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "F01",
+  "file": "freeze5.py",
+  "old": "    out = _listed(\"\", SRC5_EXTS, \"\") + _listed(\"../src5_batch\", BATCH_EXTS, \"../src5_batch/\")",
+  "new": "    out = _listed(\"\", SRC5_EXTS, \"\")",
+  "desc": "R3 item 7: freeze omits the batch layer",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "F02",
+  "file": "freeze5.py",
+  "old": "EXTRA = (\"../src5_verify/dry_check5.py\", \"../run_conc_study2.sh\")",
+  "new": "EXTRA = ()",
+  "desc": "R3 item 7: freeze omits the runner and dry_check5",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "T01",
+  "file": "tasks5.py",
+  "old": "        if all(normalize_value(last[k]) == normalize_value(first[k]) for k in keys):",
+  "new": "        if any(normalize_value(last[k]) == normalize_value(first[k]) for k in keys):",
+  "desc": "rollback = any record restored",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "T02",
+  "file": "tasks5.py",
+  "old": "        if actual != expected:",
+  "new": "        if False:",
+  "desc": "accounting invariant disabled",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "T03",
+  "file": "tasks5.py",
+  "old": "        return values[self.record] >= self.amount\n",
+  "new": "        return values[self.record] >= 0\n",
+  "desc": "Decrement guard ignores amount",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "T04",
+  "file": "tasks5.py",
+  "old": "        return spent + self.amount <= values[self.cap]",
+  "new": "        return spent <= values[self.cap]",
+  "desc": "budget guard ignores own spend",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "T05",
+  "file": "tasks5.py",
+  "old": "        initial.update(part.initial)\n        intents[a] = part.intents[a]",
+  "new": "        initial.update(parts[0].initial)\n        intents[a] = parts[0].intents[a]",
+  "desc": "control shares one record group",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "T06",
+  "file": "tasks5.py",
+  "old": "    return Invariant(f\"sum_within_cap[{cap}]\", check, \"constraint\")",
+  "new": "    return Invariant(f\"sum_within_cap[{cap}]\", check, \"conservation\")",
+  "desc": "cap not checked for ever_violated",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "I01",
+  "file": "instances5.py",
+  "old": "    return build(p.tags[0])",
+  "new": "    return build(p.tags[1])",
+  "desc": "contended group differs from a0's control group",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "I02",
+  "file": "instances5.py",
+  "old": "            dsts = {a: f\"account:{p.dest_prefix}-{tag}-{p.words[i]}\" for i, a in enumerate(ids)}",
+  "new": "            dsts = {a: f\"account:{p.dest_prefix}-{tag}-{a}\" for i, a in enumerate(ids)}",
+  "desc": "agent ids in record names (cue)",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "I03",
+  "file": "instances5.py",
+  "old": "        if shape(_draw(family, index, attempt, 2), family) not in taken:",
+  "new": "        if True:",
+  "desc": "no disjointness from Study 1",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "A01",
+  "file": "agents5.py",
+  "old": "            seq = [(r, values[r]) for r in sorted(intent.reads)] + [(own, new[own])]",
+  "new": "            seq = [(own, new[own])] + [(r, values[r]) for r in sorted(intent.reads) if r != own]",
+  "desc": "promotion after the own write",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "A02",
+  "file": "agents5.py",
+  "old": "                tok = held.get(rid) if fence else None",
+  "new": "                tok = None",
+  "desc": "lock_protected writes unfenced",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "A03",
+  "file": "agents5.py",
+  "old": "        back = yield _update(own, values[own], my_version if cas else None)",
+  "new": "        back = {\"ok\": True}",
+  "desc": "verify_and_compensate never compensates",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "A04",
+  "file": "agents5.py",
+  "old": "    offset = (BACKOFF_OFFSET + 2 * attempt) if _rank(ctx.agent_id) % 2 else 0",
+  "new": "    offset = 0",
+  "desc": "V1 B2: weak (purely random, short) back-off",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "A05",
+  "file": "agents5.py",
+  "old": "    for _ in range(TOKENLESS_IDLE_CALLS):\n        yield ToolCall(\"list_effects\", {})",
+  "new": "    for _ in range(0):\n        yield ToolCall(\"list_effects\", {})",
+  "desc": "lease_then_tokenless writes right after expiry",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "K01",
+  "file": "tasks5.py",
+  "old": "        recs = \", \".join(sorted((self.own,) + self.others))",
+  "new": "        recs = \", \".join((self.own,) + self.others)",
+  "desc": "V2 F5: own record first in the budget text (opposite lock orders)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M01",
+  "file": "model_agent5.py",
+  "old": "    QWEN_MODEL: {\"order\": [os.environ.get(\"STUDY2_QWEN_PROVIDER\", \"alibaba\")], \"allow_fallbacks\": False},",
+  "new": "    QWEN_MODEL: {\"order\": [os.environ.get(\"STUDY2_QWEN_PROVIDER\", \"alibaba\")], \"allow_fallbacks\": True},",
+  "desc": "V2 F6: Qwen fallbacks allowed",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M02",
+  "file": "model_agent5.py",
+  "old": "        if host_bad:",
+  "new": "        if False:",
+  "desc": "V2 F6: completions from another host accepted",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M03",
+  "file": "model_agent5.py",
+  "old": "                    return AgentStop(TRUNCATION_END.get(comp.stop_reason, \"truncated\"), report)",
+  "new": "                    return report",
+  "desc": "V2 sec. 5: truncated agent ends as returned",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M04",
+  "file": "model_agent5.py",
+  "old": "                    response = yield ToolCall(tu[\"name\"], call_args, i == len(tool_uses) - 1)",
+  "new": "                    response = yield ToolCall(tu[\"name\"], call_args)",
+  "desc": "V1 B2: every call of a reply ends a turn",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M05",
+  "file": "model_agent5.py",
+  "old": "    locks = \"acquire_lock\" in names\n",
+  "new": "    locks = False\n",
+  "desc": "V1 B4: dry-run model never locks",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M06",
+  "file": "model_agent5.py",
+  "old": "            if rc.probe:",
+  "new": "            if False:",
+  "desc": "probe agents execute their calls",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M07",
+  "file": "model_agent5.py",
+  "old": "                if comp.stop_reason in REFUSAL_END:\n                    return AgentStop(REFUSAL_END[comp.stop_reason], report)\n",
+  "new": "",
+  "desc": "R4: refusal / safety stops end 'returned' again",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M08",
+  "file": "model_agent5.py",
+  "old": "REFUSAL_END = {\"refusal\": \"refusal\", \"content_filter\": \"content_filter\"}",
+  "new": "REFUSAL_END = {\"refusal\": \"refusal\"}",
+  "desc": "R4: OpenRouter / Gemini content_filter ends 'returned'",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M09",
+  "file": "model_agent5.py",
+  "old": "REFUSAL_END = {\"refusal\": \"refusal\", \"content_filter\": \"content_filter\"}",
+  "new": "REFUSAL_END = {\"refusal\": \"refusal\", \"content_filter\": \"refusal\"}",
+  "desc": "R4: content_filter not distinct from refusal",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "M10",
+  "file": "scheduler5.py",
+  "old": "AGENT_STOP_REASONS = (\"truncated\", \"provider_error\", \"probe\", \"refusal\", \"content_filter\")",
+  "new": "AGENT_STOP_REASONS = (\"truncated\", \"provider_error\", \"probe\")",
+  "desc": "R4: scheduler records refusal ends as 'returned'",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M11",
+  "file": "score5.py",
+  "old": "NON_FINISH_ENDS = ERROR_ENDS + REFUSAL_ENDS + (\"probe\",)",
+  "new": "NON_FINISH_ENDS = ERROR_ENDS + (\"probe\",)",
+  "desc": "R4: refused agents counted as abandoning",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M12",
+  "file": "score5.py",
+  "old": "ERROR_ENDS = (\"truncated\", \"provider_error\", \"error\")",
+  "new": "ERROR_ENDS = (\"truncated\", \"provider_error\", \"error\", \"refusal\", \"content_filter\")",
+  "desc": "R4: refusals counted as harness errors (agent_errors)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M13",
+  "file": "../src5_batch/gemini_translate.py",
+  "old": "CONTENT_FILTER = {\"SAFETY\", \"RECITATION\", \"BLOCKLIST\", \"PROHIBITED_CONTENT\", \"SPII\",",
+  "new": "CONTENT_FILTER = {\"SAFETY\", \"RECITATION\", \"BLOCKLIST\", \"PROHIBITED_CONTENT\",",
+  "desc": "R4: Gemini SPII finish becomes 'error' (provider_error)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M14",
+  "file": "../src5_batch/gemini_translate.py",
+  "old": "    if native in CONTENT_FILTER:\n        return \"content_filter\"",
+  "new": "    if native in CONTENT_FILTER:\n        return \"tool_calls\" if has_calls else \"stop\"",
+  "desc": "R4: Gemini safety finishes read as normal stops",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "M15",
+  "file": "../src5_batch/gemini_translate.py",
+  "old": "        finish = \"content_filter\"\n    choice",
+  "new": "        finish = \"stop\"\n    choice",
+  "desc": "R4: a blocked Gemini prompt reads as a normal stop",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "P01",
+  "file": "providers5.py",
+  "old": "            eff = TEMPERATURE_IGNORED if slug.startswith(TEMPERATURE_IGNORED_SLUGS) else \"unverified\"",
+  "new": "            eff = \"unverified\"",
+  "desc": "V2 sec. 5: Gemini temperature recorded as unverified",
+  "metric": false,
+  "status": "killed"
+ },
+ {
+  "mid": "R01",
+  "file": "run5.py",
+  "old": "    return tuple(a for a in task.agent_ids if prompt(task, a) != prompt(cont, a))",
+  "new": "    return task.agent_ids",
+  "desc": "probe: a0 probed twice (control prompt identical)",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "L01",
+  "file": "plan5.py",
+  "old": "    limit = {f: (1.0 - margin) * caps[f] for f in FAMILIES}",
+  "new": "    limit = {f: caps[f] for f in FAMILIES}",
+  "desc": "planner ignores the 10 % margin",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "D01",
+  "file": "design5.py",
+  "old": "    return 8 * n + 8 + (4 if coord.locks else 0)",
+  "new": "    return 12",
+  "desc": "Study 1 fixed cap of 12",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "B01",
+  "file": "budget5.py",
+  "old": "        if family in self.family_caps:\n            lefts.append(self.family_caps[family] - spent.get(family, 0.0))",
+  "new": "        if False:\n            lefts.append(self.family_caps[family] - spent.get(family, 0.0))",
+  "desc": "family caps ignored",
+  "metric": true,
+  "status": "killed"
+ },
+ {
+  "mid": "B02",
+  "file": "budget5.py",
+  "old": "    return e.get(\"provider_family\") or provider_family(str(e.get(\"model\", \"\")))",
+  "new": "    return \"openrouter\"",
+  "desc": "every entry counted as openrouter",
+  "metric": true,
+  "status": "killed"
+ }
+]

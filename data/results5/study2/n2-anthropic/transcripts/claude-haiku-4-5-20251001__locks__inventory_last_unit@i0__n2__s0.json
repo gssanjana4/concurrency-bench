@@ -1,0 +1,1418 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.0057755,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:kayak-valley"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:kayak-valley",
+      "status": 200,
+      "value": 5
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01PXaC7qi6sDi3qdC1EXPbHF"
+    },
+    {
+     "args": {
+      "lease_calls": 2,
+      "record_id": "inventory:kayak-valley"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 2,
+      "ok": true,
+      "record_id": "inventory:kayak-valley",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01K3Dbtaw4rC7tUZL3zvFi53"
+    },
+    {
+     "args": {
+      "fencing_token": 2,
+      "record_id": "inventory:kayak-valley",
+      "value": 2
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 1,
+      "ok": true,
+      "record_id": "inventory:kayak-valley",
+      "status": 200,
+      "value": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01W4kED4BdgQhLqLxBVgvchB"
+    },
+    {
+     "args": {
+      "record_id": "inventory:kayak-valley"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:kayak-valley",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01UdzkgsBhxSY55Fj7dfMfqN"
+    }
+   ],
+   "final_text": "Successfully sold 3 kayaks from inventory:kayak-valley (reduced from 5 to 2 units).",
+   "first_reply": "read",
+   "intent": "Sell 3 from inventory:kayak-valley, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 3 kayaks from inventory:kayak-valley, but first I need to check the current inventory level to ensure there are enough remaining.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PXaC7qi6sDi3qdC1EXPbHF",
+       "input": {
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:kayak-valley\", \"status\": 200, \"value\": 5}",
+       "tool_use_id": "toolu_01PXaC7qi6sDi3qdC1EXPbHF",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are 5 kayaks available, which is enough to sell 3. Now I'll acquire a lock, update the inventory to subtract 3 (5 - 3 = 2 remaining), and release the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01K3Dbtaw4rC7tUZL3zvFi53",
+       "input": {
+        "lease_calls": 2,
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 2, \"ok\": true, \"record_id\": \"inventory:kayak-valley\", \"status\": 200}",
+       "tool_use_id": "toolu_01K3Dbtaw4rC7tUZL3zvFi53",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I'll update the inventory:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01W4kED4BdgQhLqLxBVgvchB",
+       "input": {
+        "fencing_token": 2,
+        "record_id": "inventory:kayak-valley",
+        "value": 2
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 1, \"ok\": true, \"record_id\": \"inventory:kayak-valley\", \"status\": 200, \"value\": 2}",
+       "tool_use_id": "toolu_01W4kED4BdgQhLqLxBVgvchB",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Finally, I'll release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01UdzkgsBhxSY55Fj7dfMfqN",
+       "input": {
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:kayak-valley\", \"status\": 200}",
+       "tool_use_id": "toolu_01UdzkgsBhxSY55Fj7dfMfqN",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully sold 3 kayaks from inventory:kayak-valley (reduced from 5 to 2 units).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Sell 3 from inventory:kayak-valley, only if enough remains.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-09T20:44:18Z",
+     "content": [
+      {
+       "text": "I'll help you sell 3 kayaks from inventory:kayak-valley, but first I need to check the current inventory level to ensure there are enough remaining.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PXaC7qi6sDi3qdC1EXPbHF",
+       "input": {
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001026,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1572,
+      "output": 96
+     }
+    },
+    {
+     "at_utc": "2026-11-09T20:49:39Z",
+     "content": [
+      {
+       "text": "Great! There are 5 kayaks available, which is enough to sell 3. Now I'll acquire a lock, update the inventory to subtract 3 (5 - 3 = 2 remaining), and release the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01K3Dbtaw4rC7tUZL3zvFi53",
+       "input": {
+        "lease_calls": 2,
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0011875,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1715,
+      "output": 132
+     }
+    },
+    {
+     "at_utc": "2026-11-09T21:04:28Z",
+     "content": [
+      {
+       "text": "Now I'll update the inventory:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01W4kED4BdgQhLqLxBVgvchB",
+       "input": {
+        "fencing_token": 2,
+        "record_id": "inventory:kayak-valley",
+        "value": 2
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001212,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1899,
+      "output": 105
+     }
+    },
+    {
+     "at_utc": "2026-11-09T21:08:45Z",
+     "content": [
+      {
+       "text": "Finally, I'll release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01UdzkgsBhxSY55Fj7dfMfqN",
+       "input": {
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001199,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2053,
+      "output": 69
+     }
+    },
+    {
+     "at_utc": "2026-11-09T21:11:58Z",
+     "content": [
+      {
+       "text": "Successfully sold 3 kayaks from inventory:kayak-valley (reduced from 5 to 2 units).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001151,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2157,
+      "output": 29
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 9396,
+    "output": 431
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 5,
+   "cost_usd": 0.00575,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:kayak-valley"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:kayak-valley",
+      "status": 200,
+      "value": 5
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_013wB4i4p8JWXTVh9LS93imF"
+    },
+    {
+     "args": {
+      "lease_calls": 2,
+      "record_id": "inventory:kayak-valley"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 2,
+      "ok": true,
+      "record_id": "inventory:kayak-valley",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01JpmXqEtYzAwNkDSDzWUjE6"
+    },
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "inventory:kayak-valley",
+      "value": 2
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 1,
+      "ok": true,
+      "record_id": "inventory:kayak-valley",
+      "status": 200,
+      "value": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01GVGHvjeEgxs1KDVk1zLw4n"
+    },
+    {
+     "args": {
+      "record_id": "inventory:kayak-valley"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:kayak-valley",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_0157SqkcnGBKrg2P4aZBv24d"
+    }
+   ],
+   "final_text": "Successfully sold 3 kayaks from inventory:kayak-valley, reducing stock from 5 to 2.",
+   "first_reply": "read",
+   "intent": "Sell 3 from inventory:kayak-valley, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 3 kayaks from inventory:kayak-valley, but only if enough remain. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013wB4i4p8JWXTVh9LS93imF",
+       "input": {
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:kayak-valley\", \"status\": 200, \"value\": 5}",
+       "tool_use_id": "toolu_013wB4i4p8JWXTVh9LS93imF",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are 5 kayaks in inventory, which is enough to sell 3. Now I'll acquire a lock on the record to perform the sale safely.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JpmXqEtYzAwNkDSDzWUjE6",
+       "input": {
+        "lease_calls": 2,
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 2, \"ok\": true, \"record_id\": \"inventory:kayak-valley\", \"status\": 200}",
+       "tool_use_id": "toolu_01JpmXqEtYzAwNkDSDzWUjE6",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I'll update the inventory by reducing it by 3 (from 5 to 2):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01GVGHvjeEgxs1KDVk1zLw4n",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "inventory:kayak-valley",
+        "value": 2
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 1, \"ok\": true, \"record_id\": \"inventory:kayak-valley\", \"status\": 200, \"value\": 2}",
+       "tool_use_id": "toolu_01GVGHvjeEgxs1KDVk1zLw4n",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I'll release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0157SqkcnGBKrg2P4aZBv24d",
+       "input": {
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:kayak-valley\", \"status\": 200}",
+       "tool_use_id": "toolu_0157SqkcnGBKrg2P4aZBv24d",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully sold 3 kayaks from inventory:kayak-valley, reducing stock from 5 to 2.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Sell 3 from inventory:kayak-valley, only if enough remains.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-09T20:41:17Z",
+     "content": [
+      {
+       "text": "I'll help you sell 3 kayaks from inventory:kayak-valley, but only if enough remain. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013wB4i4p8JWXTVh9LS93imF",
+       "input": {
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0010235,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1572,
+      "output": 95
+     }
+    },
+    {
+     "at_utc": "2026-11-09T20:46:22Z",
+     "content": [
+      {
+       "text": "Great! There are 5 kayaks in inventory, which is enough to sell 3. Now I'll acquire a lock on the record to perform the sale safely.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JpmXqEtYzAwNkDSDzWUjE6",
+       "input": {
+        "lease_calls": 2,
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0011445,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1714,
+      "output": 115
+     }
+    },
+    {
+     "at_utc": "2026-11-09T20:53:46Z",
+     "content": [
+      {
+       "text": "Now I'll update the inventory by reducing it by 3 (from 5 to 2):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01GVGHvjeEgxs1KDVk1zLw4n",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "inventory:kayak-valley",
+        "value": 2
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0012405,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1881,
+      "output": 120
+     }
+    },
+    {
+     "at_utc": "2026-11-09T20:56:59Z",
+     "content": [
+      {
+       "text": "Now I'll release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0157SqkcnGBKrg2P4aZBv24d",
+       "input": {
+        "record_id": "inventory:kayak-valley"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001195,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2050,
+      "output": 68
+     }
+    },
+    {
+     "at_utc": "2026-11-09T21:00:12Z",
+     "content": [
+      {
+       "text": "Successfully sold 3 kayaks from inventory:kayak-valley, reducing stock from 5 to 2.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0011465,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2153,
+      "output": 28
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 9370,
+    "output": 426
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "locks",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__locks__inventory_last_unit@i0__n2__s0",
+ "final_store": {
+  "inventory:kayak-valley": {
+   "value": 2,
+   "version": 3
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Successfully sold 3 kayaks from inventory:kayak-valley, reducing stock from 5 to 2.",
+    "step": 18,
+    "turns": 4
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Successfully sold 3 kayaks from inventory:kayak-valley (reduced from 5 to 2 units).",
+    "step": 30,
+    "turns": 4
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:kayak-valley"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:kayak-valley",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:kayak-valley",
+     "status": 200,
+     "value": 5
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 3,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:kayak-valley"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:kayak-valley",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:kayak-valley",
+     "status": 200,
+     "value": 5
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 7,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 2,
+     "record_id": "inventory:kayak-valley"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 2,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-valley",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 2,
+     "ok": true,
+     "record_id": "inventory:kayak-valley",
+     "status": 200
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 8,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "inventory:kayak-valley",
+     "value": 2
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 1,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-valley",
+    "response": {
+     "lease_remaining": 1,
+     "ok": true,
+     "record_id": "inventory:kayak-valley",
+     "status": 200,
+     "value": 2
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 11,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:kayak-valley"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-valley",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:kayak-valley",
+     "status": 200
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 16,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 2,
+     "record_id": "inventory:kayak-valley"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 2,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-valley",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 2,
+     "ok": true,
+     "record_id": "inventory:kayak-valley",
+     "status": 200
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 16,
+    "tool": "acquire_lock",
+    "waited_rounds": 6
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "fencing_token": 2,
+     "record_id": "inventory:kayak-valley",
+     "value": 2
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 1,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-valley",
+    "response": {
+     "lease_remaining": 1,
+     "ok": true,
+     "record_id": "inventory:kayak-valley",
+     "status": 200,
+     "value": 2
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 20,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:kayak-valley"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-valley",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:kayak-valley",
+     "status": 200
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 25,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "inventory:kayak-valley",
+     "value": 2
+    },
+    "new_value": 2,
+    "new_version": 2,
+    "old_value": 5,
+    "old_version": 1,
+    "record_id": "inventory:kayak-valley",
+    "seq": 1,
+    "step": 11,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "fencing_token": 2,
+     "record_id": "inventory:kayak-valley",
+     "value": 2
+    },
+    "new_value": 2,
+    "new_version": 3,
+    "old_value": 2,
+    "old_version": 2,
+    "record_id": "inventory:kayak-valley",
+    "seq": 2,
+    "step": 20,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 2,
+     "own_call": 2,
+     "record_id": "inventory:kayak-valley",
+     "seq": 3,
+     "step": 8,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "inventory:kayak-valley",
+     "seq": 5,
+     "step": 16,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 2,
+     "own_call": 2,
+     "record_id": "inventory:kayak-valley",
+     "seq": 6,
+     "step": 16,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a0",
+     "record_id": "inventory:kayak-valley",
+     "seq": 8,
+     "step": 25,
+     "token": 2
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 30,
+   "stall_step": null,
+   "stalled": false,
+   "start_rounds": {
+    "a0": 7,
+    "a1": 3
+   }
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_011T441NwikjbZf31TGN8Lq9",
+    "msgbatch_012nmTqY3N3TuEJPVUvQRhhx",
+    "msgbatch_014MPDUCTVA49XYu8s1QHYBY",
+    "msgbatch_0162dGCBYbUQkxsBkQb7w8Fc",
+    "msgbatch_0182FnaqoT6jzs9e5VAaykg6",
+    "msgbatch_01AyrjXmx1HGV8A8BorGWBK1",
+    "msgbatch_01C4z2t6tHL9EQcrx8GyJVfZ",
+    "msgbatch_01R9bZB6aehaoDZyXmEDUuKv",
+    "msgbatch_01UUWMEgimJ6iaucyzTsqwoN",
+    "msgbatch_01VV1rU3ihBkwy6bzct3D53t"
+   ],
+   "driver": "src5_batch/batch_driver.py",
+   "lockstep_rounds": 11,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-09T21:11:58Z",
+  "started_utc": "2026-11-09T20:36:35Z",
+  "wall_seconds": 2123.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "max_rounds": 3000,
+  "seed": 149078217697465009,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 1,
+    "end_reason": "returned",
+    "fenced_stale_basis": 1,
+    "fenced_unread_basis": 1,
+    "fenced_writes": 1,
+    "first_contention_call": 2,
+    "first_lock_call": 2,
+    "first_protective": "lock",
+    "first_protective_call": 2,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": false,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_waits": 1,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 1,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 1,
+    "fenced_unread_basis": 1,
+    "fenced_writes": 1,
+    "first_contention_call": null,
+    "first_lock_call": 2,
+    "first_protective": "lock",
+    "first_protective_call": 2,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": false,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "conflict",
+  "committed_agents": [
+   "a0",
+   "a1"
+  ],
+  "config": "locks",
+  "conflict_observed": true,
+  "cross_agent_edges": 2,
+  "cross_agent_record_edges": 2,
+  "cycle": [
+   "a0",
+   "a1",
+   "a0"
+  ],
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": true,
+  "dsg_cycle": true,
+  "dsg_cycle_committed": true,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "rw",
+    "record": "inventory:kayak-valley",
+    "src": "a0",
+    "version": 1
+   },
+   {
+    "dst": "a0",
+    "kind": "ww",
+    "record": "inventory:kayak-valley",
+    "src": "a1",
+    "version": 2
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "inventory_last_unit",
+  "fenced_stale_basis_seqs": [
+   1,
+   2
+  ],
+  "fenced_unread_basis_seqs": [
+   1,
+   2
+  ],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": true,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": true,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": true,
+   "violated_at_end": true,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": true,
+  "interleaving": {
+   "first_mover": "a1",
+   "n_writers": 2,
+   "pattern": "R1R0W1W0",
+   "reads_overlap": true
+  },
+  "invariant_violations": [
+   "no_oversubscription[inventory:kayak-valley]: committed takes total 6 > initial 5",
+   "accounted[inventory:kayak-valley]: net change -3 != committed intents' -6"
+  ],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [
+   2
+  ],
+  "messages_delivered": 0,
+  "outcome": "failed",
+  "outcome_stratum": "failed",
+  "primary_label": "lost_update",
+  "rolled_back_agents": [],
+  "rounds": 30,
+  "serial_witness": null,
+  "stale_overwrite_seqs": [
+   2
+  ],
+  "stall": false,
+  "task": "inventory_last_unit@i0/n2"
+ },
+ "seed": 0,
+ "study": 2,
+ "task": {
+  "category": "conflict",
+  "description": "shared stock",
+  "factory": "inventory_last_unit",
+  "family": "inventory_last_unit",
+  "fingerprint": "4c89227f56cbc1ead584bca3ff64048f5163f061c72fae93a097f8c94307bb60",
+  "initial": {
+   "inventory:kayak-valley": 5
+  },
+  "instance": 0,
+  "intents": {
+   "a0": "Sell 3 from inventory:kayak-valley, only if enough remains.",
+   "a1": "Sell 3 from inventory:kayak-valley, only if enough remains."
+  },
+  "kind": "inventory",
+  "name": "inventory_last_unit@i0/n2",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 10,
+  "cost_usd": 0.011525500000000001,
+  "invalid_calls": 0,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 0,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 0,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 18766,
+   "output": 857
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

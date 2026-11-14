@@ -1,0 +1,64 @@
+== Study 2 grid, Round 3 (safety x1.15, margin 10%, Gemini nov batch price); caps {'anthropic': 19.0, 'openrouter': 28.0, 'gemini': 22.0}, total $69.0
+model    prio mode     level   aware configs                                       families       eps   est $
+qwen     0    probe    P7x6    both  none,cas_available,locks,all_available         7 families   672    0.95
+haiku    0    probe    P7x4    both  none,cas_available,locks,all_available         7 families   448    0.66
+gpt      0    probe    P7x2    both  none,cas_available,locks,all_available         7 families   224    2.80
+gemini   0    probe    P7x8    both  none,cas_available,locks,all_available         7 families   896    1.55
+sonnet   0    probe    P7x4    both  none,cas_available,locks,all_available         7 families   448    1.25
+qwen     1    episodes L7x4x2  off   none,cas_available,locks,all_available         7 families   448    3.10
+haiku    1    episodes L7x4x2  off   none,cas_available,locks,all_available         7 families   448    3.02
+gpt      1    episodes L3x2x2  off   none,cas_available,locks,all_available         3 families    96   14.52
+gemini   1    episodes L7x4x2  off   none,cas_available                             7 families   224    2.06
+gemini   1    episodes L7x4x2  both  locks,all_available                            7 families   448   12.41
+sonnet   1    episodes L7x4x2  off   none,cas_available,locks,all_available         7 families   448    6.91
+fable    1    episodes L2x1x1  off   none,cas_available,locks,all_available         2 families    16    1.92
+gpt      4    episodes L3x3x2  off   none,cas_available,locks,all_available         3 families   144   (if budget allows)
+gpt      4    episodes L4x3x2  off   none,cas_available,locks,all_available         4 families   192   (if budget allows)
+fable    4    episodes L3x1x2  off   none,cas_available,locks,all_available         3 families    48   (if budget allows)
+fable    4    episodes L3x2x2  off   none,cas_available,locks,all_available         3 families    96   (if budget allows)
+estimate by provider: {'anthropic': 13.76, 'openrouter': 21.37, 'gemini': 16.02}  total $51.15 (x1.15 safety = $58.82); probe instances per model {'qwen': 6, 'haiku': 4, 'gpt': 2, 'gemini': 8, 'sonnet': 4, 'fable': 0}
+headroom below cap after safety: anthropic 16.7%, openrouter 12.2%, gemini 16.3%
+descriptive-model cuts applied to keep the margin: fable probe -> 0; fable core -> L2x1x1
+tool menu characters (Study 2, from the code): none 1275, cas_available 1655, locks 3537, all_available 3917; Study 1: {'cas_available': 1550, 'locks': 1976, 'messages': 1739, 'none': 1275}
+
+per-episode estimates (n=2, aware off, contended mean over all families); per-probe estimate:
+   qwen    none=0.0045  cas_available=0.0062  locks=0.0079  all_available=0.0090   | probe none=0.00071  cas_available=0.00085  locks=0.00104  all_available=0.00115
+   haiku   none=0.0050  cas_available=0.0062  locks=0.0073  all_available=0.0084   | probe none=0.00079  cas_available=0.00085  locks=0.00112  all_available=0.00118
+   gpt     none=0.0386  cas_available=0.0807  locks=0.1549  all_available=0.1613   | probe none=0.00753  cas_available=0.00802  locks=0.00803  all_available=0.00970
+   gemini  none=0.0083  cas_available=0.0101  locks=0.0267  all_available=0.0281   | probe none=0.00072  cas_available=0.00084  locks=0.00147  all_available=0.00158
+   sonnet  none=0.0097  cas_available=0.0138  locks=0.0178  all_available=0.0205   | probe none=0.00153  cas_available=0.00164  locks=0.00208  all_available=0.00219
+   fable   none=0.0486  cas_available=0.0667  locks=0.1982  all_available=0.2028   | probe none=0.00416  cas_available=0.00469  locks=0.00858  all_available=0.00887
+
+minimum detectable differences (80% power, alpha 0.05 two-sided, p=0.5 worst case); clusters are primary:
+   qwen    episodes_per_config_and_arm: 56; clusters (family x instance): 28; lock_use_contended_vs_control (clusters, PRIMARY): 0.374; integrity_fail_config_vs_none (clusters, paired r=0.3, PRIMARY): 0.313; lock_use_contended_vs_control (agents, reference): 0.187; integrity_fail_config_vs_none (episodes, paired r=0.3, reference): 0.221; contended_vs_control_failure (episodes, reference): 0.265
+   haiku   episodes_per_config_and_arm: 56; clusters (family x instance): 28; lock_use_contended_vs_control (clusters, PRIMARY): 0.374; integrity_fail_config_vs_none (clusters, paired r=0.3, PRIMARY): 0.313; lock_use_contended_vs_control (agents, reference): 0.187; integrity_fail_config_vs_none (episodes, paired r=0.3, reference): 0.221; contended_vs_control_failure (episodes, reference): 0.265
+   gpt     episodes_per_config_and_arm: 12; clusters (family x instance): 6; lock_use_contended_vs_control (clusters, PRIMARY): 0.809; integrity_fail_config_vs_none (clusters, paired r=0.3, PRIMARY): 0.677; lock_use_contended_vs_control (agents, reference): 0.404; integrity_fail_config_vs_none (episodes, paired r=0.3, reference): 0.478; contended_vs_control_failure (episodes, reference): 0.572
+   gemini  episodes_per_config_and_arm: 56; clusters (family x instance): 28; lock_use_contended_vs_control (clusters, PRIMARY): 0.374; integrity_fail_config_vs_none (clusters, paired r=0.3, PRIMARY): 0.313; lock_use_contended_vs_control (agents, reference): 0.187; integrity_fail_config_vs_none (episodes, paired r=0.3, reference): 0.221; contended_vs_control_failure (episodes, reference): 0.265
+   sonnet  episodes_per_config_and_arm: 56; clusters (family x instance): 28; lock_use_contended_vs_control (clusters, PRIMARY): 0.374; integrity_fail_config_vs_none (clusters, paired r=0.3, PRIMARY): 0.313; lock_use_contended_vs_control (agents, reference): 0.187; integrity_fail_config_vs_none (episodes, paired r=0.3, reference): 0.221; contended_vs_control_failure (episodes, reference): 0.265
+   fable   episodes_per_config_and_arm: 2; clusters (family x instance): 2; lock_use_contended_vs_control (clusters, PRIMARY): 1.401; integrity_fail_config_vs_none (clusters, paired r=0.3, PRIMARY): 1.172; lock_use_contended_vs_control (agents, reference): 0.991; integrity_fail_config_vs_none (episodes, paired r=0.3, reference): 1.172; contended_vs_control_failure (episodes, reference): 1.401
+   qwen    probes: a0_probes_per_config_and_aware: 42; probes_per_config_and_aware: 126; aware_on_vs_off_first_reply (a0 probes, paired r=0.3): 0.256; aware_on_vs_off_first_reply (all probes, paired r=0.3): 0.148
+   haiku   probes: a0_probes_per_config_and_aware: 28; probes_per_config_and_aware: 84; aware_on_vs_off_first_reply (a0 probes, paired r=0.3): 0.313; aware_on_vs_off_first_reply (all probes, paired r=0.3): 0.181
+   gpt     probes: a0_probes_per_config_and_aware: 14; probes_per_config_and_aware: 42; aware_on_vs_off_first_reply (a0 probes, paired r=0.3): 0.443; aware_on_vs_off_first_reply (all probes, paired r=0.3): 0.256
+   gemini  probes: a0_probes_per_config_and_aware: 56; probes_per_config_and_aware: 168; aware_on_vs_off_first_reply (a0 probes, paired r=0.3): 0.221; aware_on_vs_off_first_reply (all probes, paired r=0.3): 0.128
+   sonnet  probes: a0_probes_per_config_and_aware: 28; probes_per_config_and_aware: 84; aware_on_vs_off_first_reply (a0 probes, paired r=0.3): 0.313; aware_on_vs_off_first_reply (all probes, paired r=0.3): 0.181
+
+== FINAL COST TABLE (Round 3; tool-text tokens priced from the code, GPT re-run waste 1.04, safety x1.15; Gemini at the November batch price)
+provider    estimate $    x1.15  cap $  90% cap  headroom
+anthropic        13.76    15.82   19.0    17.10     16.7%
+openrouter       21.37    24.58   28.0    25.20     12.2%
+gemini           16.02    18.42   22.0    19.80     16.3%
+total            51.15    58.82   69.0    62.10     14.8%
+Gemini risk: at the December price (batches ending after 2026-11-30T00:00Z) the Gemini blocks cost $32.03 (x1.15 = $36.83) against the $22 cap; the runner starts the Gemini lane first.
+descriptive-model cuts applied: fable probe -> 0; fable core -> L2x1x1
+
+== PER-CELL n (n = 2 agents; arm = contended or matched control; episodes are run in contended/control pairs)
+model    core episodes  eps per config x arm  clusters per config x arm           aware on  probe K  a0 probes per config x aware
+qwen               448                    56                         28                  -        6                            42
+haiku              448                    56                         28                  -        4                            28
+gpt                 96                    12                          6                  -        2                            14
+gemini             672                    56                         28 locks,all_available        8                            56
+sonnet             448                    56                         28                  -        4                            28
+fable               16                     2                          2                  -        0                             0
+Confirmatory cells (Qwen, Haiku, Sonnet; Gemini for aware on): 56 episodes per config x arm, unchanged from V2.
+
+wrote plan_study2.json

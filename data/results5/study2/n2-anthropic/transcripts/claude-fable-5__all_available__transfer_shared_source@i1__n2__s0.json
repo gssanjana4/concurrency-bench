@@ -1,0 +1,1823 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 6,
+   "cost_usd": 0.05905799999999999,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:float-central"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:float-central",
+      "status": 200,
+      "value": "90.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01TpjN2Yfw8EkJcVsTMpmZd9"
+    },
+    {
+     "args": {
+      "record_id": "account:vendor-central-amber"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:vendor-central-amber",
+      "status": 200,
+      "value": "65.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_015ZNM7aeoCUSJ6A9T8f4bqs"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "account:float-central",
+      "value": 0.0
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "locked",
+      "message": "423 Locked: account:float-central is locked; writes need the lock's fencing_token; current version is 2.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_015uNzJiR86VQuscTqFtU5qs"
+    },
+    {
+     "args": {
+      "lease_calls": 10,
+      "record_id": "account:float-central"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 10,
+      "ok": true,
+      "record_id": "account:float-central",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01NE2FA9FecNWyzHnaRQzx5g"
+    },
+    {
+     "args": {
+      "record_id": "account:float-central"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:float-central",
+      "status": 200,
+      "value": "0.00",
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_0163tsbVt7rU4Z6qw1zuAz2D"
+    },
+    {
+     "args": {
+      "record_id": "account:float-central"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:float-central",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01HDxYysjUx2AHnfCcJCdW3V"
+    }
+   ],
+   "final_text": "Transfer aborted: account:float-central's balance dropped to 0.00 (another agent took the funds before my write), so the \u226590.00 condition failed and no records were changed.",
+   "first_reply": "read",
+   "intent": "Transfer 90.00 out of account:float-central into account:vendor-central-amber, but only if account:float-central has at least 90.00.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1424,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01TpjN2Yfw8EkJcVsTMpmZd9",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_015ZNM7aeoCUSJ6A9T8f4bqs",
+       "input": {
+        "record_id": "account:vendor-central-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:float-central\", \"status\": 200, \"value\": \"90.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01TpjN2Yfw8EkJcVsTMpmZd9",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:vendor-central-amber\", \"status\": 200, \"value\": \"65.00\", \"version\": 1}",
+       "tool_use_id": "toolu_015ZNM7aeoCUSJ6A9T8f4bqs",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1140,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "Both balances read: float-central has exactly 90.00, so the transfer can proceed. I'll debit first with a version check to avoid conflicts.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015uNzJiR86VQuscTqFtU5qs",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:float-central",
+        "value": 0.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"locked\", \"message\": \"423 Locked: account:float-central is locked; writes need the lock's fencing_token; current version is 2.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_015uNzJiR86VQuscTqFtU5qs",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1040,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll acquire the lock to proceed safely.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01NE2FA9FecNWyzHnaRQzx5g",
+       "input": {
+        "lease_calls": 10,
+        "record_id": "account:float-central"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 10, \"ok\": true, \"record_id\": \"account:float-central\", \"status\": 200}",
+       "tool_use_id": "toolu_01NE2FA9FecNWyzHnaRQzx5g",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_0163tsbVt7rU4Z6qw1zuAz2D",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:float-central\", \"status\": 200, \"value\": \"0.00\", \"version\": 2}",
+       "tool_use_id": "toolu_0163tsbVt7rU4Z6qw1zuAz2D",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 952,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "The balance is now 0.00 \u2014 another agent already withdrew the funds, so the condition (at least 90.00) no longer holds. I'll release the lock and not transfer.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01HDxYysjUx2AHnfCcJCdW3V",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:float-central\", \"status\": 200}",
+       "tool_use_id": "toolu_01HDxYysjUx2AHnfCcJCdW3V",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transfer aborted: account:float-central's balance dropped to 0.00 (another agent took the funds before my write), so the \u226590.00 condition failed and no records were changed.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Transfer 90.00 out of account:float-central into account:vendor-central-amber, but only if account:float-central has at least 90.00.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-10T00:21:02Z",
+     "content": [
+      {
+       "signature_chars": 1424,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01TpjN2Yfw8EkJcVsTMpmZd9",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_015ZNM7aeoCUSJ6A9T8f4bqs",
+       "input": {
+        "record_id": "account:vendor-central-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0092655,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 99,
+      "output": 316
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:28:29Z",
+     "content": [
+      {
+       "signature_chars": 1140,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "Both balances read: float-central has exactly 90.00, so the transfer can proceed. I'll debit first with a version check to avoid conflicts.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015uNzJiR86VQuscTqFtU5qs",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:float-central",
+        "value": 0.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0105355,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 568,
+      "output": 273
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:32:35Z",
+     "content": [
+      {
+       "signature_chars": 1040,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll acquire the lock to proceed safely.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01NE2FA9FecNWyzHnaRQzx5g",
+       "input": {
+        "lease_calls": 10,
+        "record_id": "account:float-central"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0102905,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 919,
+      "output": 193
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:37:55Z",
+     "content": [
+      {
+       "id": "toolu_0163tsbVt7rU4Z6qw1zuAz2D",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0080105,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 1163,
+      "output": 53
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:40:14Z",
+     "content": [
+      {
+       "signature_chars": 952,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "text": "The balance is now 0.00 \u2014 another agent already withdrew the funds, so the condition (at least 90.00) no longer holds. I'll release the lock and not transfer.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01HDxYysjUx2AHnfCcJCdW3V",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0113055,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 1267,
+      "output": 164
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:42:08Z",
+     "content": [
+      {
+       "text": "Transfer aborted: account:float-central's balance dropped to 0.00 (another agent took the funds before my write), so the \u226590.00 condition failed and no records were changed.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0096505,
+     "index": 6,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 1461,
+      "output": 59
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 10446,
+    "cache_write": 0,
+    "input": 5477,
+    "output": 1058
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 6,
+   "cost_usd": 0.052878249999999995,
+   "executions": [
+    {
+     "args": {
+      "lease_calls": 10,
+      "record_id": "account:float-central"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 10,
+      "ok": true,
+      "record_id": "account:float-central",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01NzNEMTc7SCxYsNmvqP8vDZ"
+    },
+    {
+     "args": {
+      "record_id": "account:float-central"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:float-central",
+      "status": 200,
+      "value": "90.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01LcB7gGU9M5raAoszUAiTPU"
+    },
+    {
+     "args": {
+      "record_id": "account:vendor-central-delta"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:vendor-central-delta",
+      "status": 200,
+      "value": "65.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_013BpsAiTyfkdpjqpnJVTKUm"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "fencing_token": 1,
+      "record_id": "account:float-central",
+      "value": 0.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 7,
+      "ok": true,
+      "record_id": "account:float-central",
+      "status": 200,
+      "value": "0.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_0195MsEYMt4Rhubxi9H94z3k"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "account:vendor-central-delta",
+      "value": 155.0
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:vendor-central-delta",
+      "status": 200,
+      "value": "155.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_017Dxixn76qCHAJnar6etQx5"
+    },
+    {
+     "args": {
+      "record_id": "account:float-central"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:float-central",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01WPRY1FgfEbDifZPqLH3ie3"
+    }
+   ],
+   "final_text": "Transferred 90.00 from account:float-central (90.00 \u2192 0.00) to account:vendor-central-delta (65.00 \u2192 155.00) under a lock with conditional writes; lock released.",
+   "first_reply": "lock",
+   "intent": "Transfer 90.00 out of account:float-central into account:vendor-central-delta, but only if account:float-central has at least 90.00.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1632,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01NzNEMTc7SCxYsNmvqP8vDZ",
+       "input": {
+        "lease_calls": 10,
+        "record_id": "account:float-central"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 10, \"ok\": true, \"record_id\": \"account:float-central\", \"status\": 200}",
+       "tool_use_id": "toolu_01NzNEMTc7SCxYsNmvqP8vDZ",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01LcB7gGU9M5raAoszUAiTPU",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_013BpsAiTyfkdpjqpnJVTKUm",
+       "input": {
+        "record_id": "account:vendor-central-delta"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:float-central\", \"status\": 200, \"value\": \"90.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01LcB7gGU9M5raAoszUAiTPU",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:vendor-central-delta\", \"status\": 200, \"value\": \"65.00\", \"version\": 1}",
+       "tool_use_id": "toolu_013BpsAiTyfkdpjqpnJVTKUm",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1160,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_0195MsEYMt4Rhubxi9H94z3k",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:float-central",
+        "value": 0.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 7, \"ok\": true, \"record_id\": \"account:float-central\", \"status\": 200, \"value\": \"0.00\", \"version\": 2}",
+       "tool_use_id": "toolu_0195MsEYMt4Rhubxi9H94z3k",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_017Dxixn76qCHAJnar6etQx5",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:vendor-central-delta",
+        "value": 155.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:vendor-central-delta\", \"status\": 200, \"value\": \"155.00\", \"version\": 2}",
+       "tool_use_id": "toolu_017Dxixn76qCHAJnar6etQx5",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01WPRY1FgfEbDifZPqLH3ie3",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:float-central\", \"status\": 200}",
+       "tool_use_id": "toolu_01WPRY1FgfEbDifZPqLH3ie3",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transferred 90.00 from account:float-central (90.00 \u2192 0.00) to account:vendor-central-delta (65.00 \u2192 155.00) under a lock with conditional writes; lock released.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Transfer 90.00 out of account:float-central into account:vendor-central-delta, but only if account:float-central has at least 90.00.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-10T00:16:53Z",
+     "content": [
+      {
+       "signature_chars": 1632,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01NzNEMTc7SCxYsNmvqP8vDZ",
+       "input": {
+        "lease_calls": 10,
+        "record_id": "account:float-central"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.01015075,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1674,
+      "cache_write": 67,
+      "input": 99,
+      "output": 336
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:18:44Z",
+     "content": [
+      {
+       "id": "toolu_01LcB7gGU9M5raAoszUAiTPU",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_013BpsAiTyfkdpjqpnJVTKUm",
+       "input": {
+        "record_id": "account:vendor-central-delta"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0060005,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 486,
+      "output": 108
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:22:53Z",
+     "content": [
+      {
+       "signature_chars": 1160,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_0195MsEYMt4Rhubxi9H94z3k",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:float-central",
+        "value": 0.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0108055,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 747,
+      "output": 248
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:25:14Z",
+     "content": [
+      {
+       "id": "toolu_017Dxixn76qCHAJnar6etQx5",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:vendor-central-delta",
+        "value": 155.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0087455,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 1050,
+      "output": 105
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:30:24Z",
+     "content": [
+      {
+       "id": "toolu_01WPRY1FgfEbDifZPqLH3ie3",
+       "input": {
+        "record_id": "account:float-central"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0082405,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 1204,
+      "output": 54
+     }
+    },
+    {
+     "at_utc": "2026-11-10T00:35:59Z",
+     "content": [
+      {
+       "text": "Transferred 90.00 from account:float-central (90.00 \u2192 0.00) to account:vendor-central-delta (65.00 \u2192 155.00) under a lock with conditional writes; lock released.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0089355,
+     "index": 6,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-fable-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1741,
+      "cache_write": 0,
+      "input": 1288,
+      "output": 65
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 10379,
+    "cache_write": 67,
+    "input": 4874,
+    "output": 916
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "all_available",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__all_available__transfer_shared_source@i1__n2__s0",
+ "final_store": {
+  "account:float-central": {
+   "value": "0.00",
+   "version": 2
+  },
+  "account:vendor-central-amber": {
+   "value": "65.00",
+   "version": 1
+  },
+  "account:vendor-central-delta": {
+   "value": "155.00",
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transferred 90.00 from account:float-central (90.00 \u2192 0.00) to account:vendor-central-delta (65.00 \u2192 155.00) under a lock with conditional writes; lock released.",
+    "step": 23,
+    "turns": 6
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transfer aborted: account:float-central's balance dropped to 0.00 (another agent took the funds before my write), so the \u226590.00 condition failed and no records were changed.",
+    "step": 31,
+    "turns": 6
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 10,
+     "record_id": "account:float-central"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 10,
+    "own_call": 1,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-central",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 10,
+     "ok": true,
+     "record_id": "account:float-central",
+     "status": 200
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 4,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:float-central"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 2,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:float-central",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:float-central",
+     "status": 200,
+     "value": "90.00",
+     "version": 1
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:vendor-central-delta"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 3,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:vendor-central-delta",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:vendor-central-delta",
+     "status": 200,
+     "value": "65.00",
+     "version": 1
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 7,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-central"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:float-central",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:float-central",
+     "status": 200,
+     "value": "90.00",
+     "version": 1
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 7,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:vendor-central-amber"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 2,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:vendor-central-amber",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:vendor-central-amber",
+     "status": 200,
+     "value": "65.00",
+     "version": 1
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 9,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:float-central",
+     "value": 0.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 7,
+    "own_call": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-central",
+    "response": {
+     "lease_remaining": 7,
+     "ok": true,
+     "record_id": "account:float-central",
+     "status": 200,
+     "value": "0.00",
+     "version": 2
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 10,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:vendor-central-delta",
+     "value": 155.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:vendor-central-delta",
+    "response": {
+     "ok": true,
+     "record_id": "account:vendor-central-delta",
+     "status": 200,
+     "value": "155.00",
+     "version": 2
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 13,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:float-central",
+     "value": 0.0
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 3,
+    "read_version": null,
+    "reason": "locked_by_other",
+    "record_id": "account:float-central",
+    "response": {
+     "current_version": 2,
+     "error": "locked",
+     "message": "423 Locked: account:float-central is locked; writes need the lock's fencing_token; current version is 2.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 8,
+    "status": 423,
+    "step": 14,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:float-central"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-central",
+    "response": {
+     "ok": true,
+     "record_id": "account:float-central",
+     "status": 200
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 18,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 10,
+     "record_id": "account:float-central"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 10,
+    "own_call": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-central",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 10,
+     "ok": true,
+     "record_id": "account:float-central",
+     "status": 200
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 19,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-central"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:float-central",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:float-central",
+     "status": 200,
+     "value": "0.00",
+     "version": 2
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 24,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:float-central"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:float-central",
+    "response": {
+     "ok": true,
+     "record_id": "account:float-central",
+     "status": 200
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 27,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:float-central",
+     "value": 0.0
+    },
+    "new_value": "0.00",
+    "new_version": 2,
+    "old_value": "90.00",
+    "old_version": 1,
+    "record_id": "account:float-central",
+    "seq": 1,
+    "step": 10,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:vendor-central-delta",
+     "value": 155.0
+    },
+    "new_value": "155.00",
+    "new_version": 2,
+    "old_value": "65.00",
+    "old_version": 1,
+    "record_id": "account:vendor-central-delta",
+    "seq": 2,
+    "step": 13,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 10,
+     "own_call": 1,
+     "record_id": "account:float-central",
+     "seq": 1,
+     "step": 4,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "account:float-central",
+     "seq": 9,
+     "step": 18,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 10,
+     "own_call": 4,
+     "record_id": "account:float-central",
+     "seq": 10,
+     "step": 19,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a0",
+     "record_id": "account:float-central",
+     "seq": 12,
+     "step": 27,
+     "token": 2
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 31,
+   "stall_step": null,
+   "stalled": false,
+   "start_rounds": {
+    "a0": 7,
+    "a1": 4
+   }
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_011sRkxqUgJdBdN7EfnboTPH",
+    "msgbatch_012R5m5LHqDgerCVmuuJHAXA",
+    "msgbatch_013VTh1ypygBDa1cs4QHBA6x",
+    "msgbatch_016BUBQLNBvVtRK37z9pF3tF",
+    "msgbatch_019xHuHbfonwd6cK7pbaLEyZ",
+    "msgbatch_01DaFaP8R3jL3GwSU5zmzSwW",
+    "msgbatch_01KTW3N45rWMXA4cNg5XWU3G",
+    "msgbatch_01QpzHZBdjw3PiFuaW1sSuWD",
+    "msgbatch_01REw5oTZTAJwyuWF567oMZ4",
+    "msgbatch_01TRbgEDzgdTWTH5YWf2tnkP",
+    "msgbatch_01WgSCRLJ2zxohVsWdqSHhay",
+    "msgbatch_01YEmjXZUtecF71yj5oFmwqy"
+   ],
+   "driver": "src5_batch/batch_driver.py",
+   "lockstep_rounds": 12,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-10T00:42:08Z",
+  "started_utc": "2026-11-10T00:15:21Z",
+  "wall_seconds": 1607.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "max_rounds": 3000,
+  "seed": 406424166353295903,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "compensate": false,
+    "conflicts_seen": 1,
+    "contention_signals": 3,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 0,
+    "first_contention_call": 3,
+    "first_lock_call": 4,
+    "first_protective": "lock",
+    "first_protective_call": 4,
+    "fulfilled": false,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": true,
+    "lock_effective": null,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-fable-5",
+    "promote": false,
+    "protect_before_contention": false,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 6,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": true,
+    "choices": [
+     "cas",
+     "lock"
+    ],
+    "committed_writes": 2,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 1,
+    "first_contention_call": null,
+    "first_lock_call": 1,
+    "first_protective": "lock",
+    "first_protective_call": 1,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": false,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "policy": "model:claude-fable-5",
+    "promote": false,
+    "protect_before_contention": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 6,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "conflict",
+  "committed_agents": [
+   "a1"
+  ],
+  "config": "all_available",
+  "conflict_observed": true,
+  "cross_agent_edges": 2,
+  "cross_agent_record_edges": 2,
+  "cycle": [
+   "a0",
+   "a1",
+   "a0"
+  ],
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": false,
+  "dsg_cycle": true,
+  "dsg_cycle_committed": false,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "rw",
+    "record": "account:float-central",
+    "src": "a0",
+    "version": 1
+   },
+   {
+    "dst": "a0",
+    "kind": "wr",
+    "record": "account:float-central",
+    "src": "a1",
+    "version": 2
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "transfer_shared_source",
+  "fenced_stale_basis_seqs": [],
+  "fenced_unread_basis_seqs": [],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": false,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": false,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": false,
+  "interleaving": {
+   "first_mover": "a1",
+   "n_writers": 1,
+   "pattern": "R1R0W1",
+   "reads_overlap": true
+  },
+  "invariant_violations": [],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "clean",
+  "outcome_stratum": "clean",
+  "primary_label": null,
+  "rolled_back_agents": [],
+  "rounds": 31,
+  "serial_witness": [
+   "a1"
+  ],
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "transfer_shared_source@i1/n2"
+ },
+ "seed": 0,
+ "study": 2,
+ "task": {
+  "category": "conflict",
+  "description": "transfers from one source",
+  "factory": "transfer_shared_source",
+  "family": "transfer_shared_source",
+  "fingerprint": "b682a963813d37b20a4140bb3227a360bba4ea357fe3b81d221df4d1fb96da5d",
+  "initial": {
+   "account:float-central": "90.00",
+   "account:vendor-central-amber": "65.00",
+   "account:vendor-central-delta": "65.00"
+  },
+  "instance": 1,
+  "intents": {
+   "a0": "Transfer 90.00 out of account:float-central into account:vendor-central-amber, but only if account:float-central has at least 90.00.",
+   "a1": "Transfer 90.00 out of account:float-central into account:vendor-central-delta, but only if account:float-central has at least 90.00."
+  },
+  "kind": "account",
+  "name": "transfer_shared_source@i1/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 12,
+  "cost_usd": 0.11193624999999999,
+  "invalid_calls": 0,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 2,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 6,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 20825,
+   "cache_write": 67,
+   "input": 10351,
+   "output": 1974
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

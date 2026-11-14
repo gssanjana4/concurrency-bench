@@ -1,0 +1,37 @@
+=== start Mon Nov  9 10:36:32 PST 2026  dry_run=0  lane=all  base=results5/study2  plan=src5/plan_study2.json
+   caps: anthropic $19, openrouter $28, gemini $22, total $69
+== harness check (src5/FREEZE.md: src5, src5_batch, src5_verify/dry_check5.py, run_conc_study2.sh)
+FREEZE OK (38 files)
+== reference-policy validity gate (scripted agents, no cost)
+372 rows; required failures: 0
+== preflight
+-- openrouter:qwen/qwen3.6-27b-20260422
+   ok   served=qwen/qwen3.6-27b @Alibaba  stop=tool_calls  temperature_effective=unverified
+        usage={'input': 316, 'output': 93, 'cache_read': 0, 'cache_write': 0, 'reasoning': 60}  cost=$0.000393 (reported)  tool_calls=['get_record']
+-- claude-haiku-4-5-20251001
+   ok   served=claude-haiku-4-5-20251001  stop=tool_use  temperature_effective=None
+        usage={'input': 614, 'output': 58, 'cache_read': 0, 'cache_write': 0}  cost=$0.000904 (price_table)  tool_calls=['get_record']
+-- openrouter:openai/gpt-5.5-20260423
+   ok   served=openai/gpt-5.5 @OpenAI  stop=tool_calls  temperature_effective=unverified
+        usage={'input': 84, 'output': 21, 'cache_read': 0, 'cache_write': 0, 'reasoning': 0}  cost=$0.001050 (reported)  tool_calls=['get_record']
+-- claude-sonnet-5
+   ok   served=claude-sonnet-5  stop=tool_use  temperature_effective=None
+        usage={'input': 504, 'output': 54, 'cache_read': 0, 'cache_write': 0}  cost=$0.001548 (price_table)  tool_calls=['get_record']
+-- claude-fable-5
+   ok   served=claude-fable-5  stop=tool_use  temperature_effective=None
+        usage={'input': 440, 'output': 70, 'cache_read': 0, 'cache_write': 0}  cost=$0.007900 (price_table)  tool_calls=['get_record']
+preflight ok
+-- openrouter:google/gemini-4-argon-20261013 via Gemini Batch API, model models/gemini-4-argon version=3.0 displayName='Gemini 4 Argon' outputTokenLimit=32768
+   submitted preflight batch batches/bcynt0x27099kvzcltdtwtruqu408kgftctp (ping); polling until it ends
+   ok   served=gemini-4-argon @Google Gemini Batch API  stop=tool_calls (native STOP)  temperature_effective=ignored_by_provider
+        usage={'input': 131, 'output': 26, 'cache_read': 0, 'cache_write': 0, 'reasoning': 0}  native usageMetadata={'promptTokenCount': 131, 'candidatesTokenCount': 26, 'totalTokenCount': 157, 'promptTokensDetails': [{'modality': 'TEXT', 'tokenCount': 131}], 'candidatesTokensDetails': [{'modality': 'TEXT', 'tokenCount': 26}]}  cost=$0.000261 (batch price, period of 2026-11-09T18:39:34Z)  tool_calls=['get_record']
+   submitted preflight batch batches/rtiwjizpeygl9dz8up5mtausqisljcoh73mk (parallel_t1); polling until it ends
+   submitted preflight batch batches/7879kzwccp88qfosylwyizzb7r4awtx9l09m (parallel_t2); polling until it ends
+   ok   parallel-call check: turn 1 made 2 calls; turn 2 answered (stop=stop, 0 further calls)
+   Gemini batch preflight ok: served model version gemini-4-argon
+   lane gemini started (pid 97554); follow it with: tail -f results5/study2/lane_gemini.log
+   lane anthropic started (pid 97555); follow it with: tail -f results5/study2/lane_anthropic.log
+   lane openrouter started (pid 97557); follow it with: tail -f results5/study2/lane_openrouter.log
+=== lanes done: gemini:0 anthropic:0 openrouter:0  Mon Nov  9 19:09:29 PST 2026
+   summary: results5/study2/summary.md
+   spend by provider: {'anthropic': 16.4686, 'openrouter': 19.4947, 'gemini': 10.4385}
