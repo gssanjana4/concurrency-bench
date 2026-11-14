@@ -1,0 +1,1444 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.011236,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:savings-main"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:savings-main",
+      "status": 200,
+      "value": "210.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_013am2o4wsudKQurqp9EPVDi"
+    },
+    {
+     "args": {
+      "lease_steps": 2,
+      "record_id": "account:savings-main"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "lease_steps": 2,
+      "ok": true,
+      "record_id": "account:savings-main",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01CAHMg6MeLDk3R7x6AQkPRm"
+    },
+    {
+     "args": {
+      "record_id": "account:payout-a0"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payout-a0",
+      "status": 200,
+      "value": "65.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_012p5pgtZoSiomsNA58exRpk"
+    },
+    {
+     "args": {
+      "record_id": "account:savings-main",
+      "value": 100.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:savings-main",
+      "status": 200,
+      "value": "100.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01N1Djqwqmsk6vfeY1Hu5Ep1"
+    },
+    {
+     "args": {
+      "record_id": "account:payout-a0",
+      "value": 175.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:payout-a0",
+      "status": 200,
+      "value": "175.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01L3RuQztSxtEh19soCcEKwm"
+    },
+    {
+     "args": {
+      "record_id": "account:savings-main"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on account:savings-main.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01U2YqpbaU1UucU3Tyzjj8nK"
+    }
+   ],
+   "final_text": "Successfully transferred 110.00 from account:savings-main (now 100.00) to account:payout-a0 (now 175.00).",
+   "intent": "Transfer 110.00 out of account:savings-main into account:payout-a0, but only if account:savings-main has at least 110.00.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you transfer 110.00 from account:savings-main to account:payout-a0, but only if there's at least 110.00 in savings-main. Let me start by checking the current balance in the savings account and acquiring a lock to ensure atomicity.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013am2o4wsudKQurqp9EPVDi",
+       "input": {
+        "record_id": "account:savings-main"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:savings-main\", \"status\": 200, \"value\": \"210.00\"}",
+       "tool_use_id": "toolu_013am2o4wsudKQurqp9EPVDi",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! The savings-main account has 210.00, which is at least 110.00. Now I'll acquire a lock on the savings-main account to prevent other agents from interfering, then check the payout account and perform the transfer.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CAHMg6MeLDk3R7x6AQkPRm",
+       "input": {
+        "lease_steps": 2,
+        "record_id": "account:savings-main"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_012p5pgtZoSiomsNA58exRpk",
+       "input": {
+        "record_id": "account:payout-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 2, \"ok\": true, \"record_id\": \"account:savings-main\", \"status\": 200}",
+       "tool_use_id": "toolu_01CAHMg6MeLDk3R7x6AQkPRm",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payout-a0\", \"status\": 200, \"value\": \"65.00\"}",
+       "tool_use_id": "toolu_012p5pgtZoSiomsNA58exRpk",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! The payout-a0 account currently has 65.00. Now I'll execute the transfer by deducting 110.00 from savings-main and adding 110.00 to payout-a0.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01N1Djqwqmsk6vfeY1Hu5Ep1",
+       "input": {
+        "record_id": "account:savings-main",
+        "value": 100.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01L3RuQztSxtEh19soCcEKwm",
+       "input": {
+        "record_id": "account:payout-a0",
+        "value": 175.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:savings-main\", \"status\": 200, \"value\": \"100.00\"}",
+       "tool_use_id": "toolu_01N1Djqwqmsk6vfeY1Hu5Ep1",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:payout-a0\", \"status\": 200, \"value\": \"175.00\"}",
+       "tool_use_id": "toolu_01L3RuQztSxtEh19soCcEKwm",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01U2YqpbaU1UucU3Tyzjj8nK",
+       "input": {
+        "record_id": "account:savings-main"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on account:savings-main.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01U2YqpbaU1UucU3Tyzjj8nK",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully transferred 110.00 from account:savings-main (now 100.00) to account:payout-a0 (now 175.00).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 2,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Transfer 110.00 out of account:savings-main into account:payout-a0, but only if account:savings-main has at least 110.00.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-01T05:36:32Z",
+     "content": [
+      {
+       "text": "I'll help you transfer 110.00 from account:savings-main to account:payout-a0, but only if there's at least 110.00 in savings-main. Let me start by checking the current balance in the savings account and acquiring a lock to ensure atomicity.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013am2o4wsudKQurqp9EPVDi",
+       "input": {
+        "record_id": "account:savings-main"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001799,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1184,
+      "output": 123
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:36:34Z",
+     "content": [
+      {
+       "text": "Great! The savings-main account has 210.00, which is at least 110.00. Now I'll acquire a lock on the savings-main account to prevent other agents from interfering, then check the payout account and perform the transfer.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CAHMg6MeLDk3R7x6AQkPRm",
+       "input": {
+        "lease_steps": 2,
+        "record_id": "account:savings-main"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_012p5pgtZoSiomsNA58exRpk",
+       "input": {
+        "record_id": "account:payout-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002236,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1356,
+      "output": 176
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:36:39Z",
+     "content": [
+      {
+       "text": "Perfect! The payout-a0 account currently has 65.00. Now I'll execute the transfer by deducting 110.00 from savings-main and adding 110.00 to payout-a0.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01N1Djqwqmsk6vfeY1Hu5Ep1",
+       "input": {
+        "record_id": "account:savings-main",
+        "value": 100.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01L3RuQztSxtEh19soCcEKwm",
+       "input": {
+        "record_id": "account:payout-a0",
+        "value": 175.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002624,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1664,
+      "output": 192
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:36:41Z",
+     "content": [
+      {
+       "id": "toolu_01U2YqpbaU1UucU3Tyzjj8nK",
+       "input": {
+        "record_id": "account:savings-main"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002278,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1983,
+      "output": 59
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:36:42Z",
+     "content": [
+      {
+       "text": "Successfully transferred 110.00 from account:savings-main (now 100.00) to account:payout-a0 (now 175.00).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002299,
+     "index": 5,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2104,
+      "output": 39
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 8291,
+    "output": 589
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 5,
+   "cost_usd": 0.010741,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:savings-main"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:savings-main",
+      "status": 200,
+      "value": "210.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01T6vVv4L3y7ifa5yWWh1EBt"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "account:savings-main"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: account:savings-main is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01K2hfs7qQKbJ8smeucfGTyc"
+    },
+    {
+     "args": {
+      "record_id": "account:savings-main"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:savings-main",
+      "status": 200,
+      "value": "210.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_013De9nKfEoqThpXq7HAxNFc"
+    },
+    {
+     "args": {
+      "record_id": "account:payout-a1"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payout-a1",
+      "status": 200,
+      "value": "65.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01R2kUWT2PeUvjR5vDtKpJFi"
+    },
+    {
+     "args": {
+      "record_id": "account:savings-main",
+      "value": 100.0
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:savings-main",
+      "status": 200,
+      "value": "100.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_0147YztWgQopSRZJyjkSkS6m"
+    },
+    {
+     "args": {
+      "record_id": "account:payout-a1",
+      "value": 175.0
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:payout-a1",
+      "status": 200,
+      "value": "175.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01C1cBUpVNieqCwY2us8QPva"
+    }
+   ],
+   "final_text": "Successfully transferred 110.00 from account:savings-main (210.00 \u2192 100.00) to account:payout-a1 (65.00 \u2192 175.00).",
+   "intent": "Transfer 110.00 out of account:savings-main into account:payout-a1, but only if account:savings-main has at least 110.00.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you transfer 110.00 from account:savings-main to account:payout-a1, but only if account:savings-main has at least 110.00. Let me start by checking the balance.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01T6vVv4L3y7ifa5yWWh1EBt",
+       "input": {
+        "record_id": "account:savings-main"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:savings-main\", \"status\": 200, \"value\": \"210.00\"}",
+       "tool_use_id": "toolu_01T6vVv4L3y7ifa5yWWh1EBt",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! The savings account has 210.00, which is at least 110.00. Now I'll acquire a lock to ensure this transaction completes atomically, then perform the transfer.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01K2hfs7qQKbJ8smeucfGTyc",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:savings-main"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: account:savings-main is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01K2hfs7qQKbJ8smeucfGTyc",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The savings account is locked by another agent. Let me check the current balance again and proceed with the transfer:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013De9nKfEoqThpXq7HAxNFc",
+       "input": {
+        "record_id": "account:savings-main"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01R2kUWT2PeUvjR5vDtKpJFi",
+       "input": {
+        "record_id": "account:payout-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:savings-main\", \"status\": 200, \"value\": \"210.00\"}",
+       "tool_use_id": "toolu_013De9nKfEoqThpXq7HAxNFc",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payout-a1\", \"status\": 200, \"value\": \"65.00\"}",
+       "tool_use_id": "toolu_01R2kUWT2PeUvjR5vDtKpJFi",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The savings account still has 210.00, which is sufficient. Now I'll perform the transfer by updating both accounts:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0147YztWgQopSRZJyjkSkS6m",
+       "input": {
+        "record_id": "account:savings-main",
+        "value": 100.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01C1cBUpVNieqCwY2us8QPva",
+       "input": {
+        "record_id": "account:payout-a1",
+        "value": 175.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:savings-main\", \"status\": 200, \"value\": \"100.00\"}",
+       "tool_use_id": "toolu_0147YztWgQopSRZJyjkSkS6m",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:payout-a1\", \"status\": 200, \"value\": \"175.00\"}",
+       "tool_use_id": "toolu_01C1cBUpVNieqCwY2us8QPva",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully transferred 110.00 from account:savings-main (210.00 \u2192 100.00) to account:payout-a1 (65.00 \u2192 175.00).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 2,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Transfer 110.00 out of account:savings-main into account:payout-a1, but only if account:savings-main has at least 110.00.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-01T05:36:33Z",
+     "content": [
+      {
+       "text": "I'll help you transfer 110.00 from account:savings-main to account:payout-a1, but only if account:savings-main has at least 110.00. Let me start by checking the balance.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01T6vVv4L3y7ifa5yWWh1EBt",
+       "input": {
+        "record_id": "account:savings-main"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001729,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1184,
+      "output": 109
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:36:36Z",
+     "content": [
+      {
+       "text": "Great! The savings account has 210.00, which is at least 110.00. Now I'll acquire a lock to ensure this transaction completes atomically, then perform the transfer.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01K2hfs7qQKbJ8smeucfGTyc",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:savings-main"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001937,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1342,
+      "output": 119
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:36:37Z",
+     "content": [
+      {
+       "text": "The savings account is locked by another agent. Let me check the current balance again and proceed with the transfer:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013De9nKfEoqThpXq7HAxNFc",
+       "input": {
+        "record_id": "account:savings-main"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01R2kUWT2PeUvjR5vDtKpJFi",
+       "input": {
+        "record_id": "account:payout-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002147,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1517,
+      "output": 126
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:36:40Z",
+     "content": [
+      {
+       "text": "The savings account still has 210.00, which is sufficient. Now I'll perform the transfer by updating both accounts:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0147YztWgQopSRZJyjkSkS6m",
+       "input": {
+        "record_id": "account:savings-main",
+        "value": 100.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01C1cBUpVNieqCwY2us8QPva",
+       "input": {
+        "record_id": "account:payout-a1",
+        "value": 175.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002617,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1782,
+      "output": 167
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:36:43Z",
+     "content": [
+      {
+       "text": "Successfully transferred 110.00 from account:savings-main (210.00 \u2192 100.00) to account:payout-a1 (65.00 \u2192 175.00).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002311,
+     "index": 5,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2076,
+      "output": 47
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 7901,
+    "output": 568
+   }
+  }
+ },
+ "concurrency_aware_prompt": true,
+ "config": "locks",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__locks+aware__transfer_shared_source@i1__n2__s0",
+ "final_store": {
+  "account:payout-a0": {
+   "value": "175.00",
+   "version": 2
+  },
+  "account:payout-a1": {
+   "value": "175.00",
+   "version": 2
+  },
+  "account:savings-main": {
+   "value": "100.00",
+   "version": 3
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a0",
+    "effects_at_end": 4,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Successfully transferred 110.00 from account:savings-main (now 100.00) to account:payout-a0 (now 175.00).",
+    "step": 9,
+    "turns": 6
+   },
+   {
+    "agent_id": "a1",
+    "effects_at_end": 4,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Successfully transferred 110.00 from account:savings-main (210.00 \u2192 100.00) to account:payout-a1 (65.00 \u2192 175.00).",
+    "step": 9,
+    "turns": 6
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:savings-main"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:savings-main",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:savings-main",
+     "status": 200,
+     "value": "210.00"
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:savings-main"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:savings-main",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:savings-main",
+     "status": 200,
+     "value": "210.00"
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_steps": 2,
+     "record_id": "account:savings-main"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:savings-main",
+    "response": {
+     "lease_steps": 2,
+     "ok": true,
+     "record_id": "account:savings-main",
+     "status": 200
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 4,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "account:savings-main"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "account:savings-main",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: account:savings-main is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 4,
+    "status": 423,
+    "step": 4,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:payout-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payout-a0",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payout-a0",
+     "status": 200,
+     "value": "65.00"
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:savings-main"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:savings-main",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:savings-main",
+     "status": 200,
+     "value": "210.00"
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:savings-main",
+     "value": 100.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:savings-main",
+    "response": {
+     "ok": true,
+     "record_id": "account:savings-main",
+     "status": 200,
+     "value": "100.00"
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 6,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:payout-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payout-a1",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payout-a1",
+     "status": 200,
+     "value": "65.00"
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:payout-a0",
+     "value": 175.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:payout-a0",
+    "response": {
+     "ok": true,
+     "record_id": "account:payout-a0",
+     "status": 200,
+     "value": "175.00"
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 7,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:savings-main",
+     "value": 100.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 3,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:savings-main",
+    "response": {
+     "ok": true,
+     "record_id": "account:savings-main",
+     "status": 200,
+     "value": "100.00"
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 7,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:savings-main"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "account:savings-main",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on account:savings-main.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 11,
+    "status": 409,
+    "step": 8,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:payout-a1",
+     "value": 175.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 4,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:payout-a1",
+    "response": {
+     "ok": true,
+     "record_id": "account:payout-a1",
+     "status": 200,
+     "value": "175.00"
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 8,
+    "tool": "update_record"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:savings-main",
+     "value": 100.0
+    },
+    "new_value": "100.00",
+    "new_version": 2,
+    "old_value": "210.00",
+    "old_version": 1,
+    "record_id": "account:savings-main",
+    "seq": 1,
+    "step": 6,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:payout-a0",
+     "value": 175.0
+    },
+    "new_value": "175.00",
+    "new_version": 2,
+    "old_value": "65.00",
+    "old_version": 1,
+    "record_id": "account:payout-a0",
+    "seq": 2,
+    "step": 7,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:savings-main",
+     "value": 100.0
+    },
+    "new_value": "100.00",
+    "new_version": 3,
+    "old_value": "100.00",
+    "old_version": 2,
+    "record_id": "account:savings-main",
+    "seq": 3,
+    "step": 7,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:payout-a1",
+     "value": 175.0
+    },
+    "new_value": "175.00",
+    "new_version": 2,
+    "old_value": "65.00",
+    "old_version": 1,
+    "record_id": "account:payout-a1",
+    "seq": 4,
+    "step": 8,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 9,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "run_info": {
+  "finished_utc": "2026-11-01T05:36:43Z",
+  "started_utc": "2026-11-01T05:36:30Z",
+  "wall_seconds": 12.476
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 2,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 6,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "reread"
+    ],
+    "committed_writes": 2,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": true,
+    "turns": 6,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "conflict",
+  "committed_agents": [
+   "a0",
+   "a1"
+  ],
+  "config": "locks",
+  "conflict_observed": true,
+  "cycle": [
+   "a0",
+   "a1",
+   "a0"
+  ],
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "ww",
+    "record": "account:savings-main",
+    "src": "a0",
+    "version": 2
+   },
+   {
+    "dst": "a0",
+    "kind": "rw",
+    "record": "account:savings-main",
+    "src": "a1",
+    "version": 1
+   }
+  ],
+  "graph_cycle": true,
+  "invariant_violation": true,
+  "invariant_violations": [
+   "conserved[account:savings-main+account:payout-a0+account:payout-a1]: total changed from 340.00 to 450.00"
+  ],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": true,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": "stale_overwrite",
+  "rounds": 9,
+  "serial_witness": null,
+  "stale_overwrite": true,
+  "stale_overwrite_seqs": [
+   3
+  ],
+  "stall": false,
+  "task": "transfer_shared_source@i1/n2",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "conflict",
+  "description": "transfers from one source whose sum exceeds its balance",
+  "factory": "transfer_shared_source",
+  "fingerprint": "17405b7256e009d0b492007a1090990bfd280bd74cfd0c519c7caa76b2f2fc65",
+  "initial": {
+   "account:payout-a0": "65.00",
+   "account:payout-a1": "65.00",
+   "account:savings-main": "210.00"
+  },
+  "instance": 1,
+  "intents": {
+   "a0": "Transfer 110.00 out of account:savings-main into account:payout-a0, but only if account:savings-main has at least 110.00.",
+   "a1": "Transfer 110.00 out of account:savings-main into account:payout-a1, but only if account:savings-main has at least 110.00."
+  },
+  "kind": "account",
+  "name": "transfer_shared_source@i1/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 10,
+  "cost_usd": 0.021977,
+  "invalid_calls": 0,
+  "multi_tool_turns": 4,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 16192,
+   "output": 1157
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

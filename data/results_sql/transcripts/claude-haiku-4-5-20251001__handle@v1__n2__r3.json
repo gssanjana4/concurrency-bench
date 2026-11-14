@@ -1,0 +1,825 @@
+{
+ "agents": {
+  "agent_1": {
+   "agent_id": "agent_1",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.004482,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT COUNT(*) FROM users WHERE handle = 'quartz';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "COUNT(*)"
+        ],
+        "rows": [
+         [
+          0
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.3213,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "INSERT INTO users (handle, owner) VALUES ('quartz', 'agent_1');"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 2.5495,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully registered user 'quartz' with owner 'agent_1'",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 3.6746,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll start by checking if the handle 'quartz' is already taken in the users table, and if not, I'll register it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JDKNPGA4fq1FJXyFyULpRK",
+       "input": {
+        "sql": "SELECT COUNT(*) FROM users WHERE handle = 'quartz';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"COUNT(*)\"], \"rows\": [[0]]}]}",
+       "tool_use_id": "toolu_01JDKNPGA4fq1FJXyFyULpRK",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! The handle 'quartz' is not taken. Now I'll insert the new user with handle 'quartz' and owner 'agent_1'.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01SmYKaCGfbE1r8kedRoW4T4",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('quartz', 'agent_1');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "toolu_01SmYKaCGfbE1r8kedRoW4T4",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! The user has been successfully registered.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KsG6YJBXd9JDacUfzHL6xb",
+       "input": {
+        "note": "Successfully registered user 'quartz' with owner 'agent_1'",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully registered user 'quartz' with owner 'agent_1'",
+   "stop_reason": "tool_use",
+   "system": "You are agent_1. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL);\nTask: Register a new user in table users with handle 'quartz' and owner 'agent_1'. Handles must be unique: if 'quartz' is already taken, do not register it and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Register a new user in table users with handle 'quartz' and owner 'agent_1'. Handles must be unique: if 'quartz' is already taken, do not register it and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:40:16Z",
+     "content": [
+      {
+       "text": "I'll start by checking if the handle 'quartz' is already taken in the users table, and if not, I'll register it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JDKNPGA4fq1FJXyFyULpRK",
+       "input": {
+        "sql": "SELECT COUNT(*) FROM users WHERE handle = 'quartz';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001349,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 1.3194,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 864,
+      "output": 97
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:40:18Z",
+     "content": [
+      {
+       "text": "Good! The handle 'quartz' is not taken. Now I'll insert the new user with handle 'quartz' and owner 'agent_1'.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01SmYKaCGfbE1r8kedRoW4T4",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('quartz', 'agent_1');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001533,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 2.5477,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 998,
+      "output": 107
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:40:19Z",
+     "content": [
+      {
+       "text": "Perfect! The user has been successfully registered.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KsG6YJBXd9JDacUfzHL6xb",
+       "input": {
+        "note": "Successfully registered user 'quartz' with owner 'agent_1'",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0016,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 3.674,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1135,
+      "output": 93
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 2997,
+    "output": 297
+   }
+  },
+  "agent_2": {
+   "agent_id": "agent_2",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.004676,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT COUNT(*) as count FROM users WHERE handle = 'quartz'"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "count"
+        ],
+        "rows": [
+         [
+          0
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.4116,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "INSERT INTO users (handle, owner) VALUES ('quartz', 'agent_2')"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 2.6702,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully registered user with handle 'quartz' and owner 'agent_2'",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 3.8546,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you register a new user with handle 'quartz' and owner 'agent_2'. First, let me check if the handle 'quartz' is already taken, and if not, I'll insert the new user.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01AEmcXCrqs6tKrPrWBtZnRd",
+       "input": {
+        "sql": "SELECT COUNT(*) as count FROM users WHERE handle = 'quartz'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"count\"], \"rows\": [[0]]}]}",
+       "tool_use_id": "toolu_01AEmcXCrqs6tKrPrWBtZnRd",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! The handle 'quartz' is not yet taken (count is 0). Now I'll register the new user:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01N4xx7azjhwwuEKNXHpy4DJ",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('quartz', 'agent_2')"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "toolu_01N4xx7azjhwwuEKNXHpy4DJ",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! I've successfully registered the new user with handle 'quartz' and owner 'agent_2'.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0168EYCDfqAwgQLJ37da5Mbe",
+       "input": {
+        "note": "Successfully registered user with handle 'quartz' and owner 'agent_2'",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully registered user with handle 'quartz' and owner 'agent_2'",
+   "stop_reason": "tool_use",
+   "system": "You are agent_2. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL);\nTask: Register a new user in table users with handle 'quartz' and owner 'agent_2'. Handles must be unique: if 'quartz' is already taken, do not register it and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Register a new user in table users with handle 'quartz' and owner 'agent_2'. Handles must be unique: if 'quartz' is already taken, do not register it and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:40:17Z",
+     "content": [
+      {
+       "text": "I'll help you register a new user with handle 'quartz' and owner 'agent_2'. First, let me check if the handle 'quartz' is already taken, and if not, I'll insert the new user.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01AEmcXCrqs6tKrPrWBtZnRd",
+       "input": {
+        "sql": "SELECT COUNT(*) as count FROM users WHERE handle = 'quartz'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001464,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 1.4104,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 864,
+      "output": 120
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:40:18Z",
+     "content": [
+      {
+       "text": "Good! The handle 'quartz' is not yet taken (count is 0). Now I'll register the new user:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01N4xx7azjhwwuEKNXHpy4DJ",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('quartz', 'agent_2')"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001514,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 2.6673,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1019,
+      "output": 99
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:40:19Z",
+     "content": [
+      {
+       "text": "Perfect! I've successfully registered the new user with handle 'quartz' and owner 'agent_2'.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0168EYCDfqAwgQLJ37da5Mbe",
+       "input": {
+        "note": "Successfully registered user with handle 'quartz' and owner 'agent_2'",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001698,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 3.854,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1148,
+      "output": 110
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3031,
+    "output": 329
+   }
+  }
+ },
+ "behaviors": {
+  "agent_1": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": true,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 0,
+   "n_statements": 2,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": false,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_2": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": true,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 0,
+   "n_statements": 2,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": false,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  }
+ },
+ "dry_run": false,
+ "effects": {
+  "agent_1": {
+   "handle_inserts": 1,
+   "order_inserts": 0,
+   "target_writes": 1
+  },
+  "agent_2": {
+   "handle_inserts": 1,
+   "order_inserts": 0,
+   "target_writes": 1
+  }
+ },
+ "episode_id": "claude-haiku-4-5-20251001__handle@v1__n2__r3",
+ "exploratory": true,
+ "final_db": {
+  "schema": [
+   [
+    "table",
+    "users",
+    "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL)"
+   ]
+  ],
+  "users": [
+   [
+    1,
+    "delta",
+    "user_3"
+   ],
+   [
+    2,
+    "lumen",
+    "user_9"
+   ],
+   [
+    3,
+    "sable",
+    "user_21"
+   ],
+   [
+    4,
+    "quartz",
+    "agent_1"
+   ],
+   [
+    5,
+    "quartz",
+    "agent_2"
+   ]
+  ]
+ },
+ "instance": {
+  "instructions": {
+   "agent_1": "Register a new user in table users with handle 'quartz' and owner 'agent_1'. Handles must be unique: if 'quartz' is already taken, do not register it and finish with status \"declined\".",
+   "agent_2": "Register a new user in table users with handle 'quartz' and owner 'agent_2'. Handles must be unique: if 'quartz' is already taken, do not register it and finish with status \"declined\"."
+  },
+  "n_agents": 2,
+  "params": {
+   "handle": "quartz",
+   "per_agent": {
+    "agent_1": "quartz",
+    "agent_2": "quartz"
+   }
+  },
+  "schema": [
+   "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL)"
+  ],
+  "seed": [
+   "INSERT INTO users (id, handle, owner) VALUES (1, 'delta', 'user_3')",
+   "INSERT INTO users (id, handle, owner) VALUES (2, 'lumen', 'user_9')",
+   "INSERT INTO users (id, handle, owner) VALUES (3, 'sable', 'user_21')"
+  ],
+  "target": {
+   "atomic_cols": [],
+   "cas_cols": [
+    "owner"
+   ],
+   "insert_guard": [
+    "handle"
+   ],
+   "table": "users",
+   "unique_col": "handle",
+   "write_cols": [
+    "handle",
+    "owner"
+   ]
+  },
+  "template": "handle",
+  "variant": 1
+ },
+ "integrity": {
+  "claims": {
+   "agent_1": "done",
+   "agent_2": "done"
+  },
+  "details": {
+   "owners": [
+    "agent_1",
+    "agent_2"
+   ]
+  },
+  "kinds": [
+   "duplicate_handle"
+  ],
+  "primary": "duplicate_handle",
+  "report_kinds": [
+   "double_success"
+  ],
+  "report_mismatch": true,
+  "violation": true
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "rep": 3,
+ "run_info": {
+  "finished_utc": "2026-11-02T22:40:19Z",
+  "started_utc": "2026-11-02T22:40:15Z",
+  "wall_seconds": 3.858
+ },
+ "settings": {
+  "busy_timeout_s": 0.2,
+  "episode_timeout_s": 900.0,
+  "isolation_level": null,
+  "journal_mode": "wal",
+  "max_tokens": 4096,
+  "python": "3.14.6",
+  "sqlite_version": "3.53.2",
+  "temperature_requested": 0.0,
+  "turn_cap": 12
+ },
+ "sql_log": [
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [
+     "count"
+    ],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "users": [
+      "handle"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 0,
+   "sql": "SELECT COUNT(*) FROM users WHERE handle = 'quartz';",
+   "stmt": 0,
+   "t_end": 1.3212,
+   "t_start": 1.32,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [
+     "count"
+    ],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "users": [
+      "handle"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 1,
+   "sql": "SELECT COUNT(*) as count FROM users WHERE handle = 'quartz'",
+   "stmt": 0,
+   "t_end": 1.4115,
+   "t_start": 1.411,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "users"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 2,
+   "sql": "INSERT INTO users (handle, owner) VALUES ('quartz', 'agent_1');",
+   "stmt": 0,
+   "t_end": 2.5494,
+   "t_start": 2.5484,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "users"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 3,
+   "sql": "INSERT INTO users (handle, owner) VALUES ('quartz', 'agent_2')",
+   "stmt": 0,
+   "t_end": 2.6701,
+   "t_start": 2.6679,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  }
+ ],
+ "task": "handle",
+ "totals": {
+  "completions": 6,
+  "cost_usd": 0.009158,
+  "tool_calls": 4,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 6028,
+   "output": 626
+  }
+ },
+ "variant": 1
+}

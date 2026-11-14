@@ -138,6 +138,8 @@ SKIP_DIRS = set(A.SKIP_DIRS) | {"batch_state", "held_for_pair", ".pytest_cache",
 AUTHOR = "Sanjana Gopnal Swamy"
 AUTHOR_CITED = "Gopnal Swamy, Sanjana"
 TITLE = "Do LLM Agents Coordinate on Shared Records?"
+# the full title, exactly as on the PDF (citation block; Scholar matches titles)
+TITLE_FULL = TITLE + " Two Pre-registered Studies of Optional Protection on a Record API"
 OSF1, OSF2 = "https://osf.io/a5vec", "https://osf.io/zj3an"
 REG1_DATE, REG2_DATE = "2026-10-31", "2026-11-09"
 REG2_TS = "2026-11-09T18:35:24Z"
@@ -257,7 +259,9 @@ class Build:
         if changed:
             self.changes.append({"file": rel, "sha_orig": sha(data), "sha_red": sha(out), "lines": changed})
 
-    def walk(self, src_root: str, prefix: str, rules=None, skip_dirs=SKIP_DIRS):
+    def walk(self, src_root: str, prefix: str, rules=None, skip_dirs=SKIP_DIRS, log_rules=None):
+        """Copy a tree. ``log_rules``, when given, replaces ``rules`` for ``*.log`` files (the public build scrubs the
+        local paths of the author's machine from run logs and alters nothing else)."""
         n = 0
         for d, dirs, files in os.walk(src_root):
             dirs[:] = sorted(x for x in dirs if x not in skip_dirs)
@@ -265,7 +269,8 @@ class Build:
                 if fn in A.SKIP_FILES or os.path.splitext(fn)[1] in A.SKIP_EXT:
                     continue
                 src = os.path.join(d, fn)
-                self.copy_file(src, os.path.join(prefix, os.path.relpath(src, src_root)), rules)
+                r = log_rules if (log_rules is not None and fn.endswith(".log")) else rules
+                self.copy_file(src, os.path.join(prefix, os.path.relpath(src, src_root)), r)
                 n += 1
         return n
 
@@ -513,7 +518,10 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
         head += [f"{AUTHOR} (independent researcher). Artifact version {a.version}. Code: MIT licence (`LICENSE`). Data: CC BY 4.0 "
                  "(`data/LICENSE.txt`), model outputs subject to the providers' terms; intended for research use.", "",
                  f"Pre-registrations: Study 1 {OSF1} (registered {REG1_DATE}); Study 2 {OSF2} (registered {REG2_DATE}, "
-                 f"`date_registered` {REG2_TS}). Both texts are in `preregistration/`. Paper and DOI: {doi}. Repository: {gh}.", ""]
+                 f"`date_registered` {REG2_TS}). Both texts are in `preregistration/`. "
+                 + (f"This artifact is archived at https://doi.org/{a.doi}. " if a.doi
+                    else "An archived copy with a DOI will be linked here when the paper is posted. ")
+                 + f"Repository: {gh}.", ""]
     L = head + [
         "## What this is", "",
         "Two pre-registered studies of whether LLM agents, each in its own conversation, coordinate when they act on the "
@@ -629,10 +637,10 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
           "not a reproduction of this one. The eligibility step between the probe block and the analysis is "
           "`run_conc_elig.sh`.", "",
           "## Study 1", "",
-          ("The Study 1 data are in `data/results4/full/` and `data/results_sql/`." if have_s1 and have_sql else
+          ("The Study 1 data are in `data/results4/full/` and `data/results_sql/`. The" if have_s1 and have_sql else
            "The Study 1 data directories are placeholders in this build (`data/results4/full/README_PLACEHOLDER.md`, "
-           "`data/results_sql/README_PLACEHOLDER.md`): they are added from the author's Mac at packaging time, after which") +
-          " the Study 1 pipeline runs as on the build machine, with the data location given explicitly:", "",
+           "`data/results_sql/README_PLACEHOLDER.md`): they are added from the author's Mac at packaging time, after which the") +
+          " Study 1 pipeline runs as on the build machine, with the data location given explicitly:", "",
           "```", "export RESULTS4=$PWD/data/results4/full RESULTS_SQL=$PWD/data/results_sql", "cd paper/latex",
           "python3 run_analysis.py --out ../analysis            # verifies src4/FREEZE.md, runs the frozen src4/analyze4.py (confirmatory)",
           "python3 explore4.py --analysis ../analysis           # EXPLORATORY analyses from saved CSVs and transcripts",
@@ -669,8 +677,7 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
           + (", `paper/latex/identity.tex` (the author line and registration identifiers of the named build)" if anon and a.with_paper_source else "")
           + (", the paper source and PDF" if not a.with_paper_source else "")
           + ", and the AI pre-submission and pre-spend review documents (R1 to R3, T1 to T8, T3b, T3c, T7b, T8b, T8c, "
-          "V1, V1b, V2 and V2b: AI-generated, in-pipeline checks, not peer review; the paper's Acknowledgments refer to "
-          "this list).", "",
+          "V1, V1b, V2 and V2b: AI-generated, in-pipeline checks, not peer review).", "",
           "## AI use", "",
           "The code in this artifact (the Study 1 and Study 2 harnesses, batch drivers, scorers, analysis scripts, tests, "
           "this build script and this README) was written by an AI coding assistant (Claude, Anthropic) under the "
@@ -681,18 +688,26 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
           "ran the experiments on her machine with her API credit (the Study 2 run was started by a queued job on her Mac "
           "after the registration was filed; `STUDY2_RUN_LOG.md`). The pre-specified H5 transcript audit of Study 1 "
           "(`paper/audit/`), the pre-spend design reviews that led to Study 2 and the post-run verification of Study 2 "
-          "were performed by AI agents; no human has yet spot-checked the transcripts (update this line if the author "
-          "does). The paper's Acknowledgments carry the complete AI-use statement, including which sections of the paper "
-          "were AI-drafted; where this README and the paper differ, the paper governs.", "",
+          "were performed by AI agents. The author spot-checked 20 Study 2 episodes on 13 November 2026 from "
+          "plain-language descriptions of each episode read aloud by the AI assistant, without seeing the stored labels: "
+          "15 of the 20 first judgements agreed with the labels, and all 20 after the assistant, which knew the labels, "
+          "restated the task rule for the five that disagreed (`paper/audit/AUTHOR_SPOT_CHECK_answers.json`). The paper's "
+          "Acknowledgments carry its AI-use statement in two sentences; "
+          + ("`paper/latex/AI_DRAFTED_SECTIONS.md` is the full account, section by section, of what an AI assistant drafted."
+             if a.with_paper_source else
+             "the full account, section by section, of what an AI assistant drafted is `AI_DRAFTED_SECTIONS.md`, next to the "
+             "paper source in the archived artifact."), "",
           "## Cite", ""]
     if anon:
         L += ["Anonymous. \"" + TITLE + "\" Under review. (Citation details are added at camera-ready.)", ""]
     else:
-        L += ["```", f"{AUTHOR_CITED}. {TITLE} {a.year}. Preprint. {doi}", "```", "",
+        where = (f"https://doi.org/{a.doi} and {gh}" if a.doi else gh)
+        pre = "Preprint" if a.doi else "Preprint, forthcoming"
+        L += ["```", f"{AUTHOR_CITED}. {TITLE_FULL}. {a.year}. {pre}. Code and data: {where}", "```", "",
               "```bibtex", "@misc{gopnalswamy" + a.year + "coordinate,",
-              f"  author       = {{{AUTHOR_CITED}}},", f"  title        = {{{TITLE}}},", f"  year         = {{{a.year}}},",
-              f"  howpublished = {{Preprint}},", f"  doi          = {{{a.doi or '[AUTHOR: DOI]'}}},",
-              f"  note         = {{Code and data: {gh}; pre-registrations {OSF1} and {OSF2}}}", "}", "```", ""]
+              f"  author       = {{{AUTHOR_CITED}}},", f"  title        = {{{TITLE_FULL}}},", f"  year         = {{{a.year}}},",
+              f"  howpublished = {{{pre}}},",
+              f"  note         = {{Code and data: {where}; pre-registrations {OSF1} and {OSF2}}}", "}", "```", ""]
     L += [f"Built {dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%d')} (UTC) by `tools/make_artifact_v2.py` ({b.mode} mode); "
           f"{n_files:,} files. Study 2 transcripts: " + ", ".join(f"{k} {v:,}" for k, v in counts.items()) + "."
           + (" Wrappers included: " + ", ".join(wrappers_found) + "." if wrappers_found else " WARNING: no wrapper scripts found."), ""]
@@ -837,12 +852,14 @@ def main(argv=None):
         b.copy_optional(os.path.join(A.AUDIT, f), os.path.join("paper", "audit", f), f"audit/{f}")
     have_s1 = bool(a.results and os.path.isdir(a.results))
     have_sql = bool(a.results_sql and os.path.isdir(a.results_sql))
+    # public mode: the Study 1 run logs carry local paths of the author's machine; scrub those lines as for Study 2
+    s1_log_rules = PATH_RULES if a.mode == "public" else None
     if have_s1:
-        b.walk(a.results, os.path.join("data", "results4", "full"))
+        b.walk(a.results, os.path.join("data", "results4", "full"), log_rules=s1_log_rules)
     else:
         study1_placeholder(b, "results4")
     if have_sql:
-        b.walk(a.results_sql, os.path.join("data", "results_sql"))
+        b.walk(a.results_sql, os.path.join("data", "results_sql"), log_rules=s1_log_rules)
     else:
         study1_placeholder(b, "results_sql")
     if a.study1_analysis != "none" and os.path.isdir(a.study1_analysis):
@@ -885,7 +902,7 @@ def main(argv=None):
     if a.mode == "public":
         scrubbed = [c["file"] for c in b.changes]
         if scrubbed:
-            b.notes.append("Local filesystem paths of the author's machine (traceback lines) were replaced by the "
+            b.notes.append("Local filesystem paths of the author's machine (log and traceback lines) were replaced by the "
                            "make_anon_artifact.py path tokens in: " + ", ".join(f"`{f}`" for f in scrubbed) + "; "
                            f"{sum(len(c['lines']) for c in b.changes)} line(s) in all, listed in BUILD_INFO.json.")
     data_base = os.path.join(out, "data", "results5", "study2")

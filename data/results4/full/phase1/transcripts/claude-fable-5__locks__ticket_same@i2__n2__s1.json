@@ -1,0 +1,1300 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.035868000000000004,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 3,
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "lease_steps": 3,
+      "ok": true,
+      "record_id": "ticket:INC-1219",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01GjL5bjT5Hn395UzPLkudzk"
+    },
+    {
+     "args": {
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "ticket",
+      "ok": true,
+      "record_id": "ticket:INC-1219",
+      "status": 200,
+      "value": null
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Uif3fZqEYKn752uLLPtDmg"
+    },
+    {
+     "args": {
+      "holder": "a0",
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 1,
+      "error": "locked",
+      "message": "423 Locked: ticket:INC-1219 is locked by another agent; current version is 1.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "claim",
+     "tool_use_id": "toolu_01VHvNGgYjvyzNXHiMsJg6mQ"
+    },
+    {
+     "args": {
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on ticket:INC-1219.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01Q5LzAnQunQEE7MVYzhDKTn"
+    },
+    {
+     "args": {
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "ticket",
+      "ok": true,
+      "record_id": "ticket:INC-1219",
+      "status": 200,
+      "value": "a1"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01GTKtmk7rLAaQEE2Fezhw5E"
+    }
+   ],
+   "final_text": "Ticket INC-1219 is now held by agent a1, so per the condition I did not assign it to a0 and left it unchanged.",
+   "intent": "Assign ticket:INC-1219 to a0, only if it is not held by anyone else.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01GjL5bjT5Hn395UzPLkudzk",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Uif3fZqEYKn752uLLPtDmg",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 3, \"ok\": true, \"record_id\": \"ticket:INC-1219\", \"status\": 200}",
+       "tool_use_id": "toolu_01GjL5bjT5Hn395UzPLkudzk",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"ticket\", \"ok\": true, \"record_id\": \"ticket:INC-1219\", \"status\": 200, \"value\": null}",
+       "tool_use_id": "toolu_01Uif3fZqEYKn752uLLPtDmg",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The ticket is unheld, so I'll claim it for a0.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VHvNGgYjvyzNXHiMsJg6mQ",
+       "input": {
+        "holder": "a0",
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "claim",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 1, \"error\": \"locked\", \"message\": \"423 Locked: ticket:INC-1219 is locked by another agent; current version is 1.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01VHvNGgYjvyzNXHiMsJg6mQ",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The claim was blocked by the lock\u2014I'll release it and retry.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Q5LzAnQunQEE7MVYzhDKTn",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on ticket:INC-1219.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01Q5LzAnQunQEE7MVYzhDKTn",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01GTKtmk7rLAaQEE2Fezhw5E",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"ticket\", \"ok\": true, \"record_id\": \"ticket:INC-1219\", \"status\": 200, \"value\": \"a1\"}",
+       "tool_use_id": "toolu_01GTKtmk7rLAaQEE2Fezhw5E",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Ticket INC-1219 is now held by agent a1, so per the condition I did not assign it to a0 and left it unchanged.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Assign ticket:INC-1219 to a0, only if it is not held by anyone else.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:18:09Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01GjL5bjT5Hn395UzPLkudzk",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Uif3fZqEYKn752uLLPtDmg",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006193,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 52,
+      "input": 99,
+      "output": 195
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:24:12Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The ticket is unheld, so I'll claim it for a0.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VHvNGgYjvyzNXHiMsJg6mQ",
+       "input": {
+        "holder": "a0",
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "claim",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005524,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1048,
+      "cache_write": 0,
+      "input": 435,
+      "output": 113
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:27:29Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The claim was blocked by the lock\u2014I'll release it and retry.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Q5LzAnQunQEE7MVYzhDKTn",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.007534,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1048,
+      "cache_write": 0,
+      "input": 622,
+      "output": 156
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:30:38Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01GTKtmk7rLAaQEE2Fezhw5E",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.008199,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1048,
+      "cache_write": 0,
+      "input": 845,
+      "output": 138
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:36:31Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Ticket INC-1219 is now held by agent a1, so per the condition I did not assign it to a0 and left it unchanged.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.008418,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 52,
+      "input": 1034,
+      "output": 97
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 5136,
+    "cache_write": 104,
+    "input": 3035,
+    "output": 699
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 6,
+   "cost_usd": 0.029407999999999997,
+   "executions": [
+    {
+     "args": {
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "ticket",
+      "ok": true,
+      "record_id": "ticket:INC-1219",
+      "status": 200,
+      "value": null
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01S3XRrUdWGXZRB4aiG4oWcz"
+    },
+    {
+     "args": {
+      "lease_steps": 3,
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 3,
+      "ok": true,
+      "record_id": "ticket:INC-1219",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01TUKVCQUDMjvavsNPyXk7tj"
+    },
+    {
+     "args": {
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "ticket",
+      "ok": true,
+      "record_id": "ticket:INC-1219",
+      "status": 200,
+      "value": null
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_012Mu9NEFPJsTKYhcMLQN5mc"
+    },
+    {
+     "args": {
+      "holder": "a1",
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "ticket:INC-1219",
+      "status": 200,
+      "value": "a1"
+     },
+     "tool": "claim",
+     "tool_use_id": "toolu_01NLw3GP3WeeooPyvGrpUSFh"
+    },
+    {
+     "args": {
+      "record_id": "ticket:INC-1219"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on ticket:INC-1219.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01AU8VpoYsM7APvJjWiDmkDy"
+    }
+   ],
+   "final_text": "Ticket ticket:INC-1219 was unassigned, so I verified under a lock and successfully claimed it for a1 (the lock lease had already expired by release time, which is fine).",
+   "intent": "Assign ticket:INC-1219 to a1, only if it is not held by anyone else.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01S3XRrUdWGXZRB4aiG4oWcz",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"ticket\", \"ok\": true, \"record_id\": \"ticket:INC-1219\", \"status\": 200, \"value\": null}",
+       "tool_use_id": "toolu_01S3XRrUdWGXZRB4aiG4oWcz",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The ticket is unassigned. I'll lock it to avoid a race, then claim it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TUKVCQUDMjvavsNPyXk7tj",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 3, \"ok\": true, \"record_id\": \"ticket:INC-1219\", \"status\": 200}",
+       "tool_use_id": "toolu_01TUKVCQUDMjvavsNPyXk7tj",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_012Mu9NEFPJsTKYhcMLQN5mc",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"ticket\", \"ok\": true, \"record_id\": \"ticket:INC-1219\", \"status\": 200, \"value\": null}",
+       "tool_use_id": "toolu_012Mu9NEFPJsTKYhcMLQN5mc",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01NLw3GP3WeeooPyvGrpUSFh",
+       "input": {
+        "holder": "a1",
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "claim",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"ticket:INC-1219\", \"status\": 200, \"value\": \"a1\"}",
+       "tool_use_id": "toolu_01NLw3GP3WeeooPyvGrpUSFh",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01AU8VpoYsM7APvJjWiDmkDy",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on ticket:INC-1219.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01AU8VpoYsM7APvJjWiDmkDy",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Ticket ticket:INC-1219 was unassigned, so I verified under a lock and successfully claimed it for a1 (the lock lease had already expired by release time, which is fine).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Assign ticket:INC-1219 to a1, only if it is not held by anyone else.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:18:09Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01S3XRrUdWGXZRB4aiG4oWcz",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.003318,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 52,
+      "input": 99,
+      "output": 80
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:20:57Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The ticket is unassigned. I'll lock it to avoid a race, then claim it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TUKVCQUDMjvavsNPyXk7tj",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005134,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1048,
+      "cache_write": 0,
+      "input": 227,
+      "output": 139
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:24:12Z",
+     "content": [
+      {
+       "id": "toolu_012Mu9NEFPJsTKYhcMLQN5mc",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.003999,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1048,
+      "cache_write": 0,
+      "input": 410,
+      "output": 57
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:27:29Z",
+     "content": [
+      {
+       "id": "toolu_01NLw3GP3WeeooPyvGrpUSFh",
+       "input": {
+        "holder": "a1",
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "claim",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005074,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1048,
+      "cache_write": 0,
+      "input": 515,
+      "output": 79
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:30:38Z",
+     "content": [
+      {
+       "id": "toolu_01AU8VpoYsM7APvJjWiDmkDy",
+       "input": {
+        "record_id": "ticket:INC-1219"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005154,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1048,
+      "cache_write": 0,
+      "input": 636,
+      "output": 58
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:33:28Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Ticket ticket:INC-1219 was unassigned, so I verified under a lock and successfully claimed it for a1 (the lock lease had already expired by release time, which is fine).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006729,
+     "index": 6,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1048,
+      "cache_write": 0,
+      "input": 761,
+      "output": 96
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 6236,
+    "cache_write": 52,
+    "input": 2648,
+    "output": 509
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "locks",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__locks__ticket_same@i2__n2__s1",
+ "final_store": {
+  "ticket:INC-1219": {
+   "value": "a1",
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Ticket ticket:INC-1219 was unassigned, so I verified under a lock and successfully claimed it for a1 (the lock lease had already expired by release time, which is fine).",
+    "step": 8,
+    "turns": 5
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Ticket INC-1219 is now held by agent a1, so per the condition I did not assign it to a0 and left it unchanged.",
+    "step": 10,
+    "turns": 5
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "kind": "ticket",
+     "ok": true,
+     "record_id": "ticket:INC-1219",
+     "status": 200,
+     "value": null
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_steps": 3,
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "lease_steps": 3,
+     "ok": true,
+     "record_id": "ticket:INC-1219",
+     "status": 200
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "kind": "ticket",
+     "ok": true,
+     "record_id": "ticket:INC-1219",
+     "status": 200,
+     "value": null
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 3,
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 7,
+    "read_version": null,
+    "reason": null,
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "lease_steps": 3,
+     "ok": true,
+     "record_id": "ticket:INC-1219",
+     "status": 200
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 4,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "holder": "a0",
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": 7,
+    "read_version": null,
+    "reason": "locked_by_other",
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "current_version": 1,
+     "error": "locked",
+     "message": "423 Locked: ticket:INC-1219 is locked by another agent; current version is 1.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 5,
+    "status": 423,
+    "step": 5,
+    "tool": "claim"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "kind": "ticket",
+     "ok": true,
+     "record_id": "ticket:INC-1219",
+     "status": 200,
+     "value": null
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on ticket:INC-1219.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 7,
+    "status": 409,
+    "step": 6,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "holder": "a1",
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "ok": true,
+     "record_id": "ticket:INC-1219",
+     "status": 200,
+     "value": "a1"
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 6,
+    "tool": "claim"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "kind": "ticket",
+     "ok": true,
+     "record_id": "ticket:INC-1219",
+     "status": 200,
+     "value": "a1"
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 7,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "ticket:INC-1219"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "ticket:INC-1219",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on ticket:INC-1219.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 10,
+    "status": 409,
+    "step": 7,
+    "tool": "release_lock"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "holder": "a1",
+     "record_id": "ticket:INC-1219"
+    },
+    "new_value": "a1",
+    "new_version": 2,
+    "old_value": null,
+    "old_version": 1,
+    "record_id": "ticket:INC-1219",
+    "seq": 1,
+    "step": 6,
+    "tool": "claim"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 10,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_014SbjCZ2otnQTwMGykPPq7f",
+    "msgbatch_017B6VUHQwESHPb19VhgFkk2",
+    "msgbatch_017aWq6B5Z6cY8q1kxa1zC2c",
+    "msgbatch_01BewdKek1U2T4j3GWgBvEEQ",
+    "msgbatch_01FkavTvYDEzhRupEiWwwrJa",
+    "msgbatch_01Khi6H3qt8Rrfp9mqY8Kq8Z",
+    "msgbatch_01XGXCU5fAxp8EQ4pkBgDqN8"
+   ],
+   "driver": "src4_batch/batch_driver.py",
+   "lockstep_rounds": 7,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-02T01:36:31Z",
+  "started_utc": "2026-11-02T01:15:16Z",
+  "wall_seconds": 1275.0
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 1,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 5,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "reread",
+     "lock"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": true,
+    "turns": 5,
+    "unnecessary_give_up": false,
+    "valid_at_end": true
+   }
+  },
+  "category": "conflict",
+  "committed_agents": [
+   "a1"
+  ],
+  "config": "locks",
+  "conflict_observed": true,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 10,
+  "serial_witness": [
+   "a1"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "ticket_same@i2/n2",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 1,
+ "task": {
+  "category": "conflict",
+  "description": "same ticket claimed",
+  "factory": "ticket_same",
+  "fingerprint": "e53964771f86a9fc8ef7f605c192e7b22ce2fc3c4c281a4c5c8fe45f72f56b95",
+  "initial": {
+   "ticket:INC-1219": null
+  },
+  "instance": 2,
+  "intents": {
+   "a0": "Assign ticket:INC-1219 to a0, only if it is not held by anyone else.",
+   "a1": "Assign ticket:INC-1219 to a1, only if it is not held by anyone else."
+  },
+  "kind": "ticket",
+  "name": "ticket_same@i2/n2",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 11,
+  "cost_usd": 0.065276,
+  "invalid_calls": 0,
+  "multi_tool_turns": 1,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 11372,
+   "cache_write": 156,
+   "input": 5683,
+   "output": 1208
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

@@ -1,0 +1,2482 @@
+{
+ "agents": {
+  "agent_1": {
+   "agent_id": "agent_1",
+   "claim": "declined",
+   "completions": 5,
+   "cost_usd": 0.00778432,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty",
+         "version"
+        ],
+        "rows": [
+         [
+          8,
+          0
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.8585,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "BEGIN; INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_1', 'LAMP-3', 3, 'confirmed'); UPDATE stock SET qty = qty - 3, version = version + 1 WHERE sku = 'LAMP-3' AND qty >= 3; COMMIT;"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "status": "ok"
+       },
+       {
+        "rows_affected": 1
+       },
+       {
+        "rows_affected": 0
+       },
+       {
+        "status": "ok"
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 6.9917,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "SELECT * FROM stock WHERE sku = 'LAMP-3'; SELECT * FROM orders WHERE sku = 'LAMP-3' AND customer = 'agent_1';"
+     },
+     "completion": 2,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "sku",
+         "qty",
+         "version"
+        ],
+        "rows": [
+         [
+          "LAMP-3",
+          1,
+          2
+         ]
+        ]
+       },
+       {
+        "columns": [
+         "id",
+         "customer",
+         "sku",
+         "qty",
+         "status"
+        ],
+        "rows": [
+         [
+          4,
+          "agent_1",
+          "LAMP-3",
+          3,
+          "confirmed"
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 3,
+     "t": 10.7788,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "DELETE FROM orders WHERE id = 4 AND customer = 'agent_1' AND sku = 'LAMP-3';"
+     },
+     "completion": 3,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 4,
+     "t": 25.1156,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Stock for LAMP-3 is insufficient (1 < 3) due to concurrent updates; order was not placed.",
+      "status": "declined"
+     },
+     "completion": 4,
+     "t": 26.7513,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_1d7249b51b47429aa13eeeb6",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\", \"version\"], \"rows\": [[8, 0]]}]}",
+       "tool_use_id": "call_1d7249b51b47429aa13eeeb6",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_70a06dd3c83f42a68b4d5f71",
+       "input": {
+        "sql": "BEGIN; INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_1', 'LAMP-3', 3, 'confirmed'); UPDATE stock SET qty = qty - 3, version = version + 1 WHERE sku = 'LAMP-3' AND qty >= 3; COMMIT;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"status\": \"ok\"}, {\"rows_affected\": 1}, {\"rows_affected\": 0}, {\"status\": \"ok\"}]}",
+       "tool_use_id": "call_70a06dd3c83f42a68b4d5f71",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_589dc948922345b0af5ff2cd",
+       "input": {
+        "sql": "SELECT * FROM stock WHERE sku = 'LAMP-3'; SELECT * FROM orders WHERE sku = 'LAMP-3' AND customer = 'agent_1';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"sku\", \"qty\", \"version\"], \"rows\": [[\"LAMP-3\", 1, 2]]}, {\"columns\": [\"id\", \"customer\", \"sku\", \"qty\", \"status\"], \"rows\": [[4, \"agent_1\", \"LAMP-3\", 3, \"confirmed\"]]}]}",
+       "tool_use_id": "call_589dc948922345b0af5ff2cd",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I see there was a race condition - the UPDATE affected 0 rows because the stock was reduced by another agent between my SELECT and UPDATE. The order was inserted but stock wasn't updated. Since the current stock (1) is less than 3, I need to clean up and decline.\n\n",
+       "type": "text"
+      },
+      {
+       "id": "call_da0d66d52b4641f493f7aa40",
+       "input": {
+        "sql": "DELETE FROM orders WHERE id = 4 AND customer = 'agent_1' AND sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "call_da0d66d52b4641f493f7aa40",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_f88522523b1148438b0b2c64",
+       "input": {
+        "note": "Stock for LAMP-3 is insufficient (1 < 3) due to concurrent updates; order was not placed.",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Stock for LAMP-3 is insufficient (1 < 3) due to concurrent updates; order was not placed.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_1. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 3 units of 'LAMP-3': insert a row into orders (customer 'agent_1', sku 'LAMP-3', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 3 units of 'LAMP-3': insert a row into orders (customer 'agent_1', sku 'LAMP-3', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".",
+   "tool_calls": 4,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:44:25Z",
+     "content": [
+      {
+       "id": "call_1d7249b51b47429aa13eeeb6",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0005696,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.0005696,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 57,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 1.8573,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 630,
+      "output": 115,
+      "reasoning": 57
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:30Z",
+     "content": [
+      {
+       "id": "call_70a06dd3c83f42a68b4d5f71",
+       "input": {
+        "sql": "BEGIN; INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_1', 'LAMP-3', 3, 'confirmed'); UPDATE stock SET qty = qty - 3, version = version + 1 WHERE sku = 'LAMP-3' AND qty >= 3; COMMIT;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00132032,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00132032,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 217,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 6.9899,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 716,
+      "output": 341,
+      "reasoning": 217
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:34Z",
+     "content": [
+      {
+       "id": "call_589dc948922345b0af5ff2cd",
+       "input": {
+        "sql": "SELECT * FROM stock WHERE sku = 'LAMP-3'; SELECT * FROM orders WHERE sku = 'LAMP-3' AND customer = 'agent_1';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00120032,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00120032,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 237,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 10.7777,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 861,
+      "output": 289,
+      "reasoning": 237
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:48Z",
+     "content": [
+      {
+       "text": "I see there was a race condition - the UPDATE affected 0 rows because the stock was reduced by another agent between my SELECT and UPDATE. The order was inserted but stock wasn't updated. Since the current stock (1) is less than 3, I need to clean up and decline.\n\n",
+       "type": "text"
+      },
+      {
+       "id": "call_da0d66d52b4641f493f7aa40",
+       "input": {
+        "sql": "DELETE FROM orders WHERE id = 4 AND customer = 'agent_1' AND sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00397344,
+     "index": 4,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00397344,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 989,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 25.1143,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1017,
+      "output": 1140,
+      "reasoning": 989
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:50Z",
+     "content": [
+      {
+       "id": "call_f88522523b1148438b0b2c64",
+       "input": {
+        "note": "Stock for LAMP-3 is insufficient (1 < 3) due to concurrent updates; order was not placed.",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00072064,
+     "index": 5,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00072064,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 43,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 26.7507,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1162,
+      "output": 109,
+      "reasoning": 43
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 4386,
+    "output": 1994
+   }
+  },
+  "agent_2": {
+   "agent_id": "agent_2",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.00188672,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty",
+         "version"
+        ],
+        "rows": [
+         [
+          8,
+          0
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.8168,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "BEGIN TRANSACTION;\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'LAMP-3', 4, 'confirmed');\nUPDATE stock SET qty = qty - 4, version = version + 1 WHERE sku = 'LAMP-3';\nCOMMIT;"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "status": "ok"
+       },
+       {
+        "rows_affected": 1
+       },
+       {
+        "rows_affected": 1
+       },
+       {
+        "status": "ok"
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 4.6361,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully placed order for 4 units of LAMP-3 and updated stock.",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 5.9029,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_bee64ada432b4288a45ffcae",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\", \"version\"], \"rows\": [[8, 0]]}]}",
+       "tool_use_id": "call_bee64ada432b4288a45ffcae",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_7b0560e9f60a4c0f9c53afc9",
+       "input": {
+        "sql": "BEGIN TRANSACTION;\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'LAMP-3', 4, 'confirmed');\nUPDATE stock SET qty = qty - 4, version = version + 1 WHERE sku = 'LAMP-3';\nCOMMIT;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"status\": \"ok\"}, {\"rows_affected\": 1}, {\"rows_affected\": 1}, {\"status\": \"ok\"}]}",
+       "tool_use_id": "call_7b0560e9f60a4c0f9c53afc9",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_6606f502597a4b56bc7e0d4b",
+       "input": {
+        "note": "Successfully placed order for 4 units of LAMP-3 and updated stock.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully placed order for 4 units of LAMP-3 and updated stock.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_2. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 4 units of 'LAMP-3': insert a row into orders (customer 'agent_2', sku 'LAMP-3', qty 4, status 'confirmed') and reduce that sku's qty in table stock by 4. If the stock qty is less than 4, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 4 units of 'LAMP-3': insert a row into orders (customer 'agent_2', sku 'LAMP-3', qty 4, status 'confirmed') and reduce that sku's qty in table stock by 4. If the stock qty is less than 4, do neither and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:44:25Z",
+     "content": [
+      {
+       "id": "call_bee64ada432b4288a45ffcae",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.000544,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.000544,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 53,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 1.8149,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 630,
+      "output": 107,
+      "reasoning": 53
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:28Z",
+     "content": [
+      {
+       "id": "call_7b0560e9f60a4c0f9c53afc9",
+       "input": {
+        "sql": "BEGIN TRANSACTION;\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'LAMP-3', 4, 'confirmed');\nUPDATE stock SET qty = qty - 4, version = version + 1 WHERE sku = 'LAMP-3';\nCOMMIT;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00082752,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00082752,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 73,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 4.6318,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 716,
+      "output": 187,
+      "reasoning": 73
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:29Z",
+     "content": [
+      {
+       "id": "call_6606f502597a4b56bc7e0d4b",
+       "input": {
+        "note": "Successfully placed order for 4 units of LAMP-3 and updated stock.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0005152,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.0005152,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 24,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 5.9023,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 860,
+      "output": 75,
+      "reasoning": 24
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 2206,
+    "output": 369
+   }
+  },
+  "agent_3": {
+   "agent_id": "agent_3",
+   "claim": null,
+   "completions": 5,
+   "cost_usd": 0.019305,
+   "end_reason": "returned_without_finish",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty",
+         "version"
+        ],
+        "rows": [
+         [
+          8,
+          0
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 2.0662,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "BEGIN IMMEDIATE;\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_3', 'LAMP-3', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2, version = version + 1 WHERE sku = 'LAMP-3' AND qty >= 2;\nCOMMIT;"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "status": "ok"
+       },
+       {
+        "rows_affected": 1
+       },
+       {
+        "rows_affected": 0
+       },
+       {
+        "status": "ok"
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 7.8093,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+     },
+     "completion": 2,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty",
+         "version"
+        ],
+        "rows": [
+         [
+          1,
+          2
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 3,
+     "t": 11.1862,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "SELECT * FROM orders WHERE customer = 'agent_3' AND sku = 'LAMP-3' AND status = 'confirmed';"
+     },
+     "completion": 3,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "id",
+         "customer",
+         "sku",
+         "qty",
+         "status"
+        ],
+        "rows": [
+         [
+          5,
+          "agent_3",
+          "LAMP-3",
+          2,
+          "confirmed"
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 4,
+     "t": 20.4034,
+     "tool": "run_sql"
+    }
+   ],
+   "final_text": "",
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_5a9eca516a3546a1836ede64",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\", \"version\"], \"rows\": [[8, 0]]}]}",
+       "tool_use_id": "call_5a9eca516a3546a1836ede64",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_3228fcf4bf824e0ca0ef9a28",
+       "input": {
+        "sql": "BEGIN IMMEDIATE;\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_3', 'LAMP-3', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2, version = version + 1 WHERE sku = 'LAMP-3' AND qty >= 2;\nCOMMIT;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"status\": \"ok\"}, {\"rows_affected\": 1}, {\"rows_affected\": 0}, {\"status\": \"ok\"}]}",
+       "tool_use_id": "call_3228fcf4bf824e0ca0ef9a28",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_c6e70a3a157b4af895925af3",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\", \"version\"], \"rows\": [[1, 2]]}]}",
+       "tool_use_id": "call_c6e70a3a157b4af895925af3",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_6b8f59d03c124daaab3b0756",
+       "input": {
+        "sql": "SELECT * FROM orders WHERE customer = 'agent_3' AND sku = 'LAMP-3' AND status = 'confirmed';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"id\", \"customer\", \"sku\", \"qty\", \"status\"], \"rows\": [[5, \"agent_3\", \"LAMP-3\", 2, \"confirmed\"]]}]}",
+       "tool_use_id": "call_6b8f59d03c124daaab3b0756",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": null,
+   "stop_reason": "length",
+   "system": "You are agent_3. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 2 units of 'LAMP-3': insert a row into orders (customer 'agent_3', sku 'LAMP-3', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 2 units of 'LAMP-3': insert a row into orders (customer 'agent_3', sku 'LAMP-3', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".",
+   "tool_calls": 4,
+   "truncated": true,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:44:25Z",
+     "content": [
+      {
+       "id": "call_5a9eca516a3546a1836ede64",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0005785,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @Venice",
+     "provider_meta": {
+      "cost": 0.0005785,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 57,
+      "temperature_sent": 0.0,
+      "upstream_provider": "Venice"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 2.0648,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 630,
+      "output": 115,
+      "reasoning": 57
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:31Z",
+     "content": [
+      {
+       "id": "call_3228fcf4bf824e0ca0ef9a28",
+       "input": {
+        "sql": "BEGIN IMMEDIATE;\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_3', 'LAMP-3', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2, version = version + 1 WHERE sku = 'LAMP-3' AND qty >= 2;\nCOMMIT;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00160095,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @Venice",
+     "provider_meta": {
+      "cost": 0.00160095,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 309,
+      "temperature_sent": 0.0,
+      "upstream_provider": "Venice"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 7.8077,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 716,
+      "output": 421,
+      "reasoning": 309
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:34Z",
+     "content": [
+      {
+       "id": "call_c6e70a3a157b4af895925af3",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.001029275,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @Venice",
+     "provider_meta": {
+      "cost": 0.001029275,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 198,
+      "temperature_sent": 0.0,
+      "upstream_provider": "Venice"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 11.1854,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 867,
+      "output": 230,
+      "reasoning": 198
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:43Z",
+     "content": [
+      {
+       "id": "call_6b8f59d03c124daaab3b0756",
+       "input": {
+        "sql": "SELECT * FROM orders WHERE customer = 'agent_3' AND sku = 'LAMP-3' AND status = 'confirmed';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.002435225,
+     "index": 4,
+     "model_served": "qwen/qwen3.6-27b @Venice",
+     "provider_meta": {
+      "cost": 0.002435225,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 601,
+      "temperature_sent": 0.0,
+      "upstream_provider": "Venice"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 20.4025,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 953,
+      "output": 654,
+      "reasoning": 601
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:45:34Z",
+     "content": [],
+     "cost_source": "reported",
+     "cost_usd": 0.01366105,
+     "index": 5,
+     "model_served": "qwen/qwen3.6-27b @Venice",
+     "provider_meta": {
+      "cost": 0.01366105,
+      "native_finish_reason": "length",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 3562,
+      "temperature_sent": 0.0,
+      "upstream_provider": "Venice"
+     },
+     "stop_reason": "length",
+     "t_episode": 70.77,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1074,
+      "output": 4096,
+      "reasoning": 3562
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 4240,
+    "output": 5516
+   }
+  },
+  "agent_4": {
+   "agent_id": "agent_4",
+   "claim": "done",
+   "completions": 4,
+   "cost_usd": 0.0021303999999999997,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty",
+         "version"
+        ],
+        "rows": [
+         [
+          8,
+          0
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 2.2878,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_4', 'LAMP-3', 3, 'confirmed');"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 4.7755,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "UPDATE stock SET qty = qty - 3, version = version + 1 WHERE sku = 'LAMP-3';"
+     },
+     "completion": 2,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 3,
+     "t": 6.3735,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Order placed for 3 units of LAMP-3 and stock updated successfully.",
+      "status": "done"
+     },
+     "completion": 3,
+     "t": 7.8066,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_99bc2c70f8acfbf4c962555b",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\", \"version\"], \"rows\": [[8, 0]]}]}",
+       "tool_use_id": "call_99bc2c70f8acfbf4c962555b",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_133d8f50c1da202e20f2f649",
+       "input": {
+        "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_4', 'LAMP-3', 3, 'confirmed');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "call_133d8f50c1da202e20f2f649",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_6409fa98f06f5749d3c59b25",
+       "input": {
+        "sql": "UPDATE stock SET qty = qty - 3, version = version + 1 WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "call_6409fa98f06f5749d3c59b25",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_3135c5be614ab3dac9dc704e",
+       "input": {
+        "note": "Order placed for 3 units of LAMP-3 and stock updated successfully.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Order placed for 3 units of LAMP-3 and stock updated successfully.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_4. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 3 units of 'LAMP-3': insert a row into orders (customer 'agent_4', sku 'LAMP-3', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 3 units of 'LAMP-3': insert a row into orders (customer 'agent_4', sku 'LAMP-3', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".",
+   "tool_calls": 3,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:44:25Z",
+     "content": [
+      {
+       "id": "call_99bc2c70f8acfbf4c962555b",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.000579,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.000579,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 91,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 2.2866,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 630,
+      "output": 151,
+      "reasoning": 91
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:28Z",
+     "content": [
+      {
+       "id": "call_133d8f50c1da202e20f2f649",
+       "input": {
+        "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_4', 'LAMP-3', 3, 'confirmed');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0006988,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0006988,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 119,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 4.7739,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 824,
+      "output": 178,
+      "reasoning": 119
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:29Z",
+     "content": [
+      {
+       "id": "call_6409fa98f06f5749d3c59b25",
+       "input": {
+        "sql": "UPDATE stock SET qty = qty - 3, version = version + 1 WHERE sku = 'LAMP-3';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0003958,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0003958,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 14,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 6.3725,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1034,
+      "output": 63,
+      "reasoning": 14
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:44:31Z",
+     "content": [
+      {
+       "id": "call_3135c5be614ab3dac9dc704e",
+       "input": {
+        "note": "Order placed for 3 units of LAMP-3 and stock updated successfully.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0004568,
+     "index": 4,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0004568,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 28,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 7.8061,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1129,
+      "output": 77,
+      "reasoning": 28
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3617,
+    "output": 469
+   }
+  }
+ },
+ "behaviors": {
+  "agent_1": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": true,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 0,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 8,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": true,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": true
+  },
+  "agent_2": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": true,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 5,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": true
+  },
+  "agent_3": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": true,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 0,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 7,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": true,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": true,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": true
+  },
+  "agent_4": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 3,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  }
+ },
+ "dry_run": false,
+ "effects": {
+  "agent_1": {
+   "handle_inserts": 0,
+   "order_inserts": 1,
+   "target_writes": 0
+  },
+  "agent_2": {
+   "handle_inserts": 0,
+   "order_inserts": 1,
+   "target_writes": 1
+  },
+  "agent_3": {
+   "handle_inserts": 0,
+   "order_inserts": 1,
+   "target_writes": 0
+  },
+  "agent_4": {
+   "handle_inserts": 0,
+   "order_inserts": 1,
+   "target_writes": 1
+  }
+ },
+ "episode_id": "openrouter_qwen_qwen3.6-27b-20260422__order@v1__n4__r3",
+ "exploratory": true,
+ "final_db": {
+  "orders": [
+   [
+    1,
+    "cust_9",
+    "BOLT-9",
+    10,
+    "confirmed"
+   ],
+   [
+    2,
+    "agent_2",
+    "LAMP-3",
+    4,
+    "confirmed"
+   ],
+   [
+    3,
+    "agent_4",
+    "LAMP-3",
+    3,
+    "confirmed"
+   ],
+   [
+    5,
+    "agent_3",
+    "LAMP-3",
+    2,
+    "confirmed"
+   ]
+  ],
+  "schema": [
+   [
+    "table",
+    "orders",
+    "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL)"
+   ],
+   [
+    "table",
+    "stock",
+    "CREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)"
+   ]
+  ],
+  "stock": [
+   [
+    "LAMP-3",
+    1,
+    2
+   ],
+   [
+    "BOLT-9",
+    40,
+    0
+   ]
+  ]
+ },
+ "instance": {
+  "instructions": {
+   "agent_1": "Place an order for 3 units of 'LAMP-3': insert a row into orders (customer 'agent_1', sku 'LAMP-3', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".",
+   "agent_2": "Place an order for 4 units of 'LAMP-3': insert a row into orders (customer 'agent_2', sku 'LAMP-3', qty 4, status 'confirmed') and reduce that sku's qty in table stock by 4. If the stock qty is less than 4, do neither and finish with status \"declined\".",
+   "agent_3": "Place an order for 2 units of 'LAMP-3': insert a row into orders (customer 'agent_3', sku 'LAMP-3', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".",
+   "agent_4": "Place an order for 3 units of 'LAMP-3': insert a row into orders (customer 'agent_4', sku 'LAMP-3', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\"."
+  },
+  "n_agents": 4,
+  "params": {
+   "per_agent": {
+    "agent_1": 3,
+    "agent_2": 4,
+    "agent_3": 2,
+    "agent_4": 3
+   },
+   "sku": "LAMP-3",
+   "start": 8
+  },
+  "schema": [
+   "CREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)",
+   "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL)"
+  ],
+  "seed": [
+   "INSERT INTO stock (sku, qty, version) VALUES ('LAMP-3', 8, 0)",
+   "INSERT INTO stock (sku, qty, version) VALUES ('BOLT-9', 40, 0)",
+   "INSERT INTO orders (id, customer, sku, qty, status) VALUES (1, 'cust_9', 'BOLT-9', 10, 'confirmed')"
+  ],
+  "target": {
+   "atomic_cols": [
+    "qty"
+   ],
+   "cas_cols": [
+    "qty",
+    "version"
+   ],
+   "insert_guard": [],
+   "table": "stock",
+   "unique_col": null,
+   "write_cols": [
+    "qty"
+   ]
+  },
+  "template": "order",
+  "variant": 1
+ },
+ "integrity": {
+  "claims": {
+   "agent_1": "declined",
+   "agent_2": "done",
+   "agent_3": null,
+   "agent_4": "done"
+  },
+  "details": {
+   "confirmed": [
+    [
+     "agent_2",
+     4
+    ],
+    [
+     "agent_4",
+     3
+    ],
+    [
+     "agent_3",
+     2
+    ]
+   ],
+   "expected_from_commits": 1,
+   "expected_from_orders": -1,
+   "final": 1,
+   "mismatch_direction": "missing_decrement",
+   "unreported_effect": [
+    "agent_3"
+   ]
+  },
+  "kinds": [
+   "oversold",
+   "stock_order_mismatch"
+  ],
+  "primary": "oversold",
+  "report_kinds": [
+   "unreported_effect"
+  ],
+  "report_mismatch": true,
+  "violation": true
+ },
+ "model": "openrouter:qwen/qwen3.6-27b-20260422",
+ "n_agents": 4,
+ "provider": "openrouter",
+ "rep": 3,
+ "run_info": {
+  "finished_utc": "2026-11-02T22:45:34Z",
+  "started_utc": "2026-11-02T22:44:23Z",
+  "wall_seconds": 70.78
+ },
+ "settings": {
+  "busy_timeout_s": 0.2,
+  "episode_timeout_s": 900.0,
+  "isolation_level": null,
+  "journal_mode": "wal",
+  "max_tokens": 4096,
+  "python": "3.14.6",
+  "sqlite_version": "3.53.2",
+  "temperature_requested": 0.0,
+  "turn_cap": 12
+ },
+ "sql_log": [
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 0,
+   "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';",
+   "stmt": 0,
+   "t_end": 1.8168,
+   "t_start": 1.8156,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 1,
+   "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';",
+   "stmt": 0,
+   "t_end": 1.8584,
+   "t_start": 1.8579,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 2,
+   "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';",
+   "stmt": 0,
+   "t_end": 2.0661,
+   "t_start": 2.0655,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_4",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 3,
+   "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';",
+   "stmt": 0,
+   "t_end": 2.2877,
+   "t_start": 2.2872,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {},
+    "txn": [
+     [
+      "BEGIN",
+      null
+     ]
+    ],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "seq": 4,
+   "sql": "BEGIN TRANSACTION;",
+   "stmt": 0,
+   "t_end": 4.6349,
+   "t_start": 4.6349,
+   "txn_after": true,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "orders"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 5,
+   "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'LAMP-3', 4, 'confirmed');",
+   "stmt": 1,
+   "t_end": 4.6351,
+   "t_start": 4.635,
+   "txn_after": true,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "stock": [
+      "qty",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 6,
+   "sql": "UPDATE stock SET qty = qty - 4, version = version + 1 WHERE sku = 'LAMP-3';",
+   "stmt": 2,
+   "t_end": 4.6352,
+   "t_start": 4.6351,
+   "txn_after": true,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {},
+    "txn": [
+     [
+      "COMMIT",
+      null
+     ]
+    ],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "seq": 7,
+   "sql": "COMMIT;",
+   "stmt": 3,
+   "t_end": 4.636,
+   "t_start": 4.6352,
+   "txn_after": false,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "orders"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_4",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 8,
+   "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_4', 'LAMP-3', 3, 'confirmed');",
+   "stmt": 0,
+   "t_end": 4.7754,
+   "t_start": 4.7745,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "stock": [
+      "qty",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_4",
+   "busy": false,
+   "call": 3,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 9,
+   "sql": "UPDATE stock SET qty = qty - 3, version = version + 1 WHERE sku = 'LAMP-3';",
+   "stmt": 0,
+   "t_end": 6.3734,
+   "t_start": 6.373,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {},
+    "txn": [
+     [
+      "BEGIN",
+      null
+     ]
+    ],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "seq": 10,
+   "sql": "BEGIN;",
+   "stmt": 0,
+   "t_end": 6.9906,
+   "t_start": 6.9905,
+   "txn_after": true,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "orders"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 11,
+   "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_1', 'LAMP-3', 3, 'confirmed');",
+   "stmt": 1,
+   "t_end": 6.9908,
+   "t_start": 6.9906,
+   "txn_after": true,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "stock": [
+      "qty",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 0,
+   "seq": 12,
+   "sql": "UPDATE stock SET qty = qty - 3, version = version + 1 WHERE sku = 'LAMP-3' AND qty >= 3;",
+   "stmt": 2,
+   "t_end": 6.9909,
+   "t_start": 6.9908,
+   "txn_after": true,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {},
+    "txn": [
+     [
+      "COMMIT",
+      null
+     ]
+    ],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "seq": 13,
+   "sql": "COMMIT;",
+   "stmt": 3,
+   "t_end": 6.9917,
+   "t_start": 6.9909,
+   "txn_after": false,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {},
+    "txn": [
+     [
+      "BEGIN",
+      null
+     ]
+    ],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "seq": 14,
+   "sql": "BEGIN IMMEDIATE;",
+   "stmt": 0,
+   "t_end": 7.8083,
+   "t_start": 7.8082,
+   "txn_after": true,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "orders"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 15,
+   "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_3', 'LAMP-3', 2, 'confirmed');",
+   "stmt": 1,
+   "t_end": 7.8084,
+   "t_start": 7.8083,
+   "txn_after": true,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "stock": [
+      "qty",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 0,
+   "seq": 16,
+   "sql": "UPDATE stock SET qty = qty - 2, version = version + 1 WHERE sku = 'LAMP-3' AND qty >= 2;",
+   "stmt": 2,
+   "t_end": 7.8085,
+   "t_start": 7.8084,
+   "txn_after": true,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {},
+    "txn": [
+     [
+      "COMMIT",
+      null
+     ]
+    ],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "seq": 17,
+   "sql": "COMMIT;",
+   "stmt": 3,
+   "t_end": 7.8092,
+   "t_start": 7.8085,
+   "txn_after": false,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 3,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 18,
+   "sql": "SELECT * FROM stock WHERE sku = 'LAMP-3';",
+   "stmt": 0,
+   "t_end": 10.7786,
+   "t_start": 10.7783,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "orders": [
+      "customer",
+      "id",
+      "qty",
+      "sku",
+      "status"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 3,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 19,
+   "sql": "SELECT * FROM orders WHERE sku = 'LAMP-3' AND customer = 'agent_1';",
+   "stmt": 1,
+   "t_end": 10.7787,
+   "t_start": 10.7786,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 3,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 20,
+   "sql": "SELECT qty, version FROM stock WHERE sku = 'LAMP-3';",
+   "stmt": 0,
+   "t_end": 11.1861,
+   "t_start": 11.1859,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "orders": [
+      "customer",
+      "id",
+      "qty",
+      "sku",
+      "status"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 4,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 21,
+   "sql": "SELECT * FROM orders WHERE customer = 'agent_3' AND sku = 'LAMP-3' AND status = 'confirmed';",
+   "stmt": 0,
+   "t_end": 20.4033,
+   "t_start": 20.4031,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [
+     "orders"
+    ],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "orders": [
+      "customer",
+      "id",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 4,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 22,
+   "sql": "DELETE FROM orders WHERE id = 4 AND customer = 'agent_1' AND sku = 'LAMP-3';",
+   "stmt": 0,
+   "t_end": 25.1155,
+   "t_start": 25.115,
+   "txn_after": false,
+   "txn_before": false
+  }
+ ],
+ "task": "order",
+ "totals": {
+  "completions": 17,
+  "cost_usd": 0.03110644,
+  "tool_calls": 13,
+  "truncated_agents": [
+   "agent_3"
+  ],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 14449,
+   "output": 8348
+  }
+ },
+ "variant": 1
+}

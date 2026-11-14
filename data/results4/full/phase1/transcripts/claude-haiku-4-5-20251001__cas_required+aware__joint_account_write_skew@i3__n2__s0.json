@@ -1,0 +1,930 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 3,
+   "cost_usd": 0.007904999999999999,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:partners-a0"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a0",
+      "status": 200,
+      "value": "30.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Pfmmd6KworAEDvez6T8RQo"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a1"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a1",
+      "status": 200,
+      "value": "30.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_016bxDahqA8fZzEdFBg1LuQS"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a0"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a0",
+      "status": 200,
+      "value": "30.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Acfv3tg8LJC2juLDrYz3G5"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a1"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a1",
+      "status": 200,
+      "value": "-15.00",
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01R6hLxuHqgu4Lki5nBCKnTm"
+    }
+   ],
+   "final_text": "Now I see that account:partners-a1 has been updated to -15.00 (version 2). The combined total is now 30.00 + (-15.00) = 15.00.\n\nIf I withdraw 45.00 from account:partners-a0:\n- account:partners-a0 would become: 30.00 - 45.00 = -15.00\n- Combined total would be: -15.00 + (-15.00) = -30.00\n\nThis is still >= 0.00? No, -30.00 is less than 0.00, so this would violate the constraint.\n\nHowever, let me reconsider: the constraint says \"together still hold at least 0.00 afterwards.\" With a combined total of 15.00 now, if I take 45.00 from a0, the result would be -30.00, which violates the constraint. But the initial combined total was 60.00, so perhaps another agent has withdrawn funds.\n\nThe task cannot be completed as stated because withdrawing 45.00 from account:partners-a0 would result in the combined balance falling below 0.00.\n\nThe task cannot be completed; account:partners-a0 has insufficient balance relative to the constraint that combined accounts must remain at or above 0.00.",
+   "intent": "Take 45.00 out of account:partners-a0, provided account:partners-a0, account:partners-a1 together still hold at least 0.00 afterwards.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current values of both accounts to understand what we're working with.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Pfmmd6KworAEDvez6T8RQo",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_016bxDahqA8fZzEdFBg1LuQS",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a0\", \"status\": 200, \"value\": \"30.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01Pfmmd6KworAEDvez6T8RQo",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a1\", \"status\": 200, \"value\": \"30.00\", \"version\": 1}",
+       "tool_use_id": "toolu_016bxDahqA8fZzEdFBg1LuQS",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I can see that:\n- account:partners-a0 currently holds 30.00\n- account:partners-a1 currently holds 30.00\n- Together they hold 60.00\n\nThe task requires me to take 45.00 out of account:partners-a0, provided that both accounts together still hold at least 0.00 afterwards.\n\nHowever, there's a problem: account:partners-a0 only has 30.00, so I cannot take 45.00 from it. Even if I take all 30.00 from account:partners-a0, the combined total would be 30.00 (from a1 only), which is still above 0.00, but the constraint cannot be met because I cannot withdraw 45.00 from an account that only has 30.00.\n\nLet me check if there's been any update by reading the records again to ensure I have the latest values:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Acfv3tg8LJC2juLDrYz3G5",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01R6hLxuHqgu4Lki5nBCKnTm",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a0\", \"status\": 200, \"value\": \"30.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01Acfv3tg8LJC2juLDrYz3G5",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a1\", \"status\": 200, \"value\": \"-15.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01R6hLxuHqgu4Lki5nBCKnTm",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I see that account:partners-a1 has been updated to -15.00 (version 2). The combined total is now 30.00 + (-15.00) = 15.00.\n\nIf I withdraw 45.00 from account:partners-a0:\n- account:partners-a0 would become: 30.00 - 45.00 = -15.00\n- Combined total would be: -15.00 + (-15.00) = -30.00\n\nThis is still >= 0.00? No, -30.00 is less than 0.00, so this would violate the constraint.\n\nHowever, let me reconsider: the constraint says \"together still hold at least 0.00 afterwards.\" With a combined total of 15.00 now, if I take 45.00 from a0, the result would be -30.00, which violates the constraint. But the initial combined total was 60.00, so perhaps another agent has withdrawn funds.\n\nThe task cannot be completed as stated because withdrawing 45.00 from account:partners-a0 would result in the combined balance falling below 0.00.\n\nThe task cannot be completed; account:partners-a0 has insufficient balance relative to the constraint that combined accounts must remain at or above 0.00.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 2,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Take 45.00 out of account:partners-a0, provided account:partners-a0, account:partners-a1 together still hold at least 0.00 afterwards.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-01T05:55:36Z",
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current values of both accounts to understand what we're working with.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Pfmmd6KworAEDvez6T8RQo",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_016bxDahqA8fZzEdFBg1LuQS",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001703,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1048,
+      "output": 131
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:55:40Z",
+     "content": [
+      {
+       "text": "I can see that:\n- account:partners-a0 currently holds 30.00\n- account:partners-a1 currently holds 30.00\n- Together they hold 60.00\n\nThe task requires me to take 45.00 out of account:partners-a0, provided that both accounts together still hold at least 0.00 afterwards.\n\nHowever, there's a problem: account:partners-a0 only has 30.00, so I cannot take 45.00 from it. Even if I take all 30.00 from account:partners-a0, the combined total would be 30.00 (from a1 only), which is still above 0.00, but the constraint cannot be met because I cannot withdraw 45.00 from an account that only has 30.00.\n\nLet me check if there's been any update by reading the records again to ensure I have the latest values:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Acfv3tg8LJC2juLDrYz3G5",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01R6hLxuHqgu4Lki5nBCKnTm",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002888,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1328,
+      "output": 312
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:55:47Z",
+     "content": [
+      {
+       "text": "Now I see that account:partners-a1 has been updated to -15.00 (version 2). The combined total is now 30.00 + (-15.00) = 15.00.\n\nIf I withdraw 45.00 from account:partners-a0:\n- account:partners-a0 would become: 30.00 - 45.00 = -15.00\n- Combined total would be: -15.00 + (-15.00) = -30.00\n\nThis is still >= 0.00? No, -30.00 is less than 0.00, so this would violate the constraint.\n\nHowever, let me reconsider: the constraint says \"together still hold at least 0.00 afterwards.\" With a combined total of 15.00 now, if I take 45.00 from a0, the result would be -30.00, which violates the constraint. But the initial combined total was 60.00, so perhaps another agent has withdrawn funds.\n\nThe task cannot be completed as stated because withdrawing 45.00 from account:partners-a0 would result in the combined balance falling below 0.00.\n\nThe task cannot be completed; account:partners-a0 has insufficient balance relative to the constraint that combined accounts must remain at or above 0.00.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.003314,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1789,
+      "output": 305
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 4165,
+    "output": 748
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 3,
+   "cost_usd": 0.006275,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:partners-a1"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a1",
+      "status": 200,
+      "value": "30.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01WMAoW5YipwtnJA85qYEzgQ"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a0"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a0",
+      "status": 200,
+      "value": "30.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01MK9ifMqPnpkECp1AgcC9E3"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "account:partners-a1",
+      "value": -15.0
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:partners-a1",
+      "status": 200,
+      "value": "-15.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_015fbUu8Sep896FEc6Rjx5pT"
+    }
+   ],
+   "final_text": "Successfully withdrew 45.00 from account:partners-a1, reducing it from 30.00 to -15.00, while maintaining a combined balance of 15.00 across both accounts.",
+   "intent": "Take 45.00 out of account:partners-a1, provided account:partners-a1, account:partners-a0 together still hold at least 0.00 afterwards.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current balances of both accounts to ensure the constraint is met.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WMAoW5YipwtnJA85qYEzgQ",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01MK9ifMqPnpkECp1AgcC9E3",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a1\", \"status\": 200, \"value\": \"30.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01WMAoW5YipwtnJA85qYEzgQ",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a0\", \"status\": 200, \"value\": \"30.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01MK9ifMqPnpkECp1AgcC9E3",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I can see that:\n- account:partners-a1 has 30.00\n- account:partners-a0 has 30.00\n- Combined total: 60.00\n\nThe task asks to take 45.00 out of account:partners-a1, provided that both accounts together still hold at least 0.00 afterwards.\n\nAfter removing 45.00 from account:partners-a1:\n- account:partners-a1 would become: 30.00 - 45.00 = -15.00\n- Combined total would be: -15.00 + 30.00 = 15.00\n\nThis satisfies the constraint (15.00 \u2265 0.00). Let me proceed with the update:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015fbUu8Sep896FEc6Rjx5pT",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:partners-a1",
+        "value": -15.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:partners-a1\", \"status\": 200, \"value\": \"-15.00\", \"version\": 2}",
+       "tool_use_id": "toolu_015fbUu8Sep896FEc6Rjx5pT",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully withdrew 45.00 from account:partners-a1, reducing it from 30.00 to -15.00, while maintaining a combined balance of 15.00 across both accounts.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Take 45.00 out of account:partners-a1, provided account:partners-a1, account:partners-a0 together still hold at least 0.00 afterwards.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-01T05:55:37Z",
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current balances of both accounts to ensure the constraint is met.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WMAoW5YipwtnJA85qYEzgQ",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01MK9ifMqPnpkECp1AgcC9E3",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001703,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1048,
+      "output": 131
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:55:43Z",
+     "content": [
+      {
+       "text": "I can see that:\n- account:partners-a1 has 30.00\n- account:partners-a0 has 30.00\n- Combined total: 60.00\n\nThe task asks to take 45.00 out of account:partners-a1, provided that both accounts together still hold at least 0.00 afterwards.\n\nAfter removing 45.00 from account:partners-a1:\n- account:partners-a1 would become: 30.00 - 45.00 = -15.00\n- Combined total would be: -15.00 + 30.00 = 15.00\n\nThis satisfies the constraint (15.00 \u2265 0.00). Let me proceed with the update:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015fbUu8Sep896FEc6Rjx5pT",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:partners-a1",
+        "value": -15.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002688,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1328,
+      "output": 272
+     }
+    },
+    {
+     "at_utc": "2026-11-01T05:55:44Z",
+     "content": [
+      {
+       "text": "Successfully withdrew 45.00 from account:partners-a1, reducing it from 30.00 to -15.00, while maintaining a combined balance of 15.00 across both accounts.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001884,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1649,
+      "output": 47
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 4025,
+    "output": 450
+   }
+  }
+ },
+ "concurrency_aware_prompt": true,
+ "config": "cas_required",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__cas_required+aware__joint_account_write_skew@i3__n2__s0",
+ "final_store": {
+  "account:partners-a0": {
+   "value": "30.00",
+   "version": 1
+  },
+  "account:partners-a1": {
+   "value": "-15.00",
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Successfully withdrew 45.00 from account:partners-a1, reducing it from 30.00 to -15.00, while maintaining a combined balance of 15.00 across both accounts.",
+    "step": 6,
+    "turns": 3
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Now I see that account:partners-a1 has been updated to -15.00 (version 2). The combined total is now 30.00 + (-15.00) = 15.00.\n\nIf I withdraw 45.00 from account:partners-a0:\n- account:partners-a0 would become: 30.00 - 45.00 = -15.00\n- Combined total would be: -15.00 + (-15.00) = -30.00\n\nThis is still >= 0.00? No, -30.00 is less than 0.00, so this would violate the constraint.\n\nHowever, let me reconsider: the constraint says \"together still hold at least 0.00 afterwards.\" With a combined total of",
+    "step": 7,
+    "turns": 4
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a0",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a0",
+     "status": 200,
+     "value": "30.00",
+     "version": 1
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:partners-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a1",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a1",
+     "status": 200,
+     "value": "30.00",
+     "version": 1
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a1",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a1",
+     "status": 200,
+     "value": "30.00",
+     "version": 1
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a0",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a0",
+     "status": 200,
+     "value": "30.00",
+     "version": 1
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a0",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a0",
+     "status": 200,
+     "value": "30.00",
+     "version": 1
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:partners-a1",
+     "value": -15.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:partners-a1",
+    "response": {
+     "ok": true,
+     "record_id": "account:partners-a1",
+     "status": 200,
+     "value": "-15.00",
+     "version": 2
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:partners-a1",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a1",
+     "status": 200,
+     "value": "-15.00",
+     "version": 2
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:partners-a1",
+     "value": -15.0
+    },
+    "new_value": "-15.00",
+    "new_version": 2,
+    "old_value": "30.00",
+    "old_version": 1,
+    "record_id": "account:partners-a1",
+    "seq": 1,
+    "step": 5,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 7,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "run_info": {
+  "finished_utc": "2026-11-01T05:55:47Z",
+  "started_utc": "2026-11-01T05:55:35Z",
+  "wall_seconds": 12.506
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "none"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "write_skew",
+  "committed_agents": [
+   "a1"
+  ],
+  "config": "cas_required",
+  "conflict_observed": false,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 7,
+  "serial_witness": [
+   "a1"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "joint_account_write_skew@i3/n2",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "write_skew",
+  "description": "withdrawals from different accounts sharing an overdraft limit",
+  "factory": "joint_account_write_skew",
+  "fingerprint": "f97231ad1232dc330938a6d33d4627857e61d6f450c6cfc0a6d82d39394c1b97",
+  "initial": {
+   "account:partners-a0": "30.00",
+   "account:partners-a1": "30.00"
+  },
+  "instance": 3,
+  "intents": {
+   "a0": "Take 45.00 out of account:partners-a0, provided account:partners-a0, account:partners-a1 together still hold at least 0.00 afterwards.",
+   "a1": "Take 45.00 out of account:partners-a1, provided account:partners-a1, account:partners-a0 together still hold at least 0.00 afterwards."
+  },
+  "kind": "account",
+  "name": "joint_account_write_skew@i3/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 6,
+  "cost_usd": 0.014179999999999998,
+  "invalid_calls": 0,
+  "multi_tool_turns": 3,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 8190,
+   "output": 1198
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

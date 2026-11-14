@@ -1,0 +1,607 @@
+{
+ "agents": {
+  "agent_1": {
+   "agent_id": "agent_1",
+   "claim": "declined",
+   "completions": 2,
+   "cost_usd": 0.0018254999999999999,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "UPDATE accounts SET balance = balance - 60, version = version + 1 WHERE id = 1 AND balance >= 60;"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 0
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 7.5603,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Account 1 balance is less than 60, withdrawal declined.",
+      "status": "declined"
+     },
+     "completion": 1,
+     "t": 10.6364,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "01a19e62a48846639328844e5d9d15ce",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 60, version = version + 1 WHERE id = 1 AND balance >= 60;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 0}]}",
+       "tool_use_id": "01a19e62a48846639328844e5d9d15ce",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "01a19e62b1263720d82b0c40a9d9e2c7",
+       "input": {
+        "note": "Account 1 balance is less than 60, withdrawal declined.",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Account 1 balance is less than 60, withdrawal declined.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_1. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nTask: Withdraw 60 from account 1 in table accounts. The balance must never go below 0: if it is less than 60, do not withdraw and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Withdraw 60 from account 1 in table accounts. The balance must never go below 0: if it is less than 60, do not withdraw and finish with status \"declined\".",
+   "tool_calls": 1,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:30:28Z",
+     "content": [
+      {
+       "id": "01a19e62a48846639328844e5d9d15ce",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 60, version = version + 1 WHERE id = 1 AND balance >= 60;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0011852,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @SiliconFlow",
+     "provider_meta": {
+      "cost": 0.0011852,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 261,
+      "temperature_sent": 0.0,
+      "upstream_provider": "SiliconFlow"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 7.5589,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 580,
+      "output": 316,
+      "reasoning": 261
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:30:31Z",
+     "content": [
+      {
+       "id": "01a19e62b1263720d82b0c40a9d9e2c7",
+       "input": {
+        "note": "Account 1 balance is less than 60, withdrawal declined.",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0006403,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @SiliconFlow",
+     "provider_meta": {
+      "cost": 0.0006403,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 62,
+      "temperature_sent": 0.0,
+      "upstream_provider": "SiliconFlow"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 10.6358,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 929,
+      "output": 113,
+      "reasoning": 62
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 1509,
+    "output": 429
+   }
+  },
+  "agent_2": {
+   "agent_id": "agent_2",
+   "claim": "done",
+   "completions": 2,
+   "cost_usd": 0.0018324,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "UPDATE accounts SET balance = balance - 70, version = version + 1 WHERE id = 1 AND balance >= 70;"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 5.7221,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully withdrew 70 from account 1.",
+      "status": "done"
+     },
+     "completion": 1,
+     "t": 7.4614,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_3475008933b6d59ebf1357be",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 70, version = version + 1 WHERE id = 1 AND balance >= 70;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "call_3475008933b6d59ebf1357be",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_46d2c68c6df4dd25e551d1b7",
+       "input": {
+        "note": "Successfully withdrew 70 from account 1.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully withdrew 70 from account 1.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_2. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nTask: Withdraw 70 from account 1 in table accounts. The balance must never go below 0: if it is less than 70, do not withdraw and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Withdraw 70 from account 1 in table accounts. The balance must never go below 0: if it is less than 70, do not withdraw and finish with status \"declined\".",
+   "tool_calls": 1,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:30:26Z",
+     "content": [
+      {
+       "id": "call_3475008933b6d59ebf1357be",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 70, version = version + 1 WHERE id = 1 AND balance >= 70;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.001359,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.001359,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 347,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 5.7199,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 570,
+      "output": 415,
+      "reasoning": 347
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:30:28Z",
+     "content": [
+      {
+       "id": "call_46d2c68c6df4dd25e551d1b7",
+       "input": {
+        "note": "Successfully withdrew 70 from account 1.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0004734,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0004734,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 45,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 7.4609,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1017,
+      "output": 90,
+      "reasoning": 45
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 1587,
+    "output": 505
+   }
+  }
+ },
+ "behaviors": {
+  "agent_1": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": true,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 0,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 1,
+   "no_write": false,
+   "read_target": false,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": true,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_2": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 1,
+   "no_write": false,
+   "read_target": false,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": true,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  }
+ },
+ "dry_run": false,
+ "effects": {
+  "agent_1": {
+   "handle_inserts": 0,
+   "order_inserts": 0,
+   "target_writes": 0
+  },
+  "agent_2": {
+   "handle_inserts": 0,
+   "order_inserts": 0,
+   "target_writes": 1
+  }
+ },
+ "episode_id": "openrouter_qwen_qwen3.6-27b-20260422__withdraw@v0__n2__r1",
+ "exploratory": true,
+ "final_db": {
+  "accounts": [
+   [
+    1,
+    "shared",
+    30,
+    1
+   ],
+   [
+    2,
+    "user_5",
+    500,
+    0
+   ]
+  ],
+  "schema": [
+   [
+    "table",
+    "accounts",
+    "CREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)"
+   ]
+  ]
+ },
+ "instance": {
+  "instructions": {
+   "agent_1": "Withdraw 60 from account 1 in table accounts. The balance must never go below 0: if it is less than 60, do not withdraw and finish with status \"declined\".",
+   "agent_2": "Withdraw 70 from account 1 in table accounts. The balance must never go below 0: if it is less than 70, do not withdraw and finish with status \"declined\"."
+  },
+  "n_agents": 2,
+  "params": {
+   "account": 1,
+   "per_agent": {
+    "agent_1": 60,
+    "agent_2": 70
+   },
+   "start": 100
+  },
+  "schema": [
+   "CREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)"
+  ],
+  "seed": [
+   "INSERT INTO accounts (id, owner, balance, version) VALUES (1, 'shared', 100, 0)",
+   "INSERT INTO accounts (id, owner, balance, version) VALUES (2, 'user_5', 500, 0)"
+  ],
+  "target": {
+   "atomic_cols": [
+    "balance"
+   ],
+   "cas_cols": [
+    "balance",
+    "version"
+   ],
+   "insert_guard": [],
+   "table": "accounts",
+   "unique_col": null,
+   "write_cols": [
+    "balance"
+   ]
+  },
+  "template": "withdraw",
+  "variant": 0
+ },
+ "integrity": {
+  "claims": {
+   "agent_1": "declined",
+   "agent_2": "done"
+  },
+  "details": {
+   "claimed_total": 70,
+   "expected_from_commits": 30,
+   "final": 30
+  },
+  "kinds": [],
+  "primary": "",
+  "report_kinds": [],
+  "report_mismatch": false,
+  "violation": false
+ },
+ "model": "openrouter:qwen/qwen3.6-27b-20260422",
+ "n_agents": 2,
+ "provider": "openrouter",
+ "rep": 1,
+ "run_info": {
+  "finished_utc": "2026-11-02T22:30:31Z",
+  "started_utc": "2026-11-02T22:30:20Z",
+  "wall_seconds": 10.642
+ },
+ "settings": {
+  "busy_timeout_s": 0.2,
+  "episode_timeout_s": 900.0,
+  "isolation_level": null,
+  "journal_mode": "wal",
+  "max_tokens": 4096,
+  "python": "3.14.6",
+  "sqlite_version": "3.53.2",
+  "temperature_requested": 0.0,
+  "turn_cap": 12
+ },
+ "sql_log": [
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "accounts": [
+      "balance",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 1,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 0,
+   "sql": "UPDATE accounts SET balance = balance - 70, version = version + 1 WHERE id = 1 AND balance >= 70;",
+   "stmt": 0,
+   "t_end": 5.7221,
+   "t_start": 5.7206,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "accounts": [
+      "balance",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 1,
+   "ok": true,
+   "rows_affected": 0,
+   "seq": 1,
+   "sql": "UPDATE accounts SET balance = balance - 60, version = version + 1 WHERE id = 1 AND balance >= 60;",
+   "stmt": 0,
+   "t_end": 7.5602,
+   "t_start": 7.5594,
+   "txn_after": false,
+   "txn_before": false
+  }
+ ],
+ "task": "withdraw",
+ "totals": {
+  "completions": 4,
+  "cost_usd": 0.0036579,
+  "tool_calls": 2,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 3096,
+   "output": 934
+  }
+ },
+ "variant": 0
+}

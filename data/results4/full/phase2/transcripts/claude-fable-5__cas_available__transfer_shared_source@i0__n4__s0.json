@@ -1,0 +1,2200 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.030832999999999996,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:ops-reserve"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:ops-reserve",
+      "status": 200,
+      "value": "60.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01U3WufAJaNdWwq2b5b5Z69o"
+    },
+    {
+     "args": {
+      "record_id": "account:payout-a0"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payout-a0",
+      "status": 200,
+      "value": "60.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Fdrs6nR6NCbH6Y9Yke3NvY"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "account:ops-reserve",
+      "value": 20.0
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: account:ops-reserve was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01LcbUmwjB1ahybNeJJCH8ok"
+    },
+    {
+     "args": {
+      "record_id": "account:ops-reserve"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:ops-reserve",
+      "status": 200,
+      "value": "20.00",
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01KRcdT2MXY6nKTDcqxX1oXS"
+    },
+    {
+     "args": {},
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "effects": [],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "list_effects",
+     "tool_use_id": "toolu_013Zr1xK7SQgBCPKh4ag1eTQ"
+    }
+   ],
+   "final_text": "Transfer aborted: account:ops-reserve now holds only 20.00 (insufficient for 40.00) due to a concurrent change, and no writes were committed by me.",
+   "intent": "Move 40.00 from account:ops-reserve to account:payout-a0, only if account:ops-reserve has enough.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01U3WufAJaNdWwq2b5b5Z69o",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Fdrs6nR6NCbH6Y9Yke3NvY",
+       "input": {
+        "record_id": "account:payout-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:ops-reserve\", \"status\": 200, \"value\": \"60.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01U3WufAJaNdWwq2b5b5Z69o",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payout-a0\", \"status\": 200, \"value\": \"60.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01Fdrs6nR6NCbH6Y9Yke3NvY",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Reserve has 60.00, enough for the transfer. Debiting first with a version check:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LcbUmwjB1ahybNeJJCH8ok",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:ops-reserve",
+        "value": 20.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: account:ops-reserve was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01LcbUmwjB1ahybNeJJCH8ok",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Conflict \u2014 re-reading the reserve:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KRcdT2MXY6nKTDcqxX1oXS",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:ops-reserve\", \"status\": 200, \"value\": \"20.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01KRcdT2MXY6nKTDcqxX1oXS",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The reserve was modified by another party and now holds only 20.00 \u2014 insufficient for a 40.00 transfer. Verifying I made no partial writes:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013Zr1xK7SQgBCPKh4ag1eTQ",
+       "input": {},
+       "name": "list_effects",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"effects\": [], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_013Zr1xK7SQgBCPKh4ag1eTQ",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transfer aborted: account:ops-reserve now holds only 20.00 (insufficient for 40.00) due to a concurrent change, and no writes were committed by me.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Move 40.00 from account:ops-reserve to account:payout-a0, only if account:ops-reserve has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T08:49:32Z",
+     "content": [
+      {
+       "id": "toolu_01U3WufAJaNdWwq2b5b5Z69o",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Fdrs6nR6NCbH6Y9Yke3NvY",
+       "input": {
+        "record_id": "account:payout-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0039815,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 798,
+      "cache_write": 62,
+      "input": 99,
+      "output": 108
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:51:41Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Reserve has 60.00, enough for the transfer. Debiting first with a version check:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LcbUmwjB1ahybNeJJCH8ok",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:ops-reserve",
+        "value": 20.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006355,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 360,
+      "output": 165
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:54:50Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Conflict \u2014 re-reading the reserve:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KRcdT2MXY6nKTDcqxX1oXS",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005585,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 601,
+      "output": 86
+     }
+    },
+    {
+     "at_utc": "2026-11-02T09:00:07Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The reserve was modified by another party and now holds only 20.00 \u2014 insufficient for a 40.00 transfer. Verifying I made no partial writes:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013Zr1xK7SQgBCPKh4ag1eTQ",
+       "input": {},
+       "name": "list_effects",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0084415,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 798,
+      "cache_write": 62,
+      "input": 741,
+      "output": 158
+     }
+    },
+    {
+     "at_utc": "2026-11-02T09:02:24Z",
+     "content": [
+      {
+       "text": "Transfer aborted: account:ops-reserve now holds only 20.00 (insufficient for 40.00) due to a concurrent change, and no writes were committed by me.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00647,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 923,
+      "output": 57
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 4176,
+    "cache_write": 124,
+    "input": 2724,
+    "output": 574
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 4,
+   "cost_usd": 0.024818,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:ops-reserve"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:ops-reserve",
+      "status": 200,
+      "value": "60.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_0124ssz7pi2LHZjugFia2QSR"
+    },
+    {
+     "args": {
+      "record_id": "account:payout-a1"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payout-a1",
+      "status": 200,
+      "value": "60.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Uv43YMcyfTZ8cSjPh79scW"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "account:ops-reserve",
+      "value": 20.0
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: account:ops-reserve was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01VWgVpaxNfgFANqw2BbJwW1"
+    },
+    {
+     "args": {
+      "record_id": "account:ops-reserve"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:ops-reserve",
+      "status": 200,
+      "value": "20.00",
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01A1WW8iMonKfs4vqpWaJM89"
+    }
+   ],
+   "final_text": "The reserve now only has 20.00, which is insufficient for a 40.00 transfer. Aborting without making any changes.\n\nTransfer aborted: account:ops-reserve was concurrently drained to 20.00 (< 40.00), so no funds were moved and no records were modified.",
+   "intent": "Move 40.00 from account:ops-reserve to account:payout-a1, only if account:ops-reserve has enough.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_0124ssz7pi2LHZjugFia2QSR",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Uv43YMcyfTZ8cSjPh79scW",
+       "input": {
+        "record_id": "account:payout-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:ops-reserve\", \"status\": 200, \"value\": \"60.00\", \"version\": 1}",
+       "tool_use_id": "toolu_0124ssz7pi2LHZjugFia2QSR",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payout-a1\", \"status\": 200, \"value\": \"60.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01Uv43YMcyfTZ8cSjPh79scW",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Reserve has 60.00, enough for the 40.00 transfer. Debiting first with a version check:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VWgVpaxNfgFANqw2BbJwW1",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:ops-reserve",
+        "value": 20.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: account:ops-reserve was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01VWgVpaxNfgFANqw2BbJwW1",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record changed concurrently. Re-reading:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01A1WW8iMonKfs4vqpWaJM89",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:ops-reserve\", \"status\": 200, \"value\": \"20.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01A1WW8iMonKfs4vqpWaJM89",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The reserve now only has 20.00, which is insufficient for a 40.00 transfer. Aborting without making any changes.\n\nTransfer aborted: account:ops-reserve was concurrently drained to 20.00 (< 40.00), so no funds were moved and no records were modified.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Move 40.00 from account:ops-reserve to account:payout-a1, only if account:ops-reserve has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T08:49:32Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_0124ssz7pi2LHZjugFia2QSR",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Uv43YMcyfTZ8cSjPh79scW",
+       "input": {
+        "record_id": "account:payout-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0042565,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 798,
+      "cache_write": 62,
+      "input": 99,
+      "output": 119
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:51:41Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Reserve has 60.00, enough for the 40.00 transfer. Debiting first with a version check:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VWgVpaxNfgFANqw2BbJwW1",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:ops-reserve",
+        "value": 20.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006835,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 371,
+      "output": 182
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:54:50Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record changed concurrently. Re-reading:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01A1WW8iMonKfs4vqpWaJM89",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005825,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 629,
+      "output": 90
+     }
+    },
+    {
+     "at_utc": "2026-11-02T09:00:07Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The reserve now only has 20.00, which is insufficient for a 40.00 transfer. Aborting without making any changes.\n\nTransfer aborted: account:ops-reserve was concurrently drained to 20.00 (< 40.00), so no funds were moved and no records were modified.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0079015,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 798,
+      "cache_write": 62,
+      "input": 773,
+      "output": 130
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 3316,
+    "cache_write": 124,
+    "input": 1872,
+    "output": 521
+   }
+  },
+  "a2": {
+   "agent_id": "a2",
+   "completions": 4,
+   "cost_usd": 0.023636499999999998,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:ops-reserve"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:ops-reserve",
+      "status": 200,
+      "value": "60.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_016cZogPiyLHmF5LZynirJmz"
+    },
+    {
+     "args": {
+      "record_id": "account:payout-a2"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payout-a2",
+      "status": 200,
+      "value": "60.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01UifR6ogfyQzscdG7y5j6jE"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "account:ops-reserve",
+      "value": 20.0
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:ops-reserve",
+      "status": 200,
+      "value": "20.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01VXDFFexnWC66MrcnywCj7p"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "account:payout-a2",
+      "value": 100.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:payout-a2",
+      "status": 200,
+      "value": "100.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01THv51MT4zb4upeFzasUMMD"
+    }
+   ],
+   "final_text": "Transferred 40.00 from account:ops-reserve (60.00 \u2192 20.00) to account:payout-a2 (60.00 \u2192 100.00) after verifying sufficient funds.",
+   "intent": "Move 40.00 from account:ops-reserve to account:payout-a2, only if account:ops-reserve has enough.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_016cZogPiyLHmF5LZynirJmz",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UifR6ogfyQzscdG7y5j6jE",
+       "input": {
+        "record_id": "account:payout-a2"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:ops-reserve\", \"status\": 200, \"value\": \"60.00\", \"version\": 1}",
+       "tool_use_id": "toolu_016cZogPiyLHmF5LZynirJmz",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payout-a2\", \"status\": 200, \"value\": \"60.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01UifR6ogfyQzscdG7y5j6jE",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Reserve has 60.00, enough for the transfer. Debiting first with a version check:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VXDFFexnWC66MrcnywCj7p",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:ops-reserve",
+        "value": 20.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:ops-reserve\", \"status\": 200, \"value\": \"20.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01VXDFFexnWC66MrcnywCj7p",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Debit succeeded. Now crediting payout-a2:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01THv51MT4zb4upeFzasUMMD",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:payout-a2",
+        "value": 100.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:payout-a2\", \"status\": 200, \"value\": \"100.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01THv51MT4zb4upeFzasUMMD",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transferred 40.00 from account:ops-reserve (60.00 \u2192 20.00) to account:payout-a2 (60.00 \u2192 100.00) after verifying sufficient funds.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a2. Use the tools to complete your task.\nTask: Move 40.00 from account:ops-reserve to account:payout-a2, only if account:ops-reserve has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T08:49:32Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_016cZogPiyLHmF5LZynirJmz",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UifR6ogfyQzscdG7y5j6jE",
+       "input": {
+        "record_id": "account:payout-a2"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0042565,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 798,
+      "cache_write": 62,
+      "input": 99,
+      "output": 119
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:51:41Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Reserve has 60.00, enough for the transfer. Debiting first with a version check:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VXDFFexnWC66MrcnywCj7p",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:ops-reserve",
+        "value": 20.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00701,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 371,
+      "output": 189
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:54:50Z",
+     "content": [
+      {
+       "text": "Debit succeeded. Now crediting payout-a2:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01THv51MT4zb4upeFzasUMMD",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:payout-a2",
+        "value": 100.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006515,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 607,
+      "output": 122
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:58:13Z",
+     "content": [
+      {
+       "text": "Transferred 40.00 from account:ops-reserve (60.00 \u2192 20.00) to account:payout-a2 (60.00 \u2192 100.00) after verifying sufficient funds.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005855,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 775,
+      "output": 62
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 3378,
+    "cache_write": 62,
+    "input": 1852,
+    "output": 492
+   }
+  },
+  "a3": {
+   "agent_id": "a3",
+   "completions": 4,
+   "cost_usd": 0.028248,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:ops-reserve"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:ops-reserve",
+      "status": 200,
+      "value": "60.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_015rABwMW1PvpRSmVMbvMJZg"
+    },
+    {
+     "args": {
+      "record_id": "account:payout-a3"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:payout-a3",
+      "status": 200,
+      "value": "60.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01NZFaBfGrgSz1z2aTeBKdQV"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "account:ops-reserve",
+      "value": 20.0
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: account:ops-reserve was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01G2JsFqBHZBEgwr4LUTAfr1"
+    },
+    {
+     "args": {
+      "record_id": "account:ops-reserve"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:ops-reserve",
+      "status": 200,
+      "value": "20.00",
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_012iMETY4cW4hq6Shy6v6q5a"
+    }
+   ],
+   "final_text": "The reserve was modified by another agent and now holds only 20.00, which is insufficient for the 40.00 transfer. Per the condition, I'm aborting without making any changes.\n\nTransfer aborted: account:ops-reserve has only 20.00 (< 40.00 required), so no funds were moved and no records were modified.",
+   "intent": "Move 40.00 from account:ops-reserve to account:payout-a3, only if account:ops-reserve has enough.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_015rABwMW1PvpRSmVMbvMJZg",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01NZFaBfGrgSz1z2aTeBKdQV",
+       "input": {
+        "record_id": "account:payout-a3"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:ops-reserve\", \"status\": 200, \"value\": \"60.00\", \"version\": 1}",
+       "tool_use_id": "toolu_015rABwMW1PvpRSmVMbvMJZg",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:payout-a3\", \"status\": 200, \"value\": \"60.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01NZFaBfGrgSz1z2aTeBKdQV",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Reserve has 60.00, which covers 40.00. Debiting first with a version check:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01G2JsFqBHZBEgwr4LUTAfr1",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:ops-reserve",
+        "value": 20.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: account:ops-reserve was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01G2JsFqBHZBEgwr4LUTAfr1",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Conflict \u2014 re-reading the reserve balance:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012iMETY4cW4hq6Shy6v6q5a",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:ops-reserve\", \"status\": 200, \"value\": \"20.00\", \"version\": 2}",
+       "tool_use_id": "toolu_012iMETY4cW4hq6Shy6v6q5a",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The reserve was modified by another agent and now holds only 20.00, which is insufficient for the 40.00 transfer. Per the condition, I'm aborting without making any changes.\n\nTransfer aborted: account:ops-reserve has only 20.00 (< 40.00 required), so no funds were moved and no records were modified.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a3. Use the tools to complete your task.\nTask: Move 40.00 from account:ops-reserve to account:payout-a3, only if account:ops-reserve has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T08:49:32Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_015rABwMW1PvpRSmVMbvMJZg",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01NZFaBfGrgSz1z2aTeBKdQV",
+       "input": {
+        "record_id": "account:payout-a3"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0044815,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 798,
+      "cache_write": 62,
+      "input": 99,
+      "output": 128
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:51:41Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Reserve has 60.00, which covers 40.00. Debiting first with a version check:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01G2JsFqBHZBEgwr4LUTAfr1",
+       "input": {
+        "expected_version": 1,
+        "record_id": "account:ops-reserve",
+        "value": 20.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.008455,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 380,
+      "output": 245
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:54:50Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Conflict \u2014 re-reading the reserve balance:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012iMETY4cW4hq6Shy6v6q5a",
+       "input": {
+        "record_id": "account:ops-reserve"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006135,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 860,
+      "cache_write": 0,
+      "input": 701,
+      "output": 88
+     }
+    },
+    {
+     "at_utc": "2026-11-02T09:00:07Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The reserve was modified by another agent and now holds only 20.00, which is insufficient for the 40.00 transfer. Per the condition, I'm aborting without making any changes.\n\nTransfer aborted: account:ops-reserve has only 20.00 (< 40.00 required), so no funds were moved and no records were modified.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0091765,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 798,
+      "cache_write": 62,
+      "input": 843,
+      "output": 167
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 3316,
+    "cache_write": 124,
+    "input": 2023,
+    "output": 628
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "cas_available",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__cas_available__transfer_shared_source@i0__n4__s0",
+ "final_store": {
+  "account:ops-reserve": {
+   "value": "20.00",
+   "version": 2
+  },
+  "account:payout-a0": {
+   "value": "60.00",
+   "version": 1
+  },
+  "account:payout-a1": {
+   "value": "60.00",
+   "version": 1
+  },
+  "account:payout-a2": {
+   "value": "100.00",
+   "version": 2
+  },
+  "account:payout-a3": {
+   "value": "60.00",
+   "version": 1
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a2",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transferred 40.00 from account:ops-reserve (60.00 \u2192 20.00) to account:payout-a2 (60.00 \u2192 100.00) after verifying sufficient funds.",
+    "step": 7,
+    "turns": 4
+   },
+   {
+    "agent_id": "a1",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The reserve now only has 20.00, which is insufficient for a 40.00 transfer. Aborting without making any changes.\n\nTransfer aborted: account:ops-reserve was concurrently drained to 20.00 (< 40.00), so no funds were moved and no records were modified.",
+    "step": 9,
+    "turns": 4
+   },
+   {
+    "agent_id": "a3",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The reserve was modified by another agent and now holds only 20.00, which is insufficient for the 40.00 transfer. Per the condition, I'm aborting without making any changes.\n\nTransfer aborted: account:ops-reserve has only 20.00 (< 40.00 required), so no funds were moved and no records were modified.",
+    "step": 9,
+    "turns": 4
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transfer aborted: account:ops-reserve now holds only 20.00 (insufficient for 40.00) due to a concurrent change, and no writes were committed by me.",
+    "step": 10,
+    "turns": 5
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "account:ops-reserve"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:ops-reserve",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:ops-reserve",
+     "status": 200,
+     "value": "60.00",
+     "version": 1
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:ops-reserve"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:ops-reserve",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:ops-reserve",
+     "status": 200,
+     "value": "60.00",
+     "version": 1
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:ops-reserve"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:ops-reserve",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:ops-reserve",
+     "status": 200,
+     "value": "60.00",
+     "version": 1
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "record_id": "account:ops-reserve"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:ops-reserve",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:ops-reserve",
+     "status": 200,
+     "value": "60.00",
+     "version": 1
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:payout-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payout-a1",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payout-a1",
+     "status": 200,
+     "value": "60.00",
+     "version": 1
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:payout-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payout-a0",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payout-a0",
+     "status": 200,
+     "value": "60.00",
+     "version": 1
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "record_id": "account:payout-a3"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payout-a3",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payout-a3",
+     "status": 200,
+     "value": "60.00",
+     "version": 1
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "account:payout-a2"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:payout-a2",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:payout-a2",
+     "status": 200,
+     "value": "60.00",
+     "version": 1
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:ops-reserve",
+     "value": 20.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:ops-reserve",
+    "response": {
+     "ok": true,
+     "record_id": "account:ops-reserve",
+     "status": 200,
+     "value": "20.00",
+     "version": 2
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:ops-reserve",
+     "value": 20.0
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "account:ops-reserve",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: account:ops-reserve was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 10,
+    "status": 409,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:ops-reserve",
+     "value": 20.0
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "account:ops-reserve",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: account:ops-reserve was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 11,
+    "status": 409,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:ops-reserve",
+     "value": 20.0
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "account:ops-reserve",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: account:ops-reserve was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 12,
+    "status": 409,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "record_id": "account:ops-reserve"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:ops-reserve",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:ops-reserve",
+     "status": 200,
+     "value": "20.00",
+     "version": 2
+    },
+    "seq": 13,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:ops-reserve"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:ops-reserve",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:ops-reserve",
+     "status": 200,
+     "value": "20.00",
+     "version": 2
+    },
+    "seq": 14,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:payout-a2",
+     "value": 100.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:payout-a2",
+    "response": {
+     "ok": true,
+     "record_id": "account:payout-a2",
+     "status": 200,
+     "value": "100.00",
+     "version": 2
+    },
+    "seq": 15,
+    "status": 200,
+    "step": 6,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:ops-reserve"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:ops-reserve",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:ops-reserve",
+     "status": 200,
+     "value": "20.00",
+     "version": 2
+    },
+    "seq": 16,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "effects": [],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 17,
+    "status": 200,
+    "step": 9,
+    "tool": "list_effects"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a2",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:ops-reserve",
+     "value": 20.0
+    },
+    "new_value": "20.00",
+    "new_version": 2,
+    "old_value": "60.00",
+    "old_version": 1,
+    "record_id": "account:ops-reserve",
+    "seq": 1,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "expected_version": 1,
+     "record_id": "account:payout-a2",
+     "value": 100.0
+    },
+    "new_value": "100.00",
+    "new_version": 2,
+    "old_value": "60.00",
+    "old_version": 1,
+    "record_id": "account:payout-a2",
+    "seq": 2,
+    "step": 6,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 10,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 4,
+ "provider": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_0142g5DKsJnyCLKisegvGgPz",
+    "msgbatch_01683f578ryP4F3mEKBjvKRh",
+    "msgbatch_017Lgqv6wwTPxSc51LMVjHhH",
+    "msgbatch_01Eyb7rRMpzG4ff4DiPDoYdj",
+    "msgbatch_01GcpbjDWJJFMAU6grgJFsEx",
+    "msgbatch_01Kd8cakLHMU8bVt37hbVHqp"
+   ],
+   "driver": "src4_batch/batch_driver.py",
+   "lockstep_rounds": 6,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-02T09:02:24Z",
+  "started_utc": "2026-11-02T08:47:32Z",
+  "wall_seconds": 892.0
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 5,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a2": {
+    "abandoned": false,
+    "agent_id": "a2",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 2,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a3": {
+    "abandoned": false,
+    "agent_id": "a3",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "conflict",
+  "committed_agents": [
+   "a2"
+  ],
+  "config": "cas_available",
+  "conflict_observed": true,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 10,
+  "serial_witness": [
+   "a2"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "transfer_shared_source@i0/n4",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "conflict",
+  "description": "transfers from one source whose sum exceeds its balance",
+  "factory": "transfer_shared_source",
+  "fingerprint": "6370fbf289b7ea0a3ef851e01165ec9b4322b5f14dabc4d0a4747ae34fb83ecd",
+  "initial": {
+   "account:ops-reserve": "60.00",
+   "account:payout-a0": "60.00",
+   "account:payout-a1": "60.00",
+   "account:payout-a2": "60.00",
+   "account:payout-a3": "60.00"
+  },
+  "instance": 0,
+  "intents": {
+   "a0": "Move 40.00 from account:ops-reserve to account:payout-a0, only if account:ops-reserve has enough.",
+   "a1": "Move 40.00 from account:ops-reserve to account:payout-a1, only if account:ops-reserve has enough.",
+   "a2": "Move 40.00 from account:ops-reserve to account:payout-a2, only if account:ops-reserve has enough.",
+   "a3": "Move 40.00 from account:ops-reserve to account:payout-a3, only if account:ops-reserve has enough."
+  },
+  "kind": "account",
+  "name": "transfer_shared_source@i0/n4",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 17,
+  "cost_usd": 0.10753549999999999,
+  "invalid_calls": 0,
+  "multi_tool_turns": 4,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 14186,
+   "cache_write": 434,
+   "input": 8471,
+   "output": 2215
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

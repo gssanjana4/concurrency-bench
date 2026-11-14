@@ -1,0 +1,842 @@
+{
+ "agents": {
+  "agent_1": {
+   "agent_id": "agent_1",
+   "claim": "declined",
+   "completions": 2,
+   "cost_usd": 0.006902200000000001,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty"
+        ],
+        "rows": [
+         [
+          1
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 22.8243,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Stock for WIDGET-7 is 1, which is less than the requested 3 units.",
+      "status": "declined"
+     },
+     "completion": 1,
+     "t": 24.868,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_fb11214ede28f78f7a1f682a",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\"], \"rows\": [[1]]}]}",
+       "tool_use_id": "call_fb11214ede28f78f7a1f682a",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_45017e5f5a623200f61e3824",
+       "input": {
+        "note": "Stock for WIDGET-7 is 1, which is less than the requested 3 units.",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Stock for WIDGET-7 is 1, which is less than the requested 3 units.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_1. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 3 units of 'WIDGET-7': insert a row into orders (customer 'agent_1', sku 'WIDGET-7', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 3 units of 'WIDGET-7': insert a row into orders (customer 'agent_1', sku 'WIDGET-7', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".",
+   "tool_calls": 1,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:42:39Z",
+     "content": [
+      {
+       "id": "call_fb11214ede28f78f7a1f682a",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.005988,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.005988,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 1664,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 22.8225,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 630,
+      "output": 1954,
+      "reasoning": 1664
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:42:41Z",
+     "content": [
+      {
+       "id": "call_45017e5f5a623200f61e3824",
+       "input": {
+        "note": "Stock for WIDGET-7 is 1, which is less than the requested 3 units.",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0009142,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0009142,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 66,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 24.8674,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2621,
+      "output": 130,
+      "reasoning": 66
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3251,
+    "output": 2084
+   }
+  },
+  "agent_2": {
+   "agent_id": "agent_2",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.0016008,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty, version FROM stock WHERE sku = 'WIDGET-7';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty",
+         "version"
+        ],
+        "rows": [
+         [
+          5,
+          0
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 2.5457,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "BEGIN TRANSACTION;\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'WIDGET-7', 4, 'confirmed');\nUPDATE stock SET qty = qty - 4, version = version + 1 WHERE sku = 'WIDGET-7';\nCOMMIT;"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "status": "ok"
+       },
+       {
+        "rows_affected": 1
+       },
+       {
+        "rows_affected": 1
+       },
+       {
+        "status": "ok"
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 5.106,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully placed order for 4 units of WIDGET-7 and updated stock.",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 6.6408,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_2bbd3fcc15734be7fad23eff",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'WIDGET-7';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\", \"version\"], \"rows\": [[5, 0]]}]}",
+       "tool_use_id": "call_2bbd3fcc15734be7fad23eff",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_d5ebc8d3e4fe3cb2b70ee2c8",
+       "input": {
+        "sql": "BEGIN TRANSACTION;\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'WIDGET-7', 4, 'confirmed');\nUPDATE stock SET qty = qty - 4, version = version + 1 WHERE sku = 'WIDGET-7';\nCOMMIT;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"status\": \"ok\"}, {\"rows_affected\": 1}, {\"rows_affected\": 1}, {\"status\": \"ok\"}]}",
+       "tool_use_id": "call_d5ebc8d3e4fe3cb2b70ee2c8",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_220e86b2ac40d7f2c47be1d4",
+       "input": {
+        "note": "Successfully placed order for 4 units of WIDGET-7 and updated stock.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully placed order for 4 units of WIDGET-7 and updated stock.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_2. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 4 units of 'WIDGET-7': insert a row into orders (customer 'agent_2', sku 'WIDGET-7', qty 4, status 'confirmed') and reduce that sku's qty in table stock by 4. If the stock qty is less than 4, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 4 units of 'WIDGET-7': insert a row into orders (customer 'agent_2', sku 'WIDGET-7', qty 4, status 'confirmed') and reduce that sku's qty in table stock by 4. If the stock qty is less than 4, do neither and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:42:19Z",
+     "content": [
+      {
+       "id": "call_2bbd3fcc15734be7fad23eff",
+       "input": {
+        "sql": "SELECT qty, version FROM stock WHERE sku = 'WIDGET-7';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.000579,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.000579,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 92,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 2.544,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 630,
+      "output": 151,
+      "reasoning": 92
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:42:21Z",
+     "content": [
+      {
+       "id": "call_d5ebc8d3e4fe3cb2b70ee2c8",
+       "input": {
+        "sql": "BEGIN TRANSACTION;\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'WIDGET-7', 4, 'confirmed');\nUPDATE stock SET qty = qty - 4, version = version + 1 WHERE sku = 'WIDGET-7';\nCOMMIT;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0005818,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0005818,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 43,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 5.1041,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 824,
+      "output": 139,
+      "reasoning": 43
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:42:23Z",
+     "content": [
+      {
+       "id": "call_220e86b2ac40d7f2c47be1d4",
+       "input": {
+        "note": "Successfully placed order for 4 units of WIDGET-7 and updated stock.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00044,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.00044,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 32,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 6.6402,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1015,
+      "output": 79,
+      "reasoning": 32
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 2469,
+    "output": 369
+   }
+  }
+ },
+ "behaviors": {
+  "agent_1": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [],
+   "n_contended_writes": 0,
+   "n_effective": 0,
+   "n_errors": 0,
+   "n_protected": 0,
+   "n_statements": 1,
+   "no_write": true,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": false,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_2": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": true,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 5,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": true
+  }
+ },
+ "dry_run": false,
+ "effects": {
+  "agent_1": {
+   "handle_inserts": 0,
+   "order_inserts": 0,
+   "target_writes": 0
+  },
+  "agent_2": {
+   "handle_inserts": 0,
+   "order_inserts": 1,
+   "target_writes": 1
+  }
+ },
+ "episode_id": "openrouter_qwen_qwen3.6-27b-20260422__order@v0__n2__r3",
+ "exploratory": true,
+ "final_db": {
+  "orders": [
+   [
+    1,
+    "cust_5",
+    "GEAR-2",
+    2,
+    "confirmed"
+   ],
+   [
+    2,
+    "agent_2",
+    "WIDGET-7",
+    4,
+    "confirmed"
+   ]
+  ],
+  "schema": [
+   [
+    "table",
+    "orders",
+    "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL)"
+   ],
+   [
+    "table",
+    "stock",
+    "CREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)"
+   ]
+  ],
+  "stock": [
+   [
+    "WIDGET-7",
+    1,
+    1
+   ],
+   [
+    "GEAR-2",
+    12,
+    0
+   ]
+  ]
+ },
+ "instance": {
+  "instructions": {
+   "agent_1": "Place an order for 3 units of 'WIDGET-7': insert a row into orders (customer 'agent_1', sku 'WIDGET-7', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".",
+   "agent_2": "Place an order for 4 units of 'WIDGET-7': insert a row into orders (customer 'agent_2', sku 'WIDGET-7', qty 4, status 'confirmed') and reduce that sku's qty in table stock by 4. If the stock qty is less than 4, do neither and finish with status \"declined\"."
+  },
+  "n_agents": 2,
+  "params": {
+   "per_agent": {
+    "agent_1": 3,
+    "agent_2": 4
+   },
+   "sku": "WIDGET-7",
+   "start": 5
+  },
+  "schema": [
+   "CREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)",
+   "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL)"
+  ],
+  "seed": [
+   "INSERT INTO stock (sku, qty, version) VALUES ('WIDGET-7', 5, 0)",
+   "INSERT INTO stock (sku, qty, version) VALUES ('GEAR-2', 12, 0)",
+   "INSERT INTO orders (id, customer, sku, qty, status) VALUES (1, 'cust_5', 'GEAR-2', 2, 'confirmed')"
+  ],
+  "target": {
+   "atomic_cols": [
+    "qty"
+   ],
+   "cas_cols": [
+    "qty",
+    "version"
+   ],
+   "insert_guard": [],
+   "table": "stock",
+   "unique_col": null,
+   "write_cols": [
+    "qty"
+   ]
+  },
+  "template": "order",
+  "variant": 0
+ },
+ "integrity": {
+  "claims": {
+   "agent_1": "declined",
+   "agent_2": "done"
+  },
+  "details": {
+   "confirmed": [
+    [
+     "agent_2",
+     4
+    ]
+   ],
+   "expected_from_commits": 1,
+   "expected_from_orders": 1,
+   "final": 1
+  },
+  "kinds": [],
+  "primary": "",
+  "report_kinds": [],
+  "report_mismatch": false,
+  "violation": false
+ },
+ "model": "openrouter:qwen/qwen3.6-27b-20260422",
+ "n_agents": 2,
+ "provider": "openrouter",
+ "rep": 3,
+ "run_info": {
+  "finished_utc": "2026-11-02T22:42:41Z",
+  "started_utc": "2026-11-02T22:42:16Z",
+  "wall_seconds": 24.873
+ },
+ "settings": {
+  "busy_timeout_s": 0.2,
+  "episode_timeout_s": 900.0,
+  "isolation_level": null,
+  "journal_mode": "wal",
+  "max_tokens": 4096,
+  "python": "3.14.6",
+  "sqlite_version": "3.53.2",
+  "temperature_requested": 0.0,
+  "turn_cap": 12
+ },
+ "sql_log": [
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 0,
+   "sql": "SELECT qty, version FROM stock WHERE sku = 'WIDGET-7';",
+   "stmt": 0,
+   "t_end": 2.5456,
+   "t_start": 2.5445,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {},
+    "txn": [
+     [
+      "BEGIN",
+      null
+     ]
+    ],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "seq": 1,
+   "sql": "BEGIN TRANSACTION;",
+   "stmt": 0,
+   "t_end": 5.1048,
+   "t_start": 5.1047,
+   "txn_after": true,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "orders"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 2,
+   "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'WIDGET-7', 4, 'confirmed');",
+   "stmt": 1,
+   "t_end": 5.105,
+   "t_start": 5.1048,
+   "txn_after": true,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "stock": [
+      "qty",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 3,
+   "sql": "UPDATE stock SET qty = qty - 4, version = version + 1 WHERE sku = 'WIDGET-7';",
+   "stmt": 2,
+   "t_end": 5.1051,
+   "t_start": 5.105,
+   "txn_after": true,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {},
+    "txn": [
+     [
+      "COMMIT",
+      null
+     ]
+    ],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "seq": 4,
+   "sql": "COMMIT;",
+   "stmt": 3,
+   "t_end": 5.1059,
+   "t_start": 5.1051,
+   "txn_after": false,
+   "txn_before": true
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 5,
+   "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7';",
+   "stmt": 0,
+   "t_end": 22.8243,
+   "t_start": 22.8231,
+   "txn_after": false,
+   "txn_before": false
+  }
+ ],
+ "task": "order",
+ "totals": {
+  "completions": 5,
+  "cost_usd": 0.008503,
+  "tool_calls": 3,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 5720,
+   "output": 2453
+  }
+ },
+ "variant": 0
+}

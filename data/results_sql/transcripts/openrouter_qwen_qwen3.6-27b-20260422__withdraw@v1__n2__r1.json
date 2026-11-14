@@ -1,0 +1,941 @@
+{
+ "agents": {
+  "agent_1": {
+   "agent_id": "agent_1",
+   "claim": "declined",
+   "completions": 4,
+   "cost_usd": 0.0029458,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT balance FROM accounts WHERE id = 7;"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "balance"
+        ],
+        "rows": [
+         [
+          250
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 3.3617,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "UPDATE accounts SET balance = balance - 150, version = version + 1 WHERE id = 7 AND balance >= 150;"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 0
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 9.3007,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "SELECT balance FROM accounts WHERE id = 7;"
+     },
+     "completion": 2,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "balance"
+        ],
+        "rows": [
+         [
+          70
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 3,
+     "t": 12.2703,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Account 7 balance is 70, which is less than the requested withdrawal of 150.",
+      "status": "declined"
+     },
+     "completion": 3,
+     "t": 15.7534,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "01a19e633140ad112ea38894662c656e",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 7;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"balance\"], \"rows\": [[250]]}]}",
+       "tool_use_id": "01a19e633140ad112ea38894662c656e",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "01a19e6343ba1bd28f991129510b8020",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 150, version = version + 1 WHERE id = 7 AND balance >= 150;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 0}]}",
+       "tool_use_id": "01a19e6343ba1bd28f991129510b8020",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "01a19e6353eac35d4f03faf53a34b327",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 7;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"balance\"], \"rows\": [[70]]}]}",
+       "tool_use_id": "01a19e6353eac35d4f03faf53a34b327",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "01a19e636020138f7cdc0c2c599bd3b4",
+       "input": {
+        "note": "Account 7 balance is 70, which is less than the requested withdrawal of 150.",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Account 7 balance is 70, which is less than the requested withdrawal of 150.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_1. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nTask: Withdraw 150 from account 7 in table accounts. The balance must never go below 0: if it is less than 150, do not withdraw and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Withdraw 150 from account 7 in table accounts. The balance must never go below 0: if it is less than 150, do not withdraw and finish with status \"declined\".",
+   "tool_calls": 3,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:31:03Z",
+     "content": [
+      {
+       "id": "01a19e633140ad112ea38894662c656e",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 7;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0006162,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @SiliconFlow",
+     "provider_meta": {
+      "cost": 0.0006162,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 102,
+      "temperature_sent": 0.0,
+      "upstream_provider": "SiliconFlow"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 3.3604,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 582,
+      "output": 138,
+      "reasoning": 102
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:31:09Z",
+     "content": [
+      {
+       "id": "01a19e6343ba1bd28f991129510b8020",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 150, version = version + 1 WHERE id = 7 AND balance >= 150;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0009032,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @SiliconFlow",
+     "provider_meta": {
+      "cost": 0.0009032,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 154,
+      "temperature_sent": 0.0,
+      "upstream_provider": "SiliconFlow"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 9.2998,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 760,
+      "output": 211,
+      "reasoning": 154
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:31:12Z",
+     "content": [
+      {
+       "id": "01a19e6353eac35d4f03faf53a34b327",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 7;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0006372,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @SiliconFlow",
+     "provider_meta": {
+      "cost": 0.0006372,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 69,
+      "temperature_sent": 0.0,
+      "upstream_provider": "SiliconFlow"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 12.2694,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1004,
+      "output": 105,
+      "reasoning": 69
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:31:16Z",
+     "content": [
+      {
+       "id": "01a19e636020138f7cdc0c2c599bd3b4",
+       "input": {
+        "note": "Account 7 balance is 70, which is less than the requested withdrawal of 150.",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0007892,
+     "index": 4,
+     "model_served": "qwen/qwen3.6-27b @SiliconFlow",
+     "provider_meta": {
+      "cost": 0.0007892,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 80,
+      "temperature_sent": 0.0,
+      "upstream_provider": "SiliconFlow"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 15.7528,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1148,
+      "output": 139,
+      "reasoning": 80
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3494,
+    "output": 593
+   }
+  },
+  "agent_2": {
+   "agent_id": "agent_2",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.0017251200000000001,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT balance FROM accounts WHERE id = 7;"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "balance"
+        ],
+        "rows": [
+         [
+          250
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 2.7478,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "UPDATE accounts SET balance = balance - 180, version = version + 1 WHERE id = 7 AND balance >= 180;"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 4.4893,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully withdrew 180 from account 7.",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 5.9231,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_1f361d63b31345d7b4880416",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 7;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"balance\"], \"rows\": [[250]]}]}",
+       "tool_use_id": "call_1f361d63b31345d7b4880416",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_ef1cf1d1fd164123ac1745a5",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 180, version = version + 1 WHERE id = 7 AND balance >= 180;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "call_ef1cf1d1fd164123ac1745a5",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_c456bf76312647d6afa16e3b",
+       "input": {
+        "note": "Successfully withdrew 180 from account 7.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully withdrew 180 from account 7.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_2. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nTask: Withdraw 180 from account 7 in table accounts. The balance must never go below 0: if it is less than 180, do not withdraw and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Withdraw 180 from account 7 in table accounts. The balance must never go below 0: if it is less than 180, do not withdraw and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:31:03Z",
+     "content": [
+      {
+       "id": "call_1f361d63b31345d7b4880416",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 7;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00062784,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00062784,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 89,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 2.7459,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 572,
+      "output": 139,
+      "reasoning": 89
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:31:05Z",
+     "content": [
+      {
+       "id": "call_ef1cf1d1fd164123ac1745a5",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 180, version = version + 1 WHERE id = 7 AND balance >= 180;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00057568,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00057568,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 60,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 4.4878,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 649,
+      "output": 115,
+      "reasoning": 60
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:31:06Z",
+     "content": [
+      {
+       "id": "call_c456bf76312647d6afa16e3b",
+       "input": {
+        "note": "Successfully withdrew 180 from account 7.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0005216,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.0005216,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 36,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 5.9225,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 740,
+      "output": 89,
+      "reasoning": 36
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 1961,
+    "output": 343
+   }
+  }
+ },
+ "behaviors": {
+  "agent_1": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": true,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 0,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 3,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": true,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_2": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 2,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": true,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  }
+ },
+ "dry_run": false,
+ "effects": {
+  "agent_1": {
+   "handle_inserts": 0,
+   "order_inserts": 0,
+   "target_writes": 0
+  },
+  "agent_2": {
+   "handle_inserts": 0,
+   "order_inserts": 0,
+   "target_writes": 1
+  }
+ },
+ "episode_id": "openrouter_qwen_qwen3.6-27b-20260422__withdraw@v1__n2__r1",
+ "exploratory": true,
+ "final_db": {
+  "accounts": [
+   [
+    3,
+    "user_2",
+    40,
+    0
+   ],
+   [
+    7,
+    "shared",
+    70,
+    1
+   ]
+  ],
+  "schema": [
+   [
+    "table",
+    "accounts",
+    "CREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)"
+   ]
+  ]
+ },
+ "instance": {
+  "instructions": {
+   "agent_1": "Withdraw 150 from account 7 in table accounts. The balance must never go below 0: if it is less than 150, do not withdraw and finish with status \"declined\".",
+   "agent_2": "Withdraw 180 from account 7 in table accounts. The balance must never go below 0: if it is less than 180, do not withdraw and finish with status \"declined\"."
+  },
+  "n_agents": 2,
+  "params": {
+   "account": 7,
+   "per_agent": {
+    "agent_1": 150,
+    "agent_2": 180
+   },
+   "start": 250
+  },
+  "schema": [
+   "CREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)"
+  ],
+  "seed": [
+   "INSERT INTO accounts (id, owner, balance, version) VALUES (7, 'shared', 250, 0)",
+   "INSERT INTO accounts (id, owner, balance, version) VALUES (3, 'user_2', 40, 0)"
+  ],
+  "target": {
+   "atomic_cols": [
+    "balance"
+   ],
+   "cas_cols": [
+    "balance",
+    "version"
+   ],
+   "insert_guard": [],
+   "table": "accounts",
+   "unique_col": null,
+   "write_cols": [
+    "balance"
+   ]
+  },
+  "template": "withdraw",
+  "variant": 1
+ },
+ "integrity": {
+  "claims": {
+   "agent_1": "declined",
+   "agent_2": "done"
+  },
+  "details": {
+   "claimed_total": 180,
+   "expected_from_commits": 70,
+   "final": 70
+  },
+  "kinds": [],
+  "primary": "",
+  "report_kinds": [],
+  "report_mismatch": false,
+  "violation": false
+ },
+ "model": "openrouter:qwen/qwen3.6-27b-20260422",
+ "n_agents": 2,
+ "provider": "openrouter",
+ "rep": 1,
+ "run_info": {
+  "finished_utc": "2026-11-02T22:31:16Z",
+  "started_utc": "2026-11-02T22:31:00Z",
+  "wall_seconds": 15.759
+ },
+ "settings": {
+  "busy_timeout_s": 0.2,
+  "episode_timeout_s": 900.0,
+  "isolation_level": null,
+  "journal_mode": "wal",
+  "max_tokens": 4096,
+  "python": "3.14.6",
+  "sqlite_version": "3.53.2",
+  "temperature_requested": 0.0,
+  "turn_cap": 12
+ },
+ "sql_log": [
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 0,
+   "sql": "SELECT balance FROM accounts WHERE id = 7;",
+   "stmt": 0,
+   "t_end": 2.7477,
+   "t_start": 2.7465,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 1,
+   "sql": "SELECT balance FROM accounts WHERE id = 7;",
+   "stmt": 0,
+   "t_end": 3.3616,
+   "t_start": 3.3611,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "accounts": [
+      "balance",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 2,
+   "sql": "UPDATE accounts SET balance = balance - 180, version = version + 1 WHERE id = 7 AND balance >= 180;",
+   "stmt": 0,
+   "t_end": 4.4892,
+   "t_start": 4.4885,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "accounts": [
+      "balance",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 0,
+   "seq": 3,
+   "sql": "UPDATE accounts SET balance = balance - 150, version = version + 1 WHERE id = 7 AND balance >= 150;",
+   "stmt": 0,
+   "t_end": 9.3007,
+   "t_start": 9.3005,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 3,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 4,
+   "sql": "SELECT balance FROM accounts WHERE id = 7;",
+   "stmt": 0,
+   "t_end": 12.2702,
+   "t_start": 12.2701,
+   "txn_after": false,
+   "txn_before": false
+  }
+ ],
+ "task": "withdraw",
+ "totals": {
+  "completions": 7,
+  "cost_usd": 0.00467092,
+  "tool_calls": 5,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 5455,
+   "output": 936
+  }
+ },
+ "variant": 1
+}

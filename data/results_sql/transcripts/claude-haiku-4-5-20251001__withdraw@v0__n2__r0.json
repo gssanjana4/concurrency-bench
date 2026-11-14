@@ -1,0 +1,1054 @@
+{
+ "agents": {
+  "agent_1": {
+   "agent_id": "agent_1",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.0046289999999999994,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT id, owner, balance, version FROM accounts WHERE id = 1;"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "id",
+         "owner",
+         "balance",
+         "version"
+        ],
+        "rows": [
+         [
+          1,
+          "shared",
+          100,
+          0
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.1649,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "UPDATE accounts SET balance = 40 WHERE id = 1;"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 2.2505,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully withdrew 60 from account 1; balance reduced from 100 to 40.",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 3.4806,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you withdraw 60 from account 1. Let me first check the current balance to ensure it's at least 60.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0115WtNCVSjWGVA7hKtwKNBi",
+       "input": {
+        "sql": "SELECT id, owner, balance, version FROM accounts WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"id\", \"owner\", \"balance\", \"version\"], \"rows\": [[1, \"shared\", 100, 0]]}]}",
+       "tool_use_id": "toolu_0115WtNCVSjWGVA7hKtwKNBi",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! Account 1 has a balance of 100, which is sufficient for the withdrawal of 60. Now I'll proceed with the withdrawal by updating the balance to 40.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01X3eozBbC1fqSeRgfEfcVLz",
+       "input": {
+        "sql": "UPDATE accounts SET balance = 40 WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "toolu_01X3eozBbC1fqSeRgfEfcVLz",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! The withdrawal has been completed successfully. Account 1's balance has been reduced from 100 to 40, which is the result of withdrawing 60.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CGGA5zDSQAYR7jyCVajg9S",
+       "input": {
+        "note": "Successfully withdrew 60 from account 1; balance reduced from 100 to 40.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully withdrew 60 from account 1; balance reduced from 100 to 40.",
+   "stop_reason": "tool_use",
+   "system": "You are agent_1. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nTask: Withdraw 60 from account 1 in table accounts. The balance must never go below 0: if it is less than 60, do not withdraw and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Withdraw 60 from account 1 in table accounts. The balance must never go below 0: if it is less than 60, do not withdraw and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:25:08Z",
+     "content": [
+      {
+       "text": "I'll help you withdraw 60 from account 1. Let me first check the current balance to ensure it's at least 60.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0115WtNCVSjWGVA7hKtwKNBi",
+       "input": {
+        "sql": "SELECT id, owner, balance, version FROM accounts WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001345,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 1.1616,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 860,
+      "output": 97
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:25:09Z",
+     "content": [
+      {
+       "text": "Great! Account 1 has a balance of 100, which is sufficient for the withdrawal of 60. Now I'll proceed with the withdrawal by updating the balance to 40.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01X3eozBbC1fqSeRgfEfcVLz",
+       "input": {
+        "sql": "UPDATE accounts SET balance = 40 WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00153,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 2.249,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1010,
+      "output": 104
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:25:11Z",
+     "content": [
+      {
+       "text": "Perfect! The withdrawal has been completed successfully. Account 1's balance has been reduced from 100 to 40, which is the result of withdrawing 60.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CGGA5zDSQAYR7jyCVajg9S",
+       "input": {
+        "note": "Successfully withdrew 60 from account 1; balance reduced from 100 to 40.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001754,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 3.4801,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1144,
+      "output": 122
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3014,
+    "output": 323
+   }
+  },
+  "agent_2": {
+   "agent_id": "agent_2",
+   "claim": "declined",
+   "completions": 5,
+   "cost_usd": 0.008348000000000001,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT balance FROM accounts WHERE id = 1;"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "balance"
+        ],
+        "rows": [
+         [
+          100
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.1667,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "UPDATE accounts SET balance = balance - 70, version = version + 1 WHERE id = 1;"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 2.4701,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "SELECT balance FROM accounts WHERE id = 1;"
+     },
+     "completion": 2,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "balance"
+        ],
+        "rows": [
+         [
+          -30
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 3,
+     "t": 3.4151,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "UPDATE accounts SET balance = balance + 70, version = version + 1 WHERE id = 1;"
+     },
+     "completion": 3,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 4,
+     "t": 5.0326,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Withdrawal declined: balance would go below 0 due to concurrent modifications",
+      "status": "declined"
+     },
+     "completion": 4,
+     "t": 6.5907,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you withdraw 70 from account 1. Let me first check the current balance to ensure it's at least 70.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Uj7XsUDZHS9pVSmJYXRt3F",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"balance\"], \"rows\": [[100]]}]}",
+       "tool_use_id": "toolu_01Uj7XsUDZHS9pVSmJYXRt3F",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! Account 1 has a balance of 100, which is sufficient for a 70 withdrawal (100 - 70 = 30, which is \u2265 0). Now I'll proceed with the withdrawal.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017Z9aqe8zJ5JusGq4zUUdxV",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 70, version = version + 1 WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "toolu_017Z9aqe8zJ5JusGq4zUUdxV",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! The withdrawal has been completed successfully. Let me verify the new balance:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LGS9UF4rWSr71Vk9GX1RaX",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"balance\"], \"rows\": [[-30]]}]}",
+       "tool_use_id": "toolu_01LGS9UF4rWSr71Vk9GX1RaX",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I need to stop - the balance has gone negative to -30, which violates the constraint that the balance must never go below 0. It appears another transaction reduced the balance between my check and my update. Let me roll back this change by adding 70 back.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01GW2EJjbxWEBDm96VXPB9Dk",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance + 70, version = version + 1 WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "toolu_01GW2EJjbxWEBDm96VXPB9Dk",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Since the withdrawal would result in a balance below 0 (and the concurrent modification by another client demonstrates this risk), I must decline this task.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VMQnhc3D1VP7WrrYywYJvk",
+       "input": {
+        "note": "Withdrawal declined: balance would go below 0 due to concurrent modifications",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Withdrawal declined: balance would go below 0 due to concurrent modifications",
+   "stop_reason": "tool_use",
+   "system": "You are agent_2. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nTask: Withdraw 70 from account 1 in table accounts. The balance must never go below 0: if it is less than 70, do not withdraw and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Withdraw 70 from account 1 in table accounts. The balance must never go below 0: if it is less than 70, do not withdraw and finish with status \"declined\".",
+   "tool_calls": 4,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:25:08Z",
+     "content": [
+      {
+       "text": "I'll help you withdraw 70 from account 1. Let me first check the current balance to ensure it's at least 70.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Uj7XsUDZHS9pVSmJYXRt3F",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001315,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 1.1635,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 860,
+      "output": 91
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:25:10Z",
+     "content": [
+      {
+       "text": "Great! Account 1 has a balance of 100, which is sufficient for a 70 withdrawal (100 - 70 = 30, which is \u2265 0). Now I'll proceed with the withdrawal.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017Z9aqe8zJ5JusGq4zUUdxV",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance - 70, version = version + 1 WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001611,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 2.4689,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 986,
+      "output": 125
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:25:11Z",
+     "content": [
+      {
+       "text": "Perfect! The withdrawal has been completed successfully. Let me verify the new balance:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LGS9UF4rWSr71Vk9GX1RaX",
+       "input": {
+        "sql": "SELECT balance FROM accounts WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001531,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 3.4143,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1141,
+      "output": 78
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:25:12Z",
+     "content": [
+      {
+       "text": "I need to stop - the balance has gone negative to -30, which violates the constraint that the balance must never go below 0. It appears another transaction reduced the balance between my check and my update. Let me roll back this change by adding 70 back.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01GW2EJjbxWEBDm96VXPB9Dk",
+       "input": {
+        "sql": "UPDATE accounts SET balance = balance + 70, version = version + 1 WHERE id = 1;"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00191,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 5.0314,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1255,
+      "output": 131
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:25:14Z",
+     "content": [
+      {
+       "text": "Since the withdrawal would result in a balance below 0 (and the concurrent modification by another client demonstrates this risk), I must decline this task.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VMQnhc3D1VP7WrrYywYJvk",
+       "input": {
+        "note": "Withdrawal declined: balance would go below 0 due to concurrent modifications",
+        "status": "declined"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001981,
+     "index": 5,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 6.5901,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1416,
+      "output": 113
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5658,
+    "output": 538
+   }
+  }
+ },
+ "behaviors": {
+  "agent_1": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": true,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 0,
+   "n_statements": 2,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": false,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_2": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 2,
+   "n_effective": 2,
+   "n_errors": 0,
+   "n_protected": 2,
+   "n_statements": 4,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  }
+ },
+ "dry_run": false,
+ "effects": {
+  "agent_1": {
+   "handle_inserts": 0,
+   "order_inserts": 0,
+   "target_writes": 1
+  },
+  "agent_2": {
+   "handle_inserts": 0,
+   "order_inserts": 0,
+   "target_writes": 2
+  }
+ },
+ "episode_id": "claude-haiku-4-5-20251001__withdraw@v0__n2__r0",
+ "exploratory": true,
+ "final_db": {
+  "accounts": [
+   [
+    1,
+    "shared",
+    40,
+    2
+   ],
+   [
+    2,
+    "user_5",
+    500,
+    0
+   ]
+  ],
+  "schema": [
+   [
+    "table",
+    "accounts",
+    "CREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)"
+   ]
+  ]
+ },
+ "instance": {
+  "instructions": {
+   "agent_1": "Withdraw 60 from account 1 in table accounts. The balance must never go below 0: if it is less than 60, do not withdraw and finish with status \"declined\".",
+   "agent_2": "Withdraw 70 from account 1 in table accounts. The balance must never go below 0: if it is less than 70, do not withdraw and finish with status \"declined\"."
+  },
+  "n_agents": 2,
+  "params": {
+   "account": 1,
+   "per_agent": {
+    "agent_1": 60,
+    "agent_2": 70
+   },
+   "start": 100
+  },
+  "schema": [
+   "CREATE TABLE accounts (id INTEGER PRIMARY KEY, owner TEXT NOT NULL, balance INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)"
+  ],
+  "seed": [
+   "INSERT INTO accounts (id, owner, balance, version) VALUES (1, 'shared', 100, 0)",
+   "INSERT INTO accounts (id, owner, balance, version) VALUES (2, 'user_5', 500, 0)"
+  ],
+  "target": {
+   "atomic_cols": [
+    "balance"
+   ],
+   "cas_cols": [
+    "balance",
+    "version"
+   ],
+   "insert_guard": [],
+   "table": "accounts",
+   "unique_col": null,
+   "write_cols": [
+    "balance"
+   ]
+  },
+  "template": "withdraw",
+  "variant": 0
+ },
+ "integrity": {
+  "claims": {
+   "agent_1": "done",
+   "agent_2": "declined"
+  },
+  "details": {
+   "claimed_total": 60,
+   "expected_from_commits": -30,
+   "final": 40,
+   "unreported_effect": [
+    "agent_2"
+   ]
+  },
+  "kinds": [
+   "lost_update"
+  ],
+  "primary": "lost_update",
+  "report_kinds": [
+   "unreported_effect"
+  ],
+  "report_mismatch": true,
+  "violation": true
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "rep": 0,
+ "run_info": {
+  "finished_utc": "2026-11-02T22:25:14Z",
+  "started_utc": "2026-11-02T22:25:07Z",
+  "wall_seconds": 6.598
+ },
+ "settings": {
+  "busy_timeout_s": 0.2,
+  "episode_timeout_s": 900.0,
+  "isolation_level": null,
+  "journal_mode": "wal",
+  "max_tokens": 4096,
+  "python": "3.14.6",
+  "sqlite_version": "3.53.2",
+  "temperature_requested": 0.0,
+  "turn_cap": 12
+ },
+ "sql_log": [
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id",
+      "owner",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 0,
+   "sql": "SELECT id, owner, balance, version FROM accounts WHERE id = 1;",
+   "stmt": 0,
+   "t_end": 1.1648,
+   "t_start": 1.1637,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 1,
+   "sql": "SELECT balance FROM accounts WHERE id = 1;",
+   "stmt": 0,
+   "t_end": 1.1667,
+   "t_start": 1.164,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "accounts": [
+      "balance"
+     ]
+    }
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 2,
+   "sql": "UPDATE accounts SET balance = 40 WHERE id = 1;",
+   "stmt": 0,
+   "t_end": 2.2505,
+   "t_start": 2.2497,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "accounts": [
+      "balance",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 3,
+   "sql": "UPDATE accounts SET balance = balance - 70, version = version + 1 WHERE id = 1;",
+   "stmt": 0,
+   "t_end": 2.47,
+   "t_start": 2.4694,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 3,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 4,
+   "sql": "SELECT balance FROM accounts WHERE id = 1;",
+   "stmt": 0,
+   "t_end": 3.415,
+   "t_start": 3.4149,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "accounts": [
+      "balance",
+      "id",
+      "version"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "accounts": [
+      "balance",
+      "version"
+     ]
+    }
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 4,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 5,
+   "sql": "UPDATE accounts SET balance = balance + 70, version = version + 1 WHERE id = 1;",
+   "stmt": 0,
+   "t_end": 5.0325,
+   "t_start": 5.0321,
+   "txn_after": false,
+   "txn_before": false
+  }
+ ],
+ "task": "withdraw",
+ "totals": {
+  "completions": 8,
+  "cost_usd": 0.012977,
+  "tool_calls": 6,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 8672,
+   "output": 861
+  }
+ },
+ "variant": 0
+}

@@ -1,0 +1,1698 @@
+{
+ "agents": {
+  "agent_1": {
+   "agent_id": "agent_1",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.005372,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty"
+        ],
+        "rows": [
+         [
+          5
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.2454,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_1', 'WIDGET-7', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7';\n"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       },
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 2.9818,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Order placed: 2 units of WIDGET-7 for agent_1; stock reduced from 5 to 3 units.",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 4.5153,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you place an order for 2 units of 'WIDGET-7'. Let me start by checking the current stock level to ensure we have at least 2 units available.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TjzhCFbsZTLQ2iQxQ8foVK",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\"], \"rows\": [[5]]}]}",
+       "tool_use_id": "toolu_01TjzhCFbsZTLQ2iQxQ8foVK",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are 5 units of 'WIDGET-7' in stock, which is more than the 2 units needed. Now I'll proceed with placing the order by:\n1. Inserting a new order record\n2. Reducing the stock quantity by 2",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01MqBpQCvxXBsE7m8ahWbKmb",
+       "input": {
+        "sql": "\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_1', 'WIDGET-7', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7';\n"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}, {\"rows_affected\": 1}]}",
+       "tool_use_id": "toolu_01MqBpQCvxXBsE7m8ahWbKmb",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! The order has been successfully placed. Both operations completed:\n- Inserted 1 new order record\n- Updated the stock (reduced WIDGET-7 quantity by 2)",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0136d5PE98fg7FVMyHaLC6PL",
+       "input": {
+        "note": "Order placed: 2 units of WIDGET-7 for agent_1; stock reduced from 5 to 3 units.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Order placed: 2 units of WIDGET-7 for agent_1; stock reduced from 5 to 3 units.",
+   "stop_reason": "tool_use",
+   "system": "You are agent_1. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 2 units of 'WIDGET-7': insert a row into orders (customer 'agent_1', sku 'WIDGET-7', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 2 units of 'WIDGET-7': insert a row into orders (customer 'agent_1', sku 'WIDGET-7', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:26:48Z",
+     "content": [
+      {
+       "text": "I'll help you place an order for 2 units of 'WIDGET-7'. Let me start by checking the current stock level to ensure we have at least 2 units available.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TjzhCFbsZTLQ2iQxQ8foVK",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001475,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 1.2403,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 930,
+      "output": 109
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:26:50Z",
+     "content": [
+      {
+       "text": "Great! There are 5 units of 'WIDGET-7' in stock, which is more than the 2 units needed. Now I'll proceed with placing the order by:\n1. Inserting a new order record\n2. Reducing the stock quantity by 2",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01MqBpQCvxXBsE7m8ahWbKmb",
+       "input": {
+        "sql": "\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_1', 'WIDGET-7', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7';\n"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001929,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 2.9799,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1074,
+      "output": 171
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:26:51Z",
+     "content": [
+      {
+       "text": "Perfect! The order has been successfully placed. Both operations completed:\n- Inserted 1 new order record\n- Updated the stock (reduced WIDGET-7 quantity by 2)",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0136d5PE98fg7FVMyHaLC6PL",
+       "input": {
+        "note": "Order placed: 2 units of WIDGET-7 for agent_1; stock reduced from 5 to 3 units.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001968,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 4.5148,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1283,
+      "output": 137
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3287,
+    "output": 417
+   }
+  },
+  "agent_2": {
+   "agent_id": "agent_2",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.005436,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty"
+        ],
+        "rows": [
+         [
+          5
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.2406,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'WIDGET-7', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7'\n"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       },
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 2.985,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Order for 2 units of WIDGET-7 placed successfully; stock reduced from 5 to 3",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 4.6891,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you place an order for 2 units of 'WIDGET-7'. Let me start by checking the current stock level for this SKU.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PD67jJ4ijEWt2TuCpcVEAx",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\"], \"rows\": [[5]]}]}",
+       "tool_use_id": "toolu_01PD67jJ4ijEWt2TuCpcVEAx",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! The stock for 'WIDGET-7' is 5 units, which is sufficient for the order of 2 units. Now I'll proceed with:\n1. Inserting the order into the orders table\n2. Reducing the stock quantity by 2",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CT4UuNCr6m1zQp2r9JYf4z",
+       "input": {
+        "sql": "\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'WIDGET-7', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7'\n"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}, {\"rows_affected\": 1}]}",
+       "tool_use_id": "toolu_01CT4UuNCr6m1zQp2r9JYf4z",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! The order has been successfully placed. Both operations completed:\n- Order inserted into the orders table with customer 'agent_2', SKU 'WIDGET-7', quantity 2, and status 'confirmed'\n- Stock quantity for 'WIDGET-7' reduced from 5 to 3 units",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RxqLeRNakAJvAtVNNGZBPG",
+       "input": {
+        "note": "Order for 2 units of WIDGET-7 placed successfully; stock reduced from 5 to 3",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Order for 2 units of WIDGET-7 placed successfully; stock reduced from 5 to 3",
+   "stop_reason": "tool_use",
+   "system": "You are agent_2. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 2 units of 'WIDGET-7': insert a row into orders (customer 'agent_2', sku 'WIDGET-7', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 2 units of 'WIDGET-7': insert a row into orders (customer 'agent_2', sku 'WIDGET-7', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:26:48Z",
+     "content": [
+      {
+       "text": "I'll help you place an order for 2 units of 'WIDGET-7'. Let me start by checking the current stock level for this SKU.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PD67jJ4ijEWt2TuCpcVEAx",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00144,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 1.2359,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 930,
+      "output": 102
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:26:50Z",
+     "content": [
+      {
+       "text": "Great! The stock for 'WIDGET-7' is 5 units, which is sufficient for the order of 2 units. Now I'll proceed with:\n1. Inserting the order into the orders table\n2. Reducing the stock quantity by 2",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CT4UuNCr6m1zQp2r9JYf4z",
+       "input": {
+        "sql": "\nINSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'WIDGET-7', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7'\n"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001912,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 2.9784,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1067,
+      "output": 169
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:26:52Z",
+     "content": [
+      {
+       "text": "Perfect! The order has been successfully placed. Both operations completed:\n- Order inserted into the orders table with customer 'agent_2', SKU 'WIDGET-7', quantity 2, and status 'confirmed'\n- Stock quantity for 'WIDGET-7' reduced from 5 to 3 units",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RxqLeRNakAJvAtVNNGZBPG",
+       "input": {
+        "note": "Order for 2 units of WIDGET-7 placed successfully; stock reduced from 5 to 3",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002084,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 4.6886,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1274,
+      "output": 162
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3271,
+    "output": 433
+   }
+  },
+  "agent_3": {
+   "agent_id": "agent_3",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.005246000000000001,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty"
+        ],
+        "rows": [
+         [
+          5
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.2426,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_3', 'WIDGET-7', 3, 'confirmed'); UPDATE stock SET qty = qty - 3 WHERE sku = 'WIDGET-7'"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       },
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 2.9913,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully placed order for 3 units of WIDGET-7 and reduced stock inventory accordingly",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 4.5149,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll start by checking the current stock level for 'WIDGET-7' to determine if we have at least 3 units available.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01G9knDu3EXu7RMeGmk6w7Az",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\"], \"rows\": [[5]]}]}",
+       "tool_use_id": "toolu_01G9knDu3EXu7RMeGmk6w7Az",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are 5 units of 'WIDGET-7' in stock, which is more than the 3 units needed. Now I'll proceed with placing the order and reducing the stock. I'll do both operations together:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011C6DpVDSiiAuL3X2XXa3Lu",
+       "input": {
+        "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_3', 'WIDGET-7', 3, 'confirmed'); UPDATE stock SET qty = qty - 3 WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}, {\"rows_affected\": 1}]}",
+       "tool_use_id": "toolu_011C6DpVDSiiAuL3X2XXa3Lu",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! Both operations completed successfully:\n1. Inserted an order for agent_3 requesting 3 units of WIDGET-7 with status 'confirmed'\n2. Reduced the stock quantity for WIDGET-7 from 5 to 2",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015nYE7YXnJy5ycb2qtwA1jL",
+       "input": {
+        "note": "Successfully placed order for 3 units of WIDGET-7 and reduced stock inventory accordingly",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully placed order for 3 units of WIDGET-7 and reduced stock inventory accordingly",
+   "stop_reason": "tool_use",
+   "system": "You are agent_3. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 3 units of 'WIDGET-7': insert a row into orders (customer 'agent_3', sku 'WIDGET-7', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 3 units of 'WIDGET-7': insert a row into orders (customer 'agent_3', sku 'WIDGET-7', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:26:48Z",
+     "content": [
+      {
+       "text": "I'll start by checking the current stock level for 'WIDGET-7' to determine if we have at least 3 units available.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01G9knDu3EXu7RMeGmk6w7Az",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00142,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 1.2396,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 930,
+      "output": 98
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:26:50Z",
+     "content": [
+      {
+       "text": "Great! There are 5 units of 'WIDGET-7' in stock, which is more than the 3 units needed. Now I'll proceed with placing the order and reducing the stock. I'll do both operations together:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011C6DpVDSiiAuL3X2XXa3Lu",
+       "input": {
+        "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_3', 'WIDGET-7', 3, 'confirmed'); UPDATE stock SET qty = qty - 3 WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001848,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 2.9765,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1063,
+      "output": 157
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:26:51Z",
+     "content": [
+      {
+       "text": "Perfect! Both operations completed successfully:\n1. Inserted an order for agent_3 requesting 3 units of WIDGET-7 with status 'confirmed'\n2. Reduced the stock quantity for WIDGET-7 from 5 to 2",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015nYE7YXnJy5ycb2qtwA1jL",
+       "input": {
+        "note": "Successfully placed order for 3 units of WIDGET-7 and reduced stock inventory accordingly",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001978,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 4.5128,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1258,
+      "output": 144
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3251,
+    "output": 399
+   }
+  },
+  "agent_4": {
+   "agent_id": "agent_4",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.005165,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "qty"
+        ],
+        "rows": [
+         [
+          5
+         ]
+        ]
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.2445,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_4', 'WIDGET-7', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7'"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       },
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 2.9834,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Order placed for 2 units of WIDGET-7; stock reduced from 5 to 3",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 4.2049,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you place an order for 2 units of 'WIDGET-7'. Let me start by checking the current stock quantity for this SKU.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RQxSfDJbog1zauDLS6BfWV",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"qty\"], \"rows\": [[5]]}]}",
+       "tool_use_id": "toolu_01RQxSfDJbog1zauDLS6BfWV",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are 5 units of 'WIDGET-7' in stock, which is more than the 2 units needed. Now I'll proceed with both operations:\n1. Insert an order row into the orders table\n2. Reduce the stock quantity by 2",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01EADpkgmDaLXsCLVdG4Pwet",
+       "input": {
+        "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_4', 'WIDGET-7', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}, {\"rows_affected\": 1}]}",
+       "tool_use_id": "toolu_01EADpkgmDaLXsCLVdG4Pwet",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! Both operations completed successfully. The order has been placed and the stock has been updated.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01USc2GfmNVSVR4Hhv4CuFbB",
+       "input": {
+        "note": "Order placed for 2 units of WIDGET-7; stock reduced from 5 to 3",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Order placed for 2 units of WIDGET-7; stock reduced from 5 to 3",
+   "stop_reason": "tool_use",
+   "system": "You are agent_4. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0);\nCREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL);\nTask: Place an order for 2 units of 'WIDGET-7': insert a row into orders (customer 'agent_4', sku 'WIDGET-7', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Place an order for 2 units of 'WIDGET-7': insert a row into orders (customer 'agent_4', sku 'WIDGET-7', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:26:48Z",
+     "content": [
+      {
+       "text": "I'll help you place an order for 2 units of 'WIDGET-7'. Let me start by checking the current stock quantity for this SKU.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RQxSfDJbog1zauDLS6BfWV",
+       "input": {
+        "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00144,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 1.2378,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 930,
+      "output": 102
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:26:50Z",
+     "content": [
+      {
+       "text": "Great! There are 5 units of 'WIDGET-7' in stock, which is more than the 2 units needed. Now I'll proceed with both operations:\n1. Insert an order row into the orders table\n2. Reduce the stock quantity by 2",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01EADpkgmDaLXsCLVdG4Pwet",
+       "input": {
+        "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_4', 'WIDGET-7', 2, 'confirmed');\nUPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7'"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001907,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 2.9794,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1067,
+      "output": 168
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:26:51Z",
+     "content": [
+      {
+       "text": "Perfect! Both operations completed successfully. The order has been placed and the stock has been updated.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01USc2GfmNVSVR4Hhv4CuFbB",
+       "input": {
+        "note": "Order placed for 2 units of WIDGET-7; stock reduced from 5 to 3",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001818,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "t_episode": 4.2044,
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1273,
+      "output": 109
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3270,
+    "output": 379
+   }
+  }
+ },
+ "behaviors": {
+  "agent_1": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 3,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_2": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 3,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_3": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 3,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_4": {
+   "added_constraint": false,
+   "all_protected": true,
+   "atomic_pair": false,
+   "blind_write": false,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [
+    "atomic"
+   ],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 1,
+   "n_statements": 3,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": true,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  }
+ },
+ "dry_run": false,
+ "effects": {
+  "agent_1": {
+   "handle_inserts": 0,
+   "order_inserts": 1,
+   "target_writes": 1
+  },
+  "agent_2": {
+   "handle_inserts": 0,
+   "order_inserts": 1,
+   "target_writes": 1
+  },
+  "agent_3": {
+   "handle_inserts": 0,
+   "order_inserts": 1,
+   "target_writes": 1
+  },
+  "agent_4": {
+   "handle_inserts": 0,
+   "order_inserts": 1,
+   "target_writes": 1
+  }
+ },
+ "episode_id": "claude-haiku-4-5-20251001__order@v0__n4__r0",
+ "exploratory": true,
+ "final_db": {
+  "orders": [
+   [
+    1,
+    "cust_5",
+    "GEAR-2",
+    2,
+    "confirmed"
+   ],
+   [
+    2,
+    "agent_3",
+    "WIDGET-7",
+    3,
+    "confirmed"
+   ],
+   [
+    3,
+    "agent_1",
+    "WIDGET-7",
+    2,
+    "confirmed"
+   ],
+   [
+    4,
+    "agent_4",
+    "WIDGET-7",
+    2,
+    "confirmed"
+   ],
+   [
+    5,
+    "agent_2",
+    "WIDGET-7",
+    2,
+    "confirmed"
+   ]
+  ],
+  "schema": [
+   [
+    "table",
+    "orders",
+    "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL)"
+   ],
+   [
+    "table",
+    "stock",
+    "CREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)"
+   ]
+  ],
+  "stock": [
+   [
+    "WIDGET-7",
+    -4,
+    0
+   ],
+   [
+    "GEAR-2",
+    12,
+    0
+   ]
+  ]
+ },
+ "instance": {
+  "instructions": {
+   "agent_1": "Place an order for 2 units of 'WIDGET-7': insert a row into orders (customer 'agent_1', sku 'WIDGET-7', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".",
+   "agent_2": "Place an order for 2 units of 'WIDGET-7': insert a row into orders (customer 'agent_2', sku 'WIDGET-7', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\".",
+   "agent_3": "Place an order for 3 units of 'WIDGET-7': insert a row into orders (customer 'agent_3', sku 'WIDGET-7', qty 3, status 'confirmed') and reduce that sku's qty in table stock by 3. If the stock qty is less than 3, do neither and finish with status \"declined\".",
+   "agent_4": "Place an order for 2 units of 'WIDGET-7': insert a row into orders (customer 'agent_4', sku 'WIDGET-7', qty 2, status 'confirmed') and reduce that sku's qty in table stock by 2. If the stock qty is less than 2, do neither and finish with status \"declined\"."
+  },
+  "n_agents": 4,
+  "params": {
+   "per_agent": {
+    "agent_1": 2,
+    "agent_2": 2,
+    "agent_3": 3,
+    "agent_4": 2
+   },
+   "sku": "WIDGET-7",
+   "start": 5
+  },
+  "schema": [
+   "CREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER NOT NULL, version INTEGER NOT NULL DEFAULT 0)",
+   "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT NOT NULL, sku TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL)"
+  ],
+  "seed": [
+   "INSERT INTO stock (sku, qty, version) VALUES ('WIDGET-7', 5, 0)",
+   "INSERT INTO stock (sku, qty, version) VALUES ('GEAR-2', 12, 0)",
+   "INSERT INTO orders (id, customer, sku, qty, status) VALUES (1, 'cust_5', 'GEAR-2', 2, 'confirmed')"
+  ],
+  "target": {
+   "atomic_cols": [
+    "qty"
+   ],
+   "cas_cols": [
+    "qty",
+    "version"
+   ],
+   "insert_guard": [],
+   "table": "stock",
+   "unique_col": null,
+   "write_cols": [
+    "qty"
+   ]
+  },
+  "template": "order",
+  "variant": 0
+ },
+ "integrity": {
+  "claims": {
+   "agent_1": "done",
+   "agent_2": "done",
+   "agent_3": "done",
+   "agent_4": "done"
+  },
+  "details": {
+   "confirmed": [
+    [
+     "agent_3",
+     3
+    ],
+    [
+     "agent_1",
+     2
+    ],
+    [
+     "agent_4",
+     2
+    ],
+    [
+     "agent_2",
+     2
+    ]
+   ],
+   "expected_from_commits": -4,
+   "expected_from_orders": -4,
+   "final": -4
+  },
+  "kinds": [
+   "negative_stock",
+   "oversold"
+  ],
+  "primary": "negative_stock",
+  "report_kinds": [],
+  "report_mismatch": false,
+  "violation": true
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 4,
+ "provider": "anthropic",
+ "rep": 0,
+ "run_info": {
+  "finished_utc": "2026-11-02T22:26:52Z",
+  "started_utc": "2026-11-02T22:26:47Z",
+  "wall_seconds": 4.695
+ },
+ "settings": {
+  "busy_timeout_s": 0.2,
+  "episode_timeout_s": 900.0,
+  "isolation_level": null,
+  "journal_mode": "wal",
+  "max_tokens": 4096,
+  "python": "3.14.6",
+  "sqlite_version": "3.53.2",
+  "temperature_requested": 0.0,
+  "turn_cap": 12
+ },
+ "sql_log": [
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 0,
+   "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'",
+   "stmt": 0,
+   "t_end": 1.2405,
+   "t_start": 1.2388,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 1,
+   "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'",
+   "stmt": 0,
+   "t_end": 1.2425,
+   "t_start": 1.2413,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_4",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 2,
+   "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7'",
+   "stmt": 0,
+   "t_end": 1.2445,
+   "t_start": 1.2438,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 1,
+   "n_rows": 1,
+   "ok": true,
+   "seq": 3,
+   "sql": "SELECT qty FROM stock WHERE sku = 'WIDGET-7';",
+   "stmt": 0,
+   "t_end": 1.2454,
+   "t_start": 1.2444,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "orders"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 4,
+   "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_3', 'WIDGET-7', 3, 'confirmed');",
+   "stmt": 0,
+   "t_end": 2.9809,
+   "t_start": 2.98,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "orders"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 5,
+   "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_1', 'WIDGET-7', 2, 'confirmed');",
+   "stmt": 0,
+   "t_end": 2.9815,
+   "t_start": 2.9809,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "stock": [
+      "qty"
+     ]
+    }
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 6,
+   "sql": "UPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7';",
+   "stmt": 1,
+   "t_end": 2.9817,
+   "t_start": 2.9815,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "orders"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_4",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 7,
+   "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_4', 'WIDGET-7', 2, 'confirmed');",
+   "stmt": 0,
+   "t_end": 2.9825,
+   "t_start": 2.9806,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "stock": [
+      "qty"
+     ]
+    }
+   },
+   "agent": "agent_4",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 8,
+   "sql": "UPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7'",
+   "stmt": 1,
+   "t_end": 2.9833,
+   "t_start": 2.9825,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "orders"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 9,
+   "sql": "INSERT INTO orders (customer, sku, qty, status) VALUES ('agent_2', 'WIDGET-7', 2, 'confirmed');",
+   "stmt": 0,
+   "t_end": 2.9848,
+   "t_start": 2.9804,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "stock": [
+      "qty"
+     ]
+    }
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 10,
+   "sql": "UPDATE stock SET qty = qty - 2 WHERE sku = 'WIDGET-7'",
+   "stmt": 1,
+   "t_end": 2.985,
+   "t_start": 2.9848,
+   "txn_after": false,
+   "txn_before": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "stock": [
+      "qty",
+      "sku"
+     ]
+    },
+    "txn": [],
+    "update": {
+     "stock": [
+      "qty"
+     ]
+    }
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 11,
+   "sql": "UPDATE stock SET qty = qty - 3 WHERE sku = 'WIDGET-7'",
+   "stmt": 1,
+   "t_end": 2.9913,
+   "t_start": 2.981,
+   "txn_after": false,
+   "txn_before": false
+  }
+ ],
+ "task": "order",
+ "totals": {
+  "completions": 12,
+  "cost_usd": 0.021219000000000002,
+  "tool_calls": 8,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 13079,
+   "output": 1628
+  }
+ },
+ "variant": 0
+}

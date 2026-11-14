@@ -1,0 +1,1773 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.028483249999999998,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:router"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 5,
+      "ok": true,
+      "record_id": "inventory:router",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_0175Htwg5CYYAMwx2pZ4jedV"
+    },
+    {
+     "args": {
+      "record_id": "inventory:router"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:router",
+      "status": 200,
+      "value": 9
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01FYcAKT7DWmNkyYwuG8GsMv"
+    },
+    {
+     "args": {
+      "record_id": "inventory:router",
+      "value": 6
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:router",
+      "status": 200,
+      "value": 6
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01XJtqHv1xiEtjMCbSgEoVeC"
+    },
+    {
+     "args": {
+      "record_id": "inventory:router"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on inventory:router.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_018eR2s1G8LuvRe5k2wRrkdd"
+    }
+   ],
+   "final_text": "Sold 3 routers under lock: stock updated from 9 to 6 (lock lease expired on its own after the write).",
+   "intent": "Sell 3 from inventory:router, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock first to ensure safe read-modify-write.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0175Htwg5CYYAMwx2pZ4jedV",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 5, \"ok\": true, \"record_id\": \"inventory:router\", \"status\": 200}",
+       "tool_use_id": "toolu_0175Htwg5CYYAMwx2pZ4jedV",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01FYcAKT7DWmNkyYwuG8GsMv",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:router\", \"status\": 200, \"value\": 9}",
+       "tool_use_id": "toolu_01FYcAKT7DWmNkyYwuG8GsMv",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is 9, which is enough. Decrementing by 3.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01XJtqHv1xiEtjMCbSgEoVeC",
+       "input": {
+        "record_id": "inventory:router",
+        "value": 6
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:router\", \"status\": 200, \"value\": 6}",
+       "tool_use_id": "toolu_01XJtqHv1xiEtjMCbSgEoVeC",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_018eR2s1G8LuvRe5k2wRrkdd",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on inventory:router.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_018eR2s1G8LuvRe5k2wRrkdd",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Sold 3 routers under lock: stock updated from 9 to 6 (lock lease expired on its own after the write).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Sell 3 from inventory:router, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:08:18Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock first to ensure safe read-modify-write.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0175Htwg5CYYAMwx2pZ4jedV",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.01017625,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 1061,
+      "input": 99,
+      "output": 122
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:11:08Z",
+     "content": [
+      {
+       "id": "toolu_01FYcAKT7DWmNkyYwuG8GsMv",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0031605,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 261,
+      "output": 53
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:19:37Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is 9, which is enough. Decrementing by 3.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01XJtqHv1xiEtjMCbSgEoVeC",
+       "input": {
+        "record_id": "inventory:router",
+        "value": 6
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0050755,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 359,
+      "output": 110
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:22:33Z",
+     "content": [
+      {
+       "id": "toolu_018eR2s1G8LuvRe5k2wRrkdd",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0044055,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 505,
+      "output": 54
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:23:36Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Sold 3 routers under lock: stock updated from 9 to 6 (lock lease expired on its own after the write).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0056655,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 622,
+      "output": 81
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 4244,
+    "cache_write": 1061,
+    "input": 1846,
+    "output": 420
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 11,
+   "cost_usd": 0.08499625000000002,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:router"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:router is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_017uE81AeePb81VyGqpwJ8Vo"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:router"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:router is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01TAqykBskYX1Q3WBsWGqEzG"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:router"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:router is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01UdmUBQPbmthrLV7v1ANSSn"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:router"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:router is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01W7StFZ2TYL8bZoV1XqCCes"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:router"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:router is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01M8AsW4KCfyR159y29fM1gv"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:router"
+     },
+     "completion": 5,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 5,
+      "ok": true,
+      "record_id": "inventory:router",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01UJRZ6DaUcB4TFGeGHRi4by"
+    },
+    {
+     "args": {
+      "record_id": "inventory:router"
+     },
+     "completion": 6,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:router",
+      "status": 200,
+      "value": 6
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_012HXyCPrz5iHiQULJzRmf24"
+    },
+    {
+     "args": {
+      "record_id": "inventory:router",
+      "value": 3
+     },
+     "completion": 7,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:router",
+      "status": 200,
+      "value": 3
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01MU9fURpfaWPG9nYmtbbEav"
+    },
+    {
+     "args": {
+      "record_id": "inventory:router"
+     },
+     "completion": 8,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on inventory:router.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01Eo2yZrCyw8qE9mpBDC6AUo"
+    },
+    {
+     "args": {
+      "record_id": "inventory:router"
+     },
+     "completion": 9,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:router",
+      "status": 200,
+      "value": 3
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01BycfgweEgsdme9Gjk6Mv2F"
+    }
+   ],
+   "final_text": "Sold 3 routers under an exclusive lock: stock verified at 6, decremented to 3, and the final value confirmed.",
+   "intent": "Sell 3 from inventory:router, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock first to prevent race conditions, then read the current stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017uE81AeePb81VyGqpwJ8Vo",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:router is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_017uE81AeePb81VyGqpwJ8Vo",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll retry acquiring the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TAqykBskYX1Q3WBsWGqEzG",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:router is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01TAqykBskYX1Q3WBsWGqEzG",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Still locked. Retrying again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01UdmUBQPbmthrLV7v1ANSSn",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:router is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01UdmUBQPbmthrLV7v1ANSSn",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01W7StFZ2TYL8bZoV1XqCCes",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:router is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01W7StFZ2TYL8bZoV1XqCCes",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01M8AsW4KCfyR159y29fM1gv",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:router is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01M8AsW4KCfyR159y29fM1gv",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01UJRZ6DaUcB4TFGeGHRi4by",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 5, \"ok\": true, \"record_id\": \"inventory:router\", \"status\": 200}",
+       "tool_use_id": "toolu_01UJRZ6DaUcB4TFGeGHRi4by",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Lock acquired. Now reading the current stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012HXyCPrz5iHiQULJzRmf24",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:router\", \"status\": 200, \"value\": 6}",
+       "tool_use_id": "toolu_012HXyCPrz5iHiQULJzRmf24",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is 6, which is enough. Selling 3 \u2192 new stock 3.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01MU9fURpfaWPG9nYmtbbEav",
+       "input": {
+        "record_id": "inventory:router",
+        "value": 3
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:router\", \"status\": 200, \"value\": 3}",
+       "tool_use_id": "toolu_01MU9fURpfaWPG9nYmtbbEav",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01Eo2yZrCyw8qE9mpBDC6AUo",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on inventory:router.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01Eo2yZrCyw8qE9mpBDC6AUo",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The lock lease had already expired after my write (which succeeded while locked). Let me verify the final state.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BycfgweEgsdme9Gjk6Mv2F",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:router\", \"status\": 200, \"value\": 3}",
+       "tool_use_id": "toolu_01BycfgweEgsdme9Gjk6Mv2F",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Sold 3 routers under an exclusive lock: stock verified at 6, decremented to 3, and the final value confirmed.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Sell 3 from inventory:router, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:08:18Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock first to prevent race conditions, then read the current stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017uE81AeePb81VyGqpwJ8Vo",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.01035125,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 1061,
+      "input": 99,
+      "output": 129
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:11:08Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll retry acquiring the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TAqykBskYX1Q3WBsWGqEzG",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0049205,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 283,
+      "output": 119
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:14:27Z",
+     "content": [
+      {
+       "text": "Still locked. Retrying again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01UdmUBQPbmthrLV7v1ANSSn",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0051405,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 457,
+      "output": 93
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:17:33Z",
+     "content": [
+      {
+       "id": "toolu_01W7StFZ2TYL8bZoV1XqCCes",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0055805,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 605,
+      "output": 81
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:19:37Z",
+     "content": [
+      {
+       "id": "toolu_01M8AsW4KCfyR159y29fM1gv",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0062605,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 741,
+      "output": 81
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:22:33Z",
+     "content": [
+      {
+       "id": "toolu_01UJRZ6DaUcB4TFGeGHRi4by",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:router"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0069405,
+     "index": 6,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 877,
+      "output": 81
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:23:36Z",
+     "content": [
+      {
+       "text": "Lock acquired. Now reading the current stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012HXyCPrz5iHiQULJzRmf24",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0072705,
+     "index": 7,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 998,
+      "output": 70
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:25:52Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is 6, which is enough. Selling 3 \u2192 new stock 3.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01MU9fURpfaWPG9nYmtbbEav",
+       "input": {
+        "record_id": "inventory:router",
+        "value": 3
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0090455,
+     "index": 8,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 1113,
+      "output": 118
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:27:52Z",
+     "content": [
+      {
+       "id": "toolu_01Eo2yZrCyw8qE9mpBDC6AUo",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0082155,
+     "index": 9,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 1267,
+      "output": 54
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:30:38Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The lock lease had already expired after my write (which succeeded while locked). Let me verify the final state.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BycfgweEgsdme9Gjk6Mv2F",
+       "input": {
+        "record_id": "inventory:router"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0116755,
+     "index": 10,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 1384,
+      "output": 169
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:33:28Z",
+     "content": [
+      {
+       "text": "Sold 3 routers under an exclusive lock: stock verified at 6, decremented to 3, and the final value confirmed.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0095955,
+     "index": 11,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1061,
+      "cache_write": 0,
+      "input": 1598,
+      "output": 43
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 10610,
+    "cache_write": 1061,
+    "input": 9422,
+    "output": 1038
+   }
+  }
+ },
+ "concurrency_aware_prompt": true,
+ "config": "locks",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__locks+aware__inventory_still_valid@i0__n2__s0",
+ "final_store": {
+  "inventory:router": {
+   "value": 3,
+   "version": 3
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Sold 3 routers under lock: stock updated from 9 to 6 (lock lease expired on its own after the write).",
+    "step": 7,
+    "turns": 4
+   },
+   {
+    "agent_id": "a1",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Sold 3 routers under an exclusive lock: stock verified at 6, decremented to 3, and the final value confirmed.",
+    "step": 15,
+    "turns": 10
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:router",
+    "response": {
+     "lease_steps": 5,
+     "ok": true,
+     "record_id": "inventory:router",
+     "status": 200
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:router",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:router is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 2,
+    "status": 423,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:router",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:router",
+     "status": 200,
+     "value": 9
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:router",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:router is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 4,
+    "status": 423,
+    "step": 2,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:router",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:router is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 5,
+    "status": 423,
+    "step": 3,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:router",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:router is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 6,
+    "status": 423,
+    "step": 4,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:router",
+     "value": 6
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:router",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:router",
+     "status": 200,
+     "value": 6
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:router",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:router is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 8,
+    "status": 423,
+    "step": 5,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "inventory:router",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on inventory:router.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 9,
+    "status": 409,
+    "step": 6,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 11,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:router",
+    "response": {
+     "lease_steps": 5,
+     "ok": true,
+     "record_id": "inventory:router",
+     "status": 200
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 6,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:router",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:router",
+     "status": 200,
+     "value": 6
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 7,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:router",
+     "value": 3
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:router",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:router",
+     "status": 200,
+     "value": 3
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 10,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "inventory:router",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on inventory:router.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 13,
+    "status": 409,
+    "step": 11,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:router"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 3,
+    "reason": null,
+    "record_id": "inventory:router",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:router",
+     "status": 200,
+     "value": 3
+    },
+    "seq": 14,
+    "status": 200,
+    "step": 12,
+    "tool": "get_record"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:router",
+     "value": 6
+    },
+    "new_value": 6,
+    "new_version": 2,
+    "old_value": 9,
+    "old_version": 1,
+    "record_id": "inventory:router",
+    "seq": 1,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:router",
+     "value": 3
+    },
+    "new_value": 3,
+    "new_version": 3,
+    "old_value": 6,
+    "old_version": 2,
+    "record_id": "inventory:router",
+    "seq": 2,
+    "step": 10,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 15,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_012BRomgrPk7fbwS7vJQVqKR",
+    "msgbatch_013FYso7KHf84xFKhWdt578H",
+    "msgbatch_01536yK6yB6S6hSJJZgesZFT",
+    "msgbatch_016js2ur9owkmA8aVo251Eo7",
+    "msgbatch_01BewdKek1U2T4j3GWgBvEEQ",
+    "msgbatch_01FkavTvYDEzhRupEiWwwrJa",
+    "msgbatch_01LrD1Faypz5qjxAsyCWvdqg",
+    "msgbatch_01M5w2rkdDG7aoywSwH3xzU3",
+    "msgbatch_01TZMwfoTiUesNBktG23hQhY",
+    "msgbatch_01UDemPS5VmVacNZ73BePB3P",
+    "msgbatch_01YMLDMg2mnQnTiqxdPf9MwW"
+   ],
+   "driver": "src4_batch/batch_driver.py",
+   "lockstep_rounds": 12,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-02T01:33:28Z",
+  "started_utc": "2026-11-02T01:05:00Z",
+  "wall_seconds": 1708.0
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": true
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 10,
+    "unnecessary_give_up": false,
+    "valid_at_end": true
+   }
+  },
+  "category": "still_valid",
+  "committed_agents": [
+   "a0",
+   "a1"
+  ],
+  "config": "locks",
+  "conflict_observed": false,
+  "cycle": null,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "wr",
+    "record": "inventory:router",
+    "src": "a0",
+    "version": 2
+   },
+   {
+    "dst": "a1",
+    "kind": "ww",
+    "record": "inventory:router",
+    "src": "a0",
+    "version": 2
+   }
+  ],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 15,
+  "serial_witness": [
+   "a0",
+   "a1"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "inventory_still_valid@i0/n2",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "still_valid",
+  "description": "shared stock with room for every sale",
+  "factory": "inventory_still_valid",
+  "fingerprint": "c7e52bbc1083d1ab010412226dea9b4a82781add8ba99b99768dbdc6952a9fde",
+  "initial": {
+   "inventory:router": 9
+  },
+  "instance": 0,
+  "intents": {
+   "a0": "Sell 3 from inventory:router, only if enough remains.",
+   "a1": "Sell 3 from inventory:router, only if enough remains."
+  },
+  "kind": "inventory",
+  "name": "inventory_still_valid@i0/n2",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 16,
+  "cost_usd": 0.11347950000000002,
+  "invalid_calls": 0,
+  "multi_tool_turns": 0,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 14854,
+   "cache_write": 2122,
+   "input": 11268,
+   "output": 1458
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

@@ -1,0 +1,3268 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 4,
+   "cost_usd": 0.007167000000000001,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01D7JQX11sU4UURWkUAGgMqP"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:drill",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01ABGDoMG8fMmM7G5dVK7rtv"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_014kHKGgQzyNNa5o7ErHvFSk"
+    }
+   ],
+   "final_text": "The inventory is now at 1, which is less than 3. Since we need at least 3 in stock to process this sale, I cannot complete the transaction.\n\nSale cannot be recorded: only 1 drill in stock, which is less than the required minimum of 3.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drills by 3, but only if there are at least 3 in stock. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01D7JQX11sU4UURWkUAGgMqP",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4, \"version\": 1}",
+       "tool_use_id": "toolu_01D7JQX11sU4UURWkUAGgMqP",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are currently 4 drills in stock. Since 4 \u2265 3, I can proceed with the sale. I'll update the inventory to 1 (4 - 3 = 1), using the expected_version parameter to ensure this only succeeds if no other agent has modified it since I read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01ABGDoMG8fMmM7G5dVK7rtv",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:drill was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01ABGDoMG8fMmM7G5dVK7rtv",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me read the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_014kHKGgQzyNNa5o7ErHvFSk",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_014kHKGgQzyNNa5o7ErHvFSk",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now at 1, which is less than 3. Since we need at least 3 in stock to process this sale, I cannot complete the transaction.\n\nSale cannot be recorded: only 1 drill in stock, which is less than the required minimum of 3.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:37:25Z",
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drills by 3, but only if there are at least 3 in stock. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01D7JQX11sU4UURWkUAGgMqP",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001505,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1030,
+      "output": 95
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:40Z",
+     "content": [
+      {
+       "text": "Great! There are currently 4 drills in stock. Since 4 \u2265 3, I can proceed with the sale. I'll update the inventory to 1 (4 - 3 = 1), using the expected_version parameter to ensure this only succeeds if no other agent has modified it since I read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01ABGDoMG8fMmM7G5dVK7rtv",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00202,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1175,
+      "output": 169
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:42Z",
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me read the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_014kHKGgQzyNNa5o7ErHvFSk",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001784,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1414,
+      "output": 74
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:55Z",
+     "content": [
+      {
+       "text": "The inventory is now at 1, which is less than 3. Since we need at least 3 in stock to process this sale, I cannot complete the transaction.\n\nSale cannot be recorded: only 1 drill in stock, which is less than the required minimum of 3.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001858,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1538,
+      "output": 64
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5157,
+    "output": 402
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 4,
+   "cost_usd": 0.007071000000000001,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_011oEMrs4SaZqF1EBWcZLYZm"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:drill",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01LYYr4ikPfKgHPKRGFiCwDS"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Ba4gPeQd6qcjdBRJ5cFwrS"
+    }
+   ],
+   "final_text": "Now there's only 1 drill in stock, which is less than 3. I cannot proceed with the sale since the stock level is below the required minimum.\n\nSale cannot be recorded: inventory:drill has only 1 unit in stock, which is less than the required 3 units.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drills by 3 units, but only if at least 3 are in stock. Let me start by checking the current inventory.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011oEMrs4SaZqF1EBWcZLYZm",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4, \"version\": 1}",
+       "tool_use_id": "toolu_011oEMrs4SaZqF1EBWcZLYZm",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are 4 drills in stock, which is at least 3. Now I'll reduce the inventory by 3, setting it to 1, and use the expected_version parameter to ensure this only succeeds if the inventory hasn't changed since I read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LYYr4ikPfKgHPKRGFiCwDS",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:drill was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01LYYr4ikPfKgHPKRGFiCwDS",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory was modified by another agent. Let me check the current stock level again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Ba4gPeQd6qcjdBRJ5cFwrS",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01Ba4gPeQd6qcjdBRJ5cFwrS",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now there's only 1 drill in stock, which is less than 3. I cannot proceed with the sale since the stock level is below the required minimum.\n\nSale cannot be recorded: inventory:drill has only 1 unit in stock, which is less than the required 3 units.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:37:22Z",
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drills by 3 units, but only if at least 3 are in stock. Let me start by checking the current inventory.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011oEMrs4SaZqF1EBWcZLYZm",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001505,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1030,
+      "output": 95
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:33Z",
+     "content": [
+      {
+       "text": "Great! There are 4 drills in stock, which is at least 3. Now I'll reduce the inventory by 3, setting it to 1, and use the expected_version parameter to ensure this only succeeds if the inventory hasn't changed since I read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LYYr4ikPfKgHPKRGFiCwDS",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00194,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1175,
+      "output": 153
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:45Z",
+     "content": [
+      {
+       "text": "The inventory was modified by another agent. Let me check the current stock level again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Ba4gPeQd6qcjdBRJ5cFwrS",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001773,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1398,
+      "output": 75
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:54Z",
+     "content": [
+      {
+       "text": "Now there's only 1 drill in stock, which is less than 3. I cannot proceed with the sale since the stock level is below the required minimum.\n\nSale cannot be recorded: inventory:drill has only 1 unit in stock, which is less than the required 3 units.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001853,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1523,
+      "output": 66
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5126,
+    "output": 389
+   }
+  },
+  "a2": {
+   "agent_id": "a2",
+   "completions": 4,
+   "cost_usd": 0.007002,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_017yNwb1Z5EKJvtjoBeNPFoq"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:drill",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01CDrA2UkfNL86VeZ8sGi9Nv"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01P1uRCcAtDbNRH4K8Xunwwm"
+    }
+   ],
+   "final_text": "The current inventory is now 1, which is less than 3. I cannot complete the sale as required since there are no longer 3 or more items in stock.\n\nUnable to complete sale: inventory:drill only has 1 unit, below the minimum of 3 required to proceed with the reduction.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drill by 3, but only if there are at least 3 in stock. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017yNwb1Z5EKJvtjoBeNPFoq",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4, \"version\": 1}",
+       "tool_use_id": "toolu_017yNwb1Z5EKJvtjoBeNPFoq",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! There are 4 drills in stock, which is at least 3. Now I'll reduce the inventory by 3 (from 4 to 1) using a conditional update to ensure no race condition occurs.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CDrA2UkfNL86VeZ8sGi9Nv",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:drill was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01CDrA2UkfNL86VeZ8sGi9Nv",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01P1uRCcAtDbNRH4K8Xunwwm",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01P1uRCcAtDbNRH4K8Xunwwm",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The current inventory is now 1, which is less than 3. I cannot complete the sale as required since there are no longer 3 or more items in stock.\n\nUnable to complete sale: inventory:drill only has 1 unit, below the minimum of 3 required to proceed with the reduction.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a2. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:37:24Z",
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drill by 3, but only if there are at least 3 in stock. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017yNwb1Z5EKJvtjoBeNPFoq",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0015,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1030,
+      "output": 94
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:35Z",
+     "content": [
+      {
+       "text": "Good! There are 4 drills in stock, which is at least 3. Now I'll reduce the inventory by 3 (from 4 to 1) using a conditional update to ensure no race condition occurs.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CDrA2UkfNL86VeZ8sGi9Nv",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001889,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1174,
+      "output": 143
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:47Z",
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01P1uRCcAtDbNRH4K8Xunwwm",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001757,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1387,
+      "output": 74
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:50Z",
+     "content": [
+      {
+       "text": "The current inventory is now 1, which is less than 3. I cannot complete the sale as required since there are no longer 3 or more items in stock.\n\nUnable to complete sale: inventory:drill only has 1 unit, below the minimum of 3 required to proceed with the reduction.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001856,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1511,
+      "output": 69
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5102,
+    "output": 380
+   }
+  },
+  "a3": {
+   "agent_id": "a3",
+   "completions": 3,
+   "cost_usd": 0.004945,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Q3Ug1hYD4JtuztGecLNfb1"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:drill",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01Wzm1qTc9Hv3pw9fGaEsF1Y"
+    }
+   ],
+   "final_text": "Successfully reduced inventory:drill from 4 to 1, recording a sale of 3 drills.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drills by 3, but only if at least 3 are in stock. Let me first check the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Q3Ug1hYD4JtuztGecLNfb1",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4, \"version\": 1}",
+       "tool_use_id": "toolu_01Q3Ug1hYD4JtuztGecLNfb1",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! There are 4 drills in stock, which is at least 3. Now I'll update the inventory to reduce it by 3 (from 4 to 1), using the expected_version parameter to ensure the update only succeeds if the version hasn't changed.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Wzm1qTc9Hv3pw9fGaEsF1Y",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01Wzm1qTc9Hv3pw9fGaEsF1Y",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully reduced inventory:drill from 4 to 1, recording a sale of 3 drills.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a3. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:37:26Z",
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drills by 3, but only if at least 3 are in stock. Let me first check the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Q3Ug1hYD4JtuztGecLNfb1",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001495,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1030,
+      "output": 93
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:30Z",
+     "content": [
+      {
+       "text": "Good! There are 4 drills in stock, which is at least 3. Now I'll update the inventory to reduce it by 3 (from 4 to 1), using the expected_version parameter to ensure the update only succeeds if the version hasn't changed.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Wzm1qTc9Hv3pw9fGaEsF1Y",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001948,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1173,
+      "output": 155
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:48Z",
+     "content": [
+      {
+       "text": "Successfully reduced inventory:drill from 4 to 1, recording a sale of 3 drills.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001502,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1372,
+      "output": 26
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3575,
+    "output": 274
+   }
+  },
+  "a4": {
+   "agent_id": "a4",
+   "completions": 4,
+   "cost_usd": 0.007175,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01GHm83icpb1VbLmAe5kXa6E"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:drill",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01PEV9bhgbY92geSjfRdiVCw"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01KRHpzigW8nN3A12aFdfHc6"
+    }
+   ],
+   "final_text": "The inventory is now 1 unit (version 2), which is less than 3. Since the requirement is to reduce by 3 only if at least 3 is in stock, and the current stock is below 3, I cannot proceed with the sale.\n\nInventory check failed: current stock is 1 unit, which is less than the required minimum of 3 units, so the sale cannot be recorded.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory:drill by 3 to record a sale, but only if at least 3 is in stock. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01GHm83icpb1VbLmAe5kXa6E",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4, \"version\": 1}",
+       "tool_use_id": "toolu_01GHm83icpb1VbLmAe5kXa6E",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! The current inventory is 4 units, which is at least 3. Now I'll reduce it by 3 (from 4 to 1), using the version number to ensure no other agent has modified it in the meantime.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PEV9bhgbY92geSjfRdiVCw",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:drill was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01PEV9bhgbY92geSjfRdiVCw",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Another agent modified the record. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KRHpzigW8nN3A12aFdfHc6",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01KRHpzigW8nN3A12aFdfHc6",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now 1 unit (version 2), which is less than 3. Since the requirement is to reduce by 3 only if at least 3 is in stock, and the current stock is below 3, I cannot proceed with the sale.\n\nInventory check failed: current stock is 1 unit, which is less than the required minimum of 3 units, so the sale cannot be recorded.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a4. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:37:21Z",
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory:drill by 3 to record a sale, but only if at least 3 is in stock. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01GHm83icpb1VbLmAe5kXa6E",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00152,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1030,
+      "output": 98
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:41Z",
+     "content": [
+      {
+       "text": "Good! The current inventory is 4 units, which is at least 3. Now I'll reduce it by 3 (from 4 to 1), using the version number to ensure no other agent has modified it in the meantime.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PEV9bhgbY92geSjfRdiVCw",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001913,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1178,
+      "output": 147
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:46Z",
+     "content": [
+      {
+       "text": "Another agent modified the record. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KRHpzigW8nN3A12aFdfHc6",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001755,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1395,
+      "output": 72
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:53Z",
+     "content": [
+      {
+       "text": "The inventory is now 1 unit (version 2), which is less than 3. Since the requirement is to reduce by 3 only if at least 3 is in stock, and the current stock is below 3, I cannot proceed with the sale.\n\nInventory check failed: current stock is 1 unit, which is less than the required minimum of 3 units, so the sale cannot be recorded.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001987,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1517,
+      "output": 94
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5120,
+    "output": 411
+   }
+  },
+  "a5": {
+   "agent_id": "a5",
+   "completions": 4,
+   "cost_usd": 0.007068,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01LNz4HYrGHjgQ6GwSkxyoHz"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:drill",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_0144vdB26Z1mSXhFq3X4L6S9"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01W33qH9bTMTemmzA42Qtx13"
+    }
+   ],
+   "final_text": "The inventory is now 1 unit, which is less than 3. Since the condition \"at least 3 in stock\" is no longer met, I cannot proceed with the sale. The task cannot be completed because insufficient inventory remains.\n\nInsufficient stock: inventory:drill now has only 1 unit in stock, so the 3-unit sale cannot be recorded.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drill by 3 units, but only if at least 3 are in stock. Let me start by reading the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LNz4HYrGHjgQ6GwSkxyoHz",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4, \"version\": 1}",
+       "tool_use_id": "toolu_01LNz4HYrGHjgQ6GwSkxyoHz",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are 4 drills in stock, which is at least 3. Now I'll reduce the inventory by 3, setting it to 1, using the version number to ensure this is a safe conditional update.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0144vdB26Z1mSXhFq3X4L6S9",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:drill was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_0144vdB26Z1mSXhFq3X4L6S9",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The record was updated by another agent. Let me read the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01W33qH9bTMTemmzA42Qtx13",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01W33qH9bTMTemmzA42Qtx13",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now 1 unit, which is less than 3. Since the condition \"at least 3 in stock\" is no longer met, I cannot proceed with the sale. The task cannot be completed because insufficient inventory remains.\n\nInsufficient stock: inventory:drill now has only 1 unit in stock, so the 3-unit sale cannot be recorded.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a5. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:37:23Z",
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for drill by 3 units, but only if at least 3 are in stock. Let me start by reading the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LNz4HYrGHjgQ6GwSkxyoHz",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001505,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1030,
+      "output": 95
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:38Z",
+     "content": [
+      {
+       "text": "Great! There are 4 drills in stock, which is at least 3. Now I'll reduce the inventory by 3, setting it to 1, using the version number to ensure this is a safe conditional update.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0144vdB26Z1mSXhFq3X4L6S9",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001885,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1175,
+      "output": 142
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:49Z",
+     "content": [
+      {
+       "text": "The record was updated by another agent. Let me read the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01W33qH9bTMTemmzA42Qtx13",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001757,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1387,
+      "output": 74
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:58Z",
+     "content": [
+      {
+       "text": "The inventory is now 1 unit, which is less than 3. Since the condition \"at least 3 in stock\" is no longer met, I cannot proceed with the sale. The task cannot be completed because insufficient inventory remains.\n\nInsufficient stock: inventory:drill now has only 1 unit in stock, so the 3-unit sale cannot be recorded.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001921,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1511,
+      "output": 82
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5103,
+    "output": 393
+   }
+  },
+  "a6": {
+   "agent_id": "a6",
+   "completions": 4,
+   "cost_usd": 0.007090000000000001,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01LaUWmvx7nYLWMwFqJfuYnG"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:drill",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_0158BH6i5S6nQmPnLLW7iQ5A"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01JKXSFAJ4GgdkJDcmKc3jJc"
+    }
+   ],
+   "final_text": "The current inventory is now 1 drill at version 2, which is less than 3. I cannot reduce it by 3 since the condition \"at least 3 in stock\" is no longer met.\n\nCompleted: Inventory check revealed only 1 drill remains in stock (another agent already made changes), so the sale cannot be recorded as the required minimum of 3 units is not available.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current inventory level for the drill.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LaUWmvx7nYLWMwFqJfuYnG",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4, \"version\": 1}",
+       "tool_use_id": "toolu_01LaUWmvx7nYLWMwFqJfuYnG",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! There are 4 drills in stock, which is at least 3. Now I'll reduce the inventory by 3, updating it from 4 to 1, using the expected_version parameter to ensure this only succeeds if no other agent has modified it in the meantime.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0158BH6i5S6nQmPnLLW7iQ5A",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:drill was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_0158BH6i5S6nQmPnLLW7iQ5A",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me read the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JKXSFAJ4GgdkJDcmKc3jJc",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01JKXSFAJ4GgdkJDcmKc3jJc",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The current inventory is now 1 drill at version 2, which is less than 3. I cannot reduce it by 3 since the condition \"at least 3 in stock\" is no longer met.\n\nCompleted: Inventory check revealed only 1 drill remains in stock (another agent already made changes), so the sale cannot be recorded as the required minimum of 3 units is not available.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a6. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:37:28Z",
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current inventory level for the drill.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LaUWmvx7nYLWMwFqJfuYnG",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001425,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1030,
+      "output": 79
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:36Z",
+     "content": [
+      {
+       "text": "Good! There are 4 drills in stock, which is at least 3. Now I'll reduce the inventory by 3, updating it from 4 to 1, using the expected_version parameter to ensure this only succeeds if no other agent has modified it in the meantime.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0158BH6i5S6nQmPnLLW7iQ5A",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001944,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1159,
+      "output": 157
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:43Z",
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me read the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JKXSFAJ4GgdkJDcmKc3jJc",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001756,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1386,
+      "output": 74
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:52Z",
+     "content": [
+      {
+       "text": "The current inventory is now 1 drill at version 2, which is less than 3. I cannot reduce it by 3 since the condition \"at least 3 in stock\" is no longer met.\n\nCompleted: Inventory check revealed only 1 drill remains in stock (another agent already made changes), so the sale cannot be recorded as the required minimum of 3 units is not available.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001965,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1510,
+      "output": 91
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5085,
+    "output": 401
+   }
+  },
+  "a7": {
+   "agent_id": "a7",
+   "completions": 4,
+   "cost_usd": 0.0069619999999999994,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01D1yRps2rsN3Fvd2omzkH12"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:drill",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01R9G2yrMxFa4ZnQ32hfUuec"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01BJC7GWR6m2b8ZYgAGdUX3y"
+    }
+   ],
+   "final_text": "The stock is now 1 (another agent already reduced it). Since we need at least 3 in stock to proceed with our sale, and the current stock is only 1, we cannot complete the transaction as specified.\n\nSale cannot be completed: only 1 drill in stock, but 3 required for transaction.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory:drill by 3, but only if at least 3 is in stock. Let me start by checking the current stock level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01D1yRps2rsN3Fvd2omzkH12",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4, \"version\": 1}",
+       "tool_use_id": "toolu_01D1yRps2rsN3Fvd2omzkH12",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! The current stock is 4, which is at least 3. Now I'll reduce it by 3 (from 4 to 1) using a conditional update based on the current version.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01R9G2yrMxFa4ZnQ32hfUuec",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:drill was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01R9G2yrMxFa4ZnQ32hfUuec",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Another agent modified the record. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BJC7GWR6m2b8ZYgAGdUX3y",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01BJC7GWR6m2b8ZYgAGdUX3y",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The stock is now 1 (another agent already reduced it). Since we need at least 3 in stock to proceed with our sale, and the current stock is only 1, we cannot complete the transaction as specified.\n\nSale cannot be completed: only 1 drill in stock, but 3 required for transaction.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a7. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:37:27Z",
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory:drill by 3, but only if at least 3 is in stock. Let me start by checking the current stock level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01D1yRps2rsN3Fvd2omzkH12",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001495,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1030,
+      "output": 93
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:31Z",
+     "content": [
+      {
+       "text": "Great! The current stock is 4, which is at least 3. Now I'll reduce it by 3 (from 4 to 1) using a conditional update based on the current version.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01R9G2yrMxFa4ZnQ32hfUuec",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001863,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1173,
+      "output": 138
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:44Z",
+     "content": [
+      {
+       "text": "Another agent modified the record. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BJC7GWR6m2b8ZYgAGdUX3y",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001741,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1381,
+      "output": 72
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:37:56Z",
+     "content": [
+      {
+       "text": "The stock is now 1 (another agent already reduced it). Since we need at least 3 in stock to proceed with our sale, and the current stock is only 1, we cannot complete the transaction as specified.\n\nSale cannot be completed: only 1 drill in stock, but 3 required for transaction.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001863,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1503,
+      "output": 72
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5087,
+    "output": 375
+   }
+  }
+ },
+ "concurrency_aware_prompt": true,
+ "config": "cas_available",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__cas_available+aware__inventory_last_unit@i1__n8__s0",
+ "final_store": {
+  "inventory:drill": {
+   "value": 1,
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a3",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Successfully reduced inventory:drill from 4 to 1, recording a sale of 3 drills.",
+    "step": 5,
+    "turns": 2
+   },
+   {
+    "agent_id": "a2",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The current inventory is now 1, which is less than 3. I cannot complete the sale as required since there are no longer 3 or more items in stock.\n\nUnable to complete sale: inventory:drill only has 1 unit, below the minimum of 3 required to proceed with the reduction.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a6",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The current inventory is now 1 drill at version 2, which is less than 3. I cannot reduce it by 3 since the condition \"at least 3 in stock\" is no longer met.\n\nCompleted: Inventory check revealed only 1 drill remains in stock (another agent already made changes), so the sale cannot be recorded as the required minimum of 3 units is not available.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a4",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The inventory is now 1 unit (version 2), which is less than 3. Since the requirement is to reduce by 3 only if at least 3 is in stock, and the current stock is below 3, I cannot proceed with the sale.\n\nInventory check failed: current stock is 1 unit, which is less than the required minimum of 3 units, so the sale cannot be recorded.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Now there's only 1 drill in stock, which is less than 3. I cannot proceed with the sale since the stock level is below the required minimum.\n\nSale cannot be recorded: inventory:drill has only 1 unit in stock, which is less than the required 3 units.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The inventory is now at 1, which is less than 3. Since we need at least 3 in stock to process this sale, I cannot complete the transaction.\n\nSale cannot be recorded: only 1 drill in stock, which is less than the required minimum of 3.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a7",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The stock is now 1 (another agent already reduced it). Since we need at least 3 in stock to proceed with our sale, and the current stock is only 1, we cannot complete the transaction as specified.\n\nSale cannot be completed: only 1 drill in stock, but 3 required for transaction.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a5",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The inventory is now 1 unit, which is less than 3. Since the condition \"at least 3 in stock\" is no longer met, I cannot proceed with the sale. The task cannot be completed because insufficient inventory remains.\n\nInsufficient stock: inventory:drill now has only 1 unit in stock, so the 3-unit sale cannot be recorded.",
+    "step": 8,
+    "turns": 3
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a4",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4,
+     "version": 1
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4,
+     "version": 1
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a5",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4,
+     "version": 1
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4,
+     "version": 1
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4,
+     "version": 1
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4,
+     "version": 1
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a7",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4,
+     "version": 1
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a6",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4,
+     "version": 1
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a7",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:drill",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 10,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:drill",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 11,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:drill",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 12,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a6",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:drill",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 13,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a5",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:drill",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 14,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:drill",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 15,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a4",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:drill",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:drill was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 16,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 17,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a6",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 18,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a7",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 19,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 20,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a4",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 21,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 22,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a5",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 23,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a3",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "new_value": 1,
+    "new_version": 2,
+    "old_value": 4,
+    "old_version": 1,
+    "record_id": "inventory:drill",
+    "seq": 1,
+    "step": 4,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 8,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 8,
+ "provider": "anthropic",
+ "run_info": {
+  "finished_utc": "2026-11-02T13:37:58Z",
+  "started_utc": "2026-11-02T13:37:20Z",
+  "wall_seconds": 37.878
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a2": {
+    "abandoned": false,
+    "agent_id": "a2",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a3": {
+    "abandoned": false,
+    "agent_id": "a3",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 2,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a4": {
+    "abandoned": false,
+    "agent_id": "a4",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a5": {
+    "abandoned": false,
+    "agent_id": "a5",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a6": {
+    "abandoned": false,
+    "agent_id": "a6",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a7": {
+    "abandoned": false,
+    "agent_id": "a7",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "conflict",
+  "committed_agents": [
+   "a3"
+  ],
+  "config": "cas_available",
+  "conflict_observed": true,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 8,
+  "serial_witness": [
+   "a3"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "inventory_last_unit@i1/n8",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "conflict",
+  "description": "only one sale fits the stock",
+  "factory": "inventory_last_unit",
+  "fingerprint": "e3ba2b87d54fb05f0e5967a3c8dbb5e3ee01efd0400a17b18ea3227c35987787",
+  "initial": {
+   "inventory:drill": 4
+  },
+  "instance": 1,
+  "intents": {
+   "a0": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a1": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a2": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a3": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a4": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a5": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a6": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a7": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock."
+  },
+  "kind": "inventory",
+  "name": "inventory_last_unit@i1/n8",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 31,
+  "cost_usd": 0.05448,
+  "invalid_calls": 0,
+  "multi_tool_turns": 0,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 39355,
+   "output": 3025
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

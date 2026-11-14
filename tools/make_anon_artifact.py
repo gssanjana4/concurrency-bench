@@ -59,7 +59,7 @@ LATEX_FILES = ("run_analysis.py", "explore4.py", "rollback_sensitivity.py", "pos
                "make_numbers4.py", "pipeline_common.py", "page_budget.py", "build.sh", "deviations.csv", "README.md",
                "main.tex", "AI_DRAFTED_SECTIONS.md", os.path.join("figures", "make_figs.py"))
 LATEX_DIRS = ("tests",)
-AUDIT_FILES = ("H5_AUDIT.md", "H5_AUDIT.csv", "SPOT_CHECK.md")
+AUDIT_FILES = ("H5_AUDIT.md", "H5_AUDIT.csv", "SPOT_CHECK.md", "AUTHOR_SPOT_CHECK_answers.json")
 SKIP_DIRS = {"__pycache__", ".git", "_staged_dryrun"}
 SKIP_FILES = {".env", ".DS_Store"}
 SKIP_EXT = {".pyc"}

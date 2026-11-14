@@ -1,0 +1,3268 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 4,
+   "cost_usd": 0.007183,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01VMsMQpVSHjZvRDThxRqfL8"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:toaster",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_012JfniY1ymEuuNZgeuhzctN"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01S4tU13iWQEtKQEZmSsr3sa"
+    }
+   ],
+   "final_text": "The inventory is now at 1 toaster (down from 3), which means another agent has already sold 2. Since there's only 1 toaster left and I need 2 to complete the sale, I cannot proceed with the sale. The condition \"only if enough remains\" is not met.\n\nInsufficient inventory: only 1 toaster remains, but 2 are required for the sale.",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory, but only if enough remains. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VMsMQpVSHjZvRDThxRqfL8",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3, \"version\": 1}",
+       "tool_use_id": "toolu_01VMsMQpVSHjZvRDThxRqfL8",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! There are currently 3 toasters in inventory, which is enough to sell 2. Now I'll update the inventory to reflect the sale of 2 toasters (3 - 2 = 1 remaining). I'll use the expected_version parameter to ensure the record hasn't changed since I read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012JfniY1ymEuuNZgeuhzctN",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_012JfniY1ymEuuNZgeuhzctN",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Another agent modified the inventory. Let me check the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01S4tU13iWQEtKQEZmSsr3sa",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01S4tU13iWQEtKQEZmSsr3sa",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster (down from 3), which means another agent has already sold 2. Since there's only 1 toaster left and I need 2 to complete the sale, I cannot proceed with the sale. The condition \"only if enough remains\" is not met.\n\nInsufficient inventory: only 1 toaster remains, but 2 are required for the sale.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:34:40Z",
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory, but only if enough remains. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VMsMQpVSHjZvRDThxRqfL8",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00146,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1020,
+      "output": 88
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:54Z",
+     "content": [
+      {
+       "text": "Good! There are currently 3 toasters in inventory, which is enough to sell 2. Now I'll update the inventory to reflect the sale of 2 toasters (3 - 2 = 1 remaining). I'll use the expected_version parameter to ensure the record hasn't changed since I read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012JfniY1ymEuuNZgeuhzctN",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001984,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1159,
+      "output": 165
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:56Z",
+     "content": [
+      {
+       "text": "Another agent modified the inventory. Let me check the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01S4tU13iWQEtKQEZmSsr3sa",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00176,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1395,
+      "output": 73
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:08Z",
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster (down from 3), which means another agent has already sold 2. Since there's only 1 toaster left and I need 2 to complete the sale, I cannot proceed with the sale. The condition \"only if enough remains\" is not met.\n\nInsufficient inventory: only 1 toaster remains, but 2 are required for the sale.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001979,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1519,
+      "output": 92
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5093,
+    "output": 418
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 4,
+   "cost_usd": 0.006997,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Bco1rojc6VjG5qATm7Ke45"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:toaster",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01RsSmioES97fUNf4E13ytgc"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01UASoKTi5Kzp3eJhhn9hcdD"
+    }
+   ],
+   "final_text": "The inventory is now at 1 toaster, which is less than the 2 I need to sell. Since there aren't enough toasters remaining, I cannot complete the sale as per the requirement \"only if enough remains.\"\n\nInsufficient inventory: only 1 toaster remains, cannot sell 2.",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Bco1rojc6VjG5qATm7Ke45",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3, \"version\": 1}",
+       "tool_use_id": "toolu_01Bco1rojc6VjG5qATm7Ke45",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! There are 3 toasters in inventory. Since I need to sell 2 and there are enough (3 \u2265 2), I'll proceed with the update. I'll reduce the inventory from 3 to 1, using the version number to ensure a safe conditional update.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RsSmioES97fUNf4E13ytgc",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01RsSmioES97fUNf4E13ytgc",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me check the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01UASoKTi5Kzp3eJhhn9hcdD",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01UASoKTi5Kzp3eJhhn9hcdD",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster, which is less than the 2 I need to sell. Since there aren't enough toasters remaining, I cannot complete the sale as per the requirement \"only if enough remains.\"\n\nInsufficient inventory: only 1 toaster remains, cannot sell 2.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:34:37Z",
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Bco1rojc6VjG5qATm7Ke45",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00143,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1020,
+      "output": 82
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:47Z",
+     "content": [
+      {
+       "text": "Good! There are 3 toasters in inventory. Since I need to sell 2 and there are enough (3 \u2265 2), I'll proceed with the update. I'll reduce the inventory from 3 to 1, using the version number to ensure a safe conditional update.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RsSmioES97fUNf4E13ytgc",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001953,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1153,
+      "output": 160
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:59Z",
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me check the current value again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01UASoKTi5Kzp3eJhhn9hcdD",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001759,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1384,
+      "output": 75
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:07Z",
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster, which is less than the 2 I need to sell. Since there aren't enough toasters remaining, I cannot complete the sale as per the requirement \"only if enough remains.\"\n\nInsufficient inventory: only 1 toaster remains, cannot sell 2.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001855,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1510,
+      "output": 69
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5067,
+    "output": 386
+   }
+  },
+  "a2": {
+   "agent_id": "a2",
+   "completions": 4,
+   "cost_usd": 0.006944,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01RFnLu4xwSDro5yRTNrE1Uj"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:toaster",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01RECXpnhKTY9weDGmyaWbPE"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01ApwKSW9DqT9bVyXfKfveRN"
+    }
+   ],
+   "final_text": "The inventory is now at 1 toaster with version 2. Since I need to sell 2 but only 1 remains, I cannot complete this sale as there isn't enough inventory.\n\nInsufficient inventory: only 1 toaster remains, but 2 are required for the sale.",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 2 from inventory:toaster, but only if enough stock remains. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RFnLu4xwSDro5yRTNrE1Uj",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3, \"version\": 1}",
+       "tool_use_id": "toolu_01RFnLu4xwSDro5yRTNrE1Uj",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! The inventory shows 3 toasters available. Since 3 \u2265 2, I can proceed with the sale. I'll reduce the inventory by 2, bringing it from 3 to 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RECXpnhKTY9weDGmyaWbPE",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01RECXpnhKTY9weDGmyaWbPE",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01ApwKSW9DqT9bVyXfKfveRN",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01ApwKSW9DqT9bVyXfKfveRN",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster with version 2. Since I need to sell 2 but only 1 remains, I cannot complete this sale as there isn't enough inventory.\n\nInsufficient inventory: only 1 toaster remains, but 2 are required for the sale.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a2. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:34:39Z",
+     "content": [
+      {
+       "text": "I'll help you sell 2 from inventory:toaster, but only if enough stock remains. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RFnLu4xwSDro5yRTNrE1Uj",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00147,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1020,
+      "output": 90
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:49Z",
+     "content": [
+      {
+       "text": "Good! The inventory shows 3 toasters available. Since 3 \u2265 2, I can proceed with the sale. I'll reduce the inventory by 2, bringing it from 3 to 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RECXpnhKTY9weDGmyaWbPE",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001881,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1161,
+      "output": 144
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:01Z",
+     "content": [
+      {
+       "text": "The record was modified by another agent. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01ApwKSW9DqT9bVyXfKfveRN",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001751,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1376,
+      "output": 75
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:04Z",
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster with version 2. Since I need to sell 2 but only 1 remains, I cannot complete this sale as there isn't enough inventory.\n\nInsufficient inventory: only 1 toaster remains, but 2 are required for the sale.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001842,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1502,
+      "output": 68
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5059,
+    "output": 377
+   }
+  },
+  "a3": {
+   "agent_id": "a3",
+   "completions": 3,
+   "cost_usd": 0.004672,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01CnidabLoNbnz5WQiKnWPzk"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:toaster",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01YUpgYw7SsAhfgXNSWzWgW7"
+    }
+   ],
+   "final_text": "Sold 2 toasters from inventory, leaving 1 remaining in stock.",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory. Let me start by checking the current stock level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CnidabLoNbnz5WQiKnWPzk",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3, \"version\": 1}",
+       "tool_use_id": "toolu_01CnidabLoNbnz5WQiKnWPzk",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are 3 toasters in stock. Since we need to sell 2 and there are enough remaining, I'll update the inventory to reflect the sale.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01YUpgYw7SsAhfgXNSWzWgW7",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01YUpgYw7SsAhfgXNSWzWgW7",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Sold 2 toasters from inventory, leaving 1 remaining in stock.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a3. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:34:41Z",
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory. Let me start by checking the current stock level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01CnidabLoNbnz5WQiKnWPzk",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00143,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1020,
+      "output": 82
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:44Z",
+     "content": [
+      {
+       "text": "Great! There are 3 toasters in stock. Since we need to sell 2 and there are enough remaining, I'll update the inventory to reflect the sale.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01YUpgYw7SsAhfgXNSWzWgW7",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001808,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1153,
+      "output": 131
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:02Z",
+     "content": [
+      {
+       "text": "Sold 2 toasters from inventory, leaving 1 remaining in stock.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001434,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1329,
+      "output": 21
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 3502,
+    "output": 234
+   }
+  },
+  "a4": {
+   "agent_id": "a4",
+   "completions": 4,
+   "cost_usd": 0.006897,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01YGfdCETspgNeZ89BWdX5aD"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:toaster",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_019vYxpXhM6SJSj2FAufo6i7"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01WJDFi44jwGka9P1cS4215G"
+    }
+   ],
+   "final_text": "The inventory is now at 1 toaster, which is not enough to sell 2. I cannot complete the sale.\n\nUnable to sell 2 toasters because insufficient inventory remains (only 1 available).",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory, but only if enough remain. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01YGfdCETspgNeZ89BWdX5aD",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3, \"version\": 1}",
+       "tool_use_id": "toolu_01YGfdCETspgNeZ89BWdX5aD",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are 3 toasters in inventory. Since I need to sell 2 and there are 3 available, I have enough stock. Now I'll update the inventory to reflect the sale by reducing it by 2 (from 3 to 1).",
+       "type": "text"
+      },
+      {
+       "id": "toolu_019vYxpXhM6SJSj2FAufo6i7",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_019vYxpXhM6SJSj2FAufo6i7",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Another agent has modified the inventory. Let me fetch the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WJDFi44jwGka9P1cS4215G",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01WJDFi44jwGka9P1cS4215G",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster, which is not enough to sell 2. I cannot complete the sale.\n\nUnable to sell 2 toasters because insufficient inventory remains (only 1 available).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a4. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:34:36Z",
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory, but only if enough remain. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01YGfdCETspgNeZ89BWdX5aD",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00146,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1020,
+      "output": 88
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:55Z",
+     "content": [
+      {
+       "text": "Great! There are 3 toasters in inventory. Since I need to sell 2 and there are 3 available, I have enough stock. Now I'll update the inventory to reflect the sale by reducing it by 2 (from 3 to 1).",
+       "type": "text"
+      },
+      {
+       "id": "toolu_019vYxpXhM6SJSj2FAufo6i7",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001929,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1159,
+      "output": 154
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:00Z",
+     "content": [
+      {
+       "text": "Another agent has modified the inventory. Let me fetch the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WJDFi44jwGka9P1cS4215G",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001754,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1384,
+      "output": 74
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:06Z",
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster, which is not enough to sell 2. I cannot complete the sale.\n\nUnable to sell 2 toasters because insufficient inventory remains (only 1 available).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001754,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1509,
+      "output": 49
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5072,
+    "output": 365
+   }
+  },
+  "a5": {
+   "agent_id": "a5",
+   "completions": 4,
+   "cost_usd": 0.0069489999999999994,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_013wdJ6EXG9rwV7cpmS8zftM"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:toaster",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01RGQPk38APyUowxwbDYnxrz"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01QTkWUZP3coTSiLTVZ31Wje"
+    }
+   ],
+   "final_text": "Now there's only 1 toaster left in stock, which is not enough to sell 2 toasters (I need at least 2). Since the condition \"only if enough remains\" is not met, I cannot complete this sale.\n\nSale cannot be completed: insufficient inventory (only 1 toaster available, need 2).",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory. Let me start by checking the current stock level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013wdJ6EXG9rwV7cpmS8zftM",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3, \"version\": 1}",
+       "tool_use_id": "toolu_013wdJ6EXG9rwV7cpmS8zftM",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! There are 3 toasters in stock, which is enough to sell 2. Now I'll update the inventory to reduce it by 2 (from 3 to 1), using the current version to ensure this operation succeeds.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RGQPk38APyUowxwbDYnxrz",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01RGQPk38APyUowxwbDYnxrz",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory has been modified by another agent. Let me check the current stock again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QTkWUZP3coTSiLTVZ31Wje",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01QTkWUZP3coTSiLTVZ31Wje",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now there's only 1 toaster left in stock, which is not enough to sell 2 toasters (I need at least 2). Since the condition \"only if enough remains\" is not met, I cannot complete this sale.\n\nSale cannot be completed: insufficient inventory (only 1 toaster available, need 2).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a5. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:34:38Z",
+     "content": [
+      {
+       "text": "I'll help you sell 2 toasters from inventory. Let me start by checking the current stock level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013wdJ6EXG9rwV7cpmS8zftM",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00143,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1020,
+      "output": 82
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:52Z",
+     "content": [
+      {
+       "text": "Good! There are 3 toasters in stock, which is enough to sell 2. Now I'll update the inventory to reduce it by 2 (from 3 to 1), using the current version to ensure this operation succeeds.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01RGQPk38APyUowxwbDYnxrz",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001893,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1153,
+      "output": 148
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:02Z",
+     "content": [
+      {
+       "text": "The inventory has been modified by another agent. Let me check the current stock again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QTkWUZP3coTSiLTVZ31Wje",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001752,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1372,
+      "output": 76
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:10Z",
+     "content": [
+      {
+       "text": "Now there's only 1 toaster left in stock, which is not enough to sell 2 toasters (I need at least 2). Since the condition \"only if enough remains\" is not met, I cannot complete this sale.\n\nSale cannot be completed: insufficient inventory (only 1 toaster available, need 2).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001874,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1499,
+      "output": 75
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5044,
+    "output": 381
+   }
+  },
+  "a6": {
+   "agent_id": "a6",
+   "completions": 4,
+   "cost_usd": 0.007123999999999999,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01EutNoPqwGcDvRdcKcJHWxL"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:toaster",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01TLRN21nCxtnecSDtwaMZ4r"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01TswcSgwpcLUXeLKydqUYVL"
+    }
+   ],
+   "final_text": "The inventory is now 1 toaster (another agent has already sold 2 of the original 3). Since we need 2 toasters but only 1 remains, we cannot complete this sale as there isn't enough inventory.\n\nInsufficient inventory: only 1 toaster remains, but 2 are needed for the sale.",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 2 from inventory:toaster, but only if enough remains. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01EutNoPqwGcDvRdcKcJHWxL",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3, \"version\": 1}",
+       "tool_use_id": "toolu_01EutNoPqwGcDvRdcKcJHWxL",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! There are currently 3 toasters in inventory. Since we need to sell 2 and there are 3 available, we have enough. Now I'll update the inventory to subtract 2, reducing it from 3 to 1. I'll use the expected_version parameter to ensure we're operating on the correct version.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TLRN21nCxtnecSDtwaMZ4r",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01TLRN21nCxtnecSDtwaMZ4r",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The version has changed. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TswcSgwpcLUXeLKydqUYVL",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01TswcSgwpcLUXeLKydqUYVL",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now 1 toaster (another agent has already sold 2 of the original 3). Since we need 2 toasters but only 1 remains, we cannot complete this sale as there isn't enough inventory.\n\nInsufficient inventory: only 1 toaster remains, but 2 are needed for the sale.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a6. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:34:43Z",
+     "content": [
+      {
+       "text": "I'll help you sell 2 from inventory:toaster, but only if enough remains. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01EutNoPqwGcDvRdcKcJHWxL",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001465,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1020,
+      "output": 89
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:51Z",
+     "content": [
+      {
+       "text": "Great! There are currently 3 toasters in inventory. Since we need to sell 2 and there are 3 available, we have enough. Now I'll update the inventory to subtract 2, reducing it from 3 to 1. I'll use the expected_version parameter to ensure we're operating on the correct version.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TLRN21nCxtnecSDtwaMZ4r",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001995,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1160,
+      "output": 167
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:57Z",
+     "content": [
+      {
+       "text": "The version has changed. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01TswcSgwpcLUXeLKydqUYVL",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001758,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1398,
+      "output": 72
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:05Z",
+     "content": [
+      {
+       "text": "The inventory is now 1 toaster (another agent has already sold 2 of the original 3). Since we need 2 toasters but only 1 remains, we cannot complete this sale as there isn't enough inventory.\n\nInsufficient inventory: only 1 toaster remains, but 2 are needed for the sale.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001906,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1521,
+      "output": 77
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5099,
+    "output": 405
+   }
+  },
+  "a7": {
+   "agent_id": "a7",
+   "completions": 4,
+   "cost_usd": 0.006877,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3,
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_012J9araumLCrhwGyZNi4Kkf"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "record_id": "inventory:toaster",
+      "value": 1
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "current_version": 2,
+      "error": "conflict",
+      "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01P4sBDLHBwEqAa5rD9JGwhm"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1,
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01JvmZvYwKqV1S21pKZr8V8V"
+    }
+   ],
+   "final_text": "The inventory is now at 1 toaster (another agent sold 2), which is not enough to sell 2 more. I cannot complete the sale as there are insufficient toasters remaining.\n\nUnable to sell 2 from inventory:toaster as only 1 unit remains in stock.",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you sell 2 from inventory:toaster, but only if enough remains. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012J9araumLCrhwGyZNi4Kkf",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3, \"version\": 1}",
+       "tool_use_id": "toolu_012J9araumLCrhwGyZNi4Kkf",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! There are currently 3 toasters in inventory, which is enough to sell 2. Now I'll update the inventory to reflect the sale by reducing it from 3 to 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01P4sBDLHBwEqAa5rD9JGwhm",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"current_version\": 2, \"error\": \"conflict\", \"message\": \"409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01P4sBDLHBwEqAa5rD9JGwhm",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory was modified by another agent. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JvmZvYwKqV1S21pKZr8V8V",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1, \"version\": 2}",
+       "tool_use_id": "toolu_01JvmZvYwKqV1S21pKZr8V8V",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster (another agent sold 2), which is not enough to sell 2 more. I cannot complete the sale as there are insufficient toasters remaining.\n\nUnable to sell 2 from inventory:toaster as only 1 unit remains in stock.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a7. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T13:34:42Z",
+     "content": [
+      {
+       "text": "I'll help you sell 2 from inventory:toaster, but only if enough remains. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012J9araumLCrhwGyZNi4Kkf",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001465,
+     "index": 1,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1020,
+      "output": 89
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:46Z",
+     "content": [
+      {
+       "text": "Good! There are currently 3 toasters in inventory, which is enough to sell 2. Now I'll update the inventory to reflect the sale by reducing it from 3 to 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01P4sBDLHBwEqAa5rD9JGwhm",
+       "input": {
+        "expected_version": 1,
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001845,
+     "index": 2,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1160,
+      "output": 137
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:34:58Z",
+     "content": [
+      {
+       "text": "The inventory was modified by another agent. Let me check the current state again.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JvmZvYwKqV1S21pKZr8V8V",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001743,
+     "index": 3,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1368,
+      "output": 75
+     }
+    },
+    {
+     "at_utc": "2026-11-02T13:35:09Z",
+     "content": [
+      {
+       "text": "The inventory is now at 1 toaster (another agent sold 2), which is not enough to sell 2 more. I cannot complete the sale as there are insufficient toasters remaining.\n\nUnable to sell 2 from inventory:toaster as only 1 unit remains in stock.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001824,
+     "index": 4,
+     "model_served": "claude-haiku-4-5-20251001",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1494,
+      "output": 66
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 5042,
+    "output": 367
+   }
+  }
+ },
+ "concurrency_aware_prompt": true,
+ "config": "cas_available",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__cas_available+aware__inventory_last_unit@i0__n8__s0",
+ "final_store": {
+  "inventory:toaster": {
+   "value": 1,
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a3",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Sold 2 toasters from inventory, leaving 1 remaining in stock.",
+    "step": 5,
+    "turns": 2
+   },
+   {
+    "agent_id": "a2",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The inventory is now at 1 toaster with version 2. Since I need to sell 2 but only 1 remains, I cannot complete this sale as there isn't enough inventory.\n\nInsufficient inventory: only 1 toaster remains, but 2 are required for the sale.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a6",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The inventory is now 1 toaster (another agent has already sold 2 of the original 3). Since we need 2 toasters but only 1 remains, we cannot complete this sale as there isn't enough inventory.\n\nInsufficient inventory: only 1 toaster remains, but 2 are needed for the sale.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a4",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The inventory is now at 1 toaster, which is not enough to sell 2. I cannot complete the sale.\n\nUnable to sell 2 toasters because insufficient inventory remains (only 1 available).",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The inventory is now at 1 toaster, which is less than the 2 I need to sell. Since there aren't enough toasters remaining, I cannot complete the sale as per the requirement \"only if enough remains.\"\n\nInsufficient inventory: only 1 toaster remains, cannot sell 2.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The inventory is now at 1 toaster (down from 3), which means another agent has already sold 2. Since there's only 1 toaster left and I need 2 to complete the sale, I cannot proceed with the sale. The condition \"only if enough remains\" is not met.\n\nInsufficient inventory: only 1 toaster remains, but 2 are required for the sale.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a7",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The inventory is now at 1 toaster (another agent sold 2), which is not enough to sell 2 more. I cannot complete the sale as there are insufficient toasters remaining.\n\nUnable to sell 2 from inventory:toaster as only 1 unit remains in stock.",
+    "step": 8,
+    "turns": 3
+   },
+   {
+    "agent_id": "a5",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Now there's only 1 toaster left in stock, which is not enough to sell 2 toasters (I need at least 2). Since the condition \"only if enough remains\" is not met, I cannot complete this sale.\n\nSale cannot be completed: insufficient inventory (only 1 toaster available, need 2).",
+    "step": 8,
+    "turns": 3
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a4",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3,
+     "version": 1
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3,
+     "version": 1
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a5",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3,
+     "version": 1
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3,
+     "version": 1
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3,
+     "version": 1
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3,
+     "version": 1
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a7",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3,
+     "version": 1
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a6",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3,
+     "version": 1
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a7",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:toaster",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 10,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:toaster",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 11,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:toaster",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 12,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a6",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:toaster",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 13,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a5",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:toaster",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 14,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:toaster",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 15,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a4",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "committed": false,
+    "conflict": true,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "version_conflict",
+    "record_id": "inventory:toaster",
+    "response": {
+     "current_version": 2,
+     "error": "conflict",
+     "message": "409 Conflict: inventory:toaster was modified (expected version 1); current version is 2.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 16,
+    "status": 409,
+    "step": 4,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 17,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a6",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 18,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a7",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 19,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 20,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a4",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 21,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 22,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a5",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1,
+     "version": 2
+    },
+    "seq": 23,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a3",
+    "args": {
+     "expected_version": 1,
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "new_value": 1,
+    "new_version": 2,
+    "old_value": 3,
+    "old_version": 1,
+    "record_id": "inventory:toaster",
+    "seq": 1,
+    "step": 4,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 8,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 8,
+ "provider": "anthropic",
+ "run_info": {
+  "finished_utc": "2026-11-02T13:35:10Z",
+  "started_utc": "2026-11-02T13:34:35Z",
+  "wall_seconds": 34.905
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a2": {
+    "abandoned": false,
+    "agent_id": "a2",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a3": {
+    "abandoned": false,
+    "agent_id": "a3",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 2,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a4": {
+    "abandoned": false,
+    "agent_id": "a4",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a5": {
+    "abandoned": false,
+    "agent_id": "a5",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a6": {
+    "abandoned": false,
+    "agent_id": "a6",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a7": {
+    "abandoned": false,
+    "agent_id": "a7",
+    "cas": true,
+    "choices": [
+     "cas"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 1,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "reread": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "conflict",
+  "committed_agents": [
+   "a3"
+  ],
+  "config": "cas_available",
+  "conflict_observed": true,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 8,
+  "serial_witness": [
+   "a3"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "inventory_last_unit@i0/n8",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "conflict",
+  "description": "only one sale fits the stock",
+  "factory": "inventory_last_unit",
+  "fingerprint": "9c0413461d39050761405156d06e6f3adbb608e12e666cf6fa41b66de1625c45",
+  "initial": {
+   "inventory:toaster": 3
+  },
+  "instance": 0,
+  "intents": {
+   "a0": "Sell 2 from inventory:toaster, only if enough remains.",
+   "a1": "Sell 2 from inventory:toaster, only if enough remains.",
+   "a2": "Sell 2 from inventory:toaster, only if enough remains.",
+   "a3": "Sell 2 from inventory:toaster, only if enough remains.",
+   "a4": "Sell 2 from inventory:toaster, only if enough remains.",
+   "a5": "Sell 2 from inventory:toaster, only if enough remains.",
+   "a6": "Sell 2 from inventory:toaster, only if enough remains.",
+   "a7": "Sell 2 from inventory:toaster, only if enough remains."
+  },
+  "kind": "inventory",
+  "name": "inventory_last_unit@i0/n8",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 31,
+  "cost_usd": 0.053642999999999996,
+  "invalid_calls": 0,
+  "multi_tool_turns": 0,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 38978,
+   "output": 2933
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

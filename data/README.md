@@ -25,7 +25,7 @@ Not shipped: `batch_state/` (provider batch request/response state; every stored
 
 ## Study 1 (`results4/full/`, `results_sql/`)
 
-`results4/full/` is a **placeholder** (`results4/full/README_PLACEHOLDER.md` lists the expected paths): the Study 1 data are added from the author's Mac at packaging time.
-`results_sql/` is a **placeholder** (`results_sql/README_PLACEHOLDER.md`): the SQL-slice outputs are added from the author's Mac at packaging time.
+`results4/full/`: the registered Study 1 run (three phases; transcripts with ledgers, result CSVs, failures and spend logs, preflight record, run logs), copied from the author's Mac.
+`results_sql/`: the exploratory SQL slice (post hoc, not pre-registered): CSVs, transcripts, SQLite databases and its own analysis outputs.
 
 The Study 1 pipeline reads them through `RESULTS4=<artifact>/data/results4/full` and `RESULTS_SQL=<artifact>/data/results_sql` (top-level README, "Study 1").

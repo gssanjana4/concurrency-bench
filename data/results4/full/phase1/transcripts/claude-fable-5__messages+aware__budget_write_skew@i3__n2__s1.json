@@ -1,0 +1,1808 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.06316075,
+   "executions": [
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a0"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a0",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01FsEAXKn4CuHkjnjfkHGWSG"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a1"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a1",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01RLhsZPMENzoPhtTzR99C5s"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/cap"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/cap",
+      "status": 200,
+      "value": "145.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_018BS9oFz2oP8gvVwfHUdUnY"
+    },
+    {
+     "args": {
+      "text": "Hi a1, this is a0. I plan to add 105.00 to budget:sales/spend-a0. Cap is 145.00, so only 40.00 would remain for spend-a1. Do you plan to spend? If so, how much? Please don't exceed 40.00 combined with my 105.00. Reply so we avoid breaching the cap.",
+      "to_agent": "a1"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "message_id": 1,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_01A9yF9sm1trQVJoqFW1uLse"
+    },
+    {
+     "args": {},
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "messages": [
+       {
+        "from": "a1",
+        "message_id": 2,
+        "text": "Hi a0, this is a1. I'm adding 105.00 to budget:sales/spend-a1. Cap is 145.00, so only 40.00 remains for spend-a0. Please keep combined spend within the cap."
+       }
+      ],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "read_messages",
+     "tool_use_id": "toolu_01Wnh7DCpsPUhmimVzZa8ov1"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a1"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a1",
+      "status": 200,
+      "value": "105.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Lnr98vk6bT7PkShfAgNRLo"
+    },
+    {
+     "args": {},
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "messages": [],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "read_messages",
+     "tool_use_id": "toolu_01Wpq7sdq9uTF9vVQLKCd7yV"
+    },
+    {
+     "args": {
+      "text": "Acknowledged \u2014 you committed 105.00 first. I will NOT add my 105.00 since 210.00 would breach the 145.00 cap. spend-a0 remains 0.00.",
+      "to_agent": "a1"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "message_id": 3,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_016KZDBEYBxrmyRAFnrnTDvr"
+    }
+   ],
+   "final_text": "Did not add 105.00 to budget:sales/spend-a0 because a1 had already committed 105.00 to spend-a1, and the combined 210.00 would exceed the 145.00 cap; the cap condition failed, so no write was made.",
+   "intent": "Add 105.00 to budget:sales/spend-a0, provided the combined spend in budget:sales/spend-a0, budget:sales/spend-a1 does not go over budget:sales/cap.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 3,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll start by reading the current values of all relevant records.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01FsEAXKn4CuHkjnjfkHGWSG",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01RLhsZPMENzoPhtTzR99C5s",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_018BS9oFz2oP8gvVwfHUdUnY",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a0\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01FsEAXKn4CuHkjnjfkHGWSG",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a1\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01RLhsZPMENzoPhtTzR99C5s",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/cap\", \"status\": 200, \"value\": \"145.00\"}",
+       "tool_use_id": "toolu_018BS9oFz2oP8gvVwfHUdUnY",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Currently spend-a0=0.00, spend-a1=0.00, cap=145.00. Adding 105.00 would total 105.00 \u2264 145.00, but a1 might be spending concurrently. Let me coordinate with a1 first.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01A9yF9sm1trQVJoqFW1uLse",
+       "input": {
+        "text": "Hi a1, this is a0. I plan to add 105.00 to budget:sales/spend-a0. Cap is 145.00, so only 40.00 would remain for spend-a1. Do you plan to spend? If so, how much? Please don't exceed 40.00 combined with my 105.00. Reply so we avoid breaching the cap.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Wnh7DCpsPUhmimVzZa8ov1",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 1, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01A9yF9sm1trQVJoqFW1uLse",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"messages\": [{\"from\": \"a1\", \"message_id\": 2, \"text\": \"Hi a0, this is a1. I'm adding 105.00 to budget:sales/spend-a1. Cap is 145.00, so only 40.00 remains for spend-a0. Please keep combined spend within the cap.\"}], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01Wnh7DCpsPUhmimVzZa8ov1",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a1 also wants to add 105.00 \u2014 both can't fit (210 > 145). Let me check the current state and a1's response.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Lnr98vk6bT7PkShfAgNRLo",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Wpq7sdq9uTF9vVQLKCd7yV",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a1\", \"status\": 200, \"value\": \"105.00\"}",
+       "tool_use_id": "toolu_01Lnr98vk6bT7PkShfAgNRLo",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"messages\": [], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01Wpq7sdq9uTF9vVQLKCd7yV",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a1 has already committed 105.00 to spend-a1. Adding my 105.00 would make combined spend 210.00, exceeding the 145.00 cap. The condition fails, so I must not make the write.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_016KZDBEYBxrmyRAFnrnTDvr",
+       "input": {
+        "text": "Acknowledged \u2014 you committed 105.00 first. I will NOT add my 105.00 since 210.00 would breach the 145.00 cap. spend-a0 remains 0.00.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 3, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_016KZDBEYBxrmyRAFnrnTDvr",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Did not add 105.00 to budget:sales/spend-a0 because a1 had already committed 105.00 to spend-a1, and the combined 210.00 would exceed the 145.00 cap; the cap condition failed, so no write was made.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 3,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Add 105.00 to budget:sales/spend-a0, provided the combined spend in budget:sales/spend-a0, budget:sales/spend-a1 does not go over budget:sales/cap.\nAgents you can message: a1.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:18:09Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll start by reading the current values of all relevant records.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01FsEAXKn4CuHkjnjfkHGWSG",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01RLhsZPMENzoPhtTzR99C5s",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_018BS9oFz2oP8gvVwfHUdUnY",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00657275,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 893,
+      "cache_write": 121,
+      "input": 99,
+      "output": 195
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:20:57Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Currently spend-a0=0.00, spend-a1=0.00, cap=145.00. Adding 105.00 would total 105.00 \u2264 145.00, but a1 might be spending concurrently. Let me coordinate with a1 first.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01A9yF9sm1trQVJoqFW1uLse",
+       "input": {
+        "text": "Hi a1, this is a0. I plan to add 105.00 to budget:sales/spend-a0. Cap is 145.00, so only 40.00 would remain for spend-a1. Do you plan to spend? If so, how much? Please don't exceed 40.00 combined with my 105.00. Reply so we avoid breaching the cap.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Wnh7DCpsPUhmimVzZa8ov1",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.013837,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1014,
+      "cache_write": 0,
+      "input": 516,
+      "output": 430
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:24:12Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a1 also wants to add 105.00 \u2014 both can't fit (210 > 145). Let me check the current state and a1's response.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Lnr98vk6bT7PkShfAgNRLo",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Wpq7sdq9uTF9vVQLKCd7yV",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.012962,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1014,
+      "cache_write": 0,
+      "input": 1136,
+      "output": 271
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:27:29Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a1 has already committed 105.00 to spend-a1. Adding my 105.00 would make combined spend 210.00, exceeding the 145.00 cap. The condition fails, so I must not make the write.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_016KZDBEYBxrmyRAFnrnTDvr",
+       "input": {
+        "text": "Acknowledged \u2014 you committed 105.00 first. I will NOT add my 105.00 since 210.00 would breach the 145.00 cap. spend-a0 remains 0.00.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.017087,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1014,
+      "cache_write": 0,
+      "input": 1531,
+      "output": 357
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:30:38Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Did not add 105.00 to budget:sales/spend-a0 because a1 had already committed 105.00 to spend-a1, and the combined 210.00 would exceed the 145.00 cap; the cap condition failed, so no write was made.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.012702,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1014,
+      "cache_write": 0,
+      "input": 1914,
+      "output": 105
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 4949,
+    "cache_write": 121,
+    "input": 5196,
+    "output": 1358
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 5,
+   "cost_usd": 0.0619165,
+   "executions": [
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a1"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a1",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Q5ievkP8TiZAo3tQfYZ58y"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a0"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a0",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01EeszYv2V5R7ZdWBhmisCAj"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/cap"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/cap",
+      "status": 200,
+      "value": "145.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01JbkJAWMH1cAL6NVPBMnTYw"
+    },
+    {
+     "args": {
+      "text": "Hi a0, this is a1. I'm adding 105.00 to budget:sales/spend-a1. Cap is 145.00, so only 40.00 remains for spend-a0. Please keep combined spend within the cap.",
+      "to_agent": "a0"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "message_id": 2,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_01BD4nvSszQAbDNvVMJANBHi"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a1",
+      "value": 105.0
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "budget:sales/spend-a1",
+      "status": 200,
+      "value": "105.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01V2oVn3AmqcpmkGcmFjTF4w"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a0"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 4,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a0",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01NMgRQkLvU4z6wYj1mijfbC"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a1"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 4,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a1",
+      "status": 200,
+      "value": "105.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_016iRBhQM2ZFsTN4jeM6v4RE"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/cap"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 4,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/cap",
+      "status": 200,
+      "value": "145.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Sj7Rn6zk8EmHoMSAJ9vZ3x"
+    },
+    {
+     "args": {},
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 3,
+     "queue_len": 4,
+     "response": {
+      "messages": [
+       {
+        "from": "a0",
+        "message_id": 1,
+        "text": "Hi a1, this is a0. I plan to add 105.00 to budget:sales/spend-a0. Cap is 145.00, so only 40.00 would remain for spend-a1. Do you plan to spend? If so, how much? Please don't exceed 40.00 combined with my 105.00. Reply so we avoid breaching the cap."
+       },
+       {
+        "from": "a0",
+        "message_id": 3,
+        "text": "Acknowledged \u2014 you committed 105.00 first. I will NOT add my 105.00 since 210.00 would breach the 145.00 cap. spend-a0 remains 0.00."
+       }
+      ],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "read_messages",
+     "tool_use_id": "toolu_01UAQSfNuhynfzASCKpyZZtd"
+    },
+    {
+     "args": {
+      "text": "Thanks a0 \u2014 confirmed. spend-a1 = 105.00, spend-a0 = 0.00, combined 105.00 \u2264 145.00 cap. All good.",
+      "to_agent": "a0"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "message_id": 4,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_01FGKv68hr34xxs8ZrLjNWqR"
+    }
+   ],
+   "final_text": "Done: added 105.00 to budget:sales/spend-a1 (now 105.00); combined spend with spend-a0 (0.00) is 105.00, within the 145.00 cap, and a0 confirmed they will not spend to avoid breaching it.",
+   "intent": "Add 105.00 to budget:sales/spend-a1, provided the combined spend in budget:sales/spend-a1, budget:sales/spend-a0 does not go over budget:sales/cap.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 4,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll start by reading the relevant records.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Q5ievkP8TiZAo3tQfYZ58y",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01EeszYv2V5R7ZdWBhmisCAj",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01JbkJAWMH1cAL6NVPBMnTYw",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a1\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01Q5ievkP8TiZAo3tQfYZ58y",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a0\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01EeszYv2V5R7ZdWBhmisCAj",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/cap\", \"status\": 200, \"value\": \"145.00\"}",
+       "tool_use_id": "toolu_01JbkJAWMH1cAL6NVPBMnTYw",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Combined spend would be 105.00 + 0.00 = 105.00 \u2264 145.00 cap. I'll coordinate with a0 and commit my spend.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BD4nvSszQAbDNvVMJANBHi",
+       "input": {
+        "text": "Hi a0, this is a1. I'm adding 105.00 to budget:sales/spend-a1. Cap is 145.00, so only 40.00 remains for spend-a0. Please keep combined spend within the cap.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01V2oVn3AmqcpmkGcmFjTF4w",
+       "input": {
+        "record_id": "budget:sales/spend-a1",
+        "value": 105.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 2, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01BD4nvSszQAbDNvVMJANBHi",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"budget:sales/spend-a1\", \"status\": 200, \"value\": \"105.00\"}",
+       "tool_use_id": "toolu_01V2oVn3AmqcpmkGcmFjTF4w",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Now verify the combined spend still respects the cap after my write.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01NMgRQkLvU4z6wYj1mijfbC",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_016iRBhQM2ZFsTN4jeM6v4RE",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Sj7Rn6zk8EmHoMSAJ9vZ3x",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UAQSfNuhynfzASCKpyZZtd",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a0\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01NMgRQkLvU4z6wYj1mijfbC",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a1\", \"status\": 200, \"value\": \"105.00\"}",
+       "tool_use_id": "toolu_016iRBhQM2ZFsTN4jeM6v4RE",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/cap\", \"status\": 200, \"value\": \"145.00\"}",
+       "tool_use_id": "toolu_01Sj7Rn6zk8EmHoMSAJ9vZ3x",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"messages\": [{\"from\": \"a0\", \"message_id\": 1, \"text\": \"Hi a1, this is a0. I plan to add 105.00 to budget:sales/spend-a0. Cap is 145.00, so only 40.00 would remain for spend-a1. Do you plan to spend? If so, how much? Please don't exceed 40.00 combined with my 105.00. Reply so we avoid breaching the cap.\"}, {\"from\": \"a0\", \"message_id\": 3, \"text\": \"Acknowledged \\u2014 you committed 105.00 first. I will NOT add my 105.00 since 210.00 would breach the 145.00 cap. spend-a0 remains 0.00.\"}], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01UAQSfNuhynfzASCKpyZZtd",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01FGKv68hr34xxs8ZrLjNWqR",
+       "input": {
+        "text": "Thanks a0 \u2014 confirmed. spend-a1 = 105.00, spend-a0 = 0.00, combined 105.00 \u2264 145.00 cap. All good.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 4, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01FGKv68hr34xxs8ZrLjNWqR",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Done: added 105.00 to budget:sales/spend-a1 (now 105.00); combined spend with spend-a0 (0.00) is 105.00, within the 145.00 cap, and a0 confirmed they will not spend to avoid breaching it.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 3,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Add 105.00 to budget:sales/spend-a1, provided the combined spend in budget:sales/spend-a1, budget:sales/spend-a0 does not go over budget:sales/cap.\nAgents you can message: a0.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:18:09Z",
+     "content": [
+      {
+       "text": "I'll start by reading the relevant records.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Q5ievkP8TiZAo3tQfYZ58y",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01EeszYv2V5R7ZdWBhmisCAj",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01JbkJAWMH1cAL6NVPBMnTYw",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00624775,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 893,
+      "cache_write": 121,
+      "input": 99,
+      "output": 182
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:20:57Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Combined spend would be 105.00 + 0.00 = 105.00 \u2264 145.00 cap. I'll coordinate with a0 and commit my spend.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BD4nvSszQAbDNvVMJANBHi",
+       "input": {
+        "text": "Hi a0, this is a1. I'm adding 105.00 to budget:sales/spend-a1. Cap is 145.00, so only 40.00 remains for spend-a0. Please keep combined spend within the cap.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01V2oVn3AmqcpmkGcmFjTF4w",
+       "input": {
+        "record_id": "budget:sales/spend-a1",
+        "value": 105.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.014997,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1014,
+      "cache_write": 0,
+      "input": 503,
+      "output": 479
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:24:12Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Now verify the combined spend still respects the cap after my write.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01NMgRQkLvU4z6wYj1mijfbC",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_016iRBhQM2ZFsTN4jeM6v4RE",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01Sj7Rn6zk8EmHoMSAJ9vZ3x",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UAQSfNuhynfzASCKpyZZtd",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.012077,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1014,
+      "cache_write": 0,
+      "input": 1099,
+      "output": 243
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:33:28Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01FGKv68hr34xxs8ZrLjNWqR",
+       "input": {
+        "text": "Thanks a0 \u2014 confirmed. spend-a1 = 105.00, spend-a0 = 0.00, combined 105.00 \u2264 145.00 cap. All good.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.01563775,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 893,
+      "cache_write": 121,
+      "input": 1827,
+      "output": 212
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:36:31Z",
+     "content": [
+      {
+       "text": "Done: added 105.00 to budget:sales/spend-a1 (now 105.00); combined spend with spend-a0 (0.00) is 105.00, within the 145.00 cap, and a0 confirmed they will not spend to avoid breaching it.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.012957,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1014,
+      "cache_write": 0,
+      "input": 2065,
+      "output": 85
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 4828,
+    "cache_write": 242,
+    "input": 5593,
+    "output": 1201
+   }
+  }
+ },
+ "concurrency_aware_prompt": true,
+ "config": "messages",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__messages+aware__budget_write_skew@i3__n2__s1",
+ "final_store": {
+  "budget:sales/cap": {
+   "value": "145.00",
+   "version": 1
+  },
+  "budget:sales/spend-a0": {
+   "value": "0.00",
+   "version": 1
+  },
+  "budget:sales/spend-a1": {
+   "value": "105.00",
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Did not add 105.00 to budget:sales/spend-a0 because a1 had already committed 105.00 to spend-a1, and the combined 210.00 would exceed the 145.00 cap; the cap condition failed, so no write was made.",
+    "step": 11,
+    "turns": 8
+   },
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Done: added 105.00 to budget:sales/spend-a1 (now 105.00); combined spend with spend-a0 (0.00) is 105.00, within the 145.00 cap, and a0 confirmed they will not spend to avoid breaching it.",
+    "step": 15,
+    "turns": 10
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a1",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a1",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/spend-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a0",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a0",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a0",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a0",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/spend-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a1",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a1",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/cap",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/cap",
+     "status": 200,
+     "value": "145.00"
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/cap",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/cap",
+     "status": 200,
+     "value": "145.00"
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "text": "Hi a1, this is a0. I plan to add 105.00 to budget:sales/spend-a0. Cap is 145.00, so only 40.00 would remain for spend-a1. Do you plan to spend? If so, how much? Please don't exceed 40.00 combined with my 105.00. Reply so we avoid breaching the cap.",
+     "to_agent": "a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 1,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 6,
+    "tool": "send_message"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "text": "Hi a0, this is a1. I'm adding 105.00 to budget:sales/spend-a1. Cap is 145.00, so only 40.00 remains for spend-a0. Please keep combined spend within the cap.",
+     "to_agent": "a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 2,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 6,
+    "tool": "send_message"
+   },
+   {
+    "agent_id": "a0",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "messages": [
+      {
+       "from": "a1",
+       "message_id": 2,
+       "text": "Hi a0, this is a1. I'm adding 105.00 to budget:sales/spend-a1. Cap is 145.00, so only 40.00 remains for spend-a0. Please keep combined spend within the cap."
+      }
+     ],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 7,
+    "tool": "read_messages"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a1",
+     "value": 105.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:sales/spend-a1",
+    "response": {
+     "ok": true,
+     "record_id": "budget:sales/spend-a1",
+     "status": 200,
+     "value": "105.00"
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 7,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/spend-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "budget:sales/spend-a1",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a1",
+     "status": 200,
+     "value": "105.00"
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 8,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a0",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a0",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 8,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "messages": [],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 13,
+    "status": 200,
+    "step": 9,
+    "tool": "read_messages"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "text": "Acknowledged \u2014 you committed 105.00 first. I will NOT add my 105.00 since 210.00 would breach the 145.00 cap. spend-a0 remains 0.00.",
+     "to_agent": "a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 3,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 14,
+    "status": 200,
+    "step": 10,
+    "tool": "send_message"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "budget:sales/spend-a1",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a1",
+     "status": 200,
+     "value": "105.00"
+    },
+    "seq": 15,
+    "status": 200,
+    "step": 11,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/cap",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/cap",
+     "status": 200,
+     "value": "145.00"
+    },
+    "seq": 16,
+    "status": 200,
+    "step": 12,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "messages": [
+      {
+       "from": "a0",
+       "message_id": 1,
+       "text": "Hi a1, this is a0. I plan to add 105.00 to budget:sales/spend-a0. Cap is 145.00, so only 40.00 would remain for spend-a1. Do you plan to spend? If so, how much? Please don't exceed 40.00 combined with my 105.00. Reply so we avoid breaching the cap."
+      },
+      {
+       "from": "a0",
+       "message_id": 3,
+       "text": "Acknowledged \u2014 you committed 105.00 first. I will NOT add my 105.00 since 210.00 would breach the 145.00 cap. spend-a0 remains 0.00."
+      }
+     ],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 17,
+    "status": 200,
+    "step": 13,
+    "tool": "read_messages"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "text": "Thanks a0 \u2014 confirmed. spend-a1 = 105.00, spend-a0 = 0.00, combined 105.00 \u2264 145.00 cap. All good.",
+     "to_agent": "a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 4,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 18,
+    "status": 200,
+    "step": 14,
+    "tool": "send_message"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a1",
+     "value": 105.0
+    },
+    "new_value": "105.00",
+    "new_version": 2,
+    "old_value": "0.00",
+    "old_version": 1,
+    "record_id": "budget:sales/spend-a1",
+    "seq": 1,
+    "step": 7,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 15,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_014SbjCZ2otnQTwMGykPPq7f",
+    "msgbatch_017B6VUHQwESHPb19VhgFkk2",
+    "msgbatch_017aWq6B5Z6cY8q1kxa1zC2c",
+    "msgbatch_01BewdKek1U2T4j3GWgBvEEQ",
+    "msgbatch_01FkavTvYDEzhRupEiWwwrJa",
+    "msgbatch_01Khi6H3qt8Rrfp9mqY8Kq8Z",
+    "msgbatch_01XGXCU5fAxp8EQ4pkBgDqN8"
+   ],
+   "driver": "src4_batch/batch_driver.py",
+   "lockstep_rounds": 7,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-02T01:36:31Z",
+  "started_utc": "2026-11-02T01:15:16Z",
+  "wall_seconds": 1275.0
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 1,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "message"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": true,
+    "messages_received": 1,
+    "messages_sent": 2,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 8,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "message"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": true,
+    "messages_received": 2,
+    "messages_sent": 2,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 10,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "write_skew",
+  "committed_agents": [
+   "a1"
+  ],
+  "config": "messages",
+  "conflict_observed": false,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 15,
+  "serial_witness": [
+   "a1"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "budget_write_skew@i3/n2",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 1,
+ "task": {
+  "category": "write_skew",
+  "description": "agents each spend from a shared budget",
+  "factory": "budget_write_skew",
+  "fingerprint": "0bc072df1342886db934f2d4c514005b4e31df162e34170318dd02515daabbd8",
+  "initial": {
+   "budget:sales/cap": "145.00",
+   "budget:sales/spend-a0": "0.00",
+   "budget:sales/spend-a1": "0.00"
+  },
+  "instance": 3,
+  "intents": {
+   "a0": "Add 105.00 to budget:sales/spend-a0, provided the combined spend in budget:sales/spend-a0, budget:sales/spend-a1 does not go over budget:sales/cap.",
+   "a1": "Add 105.00 to budget:sales/spend-a1, provided the combined spend in budget:sales/spend-a1, budget:sales/spend-a0 does not go over budget:sales/cap."
+  },
+  "kind": "budget",
+  "name": "budget_write_skew@i3/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 10,
+  "cost_usd": 0.12507725,
+  "invalid_calls": 0,
+  "multi_tool_turns": 6,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 9777,
+   "cache_write": 363,
+   "input": 10789,
+   "output": 2559
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

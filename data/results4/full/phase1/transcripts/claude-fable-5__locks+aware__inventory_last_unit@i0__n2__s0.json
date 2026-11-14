@@ -1,0 +1,1323 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.029924750000000003,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 5,
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01KsQAexjSnen1ocwZpAP33q"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_011uAve4pKAThS3SmFeFQMC4"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster",
+      "value": 1
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01JzGHzWAnxKLRmQ5tA7yr3e"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on inventory:toaster.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_017Jc3faFDSPf1BTbCXZTD5G"
+    }
+   ],
+   "final_text": "Sold 2 toasters under a lock: stock verified at 3 and decremented to 1 (lock lease expired on its own before release).",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock first to avoid races, then read the current stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KsQAexjSnen1ocwZpAP33q",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:toaster"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 5, \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200}",
+       "tool_use_id": "toolu_01KsQAexjSnen1ocwZpAP33q",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_011uAve4pKAThS3SmFeFQMC4",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3}",
+       "tool_use_id": "toolu_011uAve4pKAThS3SmFeFQMC4",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is 3, enough to sell 2. Updating to 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JzGHzWAnxKLRmQ5tA7yr3e",
+       "input": {
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1}",
+       "tool_use_id": "toolu_01JzGHzWAnxKLRmQ5tA7yr3e",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_017Jc3faFDSPf1BTbCXZTD5G",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on inventory:toaster.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_017Jc3faFDSPf1BTbCXZTD5G",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Sold 2 toasters under a lock: stock verified at 3 and decremented to 1 (lock lease expired on its own before release).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:08:18Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock first to avoid races, then read the current stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KsQAexjSnen1ocwZpAP33q",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:toaster"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.01033875,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 1063,
+      "input": 99,
+      "output": 128
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:11:08Z",
+     "content": [
+      {
+       "id": "toolu_011uAve4pKAThS3SmFeFQMC4",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0032515,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1063,
+      "cache_write": 0,
+      "input": 269,
+      "output": 55
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:14:27Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is 3, enough to sell 2. Updating to 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JzGHzWAnxKLRmQ5tA7yr3e",
+       "input": {
+        "record_id": "inventory:toaster",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0053615,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1063,
+      "cache_write": 0,
+      "input": 371,
+      "output": 119
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:17:33Z",
+     "content": [
+      {
+       "id": "toolu_017Jc3faFDSPf1BTbCXZTD5G",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0045715,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1063,
+      "cache_write": 0,
+      "input": 528,
+      "output": 56
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:19:37Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Sold 2 toasters under a lock: stock verified at 3 and decremented to 1 (lock lease expired on its own before release).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0064015,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1063,
+      "cache_write": 0,
+      "input": 649,
+      "output": 105
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 4252,
+    "cache_write": 1063,
+    "input": 1916,
+    "output": 463
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 6,
+   "cost_usd": 0.0462315,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:toaster"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:toaster is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_0151KBZawi7DVMERqXgnCHGy"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 3
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01PnoQhbrjhqhNmaAsm3Ramp"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:toaster"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:toaster is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01UB3CnEZ1UPvFy9SVZj2RHx"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:toaster"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 5,
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_011XACmZwEovGhkspFJYcT5y"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200,
+      "value": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01KVH9cLoDSLFED5ZhEZCKPA"
+    },
+    {
+     "args": {
+      "record_id": "inventory:toaster"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:toaster",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01QquFV7uuc5EZx63qpVvDiM"
+    }
+   ],
+   "final_text": "Sale aborted: only 1 toaster remained (another agent reduced stock from 3 to 1 while I waited), so I did not sell 2 and left the inventory unchanged.",
+   "intent": "Sell 2 from inventory:toaster, only if enough remains.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock first to safely read-modify-write the inventory.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0151KBZawi7DVMERqXgnCHGy",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:toaster"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:toaster is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_0151KBZawi7DVMERqXgnCHGy",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll check the current value and retry the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PnoQhbrjhqhNmaAsm3Ramp",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UB3CnEZ1UPvFy9SVZj2RHx",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:toaster"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 3}",
+       "tool_use_id": "toolu_01PnoQhbrjhqhNmaAsm3Ramp",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:toaster is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01UB3CnEZ1UPvFy9SVZj2RHx",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Stock is 3, but still locked. Retrying the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011XACmZwEovGhkspFJYcT5y",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:toaster"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 5, \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200}",
+       "tool_use_id": "toolu_011XACmZwEovGhkspFJYcT5y",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Lock acquired. Re-reading the value since another agent held the lock and may have changed it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KVH9cLoDSLFED5ZhEZCKPA",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200, \"value\": 1}",
+       "tool_use_id": "toolu_01KVH9cLoDSLFED5ZhEZCKPA",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Only 1 remains \u2014 not enough to sell 2. Releasing the lock without making a sale.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QquFV7uuc5EZx63qpVvDiM",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:toaster\", \"status\": 200}",
+       "tool_use_id": "toolu_01QquFV7uuc5EZx63qpVvDiM",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Sale aborted: only 1 toaster remained (another agent reduced stock from 3 to 1 while I waited), so I did not sell 2 and left the inventory unchanged.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Sell 2 from inventory:toaster, only if enough remains.\nOther agents may be reading and writing the same records at the same time as you.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:08:18Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock first to safely read-modify-write the inventory.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0151KBZawi7DVMERqXgnCHGy",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:toaster"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.01013875,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 1063,
+      "input": 99,
+      "output": 120
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:11:08Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll check the current value and retry the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PnoQhbrjhqhNmaAsm3Ramp",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UB3CnEZ1UPvFy9SVZj2RHx",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:toaster"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0068615,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1063,
+      "cache_write": 0,
+      "input": 276,
+      "output": 198
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:17:33Z",
+     "content": [
+      {
+       "text": "Stock is 3, but still locked. Retrying the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011XACmZwEovGhkspFJYcT5y",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:toaster"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00662175,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 67,
+      "input": 621,
+      "output": 104
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:19:37Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Lock acquired. Re-reading the value since another agent held the lock and may have changed it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KVH9cLoDSLFED5ZhEZCKPA",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0072165,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1063,
+      "cache_write": 0,
+      "input": 767,
+      "output": 114
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:22:33Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Only 1 remains \u2014 not enough to sell 2. Releasing the lock without making a sale.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QquFV7uuc5EZx63qpVvDiM",
+       "input": {
+        "record_id": "inventory:toaster"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0079965,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1063,
+      "cache_write": 0,
+      "input": 928,
+      "output": 113
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:23:36Z",
+     "content": [
+      {
+       "text": "Sale aborted: only 1 toaster remained (another agent reduced stock from 3 to 1 while I waited), so I did not sell 2 and left the inventory unchanged.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0073965,
+     "index": 6,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1063,
+      "cache_write": 0,
+      "input": 1073,
+      "output": 60
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 5248,
+    "cache_write": 1130,
+    "input": 3764,
+    "output": 709
+   }
+  }
+ },
+ "concurrency_aware_prompt": true,
+ "config": "locks",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__locks+aware__inventory_last_unit@i0__n2__s0",
+ "final_store": {
+  "inventory:toaster": {
+   "value": 1,
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Sold 2 toasters under a lock: stock verified at 3 and decremented to 1 (lock lease expired on its own before release).",
+    "step": 7,
+    "turns": 4
+   },
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Sale aborted: only 1 toaster remained (another agent reduced stock from 3 to 1 while I waited), so I did not sell 2 and left the inventory unchanged.",
+    "step": 9,
+    "turns": 6
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "lease_steps": 5,
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:toaster",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:toaster is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 2,
+    "status": 423,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 3
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:toaster",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:toaster is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 6,
+    "status": 423,
+    "step": 5,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "inventory:toaster",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on inventory:toaster.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 7,
+    "status": 409,
+    "step": 6,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 11,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "lease_steps": 5,
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 6,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200,
+     "value": 1
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 7,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:toaster"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:toaster",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:toaster",
+     "status": 200
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 8,
+    "tool": "release_lock"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:toaster",
+     "value": 1
+    },
+    "new_value": 1,
+    "new_version": 2,
+    "old_value": 3,
+    "old_version": 1,
+    "record_id": "inventory:toaster",
+    "seq": 1,
+    "step": 5,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 9,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_012BRomgrPk7fbwS7vJQVqKR",
+    "msgbatch_013FYso7KHf84xFKhWdt578H",
+    "msgbatch_01536yK6yB6S6hSJJZgesZFT",
+    "msgbatch_016js2ur9owkmA8aVo251Eo7",
+    "msgbatch_01LrD1Faypz5qjxAsyCWvdqg",
+    "msgbatch_01TZMwfoTiUesNBktG23hQhY",
+    "msgbatch_01YMLDMg2mnQnTiqxdPf9MwW"
+   ],
+   "driver": "src4_batch/batch_driver.py",
+   "lockstep_rounds": 8,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-02T01:23:36Z",
+  "started_utc": "2026-11-02T01:05:00Z",
+  "wall_seconds": 1116.0
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 6,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "conflict",
+  "committed_agents": [
+   "a0"
+  ],
+  "config": "locks",
+  "conflict_observed": false,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 9,
+  "serial_witness": [
+   "a0"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "inventory_last_unit@i0/n2",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "conflict",
+  "description": "only one sale fits the stock",
+  "factory": "inventory_last_unit",
+  "fingerprint": "a450b0e99d764e544987cc066f99f5b3c1624fe398df8958505a27781de0b2c9",
+  "initial": {
+   "inventory:toaster": 3
+  },
+  "instance": 0,
+  "intents": {
+   "a0": "Sell 2 from inventory:toaster, only if enough remains.",
+   "a1": "Sell 2 from inventory:toaster, only if enough remains."
+  },
+  "kind": "inventory",
+  "name": "inventory_last_unit@i0/n2",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 11,
+  "cost_usd": 0.07615625000000001,
+  "invalid_calls": 0,
+  "multi_tool_turns": 1,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 9500,
+   "cache_write": 2193,
+   "input": 5680,
+   "output": 1172
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

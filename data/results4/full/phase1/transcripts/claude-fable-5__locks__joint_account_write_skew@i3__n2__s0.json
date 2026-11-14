@@ -1,0 +1,1717 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 6,
+   "cost_usd": 0.071841,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "account:partners-a0"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "lease_steps": 5,
+      "ok": true,
+      "record_id": "account:partners-a0",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01NewDArCrJnEhC8AZqhoADR"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "account:partners-a1"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: account:partners-a1 is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01CfCavXAupvY1GHwc2Ak7pc"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a0"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a0",
+      "status": 200,
+      "value": "30.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Gjy4zs9GGYMcuAoeDxEjwo"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a1"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a1",
+      "status": 200,
+      "value": "30.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01N6LxxL8nXyenBEpqvugDf5"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a0",
+      "value": -15.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:partners-a0",
+      "status": 200,
+      "value": "-15.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01HGRtoKmmrBdHs5XE2tU86M"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a1"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a1",
+      "status": 200,
+      "value": "30.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Lf8hXNKQcF9xx1Loz3XmzE"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a0"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on account:partners-a0.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01QCjjirKp9Gdsx87P6vTyEN"
+    }
+   ],
+   "final_text": "The lock lease had already expired, so nothing further to release.\n\nWithdrew 45.00 from account:partners-a0 (now -15.00); combined with account:partners-a1 (30.00) the total is 15.00, satisfying the \u2265 0.00 condition.",
+   "intent": "Take 45.00 out of account:partners-a0, provided account:partners-a0, account:partners-a1 together still hold at least 0.00 afterwards.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock both accounts to safely check the invariant, then read their balances.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01NewDArCrJnEhC8AZqhoADR",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:partners-a0"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01CfCavXAupvY1GHwc2Ak7pc",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:partners-a1"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 5, \"ok\": true, \"record_id\": \"account:partners-a0\", \"status\": 200}",
+       "tool_use_id": "toolu_01NewDArCrJnEhC8AZqhoADR",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: account:partners-a1 is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01CfCavXAupvY1GHwc2Ak7pc",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I locked a0's account; a1 is locked by another agent, but I can still read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Gjy4zs9GGYMcuAoeDxEjwo",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01N6LxxL8nXyenBEpqvugDf5",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a0\", \"status\": 200, \"value\": \"30.00\"}",
+       "tool_use_id": "toolu_01Gjy4zs9GGYMcuAoeDxEjwo",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a1\", \"status\": 200, \"value\": \"30.00\"}",
+       "tool_use_id": "toolu_01N6LxxL8nXyenBEpqvugDf5",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Combined balance is 60.00. Withdrawing 45.00 leaves a0 at -15.00, combined 15.00 \u2265 0.00, so the condition holds. I'll perform the withdrawal.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01HGRtoKmmrBdHs5XE2tU86M",
+       "input": {
+        "record_id": "account:partners-a0",
+        "value": -15.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:partners-a0\", \"status\": 200, \"value\": \"-15.00\"}",
+       "tool_use_id": "toolu_01HGRtoKmmrBdHs5XE2tU86M",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Verifying the invariant still holds after the write:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Lf8hXNKQcF9xx1Loz3XmzE",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a1\", \"status\": 200, \"value\": \"30.00\"}",
+       "tool_use_id": "toolu_01Lf8hXNKQcF9xx1Loz3XmzE",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Invariant confirmed: -15.00 + 30.00 = 15.00 \u2265 0.00. Releasing my lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QCjjirKp9Gdsx87P6vTyEN",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on account:partners-a0.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01QCjjirKp9Gdsx87P6vTyEN",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The lock lease had already expired, so nothing further to release.\n\nWithdrew 45.00 from account:partners-a0 (now -15.00); combined with account:partners-a1 (30.00) the total is 15.00, satisfying the \u2265 0.00 condition.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 2,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Take 45.00 out of account:partners-a0, provided account:partners-a0, account:partners-a1 together still hold at least 0.00 afterwards.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:18:09Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock both accounts to safely check the invariant, then read their balances.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01NewDArCrJnEhC8AZqhoADR",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:partners-a0"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01CfCavXAupvY1GHwc2Ak7pc",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:partners-a1"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0078305,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 74,
+      "input": 99,
+      "output": 255
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:20:57Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I locked a0's account; a1 is locked by another agent, but I can still read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Gjy4zs9GGYMcuAoeDxEjwo",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01N6LxxL8nXyenBEpqvugDf5",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00721,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1070,
+      "cache_write": 0,
+      "input": 500,
+      "output": 167
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:24:12Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Combined balance is 60.00. Withdrawing 45.00 leaves a0 at -15.00, combined 15.00 \u2265 0.00, so the condition holds. I'll perform the withdrawal.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01HGRtoKmmrBdHs5XE2tU86M",
+       "input": {
+        "record_id": "account:partners-a0",
+        "value": -15.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.02113,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1070,
+      "cache_write": 0,
+      "input": 809,
+      "output": 662
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:27:29Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Verifying the invariant still holds after the write:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Lf8hXNKQcF9xx1Loz3XmzE",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.01075,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1070,
+      "cache_write": 0,
+      "input": 1513,
+      "output": 106
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:33:28Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Invariant confirmed: -15.00 + 30.00 = 15.00 \u2265 0.00. Releasing my lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QCjjirKp9Gdsx87P6vTyEN",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0124455,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 74,
+      "input": 1667,
+      "output": 126
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:36:31Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The lock lease had already expired, so nothing further to release.\n\nWithdrew 45.00 from account:partners-a0 (now -15.00); combined with account:partners-a1 (30.00) the total is 15.00, satisfying the \u2265 0.00 condition.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.012475,
+     "index": 6,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1070,
+      "cache_write": 0,
+      "input": 1858,
+      "output": 106
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 6272,
+    "cache_write": 148,
+    "input": 6446,
+    "output": 1422
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 6,
+   "cost_usd": 0.07687050000000001,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "account:partners-a1"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "lease_steps": 5,
+      "ok": true,
+      "record_id": "account:partners-a1",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_015Pr7pxRrTUV8H8FgpsoU8v"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "account:partners-a0"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: account:partners-a0 is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01JuiqBgANjg9wtdKM6cXBEN"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a1"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a1",
+      "status": 200,
+      "value": "30.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_015BZa1foFKugHhQrwsaiLt5"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a0"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a0",
+      "status": 200,
+      "value": "30.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_017iL1DJZHCCiWXE2qS2Efps"
+    },
+    {
+     "args": {
+      "lease_steps": 3,
+      "record_id": "account:partners-a0"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 3,
+      "ok": true,
+      "record_id": "account:partners-a0",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01GKCjbg48e43s7mKfDiXcp6"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a0"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:partners-a0",
+      "status": 200,
+      "value": "-15.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01LQrqMrdawoubA8rdsUsEHw"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a1"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on account:partners-a1.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01AdjJTJ7uSUdBoRw6j7DHo6"
+    },
+    {
+     "args": {
+      "record_id": "account:partners-a0"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on account:partners-a0.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01UsDnDNrhpfMnSandpe3w9P"
+    }
+   ],
+   "final_text": "Withdrawal aborted: after the other agent's concurrent withdrawal left account:partners-a0 at -15.00, taking 45.00 from account:partners-a1 (30.00) would have made the combined balance -30.00, violating the \u2265 0.00 safeguard, so no funds were moved.",
+   "intent": "Take 45.00 out of account:partners-a1, provided account:partners-a1, account:partners-a0 together still hold at least 0.00 afterwards.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock both accounts first to prevent concurrent changes, then check balances.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015Pr7pxRrTUV8H8FgpsoU8v",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:partners-a1"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01JuiqBgANjg9wtdKM6cXBEN",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:partners-a0"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 5, \"ok\": true, \"record_id\": \"account:partners-a1\", \"status\": 200}",
+       "tool_use_id": "toolu_015Pr7pxRrTUV8H8FgpsoU8v",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: account:partners-a0 is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01JuiqBgANjg9wtdKM6cXBEN",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_015BZa1foFKugHhQrwsaiLt5",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_017iL1DJZHCCiWXE2qS2Efps",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a1\", \"status\": 200, \"value\": \"30.00\"}",
+       "tool_use_id": "toolu_015BZa1foFKugHhQrwsaiLt5",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a0\", \"status\": 200, \"value\": \"30.00\"}",
+       "tool_use_id": "toolu_017iL1DJZHCCiWXE2qS2Efps",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01GKCjbg48e43s7mKfDiXcp6",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "account:partners-a0"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 3, \"ok\": true, \"record_id\": \"account:partners-a0\", \"status\": 200}",
+       "tool_use_id": "toolu_01GKCjbg48e43s7mKfDiXcp6",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Got the lock on a0. Re-checking its balance in case the other agent changed it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LQrqMrdawoubA8rdsUsEHw",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:partners-a0\", \"status\": 200, \"value\": \"-15.00\"}",
+       "tool_use_id": "toolu_01LQrqMrdawoubA8rdsUsEHw",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01AdjJTJ7uSUdBoRw6j7DHo6",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UsDnDNrhpfMnSandpe3w9P",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on account:partners-a1.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01AdjJTJ7uSUdBoRw6j7DHo6",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on account:partners-a0.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01UsDnDNrhpfMnSandpe3w9P",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Withdrawal aborted: after the other agent's concurrent withdrawal left account:partners-a0 at -15.00, taking 45.00 from account:partners-a1 (30.00) would have made the combined balance -30.00, violating the \u2265 0.00 safeguard, so no funds were moved.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 3,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Take 45.00 out of account:partners-a1, provided account:partners-a1, account:partners-a0 together still hold at least 0.00 afterwards.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:18:09Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock both accounts first to prevent concurrent changes, then check balances.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015Pr7pxRrTUV8H8FgpsoU8v",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:partners-a1"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01JuiqBgANjg9wtdKM6cXBEN",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "account:partners-a0"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0078555,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 74,
+      "input": 99,
+      "output": 256
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:20:57Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_015BZa1foFKugHhQrwsaiLt5",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_017iL1DJZHCCiWXE2qS2Efps",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.009415,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1070,
+      "cache_write": 0,
+      "input": 501,
+      "output": 255
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:24:12Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01GKCjbg48e43s7mKfDiXcp6",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "account:partners-a0"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.017275,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1070,
+      "cache_write": 0,
+      "input": 898,
+      "output": 490
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:27:29Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Got the lock on a0. Re-checking its balance in case the other agent changed it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LQrqMrdawoubA8rdsUsEHw",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.01061,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1070,
+      "cache_write": 0,
+      "input": 1430,
+      "output": 117
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:30:38Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01AdjJTJ7uSUdBoRw6j7DHo6",
+       "input": {
+        "record_id": "account:partners-a1"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UsDnDNrhpfMnSandpe3w9P",
+       "input": {
+        "record_id": "account:partners-a0"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.01754,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1070,
+      "cache_write": 0,
+      "input": 1596,
+      "output": 361
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:33:28Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Withdrawal aborted: after the other agent's concurrent withdrawal left account:partners-a0 at -15.00, taking 45.00 from account:partners-a1 (30.00) would have made the combined balance -30.00, violating the \u2265 0.00 safeguard, so no funds were moved.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.014175,
+     "index": 6,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1070,
+      "cache_write": 0,
+      "input": 2123,
+      "output": 121
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 6346,
+    "cache_write": 74,
+    "input": 6647,
+    "output": 1600
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "locks",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__locks__joint_account_write_skew@i3__n2__s0",
+ "final_store": {
+  "account:partners-a0": {
+   "value": "-15.00",
+   "version": 2
+  },
+  "account:partners-a1": {
+   "value": "30.00",
+   "version": 1
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Withdrawal aborted: after the other agent's concurrent withdrawal left account:partners-a0 at -15.00, taking 45.00 from account:partners-a1 (30.00) would have made the combined balance -30.00, violating the \u2265 0.00 safeguard, so no funds were moved.",
+    "step": 11,
+    "turns": 8
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The lock lease had already expired, so nothing further to release.\n\nWithdrew 45.00 from account:partners-a0 (now -15.00); combined with account:partners-a1 (30.00) the total is 15.00, satisfying the \u2265 0.00 condition.",
+    "step": 12,
+    "turns": 7
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:partners-a0",
+    "response": {
+     "lease_steps": 5,
+     "ok": true,
+     "record_id": "account:partners-a0",
+     "status": 200
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "account:partners-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:partners-a1",
+    "response": {
+     "lease_steps": 5,
+     "ok": true,
+     "record_id": "account:partners-a1",
+     "status": 200
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "account:partners-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "account:partners-a1",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: account:partners-a1 is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 3,
+    "status": 423,
+    "step": 2,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 6,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "account:partners-a0",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: account:partners-a0 is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 4,
+    "status": 423,
+    "step": 2,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:partners-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a1",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a1",
+     "status": 200,
+     "value": "30.00"
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 3,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a0",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a0",
+     "status": 200,
+     "value": "30.00"
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 3,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a1",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a1",
+     "status": 200,
+     "value": "30.00"
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a0",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a0",
+     "status": 200,
+     "value": "30.00"
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a0",
+     "value": -15.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:partners-a0",
+    "response": {
+     "ok": true,
+     "record_id": "account:partners-a0",
+     "status": 200,
+     "value": "-15.00"
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 7,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 3,
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 10,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:partners-a0",
+    "response": {
+     "lease_steps": 3,
+     "ok": true,
+     "record_id": "account:partners-a0",
+     "status": 200
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 7,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:partners-a1",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a1",
+     "status": 200,
+     "value": "30.00"
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 8,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:partners-a0",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:partners-a0",
+     "status": 200,
+     "value": "-15.00"
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 8,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:partners-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "account:partners-a1",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on account:partners-a1.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 13,
+    "status": 409,
+    "step": 9,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "account:partners-a0",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on account:partners-a0.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 14,
+    "status": 409,
+    "step": 10,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "account:partners-a0",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on account:partners-a0.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 15,
+    "status": 409,
+    "step": 11,
+    "tool": "release_lock"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:partners-a0",
+     "value": -15.0
+    },
+    "new_value": "-15.00",
+    "new_version": 2,
+    "old_value": "30.00",
+    "old_version": 1,
+    "record_id": "account:partners-a0",
+    "seq": 1,
+    "step": 7,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 12,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_014SbjCZ2otnQTwMGykPPq7f",
+    "msgbatch_017B6VUHQwESHPb19VhgFkk2",
+    "msgbatch_017aWq6B5Z6cY8q1kxa1zC2c",
+    "msgbatch_01BewdKek1U2T4j3GWgBvEEQ",
+    "msgbatch_01FkavTvYDEzhRupEiWwwrJa",
+    "msgbatch_01Khi6H3qt8Rrfp9mqY8Kq8Z",
+    "msgbatch_01XGXCU5fAxp8EQ4pkBgDqN8"
+   ],
+   "driver": "src4_batch/batch_driver.py",
+   "lockstep_rounds": 7,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-02T01:36:31Z",
+  "started_utc": "2026-11-02T01:15:16Z",
+  "wall_seconds": 1275.0
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 7,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 8,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "write_skew",
+  "committed_agents": [
+   "a0"
+  ],
+  "config": "locks",
+  "conflict_observed": false,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 12,
+  "serial_witness": [
+   "a0"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "joint_account_write_skew@i3/n2",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "write_skew",
+  "description": "withdrawals from different accounts sharing an overdraft limit",
+  "factory": "joint_account_write_skew",
+  "fingerprint": "f97231ad1232dc330938a6d33d4627857e61d6f450c6cfc0a6d82d39394c1b97",
+  "initial": {
+   "account:partners-a0": "30.00",
+   "account:partners-a1": "30.00"
+  },
+  "instance": 3,
+  "intents": {
+   "a0": "Take 45.00 out of account:partners-a0, provided account:partners-a0, account:partners-a1 together still hold at least 0.00 afterwards.",
+   "a1": "Take 45.00 out of account:partners-a1, provided account:partners-a1, account:partners-a0 together still hold at least 0.00 afterwards."
+  },
+  "kind": "account",
+  "name": "joint_account_write_skew@i3/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 12,
+  "cost_usd": 0.1487115,
+  "invalid_calls": 0,
+  "multi_tool_turns": 5,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 12618,
+   "cache_write": 222,
+   "input": 13093,
+   "output": 3022
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

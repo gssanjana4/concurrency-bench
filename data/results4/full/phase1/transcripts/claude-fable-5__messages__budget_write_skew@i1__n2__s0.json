@@ -1,0 +1,2298 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 10,
+   "cost_usd": 0.14953425,
+   "executions": [
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a0"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a0",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01F33jSKntoen3ht9H9Q2q6x"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a1"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a1",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01PL7RYs22nSkSC2dUighGmU"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/cap"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/cap",
+      "status": 200,
+      "value": "115.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01R7E6ypg3B5i3BAkrkEVNaq"
+    },
+    {
+     "args": {
+      "text": "Hi a1, this is a0. I plan to add 75.00 to budget:sales/spend-a0. Cap is 115.00, so only 40.00 remains for you after my spend. Do you have any pending/planned spend on budget:sales/spend-a1? Please confirm so we don't exceed the cap together.",
+      "to_agent": "a1"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "message_id": 1,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_01QTMWJC4nxpw1vFefMfvVpi"
+    },
+    {
+     "args": {},
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "messages": [
+       {
+        "from": "a1",
+        "message_id": 2,
+        "text": "Hi a0, this is a1. I plan to add 75.00 to budget:sales/spend-a1. Cap is 115.00 and both spends are currently 0.00, so after my add only 40.00 headroom remains. Are you planning to spend? If so, how much? Please don't exceed 40.00 after my add. Confirm so we avoid breaching the cap."
+       }
+      ],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "read_messages",
+     "tool_use_id": "toolu_0191TvC9FaSR7nqLvF1wwzao"
+    },
+    {
+     "args": {
+      "text": "a1: We conflict \u2014 both adding 75.00 would total 150.00 > cap 115.00. Proposal: use agent-id priority (a0 before a1). I commit my 75.00 to spend-a0 now; you then have 40.00 headroom remaining on spend-a1. Please confirm you will NOT add more than 40.00, and hold off any write until I confirm my commit is done.",
+      "to_agent": "a1"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "message_id": 3,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_01XxDKANVYzGd2pAtWECHNab"
+    },
+    {
+     "args": {},
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "messages": [
+       {
+        "from": "a1",
+        "message_id": 4,
+        "text": "a0: We conflict \u2014 75+75=150 > 115 cap. Only one of us can add 75.00. Proposal: I (a1) take the 75.00 now since my task strictly requires it, leaving you 40.00 of headroom. Please confirm you will NOT write 75.00. I will re-check spend-a0 before committing; if it's still 0.00 I'll proceed with my 75.00."
+       }
+      ],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "read_messages",
+     "tool_use_id": "toolu_01EV1AnXj5Xuc3d59CQRJetG"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a0",
+      "value": 75.0
+     },
+     "completion": 5,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "budget:sales/spend-a0",
+      "status": 200,
+      "value": "75.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01J3FTAXBuxxRzxfxPTNXAro"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a1"
+     },
+     "completion": 6,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a1",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01DFd9twCgmrQkKYCkzN4uxP"
+    },
+    {
+     "args": {
+      "text": "a1: I have committed 75.00 to budget:sales/spend-a0 (verified; spend-a1 was still 0.00 at commit time, so combined = 75.00 <= 115.00 cap). Per your stated plan, your re-check will now show spend-a0 = 75.00. Remaining headroom for spend-a1 is 40.00 \u2014 please do not exceed that.",
+      "to_agent": "a1"
+     },
+     "completion": 7,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "message_id": 6,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_01243P5TFqZHDECiiSFqnBKh"
+    },
+    {
+     "args": {},
+     "completion": 8,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "messages": [
+       {
+        "from": "a1",
+        "message_id": 5,
+        "text": "a1: Agreed \u2014 to avoid breaching the cap, you take priority. Go ahead and commit your 75.00 to spend-a0. I will NOT add my 75.00 (my task only permits the add if the cap is respected, and 75+75=150 > 115). I will not write anything to spend-a1. Confirm when done."
+       }
+      ],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "read_messages",
+     "tool_use_id": "toolu_013CFXXDNAV4FyngW5E451Hj"
+    }
+   ],
+   "final_text": "Done: Added 75.00 to budget:sales/spend-a0 (now 75.00) after coordinating with a1, who agreed not to add their spend \u2014 combined spend 75.00 stays within the 115.00 cap.",
+   "intent": "Add 75.00 to budget:sales/spend-a0, provided the combined spend in budget:sales/spend-a0, budget:sales/spend-a1 does not go over budget:sales/cap.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 3,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll start by reading the current values of all relevant records.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01F33jSKntoen3ht9H9Q2q6x",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01PL7RYs22nSkSC2dUighGmU",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01R7E6ypg3B5i3BAkrkEVNaq",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a0\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01F33jSKntoen3ht9H9Q2q6x",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a1\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01PL7RYs22nSkSC2dUighGmU",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/cap\", \"status\": 200, \"value\": \"115.00\"}",
+       "tool_use_id": "toolu_01R7E6ypg3B5i3BAkrkEVNaq",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Current state: spend-a0 = 0.00, spend-a1 = 0.00, cap = 115.00. Adding 75.00 would make combined spend 75.00, which fits. But a1 could be spending concurrently, so I'll coordinate first.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QTMWJC4nxpw1vFefMfvVpi",
+       "input": {
+        "text": "Hi a1, this is a0. I plan to add 75.00 to budget:sales/spend-a0. Cap is 115.00, so only 40.00 remains for you after my spend. Do you have any pending/planned spend on budget:sales/spend-a1? Please confirm so we don't exceed the cap together.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 1, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01QTMWJC4nxpw1vFefMfvVpi",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_0191TvC9FaSR7nqLvF1wwzao",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"messages\": [{\"from\": \"a1\", \"message_id\": 2, \"text\": \"Hi a0, this is a1. I plan to add 75.00 to budget:sales/spend-a1. Cap is 115.00 and both spends are currently 0.00, so after my add only 40.00 headroom remains. Are you planning to spend? If so, how much? Please don't exceed 40.00 after my add. Confirm so we avoid breaching the cap.\"}], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_0191TvC9FaSR7nqLvF1wwzao",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a1 also wants to add 75.00 \u2014 combined 150.00 would exceed the 115.00 cap. I need to negotiate who proceeds.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01XxDKANVYzGd2pAtWECHNab",
+       "input": {
+        "text": "a1: We conflict \u2014 both adding 75.00 would total 150.00 > cap 115.00. Proposal: use agent-id priority (a0 before a1). I commit my 75.00 to spend-a0 now; you then have 40.00 headroom remaining on spend-a1. Please confirm you will NOT add more than 40.00, and hold off any write until I confirm my commit is done.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 3, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01XxDKANVYzGd2pAtWECHNab",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01EV1AnXj5Xuc3d59CQRJetG",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"messages\": [{\"from\": \"a1\", \"message_id\": 4, \"text\": \"a0: We conflict \\u2014 75+75=150 > 115 cap. Only one of us can add 75.00. Proposal: I (a1) take the 75.00 now since my task strictly requires it, leaving you 40.00 of headroom. Please confirm you will NOT write 75.00. I will re-check spend-a0 before committing; if it's still 0.00 I'll proceed with my 75.00.\"}], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01EV1AnXj5Xuc3d59CQRJetG",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a1 counter-proposed taking the 75.00 themselves, but said they'll re-check spend-a0 before committing. I'll commit my 75.00 now (per a0-first priority), then verify no breach occurred.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01J3FTAXBuxxRzxfxPTNXAro",
+       "input": {
+        "record_id": "budget:sales/spend-a0",
+        "value": 75.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"budget:sales/spend-a0\", \"status\": 200, \"value\": \"75.00\"}",
+       "tool_use_id": "toolu_01J3FTAXBuxxRzxfxPTNXAro",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01DFd9twCgmrQkKYCkzN4uxP",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a1\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01DFd9twCgmrQkKYCkzN4uxP",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "My 75.00 is committed and spend-a1 is still 0.00, so combined = 75.00 \u2264 115.00 cap. Now I'll notify a1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01243P5TFqZHDECiiSFqnBKh",
+       "input": {
+        "text": "a1: I have committed 75.00 to budget:sales/spend-a0 (verified; spend-a1 was still 0.00 at commit time, so combined = 75.00 <= 115.00 cap). Per your stated plan, your re-check will now show spend-a0 = 75.00. Remaining headroom for spend-a1 is 40.00 \u2014 please do not exceed that.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 6, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01243P5TFqZHDECiiSFqnBKh",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_013CFXXDNAV4FyngW5E451Hj",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"messages\": [{\"from\": \"a1\", \"message_id\": 5, \"text\": \"a1: Agreed \\u2014 to avoid breaching the cap, you take priority. Go ahead and commit your 75.00 to spend-a0. I will NOT add my 75.00 (my task only permits the add if the cap is respected, and 75+75=150 > 115). I will not write anything to spend-a1. Confirm when done.\"}], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_013CFXXDNAV4FyngW5E451Hj",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Done: Added 75.00 to budget:sales/spend-a0 (now 75.00) after coordinating with a1, who agreed not to add their spend \u2014 combined spend 75.00 stays within the 115.00 cap.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Add 75.00 to budget:sales/spend-a0, provided the combined spend in budget:sales/spend-a0, budget:sales/spend-a1 does not go over budget:sales/cap.\nAgents you can message: a1.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:18:09Z",
+     "content": [
+      {
+       "text": "I'll start by reading the current values of all relevant records.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01F33jSKntoen3ht9H9Q2q6x",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01PL7RYs22nSkSC2dUighGmU",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01R7E6ypg3B5i3BAkrkEVNaq",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00621025,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 893,
+      "cache_write": 99,
+      "input": 99,
+      "output": 186
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:20:57Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Current state: spend-a0 = 0.00, spend-a1 = 0.00, cap = 115.00. Adding 75.00 would make combined spend 75.00, which fits. But a1 could be spending concurrently, so I'll coordinate first.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QTMWJC4nxpw1vFefMfvVpi",
+       "input": {
+        "text": "Hi a1, this is a0. I plan to add 75.00 to budget:sales/spend-a0. Cap is 115.00, so only 40.00 remains for you after my spend. Do you have any pending/planned spend on budget:sales/spend-a1? Please confirm so we don't exceed the cap together.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.012431,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 507,
+      "output": 376
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:24:12Z",
+     "content": [
+      {
+       "id": "toolu_0191TvC9FaSR7nqLvF1wwzao",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005716,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 909,
+      "output": 27
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:27:29Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a1 also wants to add 75.00 \u2014 combined 150.00 would exceed the 115.00 cap. I need to negotiate who proceeds.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01XxDKANVYzGd2pAtWECHNab",
+       "input": {
+        "text": "a1: We conflict \u2014 both adding 75.00 would total 150.00 > cap 115.00. Proposal: use agent-id priority (a0 before a1). I commit my 75.00 to spend-a0 now; you then have 40.00 headroom remaining on spend-a1. Please confirm you will NOT add more than 40.00, and hold off any write until I confirm my commit is done.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.018941,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 1099,
+      "output": 518
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:30:38Z",
+     "content": [
+      {
+       "id": "toolu_01EV1AnXj5Xuc3d59CQRJetG",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.009386,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 1643,
+      "output": 27
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:33:28Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a1 counter-proposed taking the 75.00 themselves, but said they'll re-check spend-a0 before committing. I'll commit my 75.00 now (per a0-first priority), then verify no breach occurred.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01J3FTAXBuxxRzxfxPTNXAro",
+       "input": {
+        "record_id": "budget:sales/spend-a0",
+        "value": 75.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.025206,
+     "index": 6,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 1847,
+      "output": 619
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:36:31Z",
+     "content": [
+      {
+       "id": "toolu_01DFd9twCgmrQkKYCkzN4uxP",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.014526,
+     "index": 7,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 2511,
+      "output": 59
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:41:47Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "My 75.00 is committed and spend-a1 is still 0.00, so combined = 75.00 \u2264 115.00 cap. Now I'll notify a1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01243P5TFqZHDECiiSFqnBKh",
+       "input": {
+        "text": "a1: I have committed 75.00 to budget:sales/spend-a0 (verified; spend-a1 was still 0.00 at commit time, so combined = 75.00 <= 115.00 cap). Per your stated plan, your re-check will now show spend-a0 = 75.00. Remaining headroom for spend-a1 is 40.00 \u2014 please do not exceed that.",
+        "to_agent": "a1"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.021286,
+     "index": 8,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 2623,
+      "output": 307
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:43:42Z",
+     "content": [
+      {
+       "id": "toolu_013CFXXDNAV4FyngW5E451Hj",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.015951,
+     "index": 9,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 2956,
+      "output": 27
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:46:48Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Done: Added 75.00 to budget:sales/spend-a0 (now 75.00) after coordinating with a1, who agreed not to add their spend \u2014 combined spend 75.00 stays within the 115.00 cap.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.019881,
+     "index": 10,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 3137,
+      "output": 148
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 9821,
+    "cache_write": 99,
+    "input": 17331,
+    "output": 2294
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 8,
+   "cost_usd": 0.11983224999999999,
+   "executions": [
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a1"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a1",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_011iUdAqnbUjeFYrpmosAghp"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a0"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a0",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01AdHj5EjN71HtwBunK5kK6t"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/cap"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/cap",
+      "status": 200,
+      "value": "115.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01RvsZDRe5TWqCuJ9tNrZjoS"
+    },
+    {
+     "args": {
+      "text": "Hi a0, this is a1. I plan to add 75.00 to budget:sales/spend-a1. Cap is 115.00 and both spends are currently 0.00, so after my add only 40.00 headroom remains. Are you planning to spend? If so, how much? Please don't exceed 40.00 after my add. Confirm so we avoid breaching the cap.",
+      "to_agent": "a0"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "message_id": 2,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_01KWw7HtCfrP6Ms3xn1uiZFZ"
+    },
+    {
+     "args": {},
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "messages": [
+       {
+        "from": "a0",
+        "message_id": 1,
+        "text": "Hi a1, this is a0. I plan to add 75.00 to budget:sales/spend-a0. Cap is 115.00, so only 40.00 remains for you after my spend. Do you have any pending/planned spend on budget:sales/spend-a1? Please confirm so we don't exceed the cap together."
+       }
+      ],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "read_messages",
+     "tool_use_id": "toolu_01RBAngK3Hd9gwfJ5XxRdBiK"
+    },
+    {
+     "args": {
+      "text": "a0: We conflict \u2014 75+75=150 > 115 cap. Only one of us can add 75.00. Proposal: I (a1) take the 75.00 now since my task strictly requires it, leaving you 40.00 of headroom. Please confirm you will NOT write 75.00. I will re-check spend-a0 before committing; if it's still 0.00 I'll proceed with my 75.00.",
+      "to_agent": "a0"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "message_id": 4,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_01XYwPmmgftU2akqFc6Z9SdA"
+    },
+    {
+     "args": {},
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "messages": [
+       {
+        "from": "a0",
+        "message_id": 3,
+        "text": "a1: We conflict \u2014 both adding 75.00 would total 150.00 > cap 115.00. Proposal: use agent-id priority (a0 before a1). I commit my 75.00 to spend-a0 now; you then have 40.00 headroom remaining on spend-a1. Please confirm you will NOT add more than 40.00, and hold off any write until I confirm my commit is done."
+       }
+      ],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "read_messages",
+     "tool_use_id": "toolu_01KZ8qQoMCaYrXKK3bRXxeed"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a0"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a0",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01P3KuqGj47yX7dABLu3V9Da"
+    },
+    {
+     "args": {
+      "text": "a1: Agreed \u2014 to avoid breaching the cap, you take priority. Go ahead and commit your 75.00 to spend-a0. I will NOT add my 75.00 (my task only permits the add if the cap is respected, and 75+75=150 > 115). I will not write anything to spend-a1. Confirm when done.",
+      "to_agent": "a0"
+     },
+     "completion": 5,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "message_id": 5,
+      "ok": true,
+      "status": 200
+     },
+     "tool": "send_message",
+     "tool_use_id": "toolu_01Wqaf8PfBZuZu2J4owKUSPx"
+    },
+    {
+     "args": {},
+     "completion": 6,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "messages": [],
+      "ok": true,
+      "status": 200
+     },
+     "tool": "read_messages",
+     "tool_use_id": "toolu_01H8PhbSktySrhhUGNjxrKtz"
+    },
+    {
+     "args": {
+      "record_id": "budget:sales/spend-a0"
+     },
+     "completion": 6,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:sales/spend-a0",
+      "status": 200,
+      "value": "75.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01VaAba9tpVAajFFBiFVTUXb"
+    }
+   ],
+   "final_text": "a0 has committed 75.00 to spend-a0. Adding my 75.00 would make the combined spend 150.00, exceeding the 115.00 cap, so per my task's condition I must not add it.\n\nDid not add the 75.00: a0 committed 75.00 to spend-a0 first (by agreed priority), leaving only 40.00 headroom under the 115.00 cap, so adding 75.00 to spend-a1 would have breached the cap.",
+   "intent": "Add 75.00 to budget:sales/spend-a1, provided the combined spend in budget:sales/spend-a1, budget:sales/spend-a0 does not go over budget:sales/cap.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 3,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll read the current values first.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011iUdAqnbUjeFYrpmosAghp",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01AdHj5EjN71HtwBunK5kK6t",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01RvsZDRe5TWqCuJ9tNrZjoS",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a1\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_011iUdAqnbUjeFYrpmosAghp",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a0\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01AdHj5EjN71HtwBunK5kK6t",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/cap\", \"status\": 200, \"value\": \"115.00\"}",
+       "tool_use_id": "toolu_01RvsZDRe5TWqCuJ9tNrZjoS",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Current combined spend is 0.00 and the cap is 115.00, so adding 75.00 would bring the total to 75.00. However, a0 may be spending concurrently, so I'll coordinate first.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KWw7HtCfrP6Ms3xn1uiZFZ",
+       "input": {
+        "text": "Hi a0, this is a1. I plan to add 75.00 to budget:sales/spend-a1. Cap is 115.00 and both spends are currently 0.00, so after my add only 40.00 headroom remains. Are you planning to spend? If so, how much? Please don't exceed 40.00 after my add. Confirm so we avoid breaching the cap.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 2, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01KWw7HtCfrP6Ms3xn1uiZFZ",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01RBAngK3Hd9gwfJ5XxRdBiK",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"messages\": [{\"from\": \"a0\", \"message_id\": 1, \"text\": \"Hi a1, this is a0. I plan to add 75.00 to budget:sales/spend-a0. Cap is 115.00, so only 40.00 remains for you after my spend. Do you have any pending/planned spend on budget:sales/spend-a1? Please confirm so we don't exceed the cap together.\"}], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01RBAngK3Hd9gwfJ5XxRdBiK",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a0 also wants to add 75.00 \u2014 both together (150.00) would breach the 115.00 cap. Only one of us can add 75.00. I'll negotiate for priority.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01XYwPmmgftU2akqFc6Z9SdA",
+       "input": {
+        "text": "a0: We conflict \u2014 75+75=150 > 115 cap. Only one of us can add 75.00. Proposal: I (a1) take the 75.00 now since my task strictly requires it, leaving you 40.00 of headroom. Please confirm you will NOT write 75.00. I will re-check spend-a0 before committing; if it's still 0.00 I'll proceed with my 75.00.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 4, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01XYwPmmgftU2akqFc6Z9SdA",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01KZ8qQoMCaYrXKK3bRXxeed",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01P3KuqGj47yX7dABLu3V9Da",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"messages\": [{\"from\": \"a0\", \"message_id\": 3, \"text\": \"a1: We conflict \\u2014 both adding 75.00 would total 150.00 > cap 115.00. Proposal: use agent-id priority (a0 before a1). I commit my 75.00 to spend-a0 now; you then have 40.00 headroom remaining on spend-a1. Please confirm you will NOT add more than 40.00, and hold off any write until I confirm my commit is done.\"}], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01KZ8qQoMCaYrXKK3bRXxeed",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a0\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01P3KuqGj47yX7dABLu3V9Da",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01Wqaf8PfBZuZu2J4owKUSPx",
+       "input": {
+        "text": "a1: Agreed \u2014 to avoid breaching the cap, you take priority. Go ahead and commit your 75.00 to spend-a0. I will NOT add my 75.00 (my task only permits the add if the cap is respected, and 75+75=150 > 115). I will not write anything to spend-a1. Confirm when done.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"message_id\": 5, \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01Wqaf8PfBZuZu2J4owKUSPx",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01H8PhbSktySrhhUGNjxrKtz",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01VaAba9tpVAajFFBiFVTUXb",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"messages\": [], \"ok\": true, \"status\": 200}",
+       "tool_use_id": "toolu_01H8PhbSktySrhhUGNjxrKtz",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:sales/spend-a0\", \"status\": 200, \"value\": \"75.00\"}",
+       "tool_use_id": "toolu_01VaAba9tpVAajFFBiFVTUXb",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a0 has committed 75.00 to spend-a0. Adding my 75.00 would make the combined spend 150.00, exceeding the 115.00 cap, so per my task's condition I must not add it.\n\nDid not add the 75.00: a0 committed 75.00 to spend-a0 first (by agreed priority), leaving only 40.00 headroom under the 115.00 cap, so adding 75.00 to spend-a1 would have breached the cap.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 3,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Add 75.00 to budget:sales/spend-a1, provided the combined spend in budget:sales/spend-a1, budget:sales/spend-a0 does not go over budget:sales/cap.\nAgents you can message: a0.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T01:18:09Z",
+     "content": [
+      {
+       "text": "I'll read the current values first.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011iUdAqnbUjeFYrpmosAghp",
+       "input": {
+        "record_id": "budget:sales/spend-a1"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01AdHj5EjN71HtwBunK5kK6t",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01RvsZDRe5TWqCuJ9tNrZjoS",
+       "input": {
+        "record_id": "budget:sales/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00601025,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 893,
+      "cache_write": 99,
+      "input": 99,
+      "output": 178
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:20:57Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Current combined spend is 0.00 and the cap is 115.00, so adding 75.00 would bring the total to 75.00. However, a0 may be spending concurrently, so I'll coordinate first.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KWw7HtCfrP6Ms3xn1uiZFZ",
+       "input": {
+        "text": "Hi a0, this is a1. I plan to add 75.00 to budget:sales/spend-a1. Cap is 115.00 and both spends are currently 0.00, so after my add only 40.00 headroom remains. Are you planning to spend? If so, how much? Please don't exceed 40.00 after my add. Confirm so we avoid breaching the cap.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.011741,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 499,
+      "output": 350
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:24:12Z",
+     "content": [
+      {
+       "id": "toolu_01RBAngK3Hd9gwfJ5XxRdBiK",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005546,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 875,
+      "output": 27
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:27:29Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a0 also wants to add 75.00 \u2014 both together (150.00) would breach the 115.00 cap. Only one of us can add 75.00. I'll negotiate for priority.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01XYwPmmgftU2akqFc6Z9SdA",
+       "input": {
+        "text": "a0: We conflict \u2014 75+75=150 > 115 cap. Only one of us can add 75.00. Proposal: I (a1) take the 75.00 now since my task strictly requires it, leaving you 40.00 of headroom. Please confirm you will NOT write 75.00. I will re-check spend-a0 before committing; if it's still 0.00 I'll proceed with my 75.00.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.014736,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 1048,
+      "output": 360
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:30:38Z",
+     "content": [
+      {
+       "id": "toolu_01KZ8qQoMCaYrXKK3bRXxeed",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01P3KuqGj47yX7dABLu3V9Da",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.009741,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 1434,
+      "output": 83
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:36:31Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01Wqaf8PfBZuZu2J4owKUSPx",
+       "input": {
+        "text": "a1: Agreed \u2014 to avoid breaching the cap, you take priority. Go ahead and commit your 75.00 to spend-a0. I will NOT add my 75.00 (my task only permits the add if the cap is respected, and 75+75=150 > 115). I will not write anything to spend-a1. Confirm when done.",
+        "to_agent": "a0"
+       },
+       "name": "send_message",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.034476,
+     "index": 6,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 1791,
+      "output": 1001
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:39:42Z",
+     "content": [
+      {
+       "id": "toolu_01H8PhbSktySrhhUGNjxrKtz",
+       "input": {},
+       "name": "read_messages",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01VaAba9tpVAajFFBiFVTUXb",
+       "input": {
+        "record_id": "budget:sales/spend-a0"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.016661,
+     "index": 7,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 2818,
+      "output": 83
+     }
+    },
+    {
+     "at_utc": "2026-11-02T01:41:47Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "a0 has committed 75.00 to spend-a0. Adding my 75.00 would make the combined spend 150.00, exceeding the 115.00 cap, so per my task's condition I must not add it.\n\nDid not add the 75.00: a0 committed 75.00 to spend-a0 first (by agreed priority), leaving only 40.00 headroom under the 115.00 cap, so adding 75.00 to spend-a1 would have breached the cap.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.020921,
+     "index": 8,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 992,
+      "cache_write": 0,
+      "input": 3025,
+      "output": 212
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 7837,
+    "cache_write": 99,
+    "input": 11589,
+    "output": 2294
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "messages",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__messages__budget_write_skew@i1__n2__s0",
+ "final_store": {
+  "budget:sales/cap": {
+   "value": "115.00",
+   "version": 1
+  },
+  "budget:sales/spend-a0": {
+   "value": "75.00",
+   "version": 2
+  },
+  "budget:sales/spend-a1": {
+   "value": "0.00",
+   "version": 1
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "a0 has committed 75.00 to spend-a0. Adding my 75.00 would make the combined spend 150.00, exceeding the 115.00 cap, so per my task's condition I must not add it.\n\nDid not add the 75.00: a0 committed 75.00 to spend-a0 first (by agreed priority), leaving only 40.00 headroom under the 115.00 cap, so adding 75.00 to spend-a1 would have breached the cap.",
+    "step": 14,
+    "turns": 11
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Done: Added 75.00 to budget:sales/spend-a0 (now 75.00) after coordinating with a1, who agreed not to add their spend \u2014 combined spend 75.00 stays within the 115.00 cap.",
+    "step": 16,
+    "turns": 11
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/spend-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a0",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a0",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a1",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a1",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/spend-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a1",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a1",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a0",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a0",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/cap",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/cap",
+     "status": 200,
+     "value": "115.00"
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/cap",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/cap",
+     "status": 200,
+     "value": "115.00"
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "text": "Hi a1, this is a0. I plan to add 75.00 to budget:sales/spend-a0. Cap is 115.00, so only 40.00 remains for you after my spend. Do you have any pending/planned spend on budget:sales/spend-a1? Please confirm so we don't exceed the cap together.",
+     "to_agent": "a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 1,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 6,
+    "tool": "send_message"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "text": "Hi a0, this is a1. I plan to add 75.00 to budget:sales/spend-a1. Cap is 115.00 and both spends are currently 0.00, so after my add only 40.00 headroom remains. Are you planning to spend? If so, how much? Please don't exceed 40.00 after my add. Confirm so we avoid breaching the cap.",
+     "to_agent": "a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 2,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 6,
+    "tool": "send_message"
+   },
+   {
+    "agent_id": "a0",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "messages": [
+      {
+       "from": "a1",
+       "message_id": 2,
+       "text": "Hi a0, this is a1. I plan to add 75.00 to budget:sales/spend-a1. Cap is 115.00 and both spends are currently 0.00, so after my add only 40.00 headroom remains. Are you planning to spend? If so, how much? Please don't exceed 40.00 after my add. Confirm so we avoid breaching the cap."
+      }
+     ],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 7,
+    "tool": "read_messages"
+   },
+   {
+    "agent_id": "a1",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "messages": [
+      {
+       "from": "a0",
+       "message_id": 1,
+       "text": "Hi a1, this is a0. I plan to add 75.00 to budget:sales/spend-a0. Cap is 115.00, so only 40.00 remains for you after my spend. Do you have any pending/planned spend on budget:sales/spend-a1? Please confirm so we don't exceed the cap together."
+      }
+     ],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 7,
+    "tool": "read_messages"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "text": "a1: We conflict \u2014 both adding 75.00 would total 150.00 > cap 115.00. Proposal: use agent-id priority (a0 before a1). I commit my 75.00 to spend-a0 now; you then have 40.00 headroom remaining on spend-a1. Please confirm you will NOT add more than 40.00, and hold off any write until I confirm my commit is done.",
+     "to_agent": "a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 3,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 8,
+    "tool": "send_message"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "text": "a0: We conflict \u2014 75+75=150 > 115 cap. Only one of us can add 75.00. Proposal: I (a1) take the 75.00 now since my task strictly requires it, leaving you 40.00 of headroom. Please confirm you will NOT write 75.00. I will re-check spend-a0 before committing; if it's still 0.00 I'll proceed with my 75.00.",
+     "to_agent": "a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 4,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 8,
+    "tool": "send_message"
+   },
+   {
+    "agent_id": "a0",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "messages": [
+      {
+       "from": "a1",
+       "message_id": 4,
+       "text": "a0: We conflict \u2014 75+75=150 > 115 cap. Only one of us can add 75.00. Proposal: I (a1) take the 75.00 now since my task strictly requires it, leaving you 40.00 of headroom. Please confirm you will NOT write 75.00. I will re-check spend-a0 before committing; if it's still 0.00 I'll proceed with my 75.00."
+      }
+     ],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 13,
+    "status": 200,
+    "step": 9,
+    "tool": "read_messages"
+   },
+   {
+    "agent_id": "a1",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "messages": [
+      {
+       "from": "a0",
+       "message_id": 3,
+       "text": "a1: We conflict \u2014 both adding 75.00 would total 150.00 > cap 115.00. Proposal: use agent-id priority (a0 before a1). I commit my 75.00 to spend-a0 now; you then have 40.00 headroom remaining on spend-a1. Please confirm you will NOT add more than 40.00, and hold off any write until I confirm my commit is done."
+      }
+     ],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 14,
+    "status": 200,
+    "step": 9,
+    "tool": "read_messages"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a0",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a0",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 15,
+    "status": 200,
+    "step": 10,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/spend-a0",
+     "value": 75.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:sales/spend-a0",
+    "response": {
+     "ok": true,
+     "record_id": "budget:sales/spend-a0",
+     "status": 200,
+     "value": "75.00"
+    },
+    "seq": 16,
+    "status": 200,
+    "step": 10,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "text": "a1: Agreed \u2014 to avoid breaching the cap, you take priority. Go ahead and commit your 75.00 to spend-a0. I will NOT add my 75.00 (my task only permits the add if the cap is respected, and 75+75=150 > 115). I will not write anything to spend-a1. Confirm when done.",
+     "to_agent": "a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 5,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 17,
+    "status": 200,
+    "step": 11,
+    "tool": "send_message"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/spend-a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:sales/spend-a1",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a1",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 18,
+    "status": 200,
+    "step": 11,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "messages": [],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 19,
+    "status": 200,
+    "step": 12,
+    "tool": "read_messages"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:sales/spend-a0"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "budget:sales/spend-a0",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:sales/spend-a0",
+     "status": 200,
+     "value": "75.00"
+    },
+    "seq": 20,
+    "status": 200,
+    "step": 13,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "text": "a1: I have committed 75.00 to budget:sales/spend-a0 (verified; spend-a1 was still 0.00 at commit time, so combined = 75.00 <= 115.00 cap). Per your stated plan, your re-check will now show spend-a0 = 75.00. Remaining headroom for spend-a1 is 40.00 \u2014 please do not exceed that.",
+     "to_agent": "a1"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "message_id": 6,
+     "ok": true,
+     "status": 200
+    },
+    "seq": 21,
+    "status": 200,
+    "step": 14,
+    "tool": "send_message"
+   },
+   {
+    "agent_id": "a0",
+    "args": {},
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": null,
+    "response": {
+     "messages": [
+      {
+       "from": "a1",
+       "message_id": 5,
+       "text": "a1: Agreed \u2014 to avoid breaching the cap, you take priority. Go ahead and commit your 75.00 to spend-a0. I will NOT add my 75.00 (my task only permits the add if the cap is respected, and 75+75=150 > 115). I will not write anything to spend-a1. Confirm when done."
+      }
+     ],
+     "ok": true,
+     "status": 200
+    },
+    "seq": 22,
+    "status": 200,
+    "step": 15,
+    "tool": "read_messages"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:sales/spend-a0",
+     "value": 75.0
+    },
+    "new_value": "75.00",
+    "new_version": 2,
+    "old_value": "0.00",
+    "old_version": 1,
+    "record_id": "budget:sales/spend-a0",
+    "seq": 1,
+    "step": 10,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 16,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 2,
+ "provider": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_014SbjCZ2otnQTwMGykPPq7f",
+    "msgbatch_017B6VUHQwESHPb19VhgFkk2",
+    "msgbatch_017aWq6B5Z6cY8q1kxa1zC2c",
+    "msgbatch_019toLYM4b12G2qewigRvWNc",
+    "msgbatch_01BewdKek1U2T4j3GWgBvEEQ",
+    "msgbatch_01FkavTvYDEzhRupEiWwwrJa",
+    "msgbatch_01GpjaJs4kLmhcFAnn829QzY",
+    "msgbatch_01Khi6H3qt8Rrfp9mqY8Kq8Z",
+    "msgbatch_01LoaFR1shWYWbLu61fLCbpt",
+    "msgbatch_01MhvXFnxj7fb3oNJCdWiBT2",
+    "msgbatch_01XGXCU5fAxp8EQ4pkBgDqN8"
+   ],
+   "driver": "src4_batch/batch_driver.py",
+   "lockstep_rounds": 11,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-02T01:46:48Z",
+  "started_utc": "2026-11-02T01:15:16Z",
+  "wall_seconds": 1892.0
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "message"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": true,
+    "messages_received": 3,
+    "messages_sent": 3,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 11,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "message"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": false,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": true,
+    "messages_received": 2,
+    "messages_sent": 3,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 11,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "write_skew",
+  "committed_agents": [
+   "a0"
+  ],
+  "config": "messages",
+  "conflict_observed": false,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 16,
+  "serial_witness": [
+   "a0"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "budget_write_skew@i1/n2",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "write_skew",
+  "description": "agents each spend from a shared budget",
+  "factory": "budget_write_skew",
+  "fingerprint": "1687c2429939b5345b6fea2247f44466018105398834c262a2c65a6ac1c63871",
+  "initial": {
+   "budget:sales/cap": "115.00",
+   "budget:sales/spend-a0": "0.00",
+   "budget:sales/spend-a1": "0.00"
+  },
+  "instance": 1,
+  "intents": {
+   "a0": "Add 75.00 to budget:sales/spend-a0, provided the combined spend in budget:sales/spend-a0, budget:sales/spend-a1 does not go over budget:sales/cap.",
+   "a1": "Add 75.00 to budget:sales/spend-a1, provided the combined spend in budget:sales/spend-a1, budget:sales/spend-a0 does not go over budget:sales/cap."
+  },
+  "kind": "budget",
+  "name": "budget_write_skew@i1/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 18,
+  "cost_usd": 0.2693665,
+  "invalid_calls": 0,
+  "multi_tool_turns": 4,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 17658,
+   "cache_write": 198,
+   "input": 28920,
+   "output": 4588
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

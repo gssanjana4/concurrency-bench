@@ -1,0 +1,3037 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.030212000000000003,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 3,
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_012Qm6wsWY2TG8Z3W8MMoyMC"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_011U7wsz3uETH5KmWMa6CJ8x"
+    },
+    {
+     "args": {
+      "lease_steps": 3,
+      "record_id": "inventory:drill"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 3,
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01BowyP1pgPEEdyc1fsuYdfC"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_012qaXxcELuMa2cqxUdTARL3"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01V5vX7SPcSgtvjkU2pYqhzF"
+    }
+   ],
+   "final_text": "No sale recorded: after acquiring the lock, inventory:drill had only 1 unit in stock (below the required 3), so I left it unchanged and released the lock.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock the record first to avoid races, then read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012Qm6wsWY2TG8Z3W8MMoyMC",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_011U7wsz3uETH5KmWMa6CJ8x",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_012Qm6wsWY2TG8Z3W8MMoyMC",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4}",
+       "tool_use_id": "toolu_011U7wsz3uETH5KmWMa6CJ8x",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll retry acquiring the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BowyP1pgPEEdyc1fsuYdfC",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 3, \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200}",
+       "tool_use_id": "toolu_01BowyP1pgPEEdyc1fsuYdfC",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Lock acquired. Now re-read the value to make sure it's current.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012qaXxcELuMa2cqxUdTARL3",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1}",
+       "tool_use_id": "toolu_012qaXxcELuMa2cqxUdTARL3",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Only 1 in stock \u2014 less than 3, so the sale cannot be recorded. Releasing the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01V5vX7SPcSgtvjkU2pYqhzF",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200}",
+       "tool_use_id": "toolu_01V5vX7SPcSgtvjkU2pYqhzF",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "No sale recorded: after acquiring the lock, inventory:drill had only 1 unit in stock (below the required 3), so I left it unchanged and released the lock.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T08:40:19Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock the record first to avoid races, then read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012Qm6wsWY2TG8Z3W8MMoyMC",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_011U7wsz3uETH5KmWMa6CJ8x",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005418,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 56,
+      "input": 99,
+      "output": 163
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:45:59Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll retry acquiring the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01BowyP1pgPEEdyc1fsuYdfC",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006036,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 407,
+      "output": 139
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:49:21Z",
+     "content": [
+      {
+       "text": "Lock acquired. Now re-read the value to make sure it's current.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_012qaXxcELuMa2cqxUdTARL3",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005386,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 587,
+      "output": 77
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:51:41Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Only 1 in stock \u2014 less than 3, so the sale cannot be recorded. Releasing the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01V5vX7SPcSgtvjkU2pYqhzF",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.007151,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 710,
+      "output": 123
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:54:50Z",
+     "content": [
+      {
+       "text": "No sale recorded: after acquiring the lock, inventory:drill had only 1 unit in stock (below the required 3), so I left it unchanged and released the lock.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006221,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 864,
+      "output": 55
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 5204,
+    "cache_write": 56,
+    "input": 2667,
+    "output": 557
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 10,
+   "cost_usd": 0.079097,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 4,
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01Rs3S3ecfCKYcTXyAuwR8ad"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_013BgQYwHc9CFozPmvWf4bkH"
+    },
+    {
+     "args": {
+      "lease_steps": 4,
+      "record_id": "inventory:drill"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_015J75ZYTjrcDpqe3t1JUEyP"
+    },
+    {
+     "args": {
+      "lease_steps": 4,
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01VVT1LiBtTyNtf96zLafK9E"
+    },
+    {
+     "args": {
+      "lease_steps": 4,
+      "record_id": "inventory:drill"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01H5k2Zt3o7eJSP6VcRmuHEv"
+    },
+    {
+     "args": {
+      "lease_steps": 4,
+      "record_id": "inventory:drill"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_016cAdwxXd2vcGUmZac8mMkd"
+    },
+    {
+     "args": {
+      "lease_steps": 4,
+      "record_id": "inventory:drill"
+     },
+     "completion": 5,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01F1xgyLNFjGPVpeijVbAsrB"
+    },
+    {
+     "args": {
+      "lease_steps": 4,
+      "record_id": "inventory:drill"
+     },
+     "completion": 6,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 4,
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01LJqVEjq67dbwtR4e7c7YQj"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 7,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_018QniG6N7fCEyiy774mnT5L"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 8,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01PNpdTAUvup59Bu16X3msUj"
+    }
+   ],
+   "final_text": "No sale recorded: after acquiring the lock, inventory:drill had only 1 in stock (another agent reduced it from 4), which is below the required 3, so I left it unchanged and released the lock.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock the record first to avoid races, then read the stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Rs3S3ecfCKYcTXyAuwR8ad",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_013BgQYwHc9CFozPmvWf4bkH",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01Rs3S3ecfCKYcTXyAuwR8ad",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4}",
+       "tool_use_id": "toolu_013BgQYwHc9CFozPmvWf4bkH",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll retry acquiring the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015J75ZYTjrcDpqe3t1JUEyP",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_015J75ZYTjrcDpqe3t1JUEyP",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Still locked. Retrying.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VVT1LiBtTyNtf96zLafK9E",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01VVT1LiBtTyNtf96zLafK9E",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01H5k2Zt3o7eJSP6VcRmuHEv",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01H5k2Zt3o7eJSP6VcRmuHEv",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_016cAdwxXd2vcGUmZac8mMkd",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_016cAdwxXd2vcGUmZac8mMkd",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01F1xgyLNFjGPVpeijVbAsrB",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01F1xgyLNFjGPVpeijVbAsrB",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01LJqVEjq67dbwtR4e7c7YQj",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 4, \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200}",
+       "tool_use_id": "toolu_01LJqVEjq67dbwtR4e7c7YQj",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Lock acquired. Now re-reading the current value since another agent may have changed it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_018QniG6N7fCEyiy774mnT5L",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1}",
+       "tool_use_id": "toolu_018QniG6N7fCEyiy774mnT5L",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is only 1, which is less than 3 \u2014 the sale cannot be recorded. Releasing the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PNpdTAUvup59Bu16X3msUj",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200}",
+       "tool_use_id": "toolu_01PNpdTAUvup59Bu16X3msUj",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "No sale recorded: after acquiring the lock, inventory:drill had only 1 in stock (another agent reduced it from 4), which is below the required 3, so I left it unchanged and released the lock.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T08:40:19Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock the record first to avoid races, then read the stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Rs3S3ecfCKYcTXyAuwR8ad",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_013BgQYwHc9CFozPmvWf4bkH",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005718,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 56,
+      "input": 99,
+      "output": 175
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:45:59Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll retry acquiring the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015J75ZYTjrcDpqe3t1JUEyP",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006296,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 419,
+      "output": 147
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:49:21Z",
+     "content": [
+      {
+       "text": "Still locked. Retrying.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VVT1LiBtTyNtf96zLafK9E",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005961,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 622,
+      "output": 93
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:51:41Z",
+     "content": [
+      {
+       "id": "toolu_01H5k2Zt3o7eJSP6VcRmuHEv",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006431,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 771,
+      "output": 82
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:54:50Z",
+     "content": [
+      {
+       "id": "toolu_016cAdwxXd2vcGUmZac8mMkd",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.007121,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 909,
+      "output": 82
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:58:13Z",
+     "content": [
+      {
+       "id": "toolu_01F1xgyLNFjGPVpeijVbAsrB",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.007811,
+     "index": 6,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 1047,
+      "output": 82
+     }
+    },
+    {
+     "at_utc": "2026-11-02T09:00:07Z",
+     "content": [
+      {
+       "id": "toolu_01LJqVEjq67dbwtR4e7c7YQj",
+       "input": {
+        "lease_steps": 4,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.008501,
+     "index": 7,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 1185,
+      "output": 82
+     }
+    },
+    {
+     "at_utc": "2026-11-02T09:02:24Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Lock acquired. Now re-reading the current value since another agent may have changed it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_018QniG6N7fCEyiy774mnT5L",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.009891,
+     "index": 8,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 1308,
+      "output": 113
+     }
+    },
+    {
+     "at_utc": "2026-11-02T09:04:36Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is only 1, which is less than 3 \u2014 the sale cannot be recorded. Releasing the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PNpdTAUvup59Bu16X3msUj",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.011061,
+     "index": 9,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 1467,
+      "output": 128
+     }
+    },
+    {
+     "at_utc": "2026-11-02T09:06:39Z",
+     "content": [
+      {
+       "text": "No sale recorded: after acquiring the lock, inventory:drill had only 1 in stock (another agent reduced it from 4), which is below the required 3, so I left it unchanged and released the lock.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.010306,
+     "index": 10,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 1626,
+      "output": 66
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 10464,
+    "cache_write": 56,
+    "input": 9453,
+    "output": 1050
+   }
+  },
+  "a2": {
+   "agent_id": "a2",
+   "completions": 5,
+   "cost_usd": 0.026792,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 3,
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 3,
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01Rv6iaC988szF27B4MVVzAT"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_0118smetwaTQ4VWJKevKwf7q"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill",
+      "value": 1
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01HtcPXD6J3nE9Xvxpc9qLSL"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold the lock on inventory:drill.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_018BCVwKmjArEZx9w7avyjfx"
+    }
+   ],
+   "final_text": "Sale recorded: inventory:drill reduced from 4 to 1 (lock had already expired by release time, but the update was committed successfully).",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock the record to avoid races, then read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Rv6iaC988szF27B4MVVzAT",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 3, \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200}",
+       "tool_use_id": "toolu_01Rv6iaC988szF27B4MVVzAT",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_0118smetwaTQ4VWJKevKwf7q",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4}",
+       "tool_use_id": "toolu_0118smetwaTQ4VWJKevKwf7q",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is 4, which is \u2265 3, so I'll reduce it to 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01HtcPXD6J3nE9Xvxpc9qLSL",
+       "input": {
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1}",
+       "tool_use_id": "toolu_01HtcPXD6J3nE9Xvxpc9qLSL",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_018BCVwKmjArEZx9w7avyjfx",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold the lock on inventory:drill.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_018BCVwKmjArEZx9w7avyjfx",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Sale recorded: inventory:drill reduced from 4 to 1 (lock had already expired by release time, but the update was committed successfully).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a2. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T08:40:19Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll lock the record to avoid races, then read it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Rv6iaC988szF27B4MVVzAT",
+       "input": {
+        "lease_steps": 3,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006518,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 56,
+      "input": 99,
+      "output": 207
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:42:35Z",
+     "content": [
+      {
+       "id": "toolu_0118smetwaTQ4VWJKevKwf7q",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.003611,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 347,
+      "output": 54
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:45:59Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is 4, which is \u2265 3, so I'll reduce it to 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01HtcPXD6J3nE9Xvxpc9qLSL",
+       "input": {
+        "record_id": "inventory:drill",
+        "value": 1
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005736,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 447,
+      "output": 119
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:49:21Z",
+     "content": [
+      {
+       "id": "toolu_018BCVwKmjArEZx9w7avyjfx",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.004916,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 603,
+      "output": 55
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:51:41Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Sale recorded: inventory:drill reduced from 4 to 1 (lock had already expired by release time, but the update was committed successfully).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006011,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 722,
+      "output": 75
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 5204,
+    "cache_write": 56,
+    "input": 2218,
+    "output": 510
+   }
+  },
+  "a3": {
+   "agent_id": "a3",
+   "completions": 7,
+   "cost_usd": 0.047333999999999994,
+   "executions": [
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01QBe5kxP7E3ydriG64py84N"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 4
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01KvfXBK9hH7EALPhpHN3xKf"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:drill"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01Ddb6DpLfM5peCUUNBtLCAB"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:drill"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "locked",
+      "message": "423 Locked: inventory:drill is locked by another agent.",
+      "ok": false,
+      "status": 423
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01DwW9pv7zjHsLy6UUDzm5Ab"
+    },
+    {
+     "args": {
+      "lease_steps": 5,
+      "record_id": "inventory:drill"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_steps": 5,
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_014YPCobPs8DkCd1uyymnED7"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200,
+      "value": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01WfCGzFs2FmKWfCxYz297EP"
+    },
+    {
+     "args": {
+      "record_id": "inventory:drill"
+     },
+     "completion": 5,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "inventory:drill",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01549goHXEZEYMfx4uxYPnDF"
+    }
+   ],
+   "final_text": "Sale not recorded: after acquiring the lock, inventory:drill had only 1 in stock (below the required 3), so I left the record unchanged and released the lock.",
+   "intent": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock to prevent race conditions, then check the stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QBe5kxP7E3ydriG64py84N",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01KvfXBK9hH7EALPhpHN3xKf",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01QBe5kxP7E3ydriG64py84N",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 4}",
+       "tool_use_id": "toolu_01KvfXBK9hH7EALPhpHN3xKf",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll retry acquiring the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Ddb6DpLfM5peCUUNBtLCAB",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01Ddb6DpLfM5peCUUNBtLCAB",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01DwW9pv7zjHsLy6UUDzm5Ab",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"locked\", \"message\": \"423 Locked: inventory:drill is locked by another agent.\", \"ok\": false, \"status\": 423}",
+       "is_error": true,
+       "tool_use_id": "toolu_01DwW9pv7zjHsLy6UUDzm5Ab",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_014YPCobPs8DkCd1uyymnED7",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_steps\": 5, \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200}",
+       "tool_use_id": "toolu_014YPCobPs8DkCd1uyymnED7",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Lock acquired. Now I need to re-read the current value since it may have changed.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WfCGzFs2FmKWfCxYz297EP",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200, \"value\": 1}",
+       "tool_use_id": "toolu_01WfCGzFs2FmKWfCxYz297EP",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is now only 1, which is below the required 3. I will not record the sale. Releasing the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01549goHXEZEYMfx4uxYPnDF",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"inventory:drill\", \"status\": 200}",
+       "tool_use_id": "toolu_01549goHXEZEYMfx4uxYPnDF",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Sale not recorded: after acquiring the lock, inventory:drill had only 1 in stock (below the required 3), so I left the record unchanged and released the lock.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a3. Use the tools to complete your task.\nTask: Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T08:40:19Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "I'll acquire a lock to prevent race conditions, then check the stock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QBe5kxP7E3ydriG64py84N",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01KvfXBK9hH7EALPhpHN3xKf",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005693,
+     "index": 1,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 996,
+      "cache_write": 56,
+      "input": 99,
+      "output": 174
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:45:59Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "The record is locked by another agent. I'll retry acquiring the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Ddb6DpLfM5peCUUNBtLCAB",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006341,
+     "index": 2,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 418,
+      "output": 149
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:49:21Z",
+     "content": [
+      {
+       "id": "toolu_01DwW9pv7zjHsLy6UUDzm5Ab",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.005691,
+     "index": 3,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 623,
+      "output": 82
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:51:41Z",
+     "content": [
+      {
+       "id": "toolu_014YPCobPs8DkCd1uyymnED7",
+       "input": {
+        "lease_steps": 5,
+        "record_id": "inventory:drill"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006381,
+     "index": 4,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 761,
+      "output": 82
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:54:50Z",
+     "content": [
+      {
+       "text": "Lock acquired. Now I need to re-read the current value since it may have changed.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WfCGzFs2FmKWfCxYz297EP",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.006946,
+     "index": 5,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 884,
+      "output": 80
+     }
+    },
+    {
+     "at_utc": "2026-11-02T08:58:13Z",
+     "content": [
+      {
+       "type": "thinking"
+      },
+      {
+       "text": "Stock is now only 1, which is below the required 3. I will not record the sale. Releasing the lock.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01549goHXEZEYMfx4uxYPnDF",
+       "input": {
+        "record_id": "inventory:drill"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.008576,
+     "index": 6,
+     "model_served": "claude-fable-5",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 1010,
+      "output": 120
+     }
+    },
+    {
+     "at_utc": "2026-11-02T09:00:07Z",
+     "content": [
+      {
+       "text": "Sale not recorded: after acquiring the lock, inventory:drill had only 1 in stock (below the required 3), so I left the record unchanged and released the lock.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.007706,
+     "index": 7,
+     "model_served": "claude-fable-5",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 1052,
+      "cache_write": 0,
+      "input": 1161,
+      "output": 55
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 7308,
+    "cache_write": 56,
+    "input": 4956,
+    "output": 742
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "locks",
+ "dry_run": false,
+ "episode_id": "claude-fable-5__locks__inventory_last_unit@i1__n4__s0",
+ "final_store": {
+  "inventory:drill": {
+   "value": 1,
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a2",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Sale recorded: inventory:drill reduced from 4 to 1 (lock had already expired by release time, but the update was committed successfully).",
+    "step": 7,
+    "turns": 4
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "No sale recorded: after acquiring the lock, inventory:drill had only 1 unit in stock (below the required 3), so I left it unchanged and released the lock.",
+    "step": 8,
+    "turns": 5
+   },
+   {
+    "agent_id": "a3",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Sale not recorded: after acquiring the lock, inventory:drill had only 1 in stock (below the required 3), so I left the record unchanged and released the lock.",
+    "step": 10,
+    "turns": 7
+   },
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "No sale recorded: after acquiring the lock, inventory:drill had only 1 in stock (another agent reduced it from 4), which is below the required 3, so I left it unchanged and released the lock.",
+    "step": 13,
+    "turns": 10
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a2",
+    "args": {
+     "lease_steps": 3,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "lease_steps": 3,
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_steps": 3,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 4,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 2,
+    "status": 423,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 4,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 4,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 3,
+    "status": 423,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 4,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 4,
+    "status": 423,
+    "step": 1,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 4
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 5,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_steps": 3,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 8,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "lease_steps": 3,
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 5,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 8,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 11,
+    "status": 423,
+    "step": 5,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 4,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 8,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 12,
+    "status": 423,
+    "step": 5,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 8,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 13,
+    "status": 423,
+    "step": 6,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 4,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 8,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 14,
+    "status": 423,
+    "step": 6,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold the lock on inventory:drill.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 15,
+    "status": 409,
+    "step": 6,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1
+    },
+    "seq": 16,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200
+    },
+    "seq": 17,
+    "status": 200,
+    "step": 7,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "lease_steps": 5,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 12,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "lease_steps": 5,
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200
+    },
+    "seq": 18,
+    "status": 200,
+    "step": 7,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 4,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 12,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 19,
+    "status": 423,
+    "step": 7,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1
+    },
+    "seq": 20,
+    "status": 200,
+    "step": 8,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 4,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 12,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 21,
+    "status": 423,
+    "step": 8,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 4,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 12,
+    "read_version": null,
+    "reason": "lock_held",
+    "record_id": "inventory:drill",
+    "response": {
+     "error": "locked",
+     "message": "423 Locked: inventory:drill is locked by another agent.",
+     "ok": false,
+     "status": 423
+    },
+    "seq": 22,
+    "status": 423,
+    "step": 9,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a3",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200
+    },
+    "seq": 23,
+    "status": 200,
+    "step": 9,
+    "tool": "release_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_steps": 4,
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": 14,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "lease_steps": 4,
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200
+    },
+    "seq": 24,
+    "status": 200,
+    "step": 10,
+    "tool": "acquire_lock"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200,
+     "value": 1
+    },
+    "seq": 25,
+    "status": 200,
+    "step": 11,
+    "tool": "get_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:drill"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "lease_expires_at": null,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:drill",
+    "response": {
+     "ok": true,
+     "record_id": "inventory:drill",
+     "status": 200
+    },
+    "seq": 26,
+    "status": 200,
+    "step": 12,
+    "tool": "release_lock"
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a2",
+    "args": {
+     "record_id": "inventory:drill",
+     "value": 1
+    },
+    "new_value": 1,
+    "new_version": 2,
+    "old_value": 4,
+    "old_version": 1,
+    "record_id": "inventory:drill",
+    "seq": 1,
+    "step": 5,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "locks_held_at_end": {},
+   "rounds": 13,
+   "stall_step": null,
+   "stalled": false
+  }
+ },
+ "model": "claude-fable-5",
+ "n_agents": 4,
+ "provider": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_0142g5DKsJnyCLKisegvGgPz",
+    "msgbatch_0159V5MkQzKmyPtk2tMTH3Jp",
+    "msgbatch_01683f578ryP4F3mEKBjvKRh",
+    "msgbatch_017Lgqv6wwTPxSc51LMVjHhH",
+    "msgbatch_01CkmGaxWmna9vq85WM6xbb5",
+    "msgbatch_01DJAoErF16xdbj7dhx7qeqg",
+    "msgbatch_01Fr69KyTvRiKGk2naZ2J8oF",
+    "msgbatch_01GcpbjDWJJFMAU6grgJFsEx",
+    "msgbatch_01HzUpywmhFYonJAzNu21YJD",
+    "msgbatch_01JPXrcUgjsHncx371PVqhvk",
+    "msgbatch_01Kd8cakLHMU8bVt37hbVHqp"
+   ],
+   "driver": "src4_batch/batch_driver.py",
+   "lockstep_rounds": 12,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-02T09:06:39Z",
+  "started_utc": "2026-11-02T08:37:14Z",
+  "wall_seconds": 1765.0
+ },
+ "schedule": {
+  "max_rounds": 2000,
+  "read_write_gap": 2,
+  "seed": 0,
+  "stall_rounds": 6,
+  "start_jitter": 0,
+  "turn_cap": 12
+ },
+ "score": {
+  "abandoned": [],
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 5,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 10,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a2": {
+    "abandoned": false,
+    "agent_id": "a2",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": true,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   },
+   "a3": {
+    "abandoned": false,
+    "agent_id": "a3",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "conflicts_seen": 0,
+    "end_reason": "returned",
+    "fulfilled": false,
+    "lock": true,
+    "lock_leak": false,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "policy": "model:claude-fable-5",
+    "reread": false,
+    "turns": 7,
+    "unnecessary_give_up": false,
+    "valid_at_end": false
+   }
+  },
+  "category": "conflict",
+  "committed_agents": [
+   "a2"
+  ],
+  "config": "locks",
+  "conflict_observed": false,
+  "cycle": null,
+  "edges": [],
+  "graph_cycle": false,
+  "invariant_violation": false,
+  "invariant_violations": [],
+  "lock_leaks": [],
+  "locks_held_at_end": {},
+  "non_serializable": false,
+  "partial_action": false,
+  "partial_commits": [],
+  "primary_label": null,
+  "rounds": 13,
+  "serial_witness": [
+   "a2"
+  ],
+  "stale_overwrite": false,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "inventory_last_unit@i1/n4",
+  "unnecessary_give_ups": [],
+  "write_skew": false
+ },
+ "seed": 0,
+ "task": {
+  "category": "conflict",
+  "description": "only one sale fits the stock",
+  "factory": "inventory_last_unit",
+  "fingerprint": "80133724f4c4b13fd579deea5829099c56e7af02279bd175cb434204bc37191c",
+  "initial": {
+   "inventory:drill": 4
+  },
+  "instance": 1,
+  "intents": {
+   "a0": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a1": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a2": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock.",
+   "a3": "Reduce inventory:drill by 3 to record a sale, but only if at least 3 is in stock."
+  },
+  "kind": "inventory",
+  "name": "inventory_last_unit@i1/n4",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 27,
+  "cost_usd": 0.183435,
+  "invalid_calls": 0,
+  "multi_tool_turns": 3,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 28180,
+   "cache_write": 224,
+   "input": 19294,
+   "output": 2859
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "max_lease_steps": 50
+ }
+}

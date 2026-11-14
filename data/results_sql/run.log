@@ -1,0 +1,158 @@
+=== start Mon Nov  2 14:23:25 PST 2026  dry_run=0  (EXPLORATORY raw-SQL slice, not pre-registered)
+   guard: results4/full/run.log has no end line, but ALLOW_SQL_BEFORE_FULL_DONE=1 is set - continuing (no run_full.sh process is running).
+grid: 128 episodes
+cost estimate, pilot-calibrated (main-study pilot cost per agent x 1.5): $2.09 claude-haiku-4-5-20251001 $1.41, openrouter:qwen/qwen3.6-27b-20260422 $0.68
+cost estimate, token model, typical (6 completions/agent): $3.97
+  claude-haiku-4-5-20251001: 64 episodes, 192 agents, ~1.49M input + 0.17M output tokens -> $2.35
+  openrouter:qwen/qwen3.6-27b-20260422: 64 episodes, 192 agents, ~1.51M input + 0.35M output tokens -> $1.61
+cost estimate, token model, worst case (13 completions/agent): $12.09
+  claude-haiku-4-5-20251001: 64 episodes, 192 agents, ~5.23M input + 0.37M output tokens -> $7.10
+  openrouter:qwen/qwen3.6-27b-20260422: 64 episodes, 192 agents, ~6.60M input + 0.75M output tokens -> $4.99
+== preflight
+-- claude-haiku-4-5-20251001
+   ok   served=claude-haiku-4-5-20251001  stop=tool_use  temperature_effective=None
+        usage={'input': 614, 'output': 58, 'cache_read': 0, 'cache_write': 0}  cost=$0.000904 (price_table)  tool_calls=['get_record']
+-- openrouter:qwen/qwen3.6-27b-20260422
+   ok   served=qwen/qwen3.6-27b @Reka  stop=tool_calls  temperature_effective=unverified
+        usage={'input': 316, 'output': 136, 'cache_read': 0, 'cache_write': 0, 'reasoning': 110}  cost=$0.000471 (reported)  tool_calls=['get_record']
+preflight ok
+== SQL grid (attempt 1)  Mon Nov  2 14:23:30 PST 2026
+EXPLORATORY raw-SQL slice (not pre-registered). grid: 128 episodes = 2 models x 4 templates x 2 variants x n in [2, 4] x 4 reps; out=results_sql
+spend so far: $0.0014 of cap $5.00
+done already: 0; to run: 128
+[1/128] claude-haiku-4-5-20251001__counter@v0__n2__r0: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0127 spend=$0.0141 wall=5.6s
+[2/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v0__n2__r0: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0024 spend=$0.0165 wall=5.1s
+[3/128] claude-haiku-4-5-20251001__counter@v0__n4__r0: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0254 spend=$0.0419 wall=5.8s
+[4/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v0__n4__r0: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0048 spend=$0.0467 wall=5.7s
+[5/128] claude-haiku-4-5-20251001__counter@v1__n2__r0: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0128 spend=$0.0595 wall=6.0s
+[6/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v1__n2__r0: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0024 spend=$0.0619 wall=5.8s
+[7/128] claude-haiku-4-5-20251001__counter@v1__n4__r0: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0275 spend=$0.0894 wall=6.8s
+[8/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v1__n4__r0: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0045 spend=$0.0939 wall=5.8s
+[9/128] claude-haiku-4-5-20251001__handle@v0__n2__r0: violation=1 kind=duplicate_handle report=unreported_effect blind=2/2 txn=0/2 busy=0 cost=$0.0134 spend=$0.1073 wall=6.0s
+[10/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v0__n2__r0: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0026 spend=$0.1099 wall=5.6s
+[11/128] claude-haiku-4-5-20251001__handle@v0__n4__r0: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0281 spend=$0.1380 wall=7.2s
+[12/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v0__n4__r0: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0056 spend=$0.1436 wall=5.0s
+[13/128] claude-haiku-4-5-20251001__handle@v1__n2__r0: violation=1 kind=duplicate_handle report=unreported_effect blind=2/2 txn=0/2 busy=0 cost=$0.0136 spend=$0.1572 wall=7.4s
+[14/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v1__n2__r0: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0031 spend=$0.1604 wall=6.1s
+[15/128] claude-haiku-4-5-20251001__handle@v1__n4__r0: violation=1 kind=duplicate_handle report=unreported_effect|double_success blind=4/4 txn=0/4 busy=0 cost=$0.0275 spend=$0.1878 wall=6.7s
+[16/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v1__n4__r0: violation=1 kind=duplicate_handle report=double_success blind=3/4 txn=0/4 busy=0 cost=$0.0057 spend=$0.1936 wall=6.0s
+[17/128] claude-haiku-4-5-20251001__withdraw@v0__n2__r0: violation=1 kind=lost_update report=unreported_effect blind=1/2 txn=0/2 busy=0 cost=$0.0130 spend=$0.2065 wall=6.6s
+[18/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v0__n2__r0: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0062 spend=$0.2127 wall=14.5s
+[19/128] claude-haiku-4-5-20251001__withdraw@v0__n4__r0: violation=1 kind=lost_update report=unreported_effect blind=1/4 txn=0/4 busy=0 cost=$0.0395 spend=$0.2522 wall=9.2s
+[20/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v0__n4__r0: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0076 spend=$0.2598 wall=10.7s
+[21/128] claude-haiku-4-5-20251001__withdraw@v1__n2__r0: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0129 spend=$0.2727 wall=5.5s
+[22/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v1__n2__r0: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0041 spend=$0.2768 wall=9.3s
+[23/128] claude-haiku-4-5-20251001__withdraw@v1__n4__r0: violation=1 kind=lost_update report=unreported_effect blind=2/4 txn=0/4 busy=0 cost=$0.0405 spend=$0.3172 wall=10.0s
+[24/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v1__n4__r0: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0112 spend=$0.3285 wall=20.7s
+[25/128] claude-haiku-4-5-20251001__order@v0__n2__r0: violation=1 kind=negative_stock report=- blind=0/2 txn=0/2 busy=0 cost=$0.0126 spend=$0.3411 wall=6.5s
+[26/128] openrouter_qwen_qwen3.6-27b-20260422__order@v0__n2__r0: violation=1 kind=negative_stock report=- blind=0/2 txn=2/2 busy=0 cost=$0.0032 spend=$0.3442 wall=6.5s
+[27/128] claude-haiku-4-5-20251001__order@v0__n4__r0: violation=1 kind=negative_stock report=- blind=0/4 txn=0/4 busy=0 cost=$0.0212 spend=$0.3655 wall=4.7s
+[28/128] openrouter_qwen_qwen3.6-27b-20260422__order@v0__n4__r0: violation=1 kind=negative_stock report=- blind=0/4 txn=2/4 busy=0 cost=$0.0081 spend=$0.3735 wall=17.0s
+[29/128] claude-haiku-4-5-20251001__order@v1__n2__r0: violation=1 kind=negative_stock report=- blind=0/2 txn=0/2 busy=0 cost=$0.0156 spend=$0.3891 wall=8.6s
+[30/128] openrouter_qwen_qwen3.6-27b-20260422__order@v1__n2__r0: violation=0 kind=- report=- blind=0/2 txn=2/2 busy=0 cost=$0.0060 spend=$0.3952 wall=15.1s
+[31/128] claude-haiku-4-5-20251001__order@v1__n4__r0: violation=1 kind=negative_stock report=- blind=0/4 txn=0/4 busy=0 cost=$0.0259 spend=$0.4211 wall=7.0s
+[32/128] openrouter_qwen_qwen3.6-27b-20260422__order@v1__n4__r0: violation=1 kind=oversold report=unreported_effect blind=0/4 txn=4/4 busy=0 cost=$0.0129 spend=$0.4340 wall=35.2s
+[33/128] claude-haiku-4-5-20251001__counter@v0__n2__r1: violation=1 kind=lost_update report=- blind=1/2 txn=0/2 busy=0 cost=$0.0190 spend=$0.4530 wall=9.4s
+[34/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v0__n2__r1: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0025 spend=$0.4555 wall=14.7s
+[35/128] claude-haiku-4-5-20251001__counter@v0__n4__r1: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0255 spend=$0.4810 wall=5.5s
+[36/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v0__n4__r1: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0050 spend=$0.4861 wall=10.5s
+[37/128] claude-haiku-4-5-20251001__counter@v1__n2__r1: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0125 spend=$0.4985 wall=5.2s
+[38/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v1__n2__r1: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0025 spend=$0.5011 wall=5.2s
+[39/128] claude-haiku-4-5-20251001__counter@v1__n4__r1: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0249 spend=$0.5260 wall=6.0s
+[40/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v1__n4__r1: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0058 spend=$0.5318 wall=10.7s
+[41/128] claude-haiku-4-5-20251001__handle@v0__n2__r1: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0161 spend=$0.5479 wall=9.1s
+[42/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v0__n2__r1: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0027 spend=$0.5506 wall=5.6s
+[43/128] claude-haiku-4-5-20251001__handle@v0__n4__r1: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0239 spend=$0.5745 wall=6.2s
+[44/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v0__n4__r1: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0058 spend=$0.5803 wall=5.7s
+[45/128] claude-haiku-4-5-20251001__handle@v1__n2__r1: violation=1 kind=duplicate_handle report=unreported_effect blind=2/2 txn=0/2 busy=0 cost=$0.0136 spend=$0.5940 wall=6.1s
+[46/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v1__n2__r1: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0031 spend=$0.5971 wall=5.4s
+[47/128] claude-haiku-4-5-20251001__handle@v1__n4__r1: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0317 spend=$0.6288 wall=8.2s
+[48/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v1__n4__r1: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0063 spend=$0.6351 wall=5.8s
+[49/128] claude-haiku-4-5-20251001__withdraw@v0__n2__r1: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0130 spend=$0.6482 wall=6.0s
+[50/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v0__n2__r1: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0037 spend=$0.6518 wall=10.6s
+[51/128] claude-haiku-4-5-20251001__withdraw@v0__n4__r1: violation=1 kind=lost_update report=unreported_effect blind=0/4 txn=0/4 busy=0 cost=$0.0452 spend=$0.6970 wall=10.7s
+[52/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v0__n4__r1: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0094 spend=$0.7064 wall=10.6s
+[53/128] claude-haiku-4-5-20251001__withdraw@v1__n2__r1: violation=1 kind=lost_update report=unreported_effect blind=0/2 txn=0/2 busy=0 cost=$0.0173 spend=$0.7237 wall=7.9s
+[54/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v1__n2__r1: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0047 spend=$0.7283 wall=15.8s
+[55/128] claude-haiku-4-5-20251001__withdraw@v1__n4__r1: violation=1 kind=lost_update report=unreported_effect blind=2/4 txn=0/4 busy=0 cost=$0.0403 spend=$0.7686 wall=10.9s
+[56/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v1__n4__r1: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0124 spend=$0.7810 wall=22.1s
+[57/128] claude-haiku-4-5-20251001__order@v0__n2__r1: violation=1 kind=negative_stock report=- blind=0/2 txn=0/2 busy=0 cost=$0.0131 spend=$0.7941 wall=6.9s
+[58/128] openrouter_qwen_qwen3.6-27b-20260422__order@v0__n2__r1: violation=0 kind=- report=- blind=0/2 txn=2/2 busy=0 cost=$0.0049 spend=$0.7990 wall=12.5s
+[59/128] claude-haiku-4-5-20251001__order@v0__n4__r1: violation=1 kind=negative_stock report=- blind=0/4 txn=0/4 busy=0 cost=$0.0275 spend=$0.8265 wall=8.2s
+[60/128] openrouter_qwen_qwen3.6-27b-20260422__order@v0__n4__r1: violation=1 kind=negative_stock report=- blind=0/4 txn=3/4 busy=4 cost=$0.0220 spend=$0.8485 wall=68.8s
+[61/128] claude-haiku-4-5-20251001__order@v1__n2__r1: violation=1 kind=negative_stock report=- blind=0/2 txn=0/2 busy=0 cost=$0.0128 spend=$0.8613 wall=6.3s
+[62/128] openrouter_qwen_qwen3.6-27b-20260422__order@v1__n2__r1: violation=1 kind=negative_stock report=- blind=0/2 txn=2/2 busy=0 cost=$0.0061 spend=$0.8674 wall=11.5s
+[63/128] claude-haiku-4-5-20251001__order@v1__n4__r1: violation=1 kind=negative_stock report=- blind=0/4 txn=0/4 busy=0 cost=$0.0327 spend=$0.9001 wall=7.6s
+[64/128] openrouter_qwen_qwen3.6-27b-20260422__order@v1__n4__r1: violation=1 kind=negative_stock report=- blind=0/4 txn=4/4 busy=0 cost=$0.0088 spend=$0.9089 wall=9.6s
+[65/128] claude-haiku-4-5-20251001__counter@v0__n2__r2: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0128 spend=$0.9217 wall=5.6s
+[66/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v0__n2__r2: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0025 spend=$0.9242 wall=11.0s
+[67/128] claude-haiku-4-5-20251001__counter@v0__n4__r2: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0273 spend=$0.9515 wall=7.3s
+[68/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v0__n4__r2: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0046 spend=$0.9560 wall=9.8s
+[69/128] claude-haiku-4-5-20251001__counter@v1__n2__r2: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0123 spend=$0.9684 wall=5.2s
+[70/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v1__n2__r2: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0021 spend=$0.9705 wall=4.6s
+[71/128] claude-haiku-4-5-20251001__counter@v1__n4__r2: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0274 spend=$0.9979 wall=7.8s
+[72/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v1__n4__r2: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0065 spend=$1.0044 wall=11.6s
+[73/128] claude-haiku-4-5-20251001__handle@v0__n2__r2: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0137 spend=$1.0182 wall=6.8s
+[74/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v0__n2__r2: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0031 spend=$1.0212 wall=4.9s
+[75/128] claude-haiku-4-5-20251001__handle@v0__n4__r2: violation=1 kind=duplicate_handle report=unreported_effect|double_success blind=4/4 txn=0/4 busy=0 cost=$0.0300 spend=$1.0513 wall=8.1s
+[76/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v0__n4__r2: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0063 spend=$1.0575 wall=5.5s
+[77/128] claude-haiku-4-5-20251001__handle@v1__n2__r2: violation=1 kind=duplicate_handle report=unreported_effect blind=2/2 txn=0/2 busy=0 cost=$0.0161 spend=$1.0737 wall=7.9s
+[78/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v1__n2__r2: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0031 spend=$1.0768 wall=5.2s
+[79/128] claude-haiku-4-5-20251001__handle@v1__n4__r2: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0275 spend=$1.1043 wall=6.6s
+[80/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v1__n4__r2: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0065 spend=$1.1108 wall=6.8s
+[81/128] claude-haiku-4-5-20251001__withdraw@v0__n2__r2: violation=1 kind=lost_update report=unreported_effect blind=0/2 txn=0/2 busy=0 cost=$0.0258 spend=$1.1366 wall=10.9s
+[82/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v0__n2__r2: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0049 spend=$1.1415 wall=20.7s
+[83/128] claude-haiku-4-5-20251001__withdraw@v0__n4__r2: violation=1 kind=lost_update report=unreported_effect blind=1/4 txn=0/4 busy=0 cost=$0.0328 spend=$1.1742 wall=7.7s
+[84/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v0__n4__r2: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0096 spend=$1.1838 wall=11.5s
+[85/128] claude-haiku-4-5-20251001__withdraw@v1__n2__r2: violation=1 kind=oversubscribed report=- blind=1/2 txn=0/2 busy=0 cost=$0.0221 spend=$1.2059 wall=11.0s
+[86/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v1__n2__r2: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0043 spend=$1.2103 wall=9.3s
+[87/128] claude-haiku-4-5-20251001__withdraw@v1__n4__r2: violation=1 kind=lost_update report=unreported_effect blind=2/4 txn=0/4 busy=0 cost=$0.0508 spend=$1.2611 wall=9.7s
+[88/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v1__n4__r2: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0071 spend=$1.2682 wall=8.8s
+[89/128] claude-haiku-4-5-20251001__order@v0__n2__r2: violation=1 kind=negative_stock report=- blind=0/2 txn=0/2 busy=0 cost=$0.0125 spend=$1.2807 wall=6.1s
+[90/128] openrouter_qwen_qwen3.6-27b-20260422__order@v0__n2__r2: violation=0 kind=- report=- blind=0/2 txn=1/2 busy=0 cost=$0.0036 spend=$1.2844 wall=7.9s
+[91/128] claude-haiku-4-5-20251001__order@v0__n4__r2: violation=1 kind=negative_stock report=- blind=0/4 txn=0/4 busy=0 cost=$0.0234 spend=$1.3078 wall=6.9s
+[92/128] openrouter_qwen_qwen3.6-27b-20260422__order@v0__n4__r2: violation=1 kind=negative_stock report=- blind=0/4 txn=2/4 busy=0 cost=$0.0076 spend=$1.3154 wall=13.4s
+[93/128] claude-haiku-4-5-20251001__order@v1__n2__r2: violation=1 kind=negative_stock report=- blind=0/2 txn=0/2 busy=0 cost=$0.0125 spend=$1.3279 wall=6.5s
+[94/128] openrouter_qwen_qwen3.6-27b-20260422__order@v1__n2__r2: violation=1 kind=negative_stock report=- blind=0/2 txn=1/2 busy=0 cost=$0.0045 spend=$1.3324 wall=8.6s
+[95/128] claude-haiku-4-5-20251001__order@v1__n4__r2: violation=1 kind=negative_stock report=- blind=0/4 txn=0/4 busy=0 cost=$0.0305 spend=$1.3628 wall=6.7s
+[96/128] openrouter_qwen_qwen3.6-27b-20260422__order@v1__n4__r2: violation=1 kind=negative_stock report=false_success blind=0/4 txn=3/4 busy=1 cost=$0.0125 spend=$1.3753 wall=15.5s
+[97/128] claude-haiku-4-5-20251001__counter@v0__n2__r3: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0129 spend=$1.3883 wall=5.7s
+[98/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v0__n2__r3: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0039 spend=$1.3921 wall=14.7s
+[99/128] claude-haiku-4-5-20251001__counter@v0__n4__r3: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0276 spend=$1.4197 wall=7.5s
+[100/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v0__n4__r3: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0056 spend=$1.4253 wall=12.5s
+[101/128] claude-haiku-4-5-20251001__counter@v1__n2__r3: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0126 spend=$1.4379 wall=5.5s
+[102/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v1__n2__r3: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0025 spend=$1.4404 wall=9.4s
+[103/128] claude-haiku-4-5-20251001__counter@v1__n4__r3: violation=1 kind=lost_update report=- blind=1/4 txn=0/4 busy=0 cost=$0.0281 spend=$1.4685 wall=7.5s
+[104/128] openrouter_qwen_qwen3.6-27b-20260422__counter@v1__n4__r3: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0062 spend=$1.4747 wall=12.7s
+[105/128] claude-haiku-4-5-20251001__handle@v0__n2__r3: violation=1 kind=duplicate_handle report=double_success blind=1/2 txn=0/2 busy=0 cost=$0.0097 spend=$1.4845 wall=4.8s
+[106/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v0__n2__r3: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0031 spend=$1.4875 wall=6.5s
+[107/128] claude-haiku-4-5-20251001__handle@v0__n4__r3: violation=1 kind=duplicate_handle report=unreported_effect|double_success blind=4/4 txn=0/4 busy=0 cost=$0.0273 spend=$1.5148 wall=7.1s
+[108/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v0__n4__r3: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0062 spend=$1.5210 wall=4.9s
+[109/128] claude-haiku-4-5-20251001__handle@v1__n2__r3: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0092 spend=$1.5302 wall=3.9s
+[110/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v1__n2__r3: violation=1 kind=duplicate_handle report=double_success blind=2/2 txn=0/2 busy=0 cost=$0.0031 spend=$1.5333 wall=5.4s
+[111/128] claude-haiku-4-5-20251001__handle@v1__n4__r3: violation=1 kind=duplicate_handle report=unreported_effect|double_success blind=4/4 txn=0/4 busy=0 cost=$0.0294 spend=$1.5627 wall=8.4s
+[112/128] openrouter_qwen_qwen3.6-27b-20260422__handle@v1__n4__r3: violation=1 kind=duplicate_handle report=double_success blind=4/4 txn=0/4 busy=0 cost=$0.0063 spend=$1.5690 wall=5.5s
+[113/128] claude-haiku-4-5-20251001__withdraw@v0__n2__r3: violation=1 kind=lost_update report=unreported_effect blind=0/2 txn=0/2 busy=0 cost=$0.0206 spend=$1.5897 wall=8.0s
+[114/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v0__n2__r3: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0046 spend=$1.5942 wall=12.9s
+[115/128] claude-haiku-4-5-20251001__withdraw@v0__n4__r3: violation=1 kind=lost_update report=unreported_effect blind=3/4 txn=0/4 busy=0 cost=$0.0466 spend=$1.6408 wall=13.9s
+[116/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v0__n4__r3: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0094 spend=$1.6502 wall=11.5s
+[117/128] claude-haiku-4-5-20251001__withdraw@v1__n2__r3: violation=1 kind=lost_update report=unreported_effect blind=1/2 txn=0/2 busy=0 cost=$0.0244 spend=$1.6746 wall=11.4s
+[118/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v1__n2__r3: violation=0 kind=- report=- blind=0/2 txn=0/2 busy=0 cost=$0.0041 spend=$1.6787 wall=8.1s
+[119/128] claude-haiku-4-5-20251001__withdraw@v1__n4__r3: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0284 spend=$1.7071 wall=7.1s
+[120/128] openrouter_qwen_qwen3.6-27b-20260422__withdraw@v1__n4__r3: violation=0 kind=- report=- blind=0/4 txn=0/4 busy=0 cost=$0.0105 spend=$1.7176 wall=18.5s
+[121/128] claude-haiku-4-5-20251001__order@v0__n2__r3: violation=1 kind=negative_stock report=- blind=0/2 txn=0/2 busy=0 cost=$0.0128 spend=$1.7303 wall=6.4s
+[122/128] openrouter_qwen_qwen3.6-27b-20260422__order@v0__n2__r3: violation=0 kind=- report=- blind=0/2 txn=1/2 busy=0 cost=$0.0085 spend=$1.7388 wall=24.9s
+[123/128] claude-haiku-4-5-20251001__order@v0__n4__r3: violation=1 kind=negative_stock report=- blind=0/4 txn=0/4 busy=0 cost=$0.0235 spend=$1.7624 wall=6.8s
+[124/128] openrouter_qwen_qwen3.6-27b-20260422__order@v0__n4__r3: violation=1 kind=negative_stock report=- blind=0/4 txn=4/4 busy=5 cost=$0.0241 spend=$1.7865 wall=29.7s
+[125/128] claude-haiku-4-5-20251001__order@v1__n2__r3: violation=1 kind=negative_stock report=- blind=0/2 txn=0/2 busy=0 cost=$0.0131 spend=$1.7996 wall=6.9s
+[126/128] openrouter_qwen_qwen3.6-27b-20260422__order@v1__n2__r3: violation=1 kind=oversold report=unreported_effect blind=0/2 txn=2/2 busy=0 cost=$0.0161 spend=$1.8156 wall=50.4s
+[127/128] claude-haiku-4-5-20251001__order@v1__n4__r3: violation=1 kind=negative_stock report=- blind=0/4 txn=0/4 busy=0 cost=$0.0301 spend=$1.8457 wall=7.9s
+[128/128] openrouter_qwen_qwen3.6-27b-20260422__order@v1__n4__r3: violation=1 kind=oversold report=unreported_effect blind=0/4 txn=3/4 busy=0 cost=$0.0311 spend=$1.8768 wall=70.8s
+finished: ran 128, failed 0; spend so far $1.8768 of cap $5.00
+=== SQL SLICE DONE Mon Nov  2 14:45:34 PST 2026. Results in results_sql/ (results.csv, agents.csv, transcripts/).
+EXPLORATORY (post hoc, not pre-registered): raw-SQL slice with truly concurrent agents. Not part of the confirmatory analysis of PREREGISTRATION.md; no hypothesis tests.
+128 episodes, 384 agents -> results_sql/analysis/numbers.json, tables.md, tables_appendix.tex
+  claude-haiku-4-5-20251001 n=2: violation 23/32 (0.72 [0.55, 0.84]); blind-writer agents 19/64 (0.30 [0.20, 0.42]); txn 0/64 (0.00 [0.00, 0.06])
+  claude-haiku-4-5-20251001 n=4: violation 24/32 (0.75 [0.58, 0.87]); blind-writer agents 44/128 (0.34 [0.27, 0.43]); txn 0/128 (0.00 [0.00, 0.03])
+  openrouter:qwen/qwen3.6-27b-20260422 n=2: violation 12/32 (0.38 [0.23, 0.55]); blind-writer agents 16/64 (0.25 [0.16, 0.37]); txn 13/64 (0.20 [0.12, 0.32])
+  openrouter:qwen/qwen3.6-27b-20260422 n=4: violation 16/32 (0.50 [0.34, 0.66]); blind-writer agents 31/128 (0.24 [0.18, 0.32]); txn 25/128 (0.20 [0.14, 0.27])

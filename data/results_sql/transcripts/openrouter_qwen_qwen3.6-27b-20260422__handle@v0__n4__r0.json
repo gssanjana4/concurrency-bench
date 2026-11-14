@@ -1,0 +1,1521 @@
+{
+ "agents": {
+  "agent_1": {
+   "agent_id": "agent_1",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.0013380750000000002,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT id FROM users WHERE handle = 'nova';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "id"
+        ],
+        "rows": []
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.9398,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_1');"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 3.1909,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully registered user 'nova' with owner 'agent_1'.",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 4.5465,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_5578fdf1b4d5495ab0b7488e",
+       "input": {
+        "sql": "SELECT id FROM users WHERE handle = 'nova';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"id\"], \"rows\": []}]}",
+       "tool_use_id": "call_5578fdf1b4d5495ab0b7488e",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_ecd40e39b8864c898500d2a1",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_1');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "call_ecd40e39b8864c898500d2a1",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_002a150ba991bc31963a7395",
+       "input": {
+        "note": "Successfully registered user 'nova' with owner 'agent_1'.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully registered user 'nova' with owner 'agent_1'.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_1. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL);\nTask: Register a new user in table users with handle 'nova' and owner 'agent_1'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Register a new user in table users with handle 'nova' and owner 'agent_1'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:24:38Z",
+     "content": [
+      {
+       "id": "call_5578fdf1b4d5495ab0b7488e",
+       "input": {
+        "sql": "SELECT id FROM users WHERE handle = 'nova';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.000528775,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @Venice",
+     "provider_meta": {
+      "cost": 0.000528775,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 62,
+      "temperature_sent": 0.0,
+      "upstream_provider": "Venice"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 1.9388,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 567,
+      "output": 106,
+      "reasoning": 62
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:24:39Z",
+     "content": [
+      {
+       "id": "call_ecd40e39b8864c898500d2a1",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_1');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0004485,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @Venice",
+     "provider_meta": {
+      "cost": 0.0004485,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 27,
+      "temperature_sent": 0.0,
+      "upstream_provider": "Venice"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 3.1894,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 640,
+      "output": 74,
+      "reasoning": 27
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:24:41Z",
+     "content": [
+      {
+       "id": "call_002a150ba991bc31963a7395",
+       "input": {
+        "note": "Successfully registered user 'nova' with owner 'agent_1'.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0003608,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0003608,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 18,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 4.5459,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 814,
+      "output": 66,
+      "reasoning": 18
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 2021,
+    "output": 246
+   }
+  },
+  "agent_2": {
+   "agent_id": "agent_2",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.0012034,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT id FROM users WHERE handle = 'nova';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "id"
+        ],
+        "rows": []
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 2.0018,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_2');"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 3.3509,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully registered user 'nova' with owner 'agent_2'.",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 5.0008,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_8c2bbe067910d14708c1cd63",
+       "input": {
+        "sql": "SELECT id FROM users WHERE handle = 'nova';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"id\"], \"rows\": []}]}",
+       "tool_use_id": "call_8c2bbe067910d14708c1cd63",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_641fba49597f0f8c83d8c0f1",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_2');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "call_641fba49597f0f8c83d8c0f1",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_8fadad8e6dffa8a6b62dd0e5",
+       "input": {
+        "note": "Successfully registered user 'nova' with owner 'agent_2'.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully registered user 'nova' with owner 'agent_2'.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_2. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL);\nTask: Register a new user in table users with handle 'nova' and owner 'agent_2'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Register a new user in table users with handle 'nova' and owner 'agent_2'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:24:38Z",
+     "content": [
+      {
+       "id": "call_8c2bbe067910d14708c1cd63",
+       "input": {
+        "sql": "SELECT id FROM users WHERE handle = 'nova';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0004734,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0004734,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 75,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 2.0006,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 567,
+      "output": 120,
+      "reasoning": 75
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:24:39Z",
+     "content": [
+      {
+       "id": "call_641fba49597f0f8c83d8c0f1",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_2');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0003664,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0003664,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 27,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 3.3492,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 722,
+      "output": 74,
+      "reasoning": 27
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:24:41Z",
+     "content": [
+      {
+       "id": "call_8fadad8e6dffa8a6b62dd0e5",
+       "input": {
+        "note": "Successfully registered user 'nova' with owner 'agent_2'.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0003636,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @Reka",
+     "provider_meta": {
+      "cost": 0.0003636,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 18,
+      "system_fingerprint": "vllm-0.27.1-04e62f3f",
+      "temperature_sent": 0.0,
+      "upstream_provider": "Reka"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 5.0002,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 828,
+      "output": 66,
+      "reasoning": 18
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 2117,
+    "output": 260
+   }
+  },
+  "agent_3": {
+   "agent_id": "agent_3",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.0015308799999999999,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT id FROM users WHERE handle = 'nova';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "id"
+        ],
+        "rows": []
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.7103,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_3');"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 3.0987,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully registered user 'nova' with owner 'agent_3'.",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 4.3921,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_a677c7bdefff4ed79f78c22d",
+       "input": {
+        "sql": "SELECT id FROM users WHERE handle = 'nova';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"id\"], \"rows\": []}]}",
+       "tool_use_id": "call_a677c7bdefff4ed79f78c22d",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_d2e8eec6507b4ed19ff52099",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_3');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "call_d2e8eec6507b4ed19ff52099",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_2a95582fc82a4709938a3ca0",
+       "input": {
+        "note": "Successfully registered user 'nova' with owner 'agent_3'.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully registered user 'nova' with owner 'agent_3'.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_3. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL);\nTask: Register a new user in table users with handle 'nova' and owner 'agent_3'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Register a new user in table users with handle 'nova' and owner 'agent_3'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:24:38Z",
+     "content": [
+      {
+       "id": "call_a677c7bdefff4ed79f78c22d",
+       "input": {
+        "sql": "SELECT id FROM users WHERE handle = 'nova';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00056544,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00056544,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 75,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 1.7091,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 567,
+      "output": 120,
+      "reasoning": 75
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:24:39Z",
+     "content": [
+      {
+       "id": "call_d2e8eec6507b4ed19ff52099",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_3');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0004416,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.0004416,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 27,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 3.0978,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 640,
+      "output": 74,
+      "reasoning": 27
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:24:40Z",
+     "content": [
+      {
+       "id": "call_2a95582fc82a4709938a3ca0",
+       "input": {
+        "note": "Successfully registered user 'nova' with owner 'agent_3'.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00052384,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00052384,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 43,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 4.3915,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 717,
+      "output": 92,
+      "reasoning": 43
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 1924,
+    "output": 286
+   }
+  },
+  "agent_4": {
+   "agent_id": "agent_4",
+   "claim": "done",
+   "completions": 3,
+   "cost_usd": 0.0015564799999999998,
+   "end_reason": "finished",
+   "executions": [
+    {
+     "args": {
+      "sql": "SELECT id FROM users WHERE handle = 'nova';"
+     },
+     "completion": 0,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "columns": [
+         "id"
+        ],
+        "rows": []
+       }
+      ]
+     },
+     "sql_call": 1,
+     "t": 1.6019,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_4');"
+     },
+     "completion": 1,
+     "response": {
+      "ok": true,
+      "results": [
+       {
+        "rows_affected": 1
+       }
+      ]
+     },
+     "sql_call": 2,
+     "t": 2.8525,
+     "tool": "run_sql"
+    },
+    {
+     "args": {
+      "note": "Successfully registered user 'nova' with owner 'agent_4'.",
+      "status": "done"
+     },
+     "completion": 2,
+     "t": 4.3059,
+     "tool": "finish"
+    }
+   ],
+   "final_text": null,
+   "invalid_calls": [],
+   "left_txn_open": false,
+   "messages": [
+    {
+     "content": "Begin.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_ee3416431e6a46ac83ed2c93",
+       "input": {
+        "sql": "SELECT id FROM users WHERE handle = 'nova';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"columns\": [\"id\"], \"rows\": []}]}",
+       "tool_use_id": "call_ee3416431e6a46ac83ed2c93",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_292ca0ea6d334226b2ab27b1",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_4');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"results\": [{\"rows_affected\": 1}]}",
+       "tool_use_id": "call_292ca0ea6d334226b2ab27b1",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "call_f56112869ef2434fba43cded",
+       "input": {
+        "note": "Successfully registered user 'nova' with owner 'agent_4'.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "note": "Successfully registered user 'nova' with owner 'agent_4'.",
+   "stop_reason": "tool_calls",
+   "system": "You are agent_4. You have SQL access to a shared SQLite database (a database file in WAL mode) through the run_sql tool; each call runs on your own database connection. Other clients may be reading and writing the same database at the same time as you.\nSchema:\nCREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL);\nTask: Register a new user in table users with handle 'nova' and owner 'agent_4'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".\nWhen you are finished, call finish with status \"done\" if you completed the task or \"declined\" if you did not, and a one-line note.",
+   "task": "Register a new user in table users with handle 'nova' and owner 'agent_4'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".",
+   "tool_calls": 2,
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-02T22:24:38Z",
+     "content": [
+      {
+       "id": "call_ee3416431e6a46ac83ed2c93",
+       "input": {
+        "sql": "SELECT id FROM users WHERE handle = 'nova';"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00056544,
+     "index": 1,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00056544,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 75,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 1.6002,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 567,
+      "output": 120,
+      "reasoning": 75
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:24:39Z",
+     "content": [
+      {
+       "id": "call_292ca0ea6d334226b2ab27b1",
+       "input": {
+        "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_4');"
+       },
+       "name": "run_sql",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.0004416,
+     "index": 2,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.0004416,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 27,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 2.8508,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 640,
+      "output": 74,
+      "reasoning": 27
+     }
+    },
+    {
+     "at_utc": "2026-11-02T22:24:40Z",
+     "content": [
+      {
+       "id": "call_f56112869ef2434fba43cded",
+       "input": {
+        "note": "Successfully registered user 'nova' with owner 'agent_4'.",
+        "status": "done"
+       },
+       "name": "finish",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "reported",
+     "cost_usd": 0.00054944,
+     "index": 3,
+     "model_served": "qwen/qwen3.6-27b @DeepInfra",
+     "provider_meta": {
+      "cost": 0.00054944,
+      "native_finish_reason": "tool_calls",
+      "reasoning_details_n": 1,
+      "reasoning_tokens": 51,
+      "temperature_sent": 0.0,
+      "upstream_provider": "DeepInfra"
+     },
+     "stop_reason": "tool_calls",
+     "t_episode": 4.3053,
+     "temperature_effective": "unverified",
+     "temperature_requested": 0.0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 717,
+      "output": 100,
+      "reasoning": 51
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 1924,
+    "output": 294
+   }
+  }
+ },
+ "behaviors": {
+  "agent_1": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": true,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 0,
+   "n_statements": 2,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": false,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_2": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": true,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 0,
+   "n_statements": 2,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": false,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_3": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": true,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 0,
+   "n_statements": 2,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": false,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  },
+  "agent_4": {
+   "added_constraint": false,
+   "all_protected": false,
+   "atomic_pair": false,
+   "blind_write": true,
+   "busy_errors": 0,
+   "checked_rows_affected": false,
+   "false_success_after_zero": false,
+   "left_txn_open": false,
+   "mechanisms": [],
+   "n_contended_writes": 1,
+   "n_effective": 1,
+   "n_errors": 0,
+   "n_protected": 0,
+   "n_statements": 2,
+   "no_write": false,
+   "read_target": true,
+   "retried_after_busy": false,
+   "rmw_in_txn": false,
+   "set_busy_timeout": false,
+   "txn_immediate": false,
+   "used_atomic_update": false,
+   "used_cas": false,
+   "used_conditional_update": false,
+   "used_conflict_clause": false,
+   "used_guarded_insert": false,
+   "used_txn": false
+  }
+ },
+ "dry_run": false,
+ "effects": {
+  "agent_1": {
+   "handle_inserts": 1,
+   "order_inserts": 0,
+   "target_writes": 1
+  },
+  "agent_2": {
+   "handle_inserts": 1,
+   "order_inserts": 0,
+   "target_writes": 1
+  },
+  "agent_3": {
+   "handle_inserts": 1,
+   "order_inserts": 0,
+   "target_writes": 1
+  },
+  "agent_4": {
+   "handle_inserts": 1,
+   "order_inserts": 0,
+   "target_writes": 1
+  }
+ },
+ "episode_id": "openrouter_qwen_qwen3.6-27b-20260422__handle@v0__n4__r0",
+ "exploratory": true,
+ "final_db": {
+  "schema": [
+   [
+    "table",
+    "users",
+    "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL)"
+   ]
+  ],
+  "users": [
+   [
+    1,
+    "orbit",
+    "user_17"
+   ],
+   [
+    2,
+    "pixel",
+    "user_42"
+   ],
+   [
+    3,
+    "ember",
+    "user_08"
+   ],
+   [
+    4,
+    "nova",
+    "agent_4"
+   ],
+   [
+    5,
+    "nova",
+    "agent_3"
+   ],
+   [
+    6,
+    "nova",
+    "agent_1"
+   ],
+   [
+    7,
+    "nova",
+    "agent_2"
+   ]
+  ]
+ },
+ "instance": {
+  "instructions": {
+   "agent_1": "Register a new user in table users with handle 'nova' and owner 'agent_1'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".",
+   "agent_2": "Register a new user in table users with handle 'nova' and owner 'agent_2'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".",
+   "agent_3": "Register a new user in table users with handle 'nova' and owner 'agent_3'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\".",
+   "agent_4": "Register a new user in table users with handle 'nova' and owner 'agent_4'. Handles must be unique: if 'nova' is already taken, do not register it and finish with status \"declined\"."
+  },
+  "n_agents": 4,
+  "params": {
+   "handle": "nova",
+   "per_agent": {
+    "agent_1": "nova",
+    "agent_2": "nova",
+    "agent_3": "nova",
+    "agent_4": "nova"
+   }
+  },
+  "schema": [
+   "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, handle TEXT NOT NULL, owner TEXT NOT NULL)"
+  ],
+  "seed": [
+   "INSERT INTO users (id, handle, owner) VALUES (1, 'orbit', 'user_17')",
+   "INSERT INTO users (id, handle, owner) VALUES (2, 'pixel', 'user_42')",
+   "INSERT INTO users (id, handle, owner) VALUES (3, 'ember', 'user_08')"
+  ],
+  "target": {
+   "atomic_cols": [],
+   "cas_cols": [
+    "owner"
+   ],
+   "insert_guard": [
+    "handle"
+   ],
+   "table": "users",
+   "unique_col": "handle",
+   "write_cols": [
+    "handle",
+    "owner"
+   ]
+  },
+  "template": "handle",
+  "variant": 0
+ },
+ "integrity": {
+  "claims": {
+   "agent_1": "done",
+   "agent_2": "done",
+   "agent_3": "done",
+   "agent_4": "done"
+  },
+  "details": {
+   "owners": [
+    "agent_4",
+    "agent_3",
+    "agent_1",
+    "agent_2"
+   ]
+  },
+  "kinds": [
+   "duplicate_handle"
+  ],
+  "primary": "duplicate_handle",
+  "report_kinds": [
+   "double_success"
+  ],
+  "report_mismatch": true,
+  "violation": true
+ },
+ "model": "openrouter:qwen/qwen3.6-27b-20260422",
+ "n_agents": 4,
+ "provider": "openrouter",
+ "rep": 0,
+ "run_info": {
+  "finished_utc": "2026-11-02T22:24:41Z",
+  "started_utc": "2026-11-02T22:24:36Z",
+  "wall_seconds": 5.006
+ },
+ "settings": {
+  "busy_timeout_s": 0.2,
+  "episode_timeout_s": 900.0,
+  "isolation_level": null,
+  "journal_mode": "wal",
+  "max_tokens": 4096,
+  "python": "3.14.6",
+  "sqlite_version": "3.53.2",
+  "temperature_requested": 0.0,
+  "turn_cap": 12
+ },
+ "sql_log": [
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "users": [
+      "handle",
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_4",
+   "busy": false,
+   "call": 1,
+   "n_rows": 0,
+   "ok": true,
+   "seq": 0,
+   "sql": "SELECT id FROM users WHERE handle = 'nova';",
+   "stmt": 0,
+   "t_end": 1.6018,
+   "t_start": 1.6008,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "users": [
+      "handle",
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 1,
+   "n_rows": 0,
+   "ok": true,
+   "seq": 1,
+   "sql": "SELECT id FROM users WHERE handle = 'nova';",
+   "stmt": 0,
+   "t_end": 1.7102,
+   "t_start": 1.7097,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "users": [
+      "handle",
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 1,
+   "n_rows": 0,
+   "ok": true,
+   "seq": 2,
+   "sql": "SELECT id FROM users WHERE handle = 'nova';",
+   "stmt": 0,
+   "t_end": 1.9397,
+   "t_start": 1.9394,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [],
+    "pragma": [],
+    "read": {
+     "users": [
+      "handle",
+      "id"
+     ]
+    },
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 1,
+   "n_rows": 0,
+   "ok": true,
+   "seq": 3,
+   "sql": "SELECT id FROM users WHERE handle = 'nova';",
+   "stmt": 0,
+   "t_end": 2.0017,
+   "t_start": 2.0012,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "users"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_4",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 4,
+   "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_4');",
+   "stmt": 0,
+   "t_end": 2.8524,
+   "t_start": 2.8514,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "users"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_3",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 5,
+   "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_3');",
+   "stmt": 0,
+   "t_end": 3.0987,
+   "t_start": 3.0981,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "users"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_1",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 6,
+   "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_1');",
+   "stmt": 0,
+   "t_end": 3.1908,
+   "t_start": 3.19,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  },
+  {
+   "access": {
+    "ddl": [],
+    "delete": [],
+    "functions": [],
+    "insert": [
+     "users"
+    ],
+    "pragma": [],
+    "read": {},
+    "txn": [],
+    "update": {}
+   },
+   "agent": "agent_2",
+   "busy": false,
+   "call": 2,
+   "ok": true,
+   "rows_affected": 1,
+   "seq": 7,
+   "sql": "INSERT INTO users (handle, owner) VALUES ('nova', 'agent_2');",
+   "stmt": 0,
+   "t_end": 3.3508,
+   "t_start": 3.3499,
+   "txn_after": false,
+   "txn_before": false,
+   "unique_guard": false
+  }
+ ],
+ "task": "handle",
+ "totals": {
+  "completions": 12,
+  "cost_usd": 0.0056288350000000004,
+  "tool_calls": 8,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 7986,
+   "output": 1086
+  }
+ },
+ "variant": 0
+}
