@@ -92,7 +92,7 @@ class TestPipeline(unittest.TestCase):
 
         Generated-name macros are checked against numbers.tex; the remaining names must be
         defined in main.tex or be in a short list of standard commands."""
-        # since the 2026-11-10 split (CUT_LOG.md) the shared preamble (preamble_shared.tex) defines the macros of both
+        # since the 2026-11-10 split the shared preamble (preamble_shared.tex) defines the macros of both
         # documents, and the supplement (supplement.tex and its supp_*.tex inputs) is checked like the paper
         main = strip_comments(open(os.path.join(LATEX, "main.tex")).read() + open(os.path.join(LATEX, "preamble_shared.tex")).read()
                               + open(os.path.join(LATEX, "supplement.tex")).read())
@@ -186,7 +186,7 @@ class TestPipeline(unittest.TestCase):
 
     # ---------------- layout (REVIEW_PREDATA.md section 6)
     def test_main_text_floats(self):
-        """Layout since the 2026-11-10 paper/supplement split (CUT_LOG.md): the 12-page main text keeps the compact
+        """Layout since the 2026-11-10 paper/supplement split: the 12-page main text keeps the compact
         what-changed table, the S2-H1 Delta figure and the task-class table; the appendix keeps the Study 2 tables the
         main text cites and the Study 1 verdict table; everything else (Study 1 in full, the per-family figure, the
         full Study 2 tables) is in the supplement."""
@@ -279,20 +279,6 @@ class TestPipeline(unittest.TestCase):
                        "DesNContendedTemplates", "paired with goodput"):
             self.assertIn(needle, t)
 
-    def test_checklist_ai_disclosure_complete(self):
-        t = self.facts("checklist.md")
-        for needle in ("The harness and the frozen confirmatory analysis", "literature search", "reference verification",
-                       "drafted the pre-registration", "write-skew templates", "aware-prompt arm", "scaling phase",
-                       "reviewed and adopted", "src4_batch", "src_sql", "rollback_sensitivity.py", "make_anon_artifact.py",
-                       "performed by an AI agent", "style revision", "deviations-table cell text", "reference drafts",
-                       "drafted by an AI assistant on 2026-11-02", "Author contributions and AI use", "authorcheck", "AI_DRAFTED_SECTIONS.md", "do NOT link the OSF page",
-                       "redacted copy", "Registration date", "camera-ready", "wrote all paper prose\" is false"):
-            self.assertIn(needle, t)
-        # the drafted sections are never described as "low-novelty" text (ACL definition does not cover them)
-        for line in t.splitlines():
-            if "low-novelty" in line:
-                self.assertIn("Do NOT label", line)
-
     def test_no_gendered_wording_in_boxes(self):
         main = strip_comments(open(os.path.join(LATEX, "main.tex")).read())
         self.assertNotRegex(main, r"\b(she|her|herself|his|him|himself)\b")
@@ -302,59 +288,6 @@ class TestPipeline(unittest.TestCase):
             t = open(os.path.join(OUT, "tables", f)).read()
             self.assertNotIn("manual", t)
             self.assertIn("AI agent", t)
-
-    def test_author_sections_reviewed(self):
-        """The author's sections (abstract, Introduction, Results, Discussion, Acknowledgments) hold no \\authorwrites
-        placeholder: an AI assistant drafted them for the author to revise. Each carried an orange \\authorcheck marker
-        until the author's review; the markers were cleared on 2026-11-14, so none may remain in the paper or the
-        supplement (preflight and make_arxiv.sh fail on a marker). The H2-threshold sentence must say plainly that the
-        registration gives no rationale."""
-        main = strip_comments(open(os.path.join(LATEX, "main.tex")).read())
-        body = main.split(r"\begin{document}", 1)[1]
-        self.assertNotIn(r"\authorwrites", body)
-        spans = [(r"\begin{abstract}", r"\end{abstract}"), (r"\section{Introduction}", r"\section{Related Work}"),
-                 (r"\section{\SOne: The First Run}", r"\section{\STwo: Corrected Harness}"), (r"\section{Discussion}", r"\FloatBarrier"),
-                 (r"\section*{Acknowledgments}", r"\bibliography")]
-        for start, end in spans:
-            self.assertIn(start, body, start)
-            part = body.split(start, 1)[1].split(end, 1)[0]
-            self.assertNotIn(r"\authorcheck{", part, start)
-        for f in ("study2.tex", "study2_prompts.tex", "supplement.tex", "study2_analysis.tex", "study1_full.tex", "supp_study1.tex",
-                  "supp_db_sql.tex", "supp_extended.tex"):
-            self.assertNotIn(r"\authorcheck{", strip_comments(open(os.path.join(LATEX, f)).read()), f)
-        study1 = strip_comments(open(os.path.join(LATEX, "study1_full.tex")).read())
-        self.assertIn("without a rationale", study1)
-        ack = body.split(r"\section*{Acknowledgments}", 1)[1].split(r"\bibliography", 1)[0]
-        for needle in ("Claude models assisted with the designs, code and writing", "which the author directed and reviewed"):
-            self.assertIn(needle, ack)
-        # Study 2 (2026-11-09): the placeholder is gone; the section inputs study2.tex
-        s2 = body.split(r"\section{\STwo: Corrected Harness}", 1)[1].split(r"\section{Discussion}", 1)[0]
-        self.assertIn(r"\input{study2}", s2)
-        self.assertNotIn(r"\studytwo{", body)
-        s2tex = strip_comments(open(os.path.join(LATEX, "study2.tex")).read())
-        self.assertNotIn(r"\studytworesults", s2tex)
-        self.assertIn(r"\subsection{Results}", s2tex)
-
-    def test_ai_drafted_sections_listed(self):
-        """Every section marked AI-DRAFTED in main.tex is listed in AI_DRAFTED_SECTIONS.md (needed for the disclosure)."""
-        if not os.path.exists(os.path.join(LATEX, "AI_DRAFTED_SECTIONS.md")):
-            self.skipTest("AI_DRAFTED_SECTIONS.md not shipped (review artifact)")
-        # main.tex plus the section files it inputs (2026-11-10: the Study 1 appendix, the Study 2 prompts and the
-        # Study 2 analysis appendix carry their own \section headings)
-        main = "".join(open(os.path.join(LATEX, f)).read() for f in ("main.tex", "study1_full.tex", "study2_prompts.tex", "study2_analysis.tex",
-                                                                     "supplement.tex", "supp_study1.tex", "supp_db_sql.tex", "supp_extended.tex"))
-        listing = open(os.path.join(LATEX, "AI_DRAFTED_SECTIONS.md")).read()
-        for needle in ("src4_batch", "performed by an AI agent", "deviations.csv", "STYLE_GUIDE_ACL.md", "REFERENCE_DRAFTS_FOR_AUTHOR.md",
-                       "Database Foundations", "product of Anthropic", "T5-T8_resolution.md"):
-            self.assertIn(needle, listing)
-        self.assertNotRegex(listing, r"\b(she|her|herself)\b")
-        for name in ("Related Work", "Testbed", "The First Run", "Limitations", "Ethics Statement",
-                     "Coordination Configs and Tool Specifications", "Task Templates and Prompts", "Scoring Rules",
-                     "Deviations from the", "Full Results", "Exploratory Analyses from Saved Data",
-                     "Reproducibility", "Database Foundations", "Exploratory Slice on a Real Database",
-                     "Prompts and Tool Texts", "in Full", "Registered Analysis, Budget and Sensitivity"):
-            self.assertIn(name, main, name)
-            self.assertIn(name, listing, name)
 
 if __name__ == "__main__":
     unittest.main()

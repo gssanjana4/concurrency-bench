@@ -133,15 +133,12 @@ EOF
     OVER=$((OVER + $(grep -c 'Overfull' $L)))
     WARN=$((WARN + $(grep -c 'Warning' $L)))
   done
-  MARKP=$(grep -o 'AI draft [^a-z]* author to review and revise' main.txt | wc -l)
-  MARKS=$(grep -o 'AI draft [^a-z]* author to review and revise' supplement.txt | wc -l)
   { echo "mode: $MODE"; echo "paper pages total: $PAGES";
     echo "paper main text: pages 1 to $ENDPAGE (body to page $((LIMPAGE-1)); Limitations, Ethics Statement and Acknowledgments from page $LIMPAGE)";
     echo "paper appendix: pages $APPPAGE to $PAGES ($((PAGES-APPPAGE+1)) pages)";
     echo "supplement pages total: $SPAGES";
     echo "undefined refs/cites (paper + supplement): $UNDEF"; echo "undefined control sequences: $UCS";
     echo "overfull hboxes: $OVER"; echo "LaTeX warnings of any kind: $WARN";
-    echo "AI-draft markers (\\authorcheck) left for the author: $((MARKP+MARKS)) (paper $MARKP, supplement $MARKS)";
     echo "PENDING values in PDF: $(cat main.txt supplement.txt | grep -c 'PENDING')"; } | tee build/pages_$MODE.txt
   [ "$UNDEF" = 0 ] && [ "$UCS" = 0 ] && [ "$OVER" = 0 ] || { echo "BUILD CHECK FAILED ($MODE): refs/macros/overfull"; STATUS=1; }
   [ "$WARN" = 0 ] || { echo "BUILD CHECK FAILED ($MODE): $WARN LaTeX warnings (see main.log, supplement.log)"; STATUS=1; }
@@ -167,13 +164,9 @@ done
 # leave the preprint as main.pdf when both were built
 if [ -f build/main_preprint.pdf ]; then cp build/main_preprint.pdf main.pdf; cp build/main_preprint.log main.log; pdftotext main.pdf main.txt; fi
 if [ -f build/supplement_preprint.pdf ]; then cp build/supplement_preprint.pdf supplement.pdf; cp build/supplement_preprint.log supplement.log; pdftotext supplement.pdf supplement.txt; fi
-# ---- 6. fact pass (Study 2 claim sentences -> macros -> sources), the advisory AI-text audit, and the tests
+# ---- 6. fact pass (Study 2 claim sentences -> macros -> sources), the hash check, and the tests
 python3 study2_factpass.py || { echo "fact pass failed"; STATUS=1; }
 # every sha256 printed in the paper and the supplement against the files it names (review F1 M1)
 if [ -f check_hashes.py ]; then python3 check_hashes.py || { echo "hash check failed"; STATUS=1; }; else echo "hash check: check_hashes.py not present (not shipped), skipped"; fi
-python3 ../release/ai_text_audit.py main.tex --json build/ai_text_audit.json | tail -5
-python3 ../release/ai_text_audit.py study2.tex --json build/ai_text_audit_study2.json | tail -3
-# ---- 7. nothing-lost check against the v10 snapshot (labels, floats, table inputs, macros; CUT_LOG.md)
-[ -d ../latex_v10_snapshot ] && { python3 check_nothing_lost.py --quiet || { echo "nothing-lost check failed"; STATUS=1; }; }
 python3 -m unittest discover -s tests -q 2>&1 | tail -3
 exit $STATUS

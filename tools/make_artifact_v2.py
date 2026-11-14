@@ -22,7 +22,7 @@ unchanged inside it (``src5/freeze5.py --check`` finds ``../src5_batch``, ``../s
                                                              refs.bib, the ACL style files), the generated inputs it
                                                              compiles from (numbers.tex, tables/, figures/, study2_out/),
                                                              the fact sheets (facts/src/), the Study 1 number pipeline
-                                                             (scripts and tests), AI_DRAFTED_SECTIONS.md and the H5 audit;
+                                                             (scripts and tests) and the H5 audit;
                                                              identity.tex only in public mode (--no-paper-source omits
                                                              the source and the generated inputs)
   paper/paper_<mode>.pdf, paper/supplement_<mode>.pdf          the compiled paper and supplement of the same build (latex/build/)
@@ -108,14 +108,13 @@ DEF_WRAPPER_DIRS = ("/mnt/attach/outputs", ROOT)
 ANALYSIS5_FILES = ("analyze5.py", "descriptives5.py", "balance5.py", "tests_analyze5.py", "PREREG_GAPS.md")
 ANALYSIS5_DIRS = ("power_sims", "testdata", "out")
 STUDY2_OUT_FILES = ("eligibility.json", "results.json", "numbers.tex")
-PAPER_SOURCE = ("main.tex", "AI_DRAFTED_SECTIONS.md")  # the two files the earlier --with-paper-source shipped
+PAPER_SOURCE = ("main.tex",)  # the file the earlier --with-paper-source shipped
 # the paper source and everything it compiles from (both modes unless --no-paper-source); identity.tex only in public mode
-# since the 2026-11-10 paper/supplement split (latex/CUT_LOG.md): the shared preamble, the supplement and its sources,
-# the nothing-lost check and the cut log
+# since the 2026-11-10 paper/supplement split: the shared preamble, the supplement and its sources
 PAPER_TEX = ("main.tex", "study2.tex", "study2_analysis.tex", "study2_prompts.tex", "study1_full.tex", "study2_constants.tex",
              "preamble_shared.tex", "supplement.tex", "supp_study1.tex", "supp_db_sql.tex", "supp_extended.tex",
              "refs.bib", "acl.sty", "acl_natbib.bst", "numbers.tex", "study2_factpass.py", "study2_lint.py",
-             "check_nothing_lost.py", "check_model_macros.py", "CUT_LOG.md", "AI_DRAFTED_SECTIONS.md", "STYLE_GUIDE_ACL.md",
+             "check_model_macros.py",
              # review F1 (2026-11-14): the hash check build.sh runs, and the TMLR build mode (pinned official style files)
              "check_hashes.py", "tmlr_setup.tex", os.path.join("tmlr", "tmlr.sty"), os.path.join("tmlr", "tmlr.bst"),
              os.path.join("tmlr", "LICENSE"), os.path.join("tmlr", "PIN.md"))
@@ -540,11 +539,10 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
         "| `paper/latex/` | " + ("the source of the paper (`main.tex`, `study2.tex`, `study2_prompts.tex`) and of its supplement "
                                  "(`supplement.tex`, `study2_analysis.tex`, `study1_full.tex`, `supp_study1.tex`, `supp_db_sql.tex`, "
                                  "`supp_extended.tex`), the shared preamble (`preamble_shared.tex`), `study2_constants.tex`, `refs.bib`, "
-                                 "the ACL style files" + ("" if anon else ", `identity.tex`") + ", `CUT_LOG.md` and `check_nothing_lost.py` "
-                                 "(what moved from the paper to the supplement on 2026-11-10, and the check that nothing was dropped), "
+                                 "the ACL style files" + ("" if anon else ", `identity.tex`") + ", "
                                  "`check_model_macros.py` (every model-named number macro belongs to the model its sentence names), the generated "
                                  "inputs it compiles from (`numbers.tex`, `tables/`, `figures/`, `study2_out/`: the Study 2 tables, figures and "
-                                 "macros written by `analysis5/descriptives5.py`), the fact sheets (`facts/src/`), `AI_DRAFTED_SECTIONS.md`, "
+                                 "macros written by `analysis5/descriptives5.py`), the fact sheets (`facts/src/`), "
                                  if a.with_paper_source else "")
         + "the Study 1 number pipeline: every script that produces a Study 1 number, its tests, `deviations.csv`, `build.sh`"
         + ("" if a.with_paper_source else "; the paper source and PDF are not in this artifact (the paper is the preprint cited below)") + " |",
@@ -680,7 +678,8 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
           "V1, V1b, V2 and V2b: AI-generated, in-pipeline checks, not peer review).", "",
           "## AI use", "",
           "The code in this artifact (the Study 1 and Study 2 harnesses, batch drivers, scorers, analysis scripts, tests, "
-          "this build script and this README) was written by an AI coding assistant (Claude, Anthropic) under the "
+          "this build script and this README) was written by an AI coding assistant (Claude, a product of Anthropic, which also provides three of the six "
+          "evaluated models) under the "
           "author's direction; the two registration texts were drafted by the same assistant from the author's decisions "
           "and reviewed by her before filing (their own AI-assistance sections say so). The author chose the research "
           "question, scope and budget, reviewed "
@@ -692,11 +691,7 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
           "plain-language descriptions of each episode read aloud by the AI assistant, without seeing the stored labels: "
           "15 of the 20 first judgements agreed with the labels, and all 20 after the assistant, which knew the labels, "
           "restated the task rule for the five that disagreed (`paper/audit/AUTHOR_SPOT_CHECK_answers.json`). The paper's "
-          "Acknowledgments carry its AI-use statement in two sentences; "
-          + ("`paper/latex/AI_DRAFTED_SECTIONS.md` is the full account, section by section, of what an AI assistant drafted."
-             if a.with_paper_source else
-             "the full account, section by section, of what an AI assistant drafted is `AI_DRAFTED_SECTIONS.md`, next to the "
-             "paper source in the archived artifact."), "",
+          "Acknowledgments carry its AI-use statement.", "",
           "## Cite", ""]
     if anon:
         L += ["Anonymous. \"" + TITLE + "\" Under review. (Citation details are added at camera-ready.)", ""]

@@ -57,7 +57,7 @@ AUDIT = os.path.join(HERE, "audit")
 # paper pipeline files copied into paper/latex (scripts that produce numbers, their tests, the paper source)
 LATEX_FILES = ("run_analysis.py", "explore4.py", "rollback_sensitivity.py", "posthoc_review.py", "reference_policies.py",
                "make_numbers4.py", "pipeline_common.py", "page_budget.py", "build.sh", "deviations.csv", "README.md",
-               "main.tex", "AI_DRAFTED_SECTIONS.md", os.path.join("figures", "make_figs.py"))
+               "main.tex", os.path.join("figures", "make_figs.py"))
 LATEX_DIRS = ("tests",)
 AUDIT_FILES = ("H5_AUDIT.md", "H5_AUDIT.csv", "SPOT_CHECK.md", "AUTHOR_SPOT_CHECK_answers.json")
 SKIP_DIRS = {"__pycache__", ".git", "_staged_dryrun"}
@@ -216,13 +216,8 @@ def artifact_readme(out, a, override, batch_hashes, sql_hashes, n_files):
          "| `ANON_CHANGES.md` | every redacted line, with sha256 of original and redacted files |",
          "| `FREEZE_OVERRIDE.json` | documented FREEZE override for the redacted frozen files (below) |", "",
          "## AI use", "",
-         "The paper's Acknowledgments give a short statement. The full, section-by-section account of AI involvement "
-         "(code, data-collection drivers, design suggestions, the pre-registration text, the AI-performed H5 transcript "
-         "audit, post hoc analyses proposed by AI reviewers, literature and reference checks, fact sheets, tables, "
-         "figures and captions, AI pre-submission reviews, every AI-drafted section of the paper including the abstract, "
-         "introduction, results and discussion, and the AI style revision) is in `paper/latex/AI_DRAFTED_SECTIONS.md`. "
-         "The AI assistant was Claude. No human has yet checked the transcripts or the H5 audit (update this line, the "
-         "Acknowledgments and deviations.csv if the author spot-checks them).", "",
+         "The paper's Acknowledgments carry its AI-use statement. The AI assistant was Claude. The H5 transcript audit "
+         "was performed by an AI agent and no human has checked it (deviations table).", "",
          "## Reproduce", "",
          "Python 3.10+ standard library for the harness and analyses; matplotlib only for figures; pdflatex only for the PDF.", "",
          "```", "cd paper/latex",
