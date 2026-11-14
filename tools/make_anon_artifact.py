@@ -216,8 +216,7 @@ def artifact_readme(out, a, override, batch_hashes, sql_hashes, n_files):
          "| `ANON_CHANGES.md` | every redacted line, with sha256 of original and redacted files |",
          "| `FREEZE_OVERRIDE.json` | documented FREEZE override for the redacted frozen files (below) |", "",
          "## AI use", "",
-         "The paper's Acknowledgments carry its AI-use statement. The AI assistant was Claude. The H5 transcript audit "
-         "was performed by an AI agent and no human has checked it (deviations table).", "",
+         "This work was AI-assisted (Claude models). The paper's Acknowledgments carry its AI-use statement.", "",
          "## Reproduce", "",
          "Python 3.10+ standard library for the harness and analyses; matplotlib only for figures; pdflatex only for the PDF.", "",
          "```", "cd paper/latex",

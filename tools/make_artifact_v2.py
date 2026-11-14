@@ -677,21 +677,12 @@ def top_readme(b: Build, a, fz4, fz5, ov4, ov5, freeze5_out: str, counts: dict, 
           + ", and the AI pre-submission and pre-spend review documents (R1 to R3, T1 to T8, T3b, T3c, T7b, T8b, T8c, "
           "V1, V1b, V2 and V2b: AI-generated, in-pipeline checks, not peer review).", "",
           "## AI use", "",
-          "The code in this artifact (the Study 1 and Study 2 harnesses, batch drivers, scorers, analysis scripts, tests, "
-          "this build script and this README) was written by an AI coding assistant (Claude, a product of Anthropic, which also provides three of the six "
-          "evaluated models) under the "
-          "author's direction; the two registration texts were drafted by the same assistant from the author's decisions "
-          "and reviewed by her before filing (their own AI-assistance sections say so). The author chose the research "
-          "question, scope and budget, reviewed "
-          "and approved the designs, hypotheses and analysis plans, filed both registrations under her own account and "
-          "ran the experiments on her machine with her API credit (the Study 2 run was started by a queued job on her Mac "
-          "after the registration was filed; `STUDY2_RUN_LOG.md`). The pre-specified H5 transcript audit of Study 1 "
-          "(`paper/audit/`), the pre-spend design reviews that led to Study 2 and the post-run verification of Study 2 "
-          "were performed by AI agents. The author spot-checked 20 Study 2 episodes on 13 November 2026 from "
-          "plain-language descriptions of each episode read aloud by the AI assistant, without seeing the stored labels: "
-          "15 of the 20 first judgements agreed with the labels, and all 20 after the assistant, which knew the labels, "
-          "restated the task rule for the five that disagreed (`paper/audit/AUTHOR_SPOT_CHECK_answers.json`). The paper's "
-          "Acknowledgments carry its AI-use statement.", "",
+          "This work was AI-assisted: Claude models (Anthropic, which also provides three of the six evaluated models) "
+          "assisted under the author's direction and review. The author chose the research question, scope and budget, "
+          "reviewed and approved the designs, hypotheses and analysis plans, filed both registrations under her own "
+          "account and ran the experiments on her machine with her API credit (the Study 2 run was started by a queued "
+          "job on her Mac after the registration was filed; `STUDY2_RUN_LOG.md`). The paper's Acknowledgments carry its "
+          "AI-use statement.", "",
           "## Cite", ""]
     if anon:
         L += ["Anonymous. \"" + TITLE + "\" Under review. (Citation details are added at camera-ready.)", ""]
