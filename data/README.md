@@ -1,6 +1,16 @@
 # Data of "Do LLM Agents Coordinate on Shared Records?"
 
-Licence: **CC BY 4.0** for the instances, transcripts (ledgers included), result CSVs and logs, as stated in both registrations (`LICENSE.txt`). Model outputs inside the transcripts remain subject to the providers' terms (Anthropic, OpenAI and Alibaba Qwen through OpenRouter, Google Gemini); the Qwen model licence applies to Qwen outputs. The CC BY 4.0 terms govern; the data are intended for research use. The records are synthetic (generated names and numbers): no personal data.
+Licence: **CC BY 4.0** for the instances, transcripts (ledgers included), result CSVs and logs, as stated in the registrations (`LICENSE.txt`). Model outputs inside the transcripts remain subject to the providers' terms (Anthropic, OpenAI and Alibaba Qwen through OpenRouter, Google Gemini); the Qwen model licence applies to Qwen outputs. The CC BY 4.0 terms govern; the data are intended for research use. The records are synthetic (generated names and numbers): no personal data.
+
+## Study 3 (`results6/study3/`)
+
+The paid run of 2026-11-15 (plan: `../study3/PREREGISTRATION_STUDY3.md`, uploaded to the OSF before the run; the
+registration https://osf.io/3pa4k is retrospective, see `../osf_registration_records.md`). One directory per provider
+lane, as written by `../study3/run_conc_study3.sh`: `n2-anthropic/` (1,792 episodes, Haiku 4.5 and Sonnet 5, Message
+Batches) and `n2-openrouter/` (896 episodes, Qwen3.6-27B pinned to Alibaba), each with `transcripts/`, `results.csv`
+and `spend.jsonl`. Also `summary.md`, `run_study3.log`, `lane_<provider>.log`, `validity/` and `validity_run.log` (the
+scripted validity gate before spending), `preflight/` and `openrouter_balance.jsonl` (its `raw` provider response was
+removed). Not shipped: `batch_state/` and `held_for_pair/` (empty at the end of the run), the dry-run transcripts.
 
 ## Study 2 (`results5/study2/`)
 

@@ -1,12 +1,12 @@
-# Code and data: "Do LLM Agents Coordinate on Shared Records?" (Study 1 and Study 2)
+# Code and data: "Do LLM Agents Coordinate on Shared Records?" (Studies 1, 2 and 3)
 
-Sanjana Gopnal Swamy (independent researcher). Artifact version v2. Code: MIT licence (`LICENSE`). Data: CC BY 4.0 (`data/LICENSE.txt`), model outputs subject to the providers' terms; intended for research use.
+Sanjana Gopnal Swamy (independent researcher). Artifact version v3 (paper version 2). Code: MIT licence (`LICENSE`). Data: CC BY 4.0 (`data/LICENSE.txt`), model outputs subject to the providers' terms; intended for research use.
 
-Pre-registrations: Study 1 https://osf.io/a5vec (registered 2026-10-31); Study 2 https://osf.io/zj3an (registered 2026-11-09, `date_registered` 2026-11-09T18:35:24Z). Both texts are in `preregistration/`. Archived copy of this repository, with the paper source and the two PDFs in the same record: https://doi.org/10.5281/zenodo.24226165. Repository: https://github.com/gssanjana4/concurrency-bench.
+Registrations: Study 1 https://osf.io/a5vec (registered 2026-10-31, before its run); Study 2 https://osf.io/zj3an (registered 2026-11-09, `date_registered` 2026-11-09T18:35:24Z, before its run); Study 3 https://osf.io/3pa4k (retrospective, `date_registered` 2026-11-16T01:07:17Z: its plan was uploaded to the OSF project at 2026-11-15T05:52:58Z, before the run, but the registration filed then failed to archive; see `osf_registration_records.md` and `study3/STUDY3_FILING_RECORD.md`). The three texts are in `preregistration/`. Archived copy of this repository, with the paper source and the two PDFs in the same record: https://doi.org/10.5281/zenodo.24226164 (all versions; version 1 of the paper is https://doi.org/10.5281/zenodo.24226165). Repository: https://github.com/gssanjana4/concurrency-bench.
 
 ## What this is
 
-Two pre-registered studies of whether LLM agents, each in its own conversation, coordinate when they act on the same versioned records through tool calls. A seeded scheduler interleaves their calls; the coordination primitives offered (none, conditional writes, fenced locks, both) and the prompt's mention of other agents are varied; scoring is deterministic from the ledger and the server call log (no LLM judge). Study 1 is the first run (frozen harness `src4/`). Four hard reviews of it found harness design flaws (`CHANGES_V2.md`), so Study 2 re-ran a corrected harness (`src5/`) with matched uncontended controls, fenced locks and first-reply probes, under a second registration. Study 1 is reported with its deviations; Study 2 carries the registered confirmatory tests of the corrected design.
+Three studies of whether LLM agents, each in its own conversation, coordinate when they act on the same versioned records through tool calls. A seeded scheduler interleaves their calls; the coordination primitives offered (none, conditional writes, fenced locks, both) and the prompt's mention of other agents are varied; scoring is deterministic from the ledger and the server call log (no LLM judge). Study 1 is the first run (frozen harness `src4/`). Four hard reviews of it found harness design flaws (`CHANGES_V2.md`), so Study 2 re-ran a corrected harness (`src5/`) with matched uncontended controls, fenced locks and first-reply probes, under a second registration. Study 1 is reported with its deviations; Study 2 carries the registered confirmatory tests of the corrected design. Study 3 (`study3/`) tests what Study 2 suggested post hoc: distinct amounts, a lock text that asks for reads under the lease and reports waits and locked records, and a staggered start, with the same three confirmatory models.
 
 ## Layout
 
@@ -32,6 +32,8 @@ Two pre-registered studies of whether LLM agents, each in its own conversation, 
 | `SHA256SUMS`, `BUILD_INFO.json` | sha256 of every shipped file (`sha256sum -c SHA256SUMS`, on macOS `shasum -a 256 -c SHA256SUMS`); how and when this artifact was built and which checks passed |
 | `tools/` | `make_artifact_v2.py` (built this artifact; its docstring lists every inclusion, exclusion and edit), `make_anon_artifact.py` (identity rules of the review build), `compare_json.py` |
 | `.study2_registered` | the marker written on the Mac after the OSF registration was confirmed; `run_conc_s2go.sh` and `run_conc_elig.sh` refuse to run without it |
+| `study3/` | Study 3: `src6/`, `src6_batch/`, `src6_verify/` and `run_conc_study3.sh` (frozen harness, batch layer, dry check and runner; `src6/FREEZE.md` lists the 32 frozen sha256), `analysis6/` (the frozen registered analysis `analyze6.py`, its tests, power simulations, the registered dry-run outputs in `out/` and the run's outputs in `out_study3/`), `paper6/` (`descriptives6.py`, the paper's descriptive macros and tables; `posthoc6.py`, exploratory transcript counts), `tools/` (fixture and freeze-table builders), the plan `PREREGISTRATION_STUDY3.md`, `STUDY3_DESIGN.md`, `PRESPEND_REVIEW_S3.md` (the pre-spend internal review and its fixes), `STUDY3_FILING_RECORD.md` and `osf_upload/` (the three files uploaded to the OSF before the run) |
+| `data/results6/study3/` | Study 3 data: see `data/README.md` |
 
 ## Frozen and registered hashes
 
@@ -102,6 +104,26 @@ python3 src5_verify/mutate5.py                                           # mutat
 
 **Paid run.** Create `.env` with `ANTHROPIC_API_KEY`, `OPENROUTER_API_KEY`, `GEMINI_API_KEY`, then `bash run_conc_study2.sh` (or `bash run_conc_s2go.sh`, which also logs the OpenRouter key balance before and after and refuses to start without `.study2_registered`). The script refuses to start if any frozen file differs from `src5/FREEZE.md` or the validity gate fails; it spends at most the per-provider caps in its header (Anthropic $19, OpenRouter $28, Gemini $22, total $69; the registered run spent $46.40). Haiku, Sonnet and Fable run through the Anthropic Message Batches API, Gemini through the Google Batch API, Qwen and GPT-5.5 sync through OpenRouter (Qwen pinned to the Alibaba host). Model versions and prices move: a new run is a new study, not a reproduction of this one. The eligibility step between the probe block and the analysis is `run_conc_elig.sh`.
 
+## Study 3
+
+Run from `study3/`. Python 3.10 or later, standard library only for the harness and the analysis.
+
+```
+python3 -I src6/freeze6.py --check                                   # FREEZE OK (32 files)
+python3 -I analysis6/analyze6.py analyze --base ../data/results6/study3 --out analysis6/out_rerun   # 44 tests, about 15 s
+python3 -I ../tools/compare_json.py analysis6/out_rerun/results.json analysis6/out_study3/results.json
+python3 paper6/descriptives6.py <paper latex folder>                  # the paper's Study 3 macros and tables
+```
+
+The registered outputs were written with Python 3.10. Python 3.12 changed `sum()` of floats to a compensated sum, so a
+rerun on 3.12 or later agrees in every value up to about 1e-14, except that the pooled S3-H1 estimate under
+`locks_s2text`, exactly 0.625, prints as 0.62 instead of 0.63 in `numbers.tex` and in two claim strings of
+`results.json`. Tests: `cd src6 && python3 -m unittest tests6` (105), `cd src6_batch && python3 -m unittest tests_batch` (24,
+needs the `anthropic` SDK), `python3 analysis6/tests_analyze6.py` (18). Dry run with fake models (no keys, no money):
+`bash run_conc_study3.sh --dry-run --base results6/study3_dry`, then `python3 src6_verify/dry_check6.py results6/study3_dry`. The paid run
+refuses to start without `.study3_registered` (see `STUDY3_FILING_RECORD.md` for what that marker did and did not
+guarantee).
+
 ## Study 1
 
 The Study 1 data are in `data/results4/full/` and `data/results_sql/`. The Study 1 pipeline runs as on the build machine, with the data location given explicitly:
@@ -132,22 +154,22 @@ Excluded: `batch_state/` and `held_for_pair/` directories, `__pycache__`, `.env`
 
 ## AI use
 
-This work was AI-assisted: Claude models (Anthropic, which also provides three of the six evaluated models) assisted under the author's direction and review. The author chose the research question, scope and budget, reviewed and approved the designs, hypotheses and analysis plans, filed both registrations under her own account and ran the experiments on her machine with her API credit (the Study 2 run was started by a queued job on her Mac after the registration was filed; `STUDY2_RUN_LOG.md`). The paper's Acknowledgments carry its AI-use statement.
+This work was AI-assisted: Claude models (Anthropic, which also provides three of the six evaluated models) assisted under the author's direction and review. The author chose the research question, scope and budget, reviewed and approved the designs, hypotheses and analysis plans, filed the registrations under her own account and ran the experiments on her machine with her API credit (the Study 2 run was started by a queued job on her Mac after the registration was filed; `STUDY2_RUN_LOG.md`). The paper's Acknowledgments carry its AI-use statement.
 
 ## Cite
 
 ```
-Gopnal Swamy, Sanjana. Do LLM Agents Coordinate on Shared Records? Two Pre-registered Studies of Optional Protection on a Record API. 2026. Preprint. Code and data: https://doi.org/10.5281/zenodo.24226165 and https://github.com/gssanjana4/concurrency-bench
+Gopnal Swamy, Sanjana. Do LLM Agents Coordinate on Shared Records? Three Studies of Optional Protection on a Record API. 2026. Preprint. Code and data: https://doi.org/10.5281/zenodo.24226164 and https://github.com/gssanjana4/concurrency-bench
 ```
 
 ```bibtex
 @misc{gopnalswamy2026coordinate,
   author       = {Gopnal Swamy, Sanjana},
-  title        = {Do LLM Agents Coordinate on Shared Records? Two Pre-registered Studies of Optional Protection on a Record API},
+  title        = {Do LLM Agents Coordinate on Shared Records? Three Studies of Optional Protection on a Record API},
   year         = {2026},
   howpublished = {Preprint},
-  note         = {Code and data: https://doi.org/10.5281/zenodo.24226165 and https://github.com/gssanjana4/concurrency-bench; pre-registrations https://osf.io/a5vec and https://osf.io/zj3an}
+  note         = {Code and data: https://doi.org/10.5281/zenodo.24226164 and https://github.com/gssanjana4/concurrency-bench; registrations https://osf.io/a5vec, https://osf.io/zj3an and https://osf.io/3pa4k (retrospective)}
 }
 ```
 
-Built 2026-11-14 (UTC) by `tools/make_artifact_v2.py` (public mode); 11,272 files. Study 2 transcripts: probe-anthropic 896, probe-gemini 896, probe-openrouter 896, n2-anthropic 992, n2-gemini 672, n2-openrouter 640. Wrappers included: run_conc_s2go.sh, run_conc_s2dry.sh, run_conc_elig.sh. Some files were edited after the build, on 2026-11-14 (documentation, the archive DOI and citation, wording in the deviations rows and table captions); the commit history of the repository lists them, and their lines in `SHA256SUMS` were refreshed.
+Built 2026-11-14 (UTC) by `tools/make_artifact_v2.py` (public mode); 11,272 files. Study 2 transcripts: probe-anthropic 896, probe-gemini 896, probe-openrouter 896, n2-anthropic 992, n2-gemini 672, n2-openrouter 640. Wrappers included: run_conc_s2go.sh, run_conc_s2dry.sh, run_conc_elig.sh. Some files were edited after the build, on 2026-11-14 (documentation, the archive DOI and citation, wording in the deviations rows and table captions), and Study 3 (`study3/`, `data/results6/`) was added on 2026-11-16; the commit history of the repository lists the changes, and `SHA256SUMS` was refreshed.

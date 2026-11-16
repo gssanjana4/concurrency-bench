@@ -1,0 +1,1855 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.007870499999999999,
+   "executions": [
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:common-fund-summit"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 5,
+      "ok": true,
+      "record_id": "account:common-fund-summit",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01PMV1ZdnQkeBhupDhmoqAom"
+    },
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:branch-summit-fjord"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 5,
+      "ok": true,
+      "record_id": "account:branch-summit-fjord",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01SRzAiS7aPbu1U1u7RTRpu4"
+    },
+    {
+     "args": {
+      "record_id": "account:common-fund-summit"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:common-fund-summit",
+      "status": 200,
+      "value": "60.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01JjghLFrXTy2qPsgSE4341p"
+    },
+    {
+     "args": {
+      "record_id": "account:branch-summit-fjord"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:branch-summit-fjord",
+      "status": 200,
+      "value": "50.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01MmgekS1gWkQmeSKXqWCgae"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "fencing_token": 1,
+      "record_id": "account:common-fund-summit",
+      "value": 0.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "lease_remaining": 1,
+      "ok": true,
+      "record_id": "account:common-fund-summit",
+      "status": 200,
+      "value": "0.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01WTjoNaKdEoQmMNSeUZx3TA"
+    },
+    {
+     "args": {
+      "expected_version": 1,
+      "fencing_token": 1,
+      "record_id": "account:branch-summit-fjord",
+      "value": 110.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "lease_remaining": 1,
+      "ok": true,
+      "record_id": "account:branch-summit-fjord",
+      "status": 200,
+      "value": "110.00",
+      "version": 2
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01NVZVpdJMc6FyYXYecRjNHd"
+    },
+    {
+     "args": {
+      "record_id": "account:common-fund-summit"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold a lock on account:common-fund-summit.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01L4BSw8dzc91a1787cXbA2T"
+    },
+    {
+     "args": {
+      "record_id": "account:branch-summit-fjord"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold a lock on account:branch-summit-fjord.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01BdP77XJAgyqFUoXZAkd8sx"
+    }
+   ],
+   "final_text": "The locks have already expired naturally. Successfully transferred 60.00 from account:common-fund-summit (reducing it to 0.00) to account:branch-summit-fjord (increasing it to 110.00).",
+   "first_reply": "lock",
+   "intent": "Transfer 60.00 out of account:common-fund-summit into account:branch-summit-fjord, but only if account:common-fund-summit has at least 60.00.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll complete this task by first checking the balance of account:common-fund-summit, then transferring the funds if the balance is sufficient.\n\nLet me start by acquiring locks on both accounts and reading the source account balance:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PMV1ZdnQkeBhupDhmoqAom",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01SRzAiS7aPbu1U1u7RTRpu4",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:branch-summit-fjord"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 5, \"ok\": true, \"record_id\": \"account:common-fund-summit\", \"status\": 200}",
+       "tool_use_id": "toolu_01PMV1ZdnQkeBhupDhmoqAom",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 5, \"ok\": true, \"record_id\": \"account:branch-summit-fjord\", \"status\": 200}",
+       "tool_use_id": "toolu_01SRzAiS7aPbu1U1u7RTRpu4",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now let me read both account balances:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JjghLFrXTy2qPsgSE4341p",
+       "input": {
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01MmgekS1gWkQmeSKXqWCgae",
+       "input": {
+        "record_id": "account:branch-summit-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:common-fund-summit\", \"status\": 200, \"value\": \"60.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01JjghLFrXTy2qPsgSE4341p",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:branch-summit-fjord\", \"status\": 200, \"value\": \"50.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01MmgekS1gWkQmeSKXqWCgae",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! The common-fund-summit account has exactly 60.00, which meets the requirement. Now I'll transfer the funds:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WTjoNaKdEoQmMNSeUZx3TA",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:common-fund-summit",
+        "value": 0.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01NVZVpdJMc6FyYXYecRjNHd",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:branch-summit-fjord",
+        "value": 110.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 1, \"ok\": true, \"record_id\": \"account:common-fund-summit\", \"status\": 200, \"value\": \"0.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01WTjoNaKdEoQmMNSeUZx3TA",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"lease_remaining\": 1, \"ok\": true, \"record_id\": \"account:branch-summit-fjord\", \"status\": 200, \"value\": \"110.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01NVZVpdJMc6FyYXYecRjNHd",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now let me release the locks:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01L4BSw8dzc91a1787cXbA2T",
+       "input": {
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01BdP77XJAgyqFUoXZAkd8sx",
+       "input": {
+        "record_id": "account:branch-summit-fjord"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold a lock on account:common-fund-summit.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01L4BSw8dzc91a1787cXbA2T",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold a lock on account:branch-summit-fjord.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01BdP77XJAgyqFUoXZAkd8sx",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The locks have already expired naturally. Successfully transferred 60.00 from account:common-fund-summit (reducing it to 0.00) to account:branch-summit-fjord (increasing it to 110.00).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 4,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Transfer 60.00 out of account:common-fund-summit into account:branch-summit-fjord, but only if account:common-fund-summit has at least 60.00.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-15T06:11:14Z",
+     "content": [
+      {
+       "text": "I'll complete this task by first checking the balance of account:common-fund-summit, then transferring the funds if the balance is sufficient.\n\nLet me start by acquiring locks on both accounts and reading the source account balance:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PMV1ZdnQkeBhupDhmoqAom",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01SRzAiS7aPbu1U1u7RTRpu4",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:branch-summit-fjord"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001368,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1776,
+      "output": 192
+     }
+    },
+    {
+     "at_utc": "2026-11-15T06:14:33Z",
+     "content": [
+      {
+       "text": "Now let me read both account balances:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JjghLFrXTy2qPsgSE4341p",
+       "input": {
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01MmgekS1gWkQmeSKXqWCgae",
+       "input": {
+        "record_id": "account:branch-summit-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001347,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2114,
+      "output": 116
+     }
+    },
+    {
+     "at_utc": "2026-11-15T06:23:22Z",
+     "content": [
+      {
+       "text": "Perfect! The common-fund-summit account has exactly 60.00, which meets the requirement. Now I'll transfer the funds:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WTjoNaKdEoQmMNSeUZx3TA",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:common-fund-summit",
+        "value": 0.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01NVZVpdJMc6FyYXYecRjNHd",
+       "input": {
+        "expected_version": 1,
+        "fencing_token": 1,
+        "record_id": "account:branch-summit-fjord",
+        "value": 110.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0018185,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2382,
+      "output": 251
+     }
+    },
+    {
+     "at_utc": "2026-11-15T06:28:42Z",
+     "content": [
+      {
+       "text": "Now let me release the locks:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01L4BSw8dzc91a1787cXbA2T",
+       "input": {
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01BdP77XJAgyqFUoXZAkd8sx",
+       "input": {
+        "record_id": "account:branch-summit-fjord"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0016795,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2789,
+      "output": 114
+     }
+    },
+    {
+     "at_utc": "2026-11-15T06:34:45Z",
+     "content": [
+      {
+       "text": "The locks have already expired naturally. Successfully transferred 60.00 from account:common-fund-summit (reducing it to 0.00) to account:branch-summit-fjord (increasing it to 110.00).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0016575,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 3055,
+      "output": 52
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 12116,
+    "output": 725
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 4,
+   "cost_usd": 0.0057895,
+   "executions": [
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:common-fund-summit"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 5,
+      "note": "The record was locked when you asked; this call waited 16 rounds before the lock was granted. Values you read before this grant may be out of date.",
+      "ok": true,
+      "record_id": "account:common-fund-summit",
+      "status": 200,
+      "waited_rounds": 16
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01ENegtYC86UMq9i2hk3dEWn"
+    },
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:branch-summit-heron"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 5,
+      "ok": true,
+      "record_id": "account:branch-summit-heron",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01UF31pb16fZvMRSABWhm2JV"
+    },
+    {
+     "args": {
+      "record_id": "account:common-fund-summit"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:common-fund-summit",
+      "status": 200,
+      "value": "0.00",
+      "version": 2
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01MsooSTdqDKUfbyi7SAArcP"
+    },
+    {
+     "args": {
+      "record_id": "account:branch-summit-heron"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:branch-summit-heron",
+      "status": 200,
+      "value": "50.00",
+      "version": 1
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01GdwVBNoyDx9ahcdpRConX3"
+    },
+    {
+     "args": {
+      "record_id": "account:common-fund-summit"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:common-fund-summit",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_017vi8f862PWWXdNohoUW1m3"
+    },
+    {
+     "args": {
+      "record_id": "account:branch-summit-heron"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:branch-summit-heron",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01JMQrUBnXuGvS3giQsXK1b3"
+    }
+   ],
+   "final_text": "Transfer not executed: account:common-fund-summit has 0.00, which is below the required 60.00 minimum.",
+   "first_reply": "lock",
+   "intent": "Transfer 60.00 out of account:common-fund-summit into account:branch-summit-heron, but only if account:common-fund-summit has at least 60.00.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you transfer 60.00 from account:common-fund-summit to account:branch-summit-heron, but only if the source account has at least 60.00. Let me start by acquiring locks on both accounts and checking the balance.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01ENegtYC86UMq9i2hk3dEWn",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UF31pb16fZvMRSABWhm2JV",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:branch-summit-heron"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 5, \"note\": \"The record was locked when you asked; this call waited 16 rounds before the lock was granted. Values you read before this grant may be out of date.\", \"ok\": true, \"record_id\": \"account:common-fund-summit\", \"status\": 200, \"waited_rounds\": 16}",
+       "tool_use_id": "toolu_01ENegtYC86UMq9i2hk3dEWn",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 5, \"ok\": true, \"record_id\": \"account:branch-summit-heron\", \"status\": 200}",
+       "tool_use_id": "toolu_01UF31pb16fZvMRSABWhm2JV",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now let me read both account balances:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01MsooSTdqDKUfbyi7SAArcP",
+       "input": {
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01GdwVBNoyDx9ahcdpRConX3",
+       "input": {
+        "record_id": "account:branch-summit-heron"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:common-fund-summit\", \"status\": 200, \"value\": \"0.00\", \"version\": 2}",
+       "tool_use_id": "toolu_01MsooSTdqDKUfbyi7SAArcP",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:branch-summit-heron\", \"status\": 200, \"value\": \"50.00\", \"version\": 1}",
+       "tool_use_id": "toolu_01GdwVBNoyDx9ahcdpRConX3",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The common-fund-summit account has 0.00, which is less than the required 60.00, so the condition for the transfer is not met. I'll release the locks without making the transfer.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017vi8f862PWWXdNohoUW1m3",
+       "input": {
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01JMQrUBnXuGvS3giQsXK1b3",
+       "input": {
+        "record_id": "account:branch-summit-heron"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:common-fund-summit\", \"status\": 200}",
+       "tool_use_id": "toolu_017vi8f862PWWXdNohoUW1m3",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:branch-summit-heron\", \"status\": 200}",
+       "tool_use_id": "toolu_01JMQrUBnXuGvS3giQsXK1b3",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transfer not executed: account:common-fund-summit has 0.00, which is below the required 60.00 minimum.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 3,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Transfer 60.00 out of account:common-fund-summit into account:branch-summit-heron, but only if account:common-fund-summit has at least 60.00.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-15T06:11:14Z",
+     "content": [
+      {
+       "text": "I'll help you transfer 60.00 from account:common-fund-summit to account:branch-summit-heron, but only if the source account has at least 60.00. Let me start by acquiring locks on both accounts and checking the balance.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01ENegtYC86UMq9i2hk3dEWn",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01UF31pb16fZvMRSABWhm2JV",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:branch-summit-heron"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013905,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1776,
+      "output": 201
+     }
+    },
+    {
+     "at_utc": "2026-11-15T06:31:47Z",
+     "content": [
+      {
+       "text": "Now let me read both account balances:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01MsooSTdqDKUfbyi7SAArcP",
+       "input": {
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01GdwVBNoyDx9ahcdpRConX3",
+       "input": {
+        "record_id": "account:branch-summit-heron"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001374,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2168,
+      "output": 116
+     }
+    },
+    {
+     "at_utc": "2026-11-15T06:36:55Z",
+     "content": [
+      {
+       "text": "The common-fund-summit account has 0.00, which is less than the required 60.00, so the condition for the transfer is not met. I'll release the locks without making the transfer.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017vi8f862PWWXdNohoUW1m3",
+       "input": {
+        "record_id": "account:common-fund-summit"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01JMQrUBnXuGvS3giQsXK1b3",
+       "input": {
+        "record_id": "account:branch-summit-heron"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0015955,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2436,
+      "output": 151
+     }
+    },
+    {
+     "at_utc": "2026-11-15T06:39:58Z",
+     "content": [
+      {
+       "text": "Transfer not executed: account:common-fund-summit has 0.00, which is below the required 60.00 minimum.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0014295,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2699,
+      "output": 32
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 9079,
+    "output": 500
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "all_available",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__all_available__transfer_same_amount@i1__n2__s0",
+ "final_store": {
+  "account:branch-summit-fjord": {
+   "value": "110.00",
+   "version": 2
+  },
+  "account:branch-summit-heron": {
+   "value": "50.00",
+   "version": 1
+  },
+  "account:common-fund-summit": {
+   "value": "0.00",
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The locks have already expired naturally. Successfully transferred 60.00 from account:common-fund-summit (reducing it to 0.00) to account:branch-summit-fjord (increasing it to 110.00).",
+    "step": 22,
+    "turns": 8
+   },
+   {
+    "agent_id": "a1",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transfer not executed: account:common-fund-summit has 0.00, which is below the required 60.00 minimum.",
+    "step": 29,
+    "turns": 6
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:common-fund-summit"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 1,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:common-fund-summit",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 5,
+     "ok": true,
+     "record_id": "account:common-fund-summit",
+     "status": 200
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:branch-summit-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:branch-summit-fjord",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 5,
+     "ok": true,
+     "record_id": "account:branch-summit-fjord",
+     "status": 200
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 3,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:common-fund-summit"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 3,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:common-fund-summit",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:common-fund-summit",
+     "status": 200,
+     "value": "60.00",
+     "version": 1
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 5,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:branch-summit-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:branch-summit-fjord",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:branch-summit-fjord",
+     "status": 200,
+     "value": "50.00",
+     "version": 1
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:common-fund-summit",
+     "value": 0.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 1,
+    "own_call": 5,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:common-fund-summit",
+    "response": {
+     "lease_remaining": 1,
+     "ok": true,
+     "record_id": "account:common-fund-summit",
+     "status": 200,
+     "value": "0.00",
+     "version": 2
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 12,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:branch-summit-fjord",
+     "value": 110.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 1,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:branch-summit-fjord",
+    "response": {
+     "lease_remaining": 1,
+     "ok": true,
+     "record_id": "account:branch-summit-fjord",
+     "status": 200,
+     "value": "110.00",
+     "version": 2
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 14,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:common-fund-summit"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 7,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "account:common-fund-summit",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold a lock on account:common-fund-summit.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 7,
+    "status": 409,
+    "step": 17,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:common-fund-summit"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 1,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:common-fund-summit",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 5,
+     "note": "The record was locked when you asked; this call waited 16 rounds before the lock was granted. Values you read before this grant may be out of date.",
+     "ok": true,
+     "record_id": "account:common-fund-summit",
+     "status": 200,
+     "waited_rounds": 16
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 17,
+    "tool": "acquire_lock",
+    "waited_rounds": 16
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:branch-summit-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 8,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "account:branch-summit-fjord",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold a lock on account:branch-summit-fjord.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 9,
+    "status": 409,
+    "step": 18,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:branch-summit-heron"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:branch-summit-heron",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 5,
+     "ok": true,
+     "record_id": "account:branch-summit-heron",
+     "status": 200
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 19,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:common-fund-summit"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 3,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:common-fund-summit",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:common-fund-summit",
+     "status": 200,
+     "value": "0.00",
+     "version": 2
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 20,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:branch-summit-heron"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:branch-summit-heron",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:branch-summit-heron",
+     "status": 200,
+     "value": "50.00",
+     "version": 1
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 21,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:common-fund-summit"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:common-fund-summit",
+    "response": {
+     "ok": true,
+     "record_id": "account:common-fund-summit",
+     "status": 200
+    },
+    "seq": 13,
+    "status": 200,
+    "step": 25,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:branch-summit-heron"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:branch-summit-heron",
+    "response": {
+     "ok": true,
+     "record_id": "account:branch-summit-heron",
+     "status": 200
+    },
+    "seq": 14,
+    "status": 200,
+    "step": 26,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:common-fund-summit",
+     "value": 0.0
+    },
+    "new_value": "0.00",
+    "new_version": 2,
+    "old_value": "60.00",
+    "old_version": 1,
+    "record_id": "account:common-fund-summit",
+    "seq": 1,
+    "step": 12,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "expected_version": 1,
+     "fencing_token": 1,
+     "record_id": "account:branch-summit-fjord",
+     "value": 110.0
+    },
+    "new_value": "110.00",
+    "new_version": 2,
+    "old_value": "50.00",
+    "old_version": 1,
+    "record_id": "account:branch-summit-fjord",
+    "seq": 2,
+    "step": 14,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 5,
+     "own_call": 1,
+     "record_id": "account:common-fund-summit",
+     "seq": 1,
+     "step": 1,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 5,
+     "own_call": 2,
+     "record_id": "account:branch-summit-fjord",
+     "seq": 2,
+     "step": 3,
+     "token": 1
+    },
+    {
+     "event": "expire",
+     "holder": "a0",
+     "own_call": 7,
+     "record_id": "account:common-fund-summit",
+     "seq": 7,
+     "step": 17,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 5,
+     "own_call": 1,
+     "record_id": "account:common-fund-summit",
+     "seq": 8,
+     "step": 17,
+     "token": 2
+    },
+    {
+     "event": "expire",
+     "holder": "a0",
+     "own_call": 8,
+     "record_id": "account:branch-summit-fjord",
+     "seq": 9,
+     "step": 18,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 5,
+     "own_call": 2,
+     "record_id": "account:branch-summit-heron",
+     "seq": 10,
+     "step": 19,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "account:common-fund-summit",
+     "seq": 13,
+     "step": 25,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "account:branch-summit-heron",
+     "seq": 14,
+     "step": 26,
+     "token": 1
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 29,
+   "stall_step": null,
+   "stalled": false,
+   "start_mode": "together",
+   "start_rounds": {
+    "a0": 1,
+    "a1": 1
+   }
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_015ZCrB1UYmbcBtjc6138icD",
+    "msgbatch_01CXHeQHz8aTremAHxWqmVBq",
+    "msgbatch_01FSziDx2LpoMdWgaHoWjYwJ",
+    "msgbatch_01Ffz8iTSch3eLZFHBgd3mXV",
+    "msgbatch_01N3QQTtc8pz1JbtP4nqfmQT",
+    "msgbatch_01Pat3RCsXBbNffDhzY2d9SU",
+    "msgbatch_01U5TFRqQmrpqEfE8V8N9LmQ",
+    "msgbatch_01X1rjZAUT89PwdTDefQCEyf"
+   ],
+   "driver": "src6_batch/batch_driver.py",
+   "lockstep_rounds": 9,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-15T06:39:58Z",
+  "started_utc": "2026-11-15T06:07:49Z",
+  "wall_seconds": 1929.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "lead_jitter": 2,
+  "max_rounds": 3000,
+  "seed": 237283392619931085,
+  "stagger_max": 10,
+  "stagger_min": 5,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "start_mode": "together",
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": true,
+    "choices": [
+     "cas",
+     "lock"
+    ],
+    "committed_writes": 2,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 2,
+    "first_contention_call": null,
+    "first_lock_call": 1,
+    "first_perceivable_call": null,
+    "first_protective": "lock",
+    "first_protective_call": 1,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": true,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "all",
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "lock_waits_reported": 0,
+    "locked_reads": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": false,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 8,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 2,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 0,
+    "first_contention_call": 1,
+    "first_lock_call": 1,
+    "first_perceivable_call": 1,
+    "first_protective": "lock",
+    "first_protective_call": 1,
+    "fulfilled": false,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": null,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "all",
+    "lock_waits": 1,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 1,
+    "lock_waits_reported": 1,
+    "locked_reads": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 1,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": null,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 6,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "conflict",
+  "committed_agents": [
+   "a0"
+  ],
+  "config": "all_available",
+  "conflict_observed": false,
+  "cross_agent_edges": 1,
+  "cross_agent_record_edges": 1,
+  "cycle": null,
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": false,
+  "dsg_cycle": false,
+  "dsg_cycle_committed": false,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "wr",
+    "record": "account:common-fund-summit",
+    "src": "a0",
+    "version": 2
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "transfer_same_amount",
+  "fenced_stale_basis_seqs": [],
+  "fenced_unread_basis_seqs": [],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": false,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": false,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": false,
+  "interleaving": {
+   "first_mover": "a0",
+   "n_writers": 1,
+   "pattern": "R0W0R1",
+   "reads_overlap": false
+  },
+  "invariant_violations": [],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "clean",
+  "outcome_stratum": "clean",
+  "primary_label": null,
+  "rolled_back_agents": [],
+  "rounds": 29,
+  "serial_witness": [
+   "a0"
+  ],
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "transfer_same_amount@i1/n2"
+ },
+ "seed": 0,
+ "start_mode": "together",
+ "study": 3,
+ "task": {
+  "category": "conflict",
+  "description": "transfers from one source",
+  "factory": "transfer_same_amount",
+  "family": "transfer_same_amount",
+  "fingerprint": "f4d67b8412d767288aa996587c7fc28db01da9698203f76667b9de7eab27a016",
+  "initial": {
+   "account:branch-summit-fjord": "50.00",
+   "account:branch-summit-heron": "50.00",
+   "account:common-fund-summit": "60.00"
+  },
+  "instance": 1,
+  "intents": {
+   "a0": "Transfer 60.00 out of account:common-fund-summit into account:branch-summit-fjord, but only if account:common-fund-summit has at least 60.00.",
+   "a1": "Transfer 60.00 out of account:common-fund-summit into account:branch-summit-heron, but only if account:common-fund-summit has at least 60.00."
+  },
+  "kind": "account",
+  "name": "transfer_same_amount@i1/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 9,
+  "cost_usd": 0.013659999999999999,
+  "invalid_calls": 0,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 7,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 0,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 21195,
+   "output": 1225
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

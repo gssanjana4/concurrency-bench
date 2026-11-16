@@ -1,9 +1,9 @@
 # OSF registration records
 
-Both studies were registered on the OSF and both registrations are embargoed. This file lets a reader check the
+Studies 1 and 2 were registered on the OSF before their runs; Study 3's registration is retrospective (below). All three registrations are embargoed. This file lets a reader check the
 timing claims of the paper against the shipped files without the embargo being lifted. Every value below is copied
 from a record kept at the time (source named in each row); nothing here was read from the OSF after the fact, and
-no OSF setting was changed to write it. Reviewers can be given a view-only link to both registrations on request.
+no OSF setting was changed to write it. Reviewers can be given a view-only link to the registrations on request.
 
 Times are UTC. "In the artifact" paths are relative to the top of this artifact.
 
@@ -35,9 +35,30 @@ Times are UTC. "In the artifact" paths are relative to the top of this artifact.
 | eligibility file OSF upload | posted to project `9qvpt` as `eligibility_study2.json`, version 1, modified 2026-11-09T23:08:01Z; the OSF-computed sha256 equals the file's | `STUDY2_RUN_LOG.md`, "ELIGIBILITY STEP" |
 | eligibility file in the artifact | `analysis5/out_study2/eligibility.json`, sha256 `f4ad4f072fffc0e3a703ab708d61b5371e72f5481cb6f13a639f1598b228341d` | `STUDY2_RUN_LOG.md`; checked at build time by `make_artifact_v2.py` |
 
+## Study 3
+
+Study 3's plan was time-stamped on the OSF before the run, but its first registration failed, so the registration
+that exists is retrospective. The record below is complete, including the failure.
+
+| field | value | source |
+|---|---|---|
+| plan files uploaded to the OSF project | project `9qvpt`, osfstorage: `PREREGISTRATION_STUDY3.md` 2026-11-15T05:52:58Z, `SHA256SUMS_STUDY3.txt` 05:52:59Z, `study3_frozen_code_and_plan.zip` 05:52:59Z; version 1 each, not modified since; the OSF-computed sha256 of each equals the shipped copy | OSF API (`/v2/nodes/9qvpt/files/osfstorage/`), read on 2026-11-16; copies in `study3/osf_upload/` |
+| first registration | submitted about 2026-11-15T06:06Z from the same text; the OSF could not archive it ("errors copying files from some of the linked third-party services", email of 06:06:51Z) and removed it | OSF email "Problem Registering"; `/v2/registrations/h79j4/` returns 410 |
+| paid run | started 2026-11-15T06:07:18Z (freeze check, validity gate, preflight, then both lanes); lanes ended 13:48:25Z | `data/results6/study3/run_study3.log` |
+| why the run started | the run script refuses to spend without a local marker of the filing; the marker was written right after the filing was submitted, without waiting for the OSF to confirm the archive | `study3/STUDY3_FILING_RECORD.md` |
+| analysis | the frozen `analysis6/analyze6.py` on 2026-11-15, about 16:00Z | `study3/analysis6/out_study3/` |
+| failure noticed | 2026-11-16, about 01:00Z | `study3/STUDY3_FILING_RECORD.md` |
+| registration id | `3pa4k` (https://osf.io/3pa4k), in OSF project `9qvpt` | OSF API |
+| date_registered | 2026-11-16T01:07:17Z (retrospective: the form's answer on prior knowledge of the data is "Analyses in this plan have been conducted already") | OSF API |
+| embargo end | 2027-11-01 | OSF API |
+| registered text | the plan of 05:52:58Z with a filing note added at the top of the description and of the explanation of prior knowledge; nothing else changed | OSF draft `6af9480ae45abab9ff91489a` |
+| plan text in the artifact | `preregistration/PREREGISTRATION_STUDY3.md` (also `study3/PREREGISTRATION_STUDY3.md`), sha256 `85c0fb965b1598db8594fcd6db16920b334f070f4b9683d41ae4b208bd422e50` | this artifact |
+| frozen code named in the plan | `study3/src6/FREEZE.md` sha256 `7dc10fab662462e12815eb89d9c379ad10d126c79aae13da565bc657c7f3b912`; `study3/run_conc_study3.sh` sha256 `6c9a79126a0d974673883bc80ed06cea501df14bf5b4e77ba691f42932342fbe`; `study3/analysis6/analyze6.py` sha256 `55f05ef1898a99dd7aade70e2a6132635fce590f020b18ecf1cb910c040e71a6` | the plan's "Freeze" table |
+| uploaded code archive | `study3/osf_upload/study3_frozen_code_and_plan.zip`, sha256 `7924a02bce7f1ed43bd0ad529624859751f4ccfc2f3916d76026fc70596371e4` | equals the OSF-computed sha256 |
+
 ## How to check
 
-- `sha256sum preregistration/PREREGISTRATION.md preregistration/PREREGISTRATION_STUDY2.md analysis5/out_study2/eligibility.json src5/FREEZE.md run_conc_study2.sh`
+- `sha256sum preregistration/PREREGISTRATION.md preregistration/PREREGISTRATION_STUDY2.md analysis5/out_study2/eligibility.json src5/FREEZE.md run_conc_study2.sh preregistration/PREREGISTRATION_STUDY3.md study3/src6/FREEZE.md study3/run_conc_study3.sh study3/analysis6/analyze6.py study3/osf_upload/study3_frozen_code_and_plan.zip`
   must print the values above.
 - After the embargo ends (2027-11-01), or through a view-only link given on request, the OSF pages show
   `date_registered` and the registered text, and the project's file list shows the eligibility file's upload time
