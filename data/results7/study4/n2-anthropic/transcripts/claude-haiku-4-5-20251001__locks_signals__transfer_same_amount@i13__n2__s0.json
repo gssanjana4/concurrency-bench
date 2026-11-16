@@ -1,0 +1,2074 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.006771,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:sinking-fund-harbor"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:sinking-fund-harbor",
+      "status": 200,
+      "value": "195.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01D6vzy2gxXz9RUTbnYkRdLg"
+    },
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:sinking-fund-harbor"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 5,
+      "note": "The record was locked when you asked; this call waited 9 rounds before the lock was granted. Values you read before this grant may be out of date.",
+      "ok": true,
+      "record_id": "account:sinking-fund-harbor",
+      "status": 200,
+      "waited_rounds": 9
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_011mgyxp2qY7JixFUsDDk8so"
+    },
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:branch-harbor-juniper"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 5,
+      "ok": true,
+      "record_id": "account:branch-harbor-juniper",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01RzN917Vbf61UqsviAtWfeY"
+    },
+    {
+     "args": {
+      "record_id": "account:sinking-fund-harbor"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:sinking-fund-harbor",
+      "status": 200,
+      "value": "60.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01A8htqSxKMtjfBFwuasWAPv"
+    },
+    {
+     "args": {
+      "record_id": "account:sinking-fund-harbor"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:sinking-fund-harbor",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01LpeEtx2dp8j9T1yBNbx96c"
+    },
+    {
+     "args": {
+      "record_id": "account:branch-harbor-juniper"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "ok": true,
+      "record_id": "account:branch-harbor-juniper",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01KBuTpR7PM4UtpTPQACNNXD"
+    }
+   ],
+   "final_text": "Transfer not completed: account:sinking-fund-harbor has only 60.00, which is less than the required 135.00.",
+   "first_reply": "read",
+   "intent": "Transfer 135.00 out of account:sinking-fund-harbor into account:branch-harbor-juniper, but only if account:sinking-fund-harbor has at least 135.00.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you transfer 135.00 from account:sinking-fund-harbor to account:branch-harbor-juniper, but only if the source account has at least 135.00. Let me start by checking the current balance.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01D6vzy2gxXz9RUTbnYkRdLg",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:sinking-fund-harbor\", \"status\": 200, \"value\": \"195.00\"}",
+       "tool_use_id": "toolu_01D6vzy2gxXz9RUTbnYkRdLg",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! The sinking-fund-harbor account has 195.00, which is at least 135.00, so I can proceed. Now I'll acquire a lock on both accounts to perform the transfer atomically.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011mgyxp2qY7JixFUsDDk8so",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01RzN917Vbf61UqsviAtWfeY",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:branch-harbor-juniper"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 5, \"note\": \"The record was locked when you asked; this call waited 9 rounds before the lock was granted. Values you read before this grant may be out of date.\", \"ok\": true, \"record_id\": \"account:sinking-fund-harbor\", \"status\": 200, \"waited_rounds\": 9}",
+       "tool_use_id": "toolu_011mgyxp2qY7JixFUsDDk8so",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 5, \"ok\": true, \"record_id\": \"account:branch-harbor-juniper\", \"status\": 200}",
+       "tool_use_id": "toolu_01RzN917Vbf61UqsviAtWfeY",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good, I have locks on both accounts. Since the sinking-fund-harbor account was locked, let me re-read its current value to ensure it still has at least 135.00.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01A8htqSxKMtjfBFwuasWAPv",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:sinking-fund-harbor\", \"status\": 200, \"value\": \"60.00\"}",
+       "tool_use_id": "toolu_01A8htqSxKMtjfBFwuasWAPv",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The sinking-fund-harbor account now shows only 60.00, which is less than 135.00. The condition is not met, so I cannot perform the transfer. Let me release both locks.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LpeEtx2dp8j9T1yBNbx96c",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01KBuTpR7PM4UtpTPQACNNXD",
+       "input": {
+        "record_id": "account:branch-harbor-juniper"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:sinking-fund-harbor\", \"status\": 200}",
+       "tool_use_id": "toolu_01LpeEtx2dp8j9T1yBNbx96c",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:branch-harbor-juniper\", \"status\": 200}",
+       "tool_use_id": "toolu_01KBuTpR7PM4UtpTPQACNNXD",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transfer not completed: account:sinking-fund-harbor has only 60.00, which is less than the required 135.00.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 2,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Transfer 135.00 out of account:sinking-fund-harbor into account:branch-harbor-juniper, but only if account:sinking-fund-harbor has at least 135.00.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T16:24:55Z",
+     "content": [
+      {
+       "text": "I'll help you transfer 135.00 from account:sinking-fund-harbor to account:branch-harbor-juniper, but only if the source account has at least 135.00. Let me start by checking the current balance.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01D6vzy2gxXz9RUTbnYkRdLg",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001104,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1633,
+      "output": 115
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:37:07Z",
+     "content": [
+      {
+       "text": "Great! The sinking-fund-harbor account has 195.00, which is at least 135.00, so I can proceed. Now I'll acquire a lock on both accounts to perform the transfer atomically.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011mgyxp2qY7JixFUsDDk8so",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01RzN917Vbf61UqsviAtWfeY",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:branch-harbor-juniper"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00138,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1800,
+      "output": 192
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:55:54Z",
+     "content": [
+      {
+       "text": "Good, I have locks on both accounts. Since the sinking-fund-harbor account was locked, let me re-read its current value to ensure it still has at least 135.00.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01A8htqSxKMtjfBFwuasWAPv",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001352,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2184,
+      "output": 104
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:13:54Z",
+     "content": [
+      {
+       "text": "The sinking-fund-harbor account now shows only 60.00, which is less than 135.00. The condition is not met, so I cannot perform the transfer. Let me release both locks.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01LpeEtx2dp8j9T1yBNbx96c",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01KBuTpR7PM4UtpTPQACNNXD",
+       "input": {
+        "record_id": "account:branch-harbor-juniper"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00155,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2340,
+      "output": 152
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:15:26Z",
+     "content": [
+      {
+       "text": "Transfer not completed: account:sinking-fund-harbor has only 60.00, which is less than the required 135.00.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001385,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2605,
+      "output": 33
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 10562,
+    "output": 596
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 8,
+   "cost_usd": 0.0123485,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:sinking-fund-harbor"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:sinking-fund-harbor",
+      "status": 200,
+      "value": "195.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01B4A4MgHVqGqjr1vmFMWbqt"
+    },
+    {
+     "args": {
+      "lease_calls": 3,
+      "record_id": "account:sinking-fund-harbor"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 3,
+      "ok": true,
+      "record_id": "account:sinking-fund-harbor",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01XDe5bX9wKqmYqqRCNcie8q"
+    },
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "account:sinking-fund-harbor",
+      "value": 60.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "lease_remaining": 2,
+      "ok": true,
+      "record_id": "account:sinking-fund-harbor",
+      "status": 200,
+      "value": "60.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01UZBn9SNyAyRhwSarT2buJU"
+    },
+    {
+     "args": {
+      "record_id": "account:branch-harbor-amber"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:branch-harbor-amber",
+      "status": 200,
+      "value": "90.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01P9SFBZrMSq19cEw9UcfP1E"
+    },
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "account:branch-harbor-amber",
+      "value": 225.0
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "invalid_arguments",
+      "message": "400 Bad Request: 1 is not a fencing token for account:branch-harbor-amber.",
+      "ok": false,
+      "status": 400
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_0195REDUotFBfDWxgDnTFyw9"
+    },
+    {
+     "args": {
+      "record_id": "account:branch-harbor-amber",
+      "value": 225.0
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:branch-harbor-amber",
+      "status": 200,
+      "value": "225.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01MXk3j6JJ2nK6ptfag5PJG8"
+    },
+    {
+     "args": {
+      "record_id": "account:sinking-fund-harbor"
+     },
+     "completion": 5,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold a lock on account:sinking-fund-harbor.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01JEJW64kCWRvbSXwyYfBV4R"
+    },
+    {
+     "args": {
+      "record_id": "account:sinking-fund-harbor"
+     },
+     "completion": 6,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "locked": true,
+      "ok": true,
+      "record_id": "account:sinking-fund-harbor",
+      "status": 200,
+      "value": "60.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01Gkaj1L89eP7pt2fjq8BQZt"
+    },
+    {
+     "args": {
+      "record_id": "account:branch-harbor-amber"
+     },
+     "completion": 6,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:branch-harbor-amber",
+      "status": 200,
+      "value": "225.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01X98btmTdY7mqesMHxYm3H7"
+    }
+   ],
+   "final_text": "Transfer complete: 135.00 moved from account:sinking-fund-harbor (now 60.00) to account:branch-harbor-amber (now 225.00).",
+   "first_reply": "read",
+   "intent": "Transfer 135.00 out of account:sinking-fund-harbor into account:branch-harbor-amber, but only if account:sinking-fund-harbor has at least 135.00.",
+   "invalid_calls": [
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "account:branch-harbor-amber",
+      "value": 225.0
+     },
+     "error": "400 Bad Request: 1 is not a fencing token for account:branch-harbor-amber.",
+     "status": 400,
+     "tool": "update_record",
+     "tool_use_id": "toolu_0195REDUotFBfDWxgDnTFyw9"
+    }
+   ],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you transfer 135.00 from account:sinking-fund-harbor to account:branch-harbor-amber, but only if the source account has at least 135.00. Let me start by checking the balance of the sinking fund account.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01B4A4MgHVqGqjr1vmFMWbqt",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:sinking-fund-harbor\", \"status\": 200, \"value\": \"195.00\"}",
+       "tool_use_id": "toolu_01B4A4MgHVqGqjr1vmFMWbqt",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! The account:sinking-fund-harbor has 195.00, which is more than 135.00, so the transfer can proceed. Now I need to:\n1. Acquire a lock on the sinking-fund-harbor account to ensure atomicity\n2. Deduct 135.00 from account:sinking-fund-harbor\n3. Add 135.00 to account:branch-harbor-amber\n\nLet me acquire the lock on the sinking-fund-harbor account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01XDe5bX9wKqmYqqRCNcie8q",
+       "input": {
+        "lease_calls": 3,
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 3, \"ok\": true, \"record_id\": \"account:sinking-fund-harbor\", \"status\": 200}",
+       "tool_use_id": "toolu_01XDe5bX9wKqmYqqRCNcie8q",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! Now I'll update both accounts. First, let me deduct 135.00 from the sinking-fund-harbor account (195.00 - 135.00 = 60.00):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01UZBn9SNyAyRhwSarT2buJU",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:sinking-fund-harbor",
+        "value": 60.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01P9SFBZrMSq19cEw9UcfP1E",
+       "input": {
+        "record_id": "account:branch-harbor-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 2, \"ok\": true, \"record_id\": \"account:sinking-fund-harbor\", \"status\": 200, \"value\": \"60.00\"}",
+       "tool_use_id": "toolu_01UZBn9SNyAyRhwSarT2buJU",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:branch-harbor-amber\", \"status\": 200, \"value\": \"90.00\"}",
+       "tool_use_id": "toolu_01P9SFBZrMSq19cEw9UcfP1E",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! The sinking-fund-harbor account now has 60.00, and the branch-harbor-amber account currently has 90.00. Now I'll add 135.00 to it (90.00 + 135.00 = 225.00):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0195REDUotFBfDWxgDnTFyw9",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:branch-harbor-amber",
+        "value": 225.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"invalid_arguments\", \"message\": \"400 Bad Request: 1 is not a fencing token for account:branch-harbor-amber.\", \"ok\": false, \"status\": 400}",
+       "is_error": true,
+       "tool_use_id": "toolu_0195REDUotFBfDWxgDnTFyw9",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I see - the fencing token is specific to the locked record. Since I only locked account:sinking-fund-harbor, I don't need a fencing token for the other account. Let me update it without the token:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01MXk3j6JJ2nK6ptfag5PJG8",
+       "input": {
+        "record_id": "account:branch-harbor-amber",
+        "value": 225.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:branch-harbor-amber\", \"status\": 200, \"value\": \"225.00\"}",
+       "tool_use_id": "toolu_01MXk3j6JJ2nK6ptfag5PJG8",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Excellent! Now let me release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JEJW64kCWRvbSXwyYfBV4R",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold a lock on account:sinking-fund-harbor.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01JEJW64kCWRvbSXwyYfBV4R",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The lock appears to have already expired (since we made 3 tool calls and the lease was for 3 calls). That's fine - the transfer is complete. Let me verify the final states:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Gkaj1L89eP7pt2fjq8BQZt",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01X98btmTdY7mqesMHxYm3H7",
+       "input": {
+        "record_id": "account:branch-harbor-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"locked\": true, \"ok\": true, \"record_id\": \"account:sinking-fund-harbor\", \"status\": 200, \"value\": \"60.00\"}",
+       "tool_use_id": "toolu_01Gkaj1L89eP7pt2fjq8BQZt",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:branch-harbor-amber\", \"status\": 200, \"value\": \"225.00\"}",
+       "tool_use_id": "toolu_01X98btmTdY7mqesMHxYm3H7",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transfer complete: 135.00 moved from account:sinking-fund-harbor (now 60.00) to account:branch-harbor-amber (now 225.00).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 2,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Transfer 135.00 out of account:sinking-fund-harbor into account:branch-harbor-amber, but only if account:sinking-fund-harbor has at least 135.00.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T16:20:47Z",
+     "content": [
+      {
+       "text": "I'll help you transfer 135.00 from account:sinking-fund-harbor to account:branch-harbor-amber, but only if the source account has at least 135.00. Let me start by checking the balance of the sinking fund account.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01B4A4MgHVqGqjr1vmFMWbqt",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0011135,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1632,
+      "output": 119
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:28:17Z",
+     "content": [
+      {
+       "text": "Good! The account:sinking-fund-harbor has 195.00, which is more than 135.00, so the transfer can proceed. Now I need to:\n1. Acquire a lock on the sinking-fund-harbor account to ensure atomicity\n2. Deduct 135.00 from account:sinking-fund-harbor\n3. Add 135.00 to account:branch-harbor-amber\n\nLet me acquire the lock on the sinking-fund-harbor account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01XDe5bX9wKqmYqqRCNcie8q",
+       "input": {
+        "lease_calls": 3,
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013815,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1803,
+      "output": 192
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:32:52Z",
+     "content": [
+      {
+       "text": "Perfect! Now I'll update both accounts. First, let me deduct 135.00 from the sinking-fund-harbor account (195.00 - 135.00 = 60.00):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01UZBn9SNyAyRhwSarT2buJU",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:sinking-fund-harbor",
+        "value": 60.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01P9SFBZrMSq19cEw9UcfP1E",
+       "input": {
+        "record_id": "account:branch-harbor-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0015045,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2049,
+      "output": 192
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:40:31Z",
+     "content": [
+      {
+       "text": "Great! The sinking-fund-harbor account now has 60.00, and the branch-harbor-amber account currently has 90.00. Now I'll add 135.00 to it (90.00 + 135.00 = 225.00):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_0195REDUotFBfDWxgDnTFyw9",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:branch-harbor-amber",
+        "value": 225.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001595,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2385,
+      "output": 161
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:49:59Z",
+     "content": [
+      {
+       "text": "I see - the fencing token is specific to the locked record. Since I only locked account:sinking-fund-harbor, I don't need a fencing token for the other account. Let me update it without the token:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01MXk3j6JJ2nK6ptfag5PJG8",
+       "input": {
+        "record_id": "account:branch-harbor-amber",
+        "value": 225.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001628,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2611,
+      "output": 129
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:53:32Z",
+     "content": [
+      {
+       "text": "Excellent! Now let me release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JEJW64kCWRvbSXwyYfBV4R",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001575,
+     "index": 6,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2785,
+      "output": 73
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:11:38Z",
+     "content": [
+      {
+       "text": "The lock appears to have already expired (since we made 3 tool calls and the lease was for 3 calls). That's fine - the transfer is complete. Let me verify the final states:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Gkaj1L89eP7pt2fjq8BQZt",
+       "input": {
+        "record_id": "account:sinking-fund-harbor"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01X98btmTdY7mqesMHxYm3H7",
+       "input": {
+        "record_id": "account:branch-harbor-amber"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001834,
+     "index": 7,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2923,
+      "output": 149
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:15:26Z",
+     "content": [
+      {
+       "text": "Transfer complete: 135.00 moved from account:sinking-fund-harbor (now 60.00) to account:branch-harbor-amber (now 225.00).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001717,
+     "index": 8,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 3219,
+      "output": 43
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 19407,
+    "output": 1058
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "locks_signals",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__locks_signals__transfer_same_amount@i13__n2__s0",
+ "final_store": {
+  "account:branch-harbor-amber": {
+   "value": "225.00",
+   "version": 2
+  },
+  "account:branch-harbor-juniper": {
+   "value": "90.00",
+   "version": 1
+  },
+  "account:sinking-fund-harbor": {
+   "value": "60.00",
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transfer complete: 135.00 moved from account:sinking-fund-harbor (now 60.00) to account:branch-harbor-amber (now 225.00).",
+    "step": 40,
+    "turns": 9
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transfer not completed: account:sinking-fund-harbor has only 60.00, which is less than the required 135.00.",
+    "step": 40,
+    "turns": 6
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:sinking-fund-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:sinking-fund-harbor",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:sinking-fund-harbor",
+     "status": 200,
+     "value": "195.00"
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:sinking-fund-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:sinking-fund-harbor",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:sinking-fund-harbor",
+     "status": 200,
+     "value": "195.00"
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 3,
+     "record_id": "account:sinking-fund-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 3,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:sinking-fund-harbor",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 3,
+     "ok": true,
+     "record_id": "account:sinking-fund-harbor",
+     "status": 200
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 9,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:sinking-fund-harbor",
+     "value": 60.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 2,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:sinking-fund-harbor",
+    "response": {
+     "lease_remaining": 2,
+     "ok": true,
+     "record_id": "account:sinking-fund-harbor",
+     "status": 200,
+     "value": "60.00"
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 12,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:branch-harbor-amber"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:branch-harbor-amber",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:branch-harbor-amber",
+     "status": 200,
+     "value": "90.00"
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 14,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:branch-harbor-amber",
+     "value": 225.0
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": null,
+    "reason": "invalid_arguments",
+    "record_id": "account:branch-harbor-amber",
+    "response": {
+     "error": "invalid_arguments",
+     "message": "400 Bad Request: 1 is not a fencing token for account:branch-harbor-amber.",
+     "ok": false,
+     "status": 400
+    },
+    "seq": 6,
+    "status": 400,
+    "step": 18,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:branch-harbor-amber",
+     "value": 225.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:branch-harbor-amber",
+    "response": {
+     "ok": true,
+     "record_id": "account:branch-harbor-amber",
+     "status": 200,
+     "value": "225.00"
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 21,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:sinking-fund-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:sinking-fund-harbor",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 5,
+     "note": "The record was locked when you asked; this call waited 9 rounds before the lock was granted. Values you read before this grant may be out of date.",
+     "ok": true,
+     "record_id": "account:sinking-fund-harbor",
+     "status": 200,
+     "waited_rounds": 9
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 22,
+    "tool": "acquire_lock",
+    "waited_rounds": 9
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:branch-harbor-juniper"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:branch-harbor-juniper",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 5,
+     "ok": true,
+     "record_id": "account:branch-harbor-juniper",
+     "status": 200
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 23,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:sinking-fund-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 7,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "account:sinking-fund-harbor",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold a lock on account:sinking-fund-harbor.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 10,
+    "status": 409,
+    "step": 26,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:sinking-fund-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:sinking-fund-harbor",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:sinking-fund-harbor",
+     "status": 200,
+     "value": "60.00"
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 28,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:sinking-fund-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 8,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:sinking-fund-harbor",
+    "response": {
+     "kind": "account",
+     "locked": true,
+     "ok": true,
+     "record_id": "account:sinking-fund-harbor",
+     "status": 200,
+     "value": "60.00"
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 30,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:branch-harbor-amber"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 9,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:branch-harbor-amber",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:branch-harbor-amber",
+     "status": 200,
+     "value": "225.00"
+    },
+    "seq": 13,
+    "status": 200,
+    "step": 33,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:sinking-fund-harbor"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:sinking-fund-harbor",
+    "response": {
+     "ok": true,
+     "record_id": "account:sinking-fund-harbor",
+     "status": 200
+    },
+    "seq": 14,
+    "status": 200,
+    "step": 33,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:branch-harbor-juniper"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:branch-harbor-juniper",
+    "response": {
+     "ok": true,
+     "record_id": "account:branch-harbor-juniper",
+     "status": 200
+    },
+    "seq": 15,
+    "status": 200,
+    "step": 35,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:sinking-fund-harbor",
+     "value": 60.0
+    },
+    "new_value": "60.00",
+    "new_version": 2,
+    "old_value": "195.00",
+    "old_version": 1,
+    "record_id": "account:sinking-fund-harbor",
+    "seq": 1,
+    "step": 12,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:branch-harbor-amber",
+     "value": 225.0
+    },
+    "new_value": "225.00",
+    "new_version": 2,
+    "old_value": "90.00",
+    "old_version": 1,
+    "record_id": "account:branch-harbor-amber",
+    "seq": 2,
+    "step": 21,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 3,
+     "own_call": 2,
+     "record_id": "account:sinking-fund-harbor",
+     "seq": 3,
+     "step": 9,
+     "token": 1
+    },
+    {
+     "event": "expire",
+     "holder": "a1",
+     "own_call": 6,
+     "record_id": "account:sinking-fund-harbor",
+     "seq": 7,
+     "step": 21,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 5,
+     "own_call": 2,
+     "record_id": "account:sinking-fund-harbor",
+     "seq": 8,
+     "step": 22,
+     "token": 2
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 5,
+     "own_call": 3,
+     "record_id": "account:branch-harbor-juniper",
+     "seq": 9,
+     "step": 23,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a0",
+     "record_id": "account:sinking-fund-harbor",
+     "seq": 14,
+     "step": 33,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a0",
+     "record_id": "account:branch-harbor-juniper",
+     "seq": 15,
+     "step": 35,
+     "token": 1
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 40,
+   "stall_step": null,
+   "stalled": false,
+   "start_mode": "together",
+   "start_rounds": {
+    "a0": 6,
+    "a1": 4
+   }
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_0134myNSkzLvokCK7xxkcPvg",
+    "msgbatch_01617BewfpRFQ9huMrPmCKpJ",
+    "msgbatch_017N88ULB9756do3WpQtSpCm",
+    "msgbatch_01BExADK9SQGF2T13BziYC3T",
+    "msgbatch_01CUhJ9VYeALGB4cprJTBBw2",
+    "msgbatch_01E4LtxsjxrUQmsTFN2jrBoM",
+    "msgbatch_01JAFHZEXN19WnqgyQkYZSVb",
+    "msgbatch_01KJXyyzxRCbrbcxSJv5GrdZ",
+    "msgbatch_01M7oSAMGyAe487VpGeMqFXT",
+    "msgbatch_01QRRWPBauqsazZ1Zxty6B7y",
+    "msgbatch_01VXobDyiYqygJ8mgi5EzvWY",
+    "msgbatch_01WDkngKA1G1rqLQDttyhn3d"
+   ],
+   "driver": "src7_batch/batch_driver.py",
+   "lockstep_rounds": 12,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-16T18:15:26Z",
+  "started_utc": "2026-11-16T16:17:21Z",
+  "wall_seconds": 7085.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "lead_jitter": 2,
+  "max_rounds": 3000,
+  "seed": 1152188485337836305,
+  "stagger_max": 10,
+  "stagger_min": 5,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "start_mode": "together",
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 2,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 0,
+    "first_contention_call": 2,
+    "first_lock_call": 2,
+    "first_perceivable_call": 2,
+    "first_protective": "lock",
+    "first_protective_call": 2,
+    "fulfilled": false,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": null,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "all",
+    "lock_waits": 1,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 1,
+    "lock_waits_reported": 1,
+    "locked_reads": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 1,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": null,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 6,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 2,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 1,
+    "end_reason": "returned",
+    "fenced_stale_basis": 1,
+    "fenced_unread_basis": 1,
+    "fenced_writes": 1,
+    "first_contention_call": 8,
+    "first_lock_call": 2,
+    "first_perceivable_call": 8,
+    "first_protective": "lock",
+    "first_protective_call": 2,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": false,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "own",
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "lock_waits_reported": 0,
+    "locked_reads": 1,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 1,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 9,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "conflict",
+  "committed_agents": [
+   "a1"
+  ],
+  "config": "locks_signals",
+  "conflict_observed": false,
+  "cross_agent_edges": 2,
+  "cross_agent_record_edges": 2,
+  "cycle": [
+   "a0",
+   "a1",
+   "a0"
+  ],
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": false,
+  "dsg_cycle": true,
+  "dsg_cycle_committed": false,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "rw",
+    "record": "account:sinking-fund-harbor",
+    "src": "a0",
+    "version": 1
+   },
+   {
+    "dst": "a0",
+    "kind": "wr",
+    "record": "account:sinking-fund-harbor",
+    "src": "a1",
+    "version": 2
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "transfer_same_amount",
+  "fenced_stale_basis_seqs": [
+   1
+  ],
+  "fenced_unread_basis_seqs": [
+   1
+  ],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": true,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": false,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": false,
+  "interleaving": {
+   "first_mover": "a1",
+   "n_writers": 1,
+   "pattern": "R1R0W1",
+   "reads_overlap": true
+  },
+  "invariant_violations": [],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "clean",
+  "outcome_stratum": "clean",
+  "primary_label": null,
+  "rolled_back_agents": [],
+  "rounds": 40,
+  "serial_witness": [
+   "a1"
+  ],
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "transfer_same_amount@i13/n2"
+ },
+ "seed": 0,
+ "start_mode": "together",
+ "study": 4,
+ "task": {
+  "category": "conflict",
+  "description": "transfers from one source",
+  "factory": "transfer_same_amount",
+  "family": "transfer_same_amount",
+  "fingerprint": "4a7e892beb448fd5b85fce92336ed1668acafbb7ee190bc306e85968b2e036c4",
+  "initial": {
+   "account:branch-harbor-amber": "90.00",
+   "account:branch-harbor-juniper": "90.00",
+   "account:sinking-fund-harbor": "195.00"
+  },
+  "instance": 13,
+  "intents": {
+   "a0": "Transfer 135.00 out of account:sinking-fund-harbor into account:branch-harbor-juniper, but only if account:sinking-fund-harbor has at least 135.00.",
+   "a1": "Transfer 135.00 out of account:sinking-fund-harbor into account:branch-harbor-amber, but only if account:sinking-fund-harbor has at least 135.00."
+  },
+  "kind": "account",
+  "name": "transfer_same_amount@i13/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 13,
+  "cost_usd": 0.0191195,
+  "invalid_calls": 1,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 4,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 0,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 29969,
+   "output": 1654
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

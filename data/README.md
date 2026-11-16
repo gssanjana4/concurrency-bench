@@ -2,6 +2,18 @@
 
 Licence: **CC BY 4.0** for the instances, transcripts (ledgers included), result CSVs and logs, as stated in the registrations (`LICENSE.txt`). Model outputs inside the transcripts remain subject to the providers' terms (Anthropic, OpenAI and Alibaba Qwen through OpenRouter, Google Gemini); the Qwen model licence applies to Qwen outputs. The CC BY 4.0 terms govern; the data are intended for research use. The records are synthetic (generated names and numbers): no personal data.
 
+## Study 4 (`results7/study4/`)
+
+The paid run of 2026-11-16 (registered plan: https://osf.io/6asc8, `../study4/PREREGISTRATION_STUDY4.md`). One
+directory per provider lane, as written by `../study4/run_conc_study4.sh`: `n2-anthropic/` (1,152 episodes: Haiku 4.5
+and Sonnet 5, 512 each; Fable 5, 128 under `locks_s2text` only, after which the registered stage rule stopped it;
+Message Batches) and `n2-openrouter/` (82 episodes, Qwen3.6-27B pinned to Alibaba, stopped when the OpenRouter account
+ran out of credit), each with `transcripts/`, `results.csv` and `spend.jsonl` (`failures.jsonl`: provider failures
+that produced no episode). Also `summary.md`, `run_study4.log`, `lane_<provider>.log` (local paths shortened),
+`floor_gate.json` (the stage rule's decision), `openrouter_restarts.log`, `validity/`, `preflight/` and
+`openrouter_balance.jsonl` (its `raw` provider response was removed; its `limit_remaining_usd` is the key's limit,
+not the account balance). Not shipped: `batch_state/` and `held_for_pair/`, the dry-run transcripts.
+
 ## Study 3 (`results6/study3/`)
 
 The paid run of 2026-11-15 (plan: `../study3/PREREGISTRATION_STUDY3.md`, uploaded to the OSF before the run; the

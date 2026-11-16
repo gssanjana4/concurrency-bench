@@ -1,0 +1,1852 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 8,
+   "cost_usd": 0.011392000000000001,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:treasury-meadow"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:treasury-meadow",
+      "status": 200,
+      "value": "85.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01VLV1eGsfKYKBPZFyCCzdNQ"
+    },
+    {
+     "args": {
+      "lease_calls": 3,
+      "record_id": "account:treasury-meadow"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 3,
+      "ok": true,
+      "record_id": "account:treasury-meadow",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01KKSDWxwtVeLHGXATfUEH6o"
+    },
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "account:treasury-meadow",
+      "value": 15.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 2,
+      "ok": true,
+      "record_id": "account:treasury-meadow",
+      "status": 200,
+      "value": "15.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01B4xKzg7rtA2PFW68dveZKe"
+    },
+    {
+     "args": {
+      "record_id": "account:account-meadow-juniper"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:account-meadow-juniper",
+      "status": 200,
+      "value": "10.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01L8CDiWi1XT9kPZ8KAsiAr1"
+    },
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "account:account-meadow-juniper",
+      "value": 80.0
+     },
+     "completion": 4,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "invalid_arguments",
+      "message": "400 Bad Request: 1 is not a fencing token for account:account-meadow-juniper.",
+      "ok": false,
+      "status": 400
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01U9XJW5wrwUuNxHsjxKNHHt"
+    },
+    {
+     "args": {
+      "record_id": "account:account-meadow-juniper",
+      "value": 80.0
+     },
+     "completion": 5,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:account-meadow-juniper",
+      "status": 200,
+      "value": "80.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01Ub44T4o2M2Nv61yS6RaRmG"
+    },
+    {
+     "args": {
+      "record_id": "account:treasury-meadow"
+     },
+     "completion": 6,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "error": "not_lock_holder",
+      "message": "409 Conflict: you do not hold a lock on account:treasury-meadow.",
+      "ok": false,
+      "status": 409
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01PWKuy635Zn36h14zNqHeSn"
+    }
+   ],
+   "final_text": "The lock appears to have already expired (which is fine since we completed our operations). The transfer is complete: 70.00 has been successfully moved from account:treasury-meadow (now at 15.00) to account:account-meadow-juniper (now at 80.00).\n\nSuccessfully transferred 70.00 from account:treasury-meadow to account:account-meadow-juniper, reducing the source account from 85.00 to 15.00 and increasing the destination account from 10.00 to 80.00.",
+   "first_reply": "read",
+   "intent": "Move 70.00 from account:treasury-meadow to account:account-meadow-juniper, only if account:treasury-meadow has enough.",
+   "invalid_calls": [
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "account:account-meadow-juniper",
+      "value": 80.0
+     },
+     "error": "400 Bad Request: 1 is not a fencing token for account:account-meadow-juniper.",
+     "status": 400,
+     "tool": "update_record",
+     "tool_use_id": "toolu_01U9XJW5wrwUuNxHsjxKNHHt"
+    }
+   ],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you move 70.00 from account:treasury-meadow to account:account-meadow-juniper, but first I need to check if account:treasury-meadow has enough funds.\n\nLet me start by getting the current balance of the source account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VLV1eGsfKYKBPZFyCCzdNQ",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:treasury-meadow\", \"status\": 200, \"value\": \"85.00\"}",
+       "tool_use_id": "toolu_01VLV1eGsfKYKBPZFyCCzdNQ",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! The treasury-meadow account has 85.00, which is enough to transfer 70.00. Now I need to:\n1. Acquire a lock on the source account to ensure consistency\n2. Deduct 70.00 from account:treasury-meadow\n3. Add 70.00 to account:account-meadow-juniper\n\nLet me acquire a lock on the treasury-meadow account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KKSDWxwtVeLHGXATfUEH6o",
+       "input": {
+        "lease_calls": 3,
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 3, \"ok\": true, \"record_id\": \"account:treasury-meadow\", \"status\": 200}",
+       "tool_use_id": "toolu_01KKSDWxwtVeLHGXATfUEH6o",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! Now I have a lock with fencing_token 1. Let me proceed with the transfer - first updating the source account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01B4xKzg7rtA2PFW68dveZKe",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:treasury-meadow",
+        "value": 15.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 2, \"ok\": true, \"record_id\": \"account:treasury-meadow\", \"status\": 200, \"value\": \"15.00\"}",
+       "tool_use_id": "toolu_01B4xKzg7rtA2PFW68dveZKe",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Excellent! Now let me get the current balance of the destination account and then update it:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01L8CDiWi1XT9kPZ8KAsiAr1",
+       "input": {
+        "record_id": "account:account-meadow-juniper"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:account-meadow-juniper\", \"status\": 200, \"value\": \"10.00\"}",
+       "tool_use_id": "toolu_01L8CDiWi1XT9kPZ8KAsiAr1",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I'll update the destination account by adding 70.00 to its current balance of 10.00:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01U9XJW5wrwUuNxHsjxKNHHt",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:account-meadow-juniper",
+        "value": 80.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"invalid_arguments\", \"message\": \"400 Bad Request: 1 is not a fencing token for account:account-meadow-juniper.\", \"ok\": false, \"status\": 400}",
+       "is_error": true,
+       "tool_use_id": "toolu_01U9XJW5wrwUuNxHsjxKNHHt",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I see - the fencing token is specific to the account I locked. Let me update the destination account without the fencing token since it doesn't have a lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Ub44T4o2M2Nv61yS6RaRmG",
+       "input": {
+        "record_id": "account:account-meadow-juniper",
+        "value": 80.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:account-meadow-juniper\", \"status\": 200, \"value\": \"80.00\"}",
+       "tool_use_id": "toolu_01Ub44T4o2M2Nv61yS6RaRmG",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! Now let me release the lock on the treasury-meadow account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PWKuy635Zn36h14zNqHeSn",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"error\": \"not_lock_holder\", \"message\": \"409 Conflict: you do not hold a lock on account:treasury-meadow.\", \"ok\": false, \"status\": 409}",
+       "is_error": true,
+       "tool_use_id": "toolu_01PWKuy635Zn36h14zNqHeSn",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The lock appears to have already expired (which is fine since we completed our operations). The transfer is complete: 70.00 has been successfully moved from account:treasury-meadow (now at 15.00) to account:account-meadow-juniper (now at 80.00).\n\nSuccessfully transferred 70.00 from account:treasury-meadow to account:account-meadow-juniper, reducing the source account from 85.00 to 15.00 and increasing the destination account from 10.00 to 80.00.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Move 70.00 from account:treasury-meadow to account:account-meadow-juniper, only if account:treasury-meadow has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T16:20:47Z",
+     "content": [
+      {
+       "text": "I'll help you move 70.00 from account:treasury-meadow to account:account-meadow-juniper, but first I need to check if account:treasury-meadow has enough funds.\n\nLet me start by getting the current balance of the source account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01VLV1eGsfKYKBPZFyCCzdNQ",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0011115,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1623,
+      "output": 120
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:28:17Z",
+     "content": [
+      {
+       "text": "Great! The treasury-meadow account has 85.00, which is enough to transfer 70.00. Now I need to:\n1. Acquire a lock on the source account to ensure consistency\n2. Deduct 70.00 from account:treasury-meadow\n3. Add 70.00 to account:account-meadow-juniper\n\nLet me acquire a lock on the treasury-meadow account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KKSDWxwtVeLHGXATfUEH6o",
+       "input": {
+        "lease_calls": 3,
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013315,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1793,
+      "output": 174
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:32:52Z",
+     "content": [
+      {
+       "text": "Perfect! Now I have a lock with fencing_token 1. Let me proceed with the transfer - first updating the source account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01B4xKzg7rtA2PFW68dveZKe",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:treasury-meadow",
+        "value": 15.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013295,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2019,
+      "output": 128
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:37:07Z",
+     "content": [
+      {
+       "text": "Excellent! Now let me get the current balance of the destination account and then update it:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01L8CDiWi1XT9kPZ8KAsiAr1",
+       "input": {
+        "record_id": "account:account-meadow-juniper"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001307,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2199,
+      "output": 83
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:40:31Z",
+     "content": [
+      {
+       "text": "Now I'll update the destination account by adding 70.00 to its current balance of 10.00:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01U9XJW5wrwUuNxHsjxKNHHt",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:account-meadow-juniper",
+        "value": 80.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001485,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2335,
+      "output": 127
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:49:59Z",
+     "content": [
+      {
+       "text": "I see - the fencing token is specific to the account I locked. Let me update the destination account without the fencing token since it doesn't have a lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Ub44T4o2M2Nv61yS6RaRmG",
+       "input": {
+        "record_id": "account:account-meadow-juniper",
+        "value": 80.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001557,
+     "index": 6,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2529,
+      "output": 117
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:55:54Z",
+     "content": [
+      {
+       "text": "Perfect! Now let me release the lock on the treasury-meadow account:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PWKuy635Zn36h14zNqHeSn",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001539,
+     "index": 7,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2693,
+      "output": 77
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:13:54Z",
+     "content": [
+      {
+       "text": "The lock appears to have already expired (which is fine since we completed our operations). The transfer is complete: 70.00 has been successfully moved from account:treasury-meadow (now at 15.00) to account:account-meadow-juniper (now at 80.00).\n\nSuccessfully transferred 70.00 from account:treasury-meadow to account:account-meadow-juniper, reducing the source account from 85.00 to 15.00 and increasing the destination account from 10.00 to 80.00.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0017315,
+     "index": 8,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2833,
+      "output": 126
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 18024,
+    "output": 952
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 5,
+   "cost_usd": 0.006221,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:treasury-meadow"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:treasury-meadow",
+      "status": 200,
+      "value": "85.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_011HaYACstAr1BbUEAdHfXKp"
+    },
+    {
+     "args": {
+      "lease_calls": 3,
+      "record_id": "account:treasury-meadow"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 3,
+      "note": "The record was locked when you asked; this call waited 10 rounds before the lock was granted. Values you read before this grant may be out of date.",
+      "ok": true,
+      "record_id": "account:treasury-meadow",
+      "status": 200,
+      "waited_rounds": 10
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_015ZeFDuCEWw9ZGb5GtiE2S4"
+    },
+    {
+     "args": {
+      "record_id": "account:treasury-meadow"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:treasury-meadow",
+      "status": 200,
+      "value": "15.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_015to9AYsi64hqPqp3yumvdt"
+    },
+    {
+     "args": {
+      "record_id": "account:account-meadow-cedar"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:account-meadow-cedar",
+      "status": 200,
+      "value": "10.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01GmoHyxeek6DoAH7i66Hoir"
+    },
+    {
+     "args": {
+      "record_id": "account:treasury-meadow"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:treasury-meadow",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01HSkpsE38fZazocLCbxF4vG"
+    }
+   ],
+   "final_text": "Transfer failed: account:treasury-meadow has insufficient funds (15.00 available, 70.00 required).",
+   "first_reply": "read",
+   "intent": "Move 70.00 from account:treasury-meadow to account:account-meadow-cedar, only if account:treasury-meadow has enough.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you move 70.00 from account:treasury-meadow to account:account-meadow-cedar, but first let me check the balance in the source account.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011HaYACstAr1BbUEAdHfXKp",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:treasury-meadow\", \"status\": 200, \"value\": \"85.00\"}",
+       "tool_use_id": "toolu_011HaYACstAr1BbUEAdHfXKp",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! The treasury-meadow account has 85.00, which is enough for the 70.00 transfer. Now I'll acquire a lock on the source account to perform the transfer atomically.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015ZeFDuCEWw9ZGb5GtiE2S4",
+       "input": {
+        "lease_calls": 3,
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 3, \"note\": \"The record was locked when you asked; this call waited 10 rounds before the lock was granted. Values you read before this grant may be out of date.\", \"ok\": true, \"record_id\": \"account:treasury-meadow\", \"status\": 200, \"waited_rounds\": 10}",
+       "tool_use_id": "toolu_015ZeFDuCEWw9ZGb5GtiE2S4",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The lock was granted after waiting. Let me verify the current balance again and get the destination account balance:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015to9AYsi64hqPqp3yumvdt",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01GmoHyxeek6DoAH7i66Hoir",
+       "input": {
+        "record_id": "account:account-meadow-cedar"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:treasury-meadow\", \"status\": 200, \"value\": \"15.00\"}",
+       "tool_use_id": "toolu_015to9AYsi64hqPqp3yumvdt",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:account-meadow-cedar\", \"status\": 200, \"value\": \"10.00\"}",
+       "tool_use_id": "toolu_01GmoHyxeek6DoAH7i66Hoir",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I see the balance has changed to 15.00, which is not enough for the 70.00 transfer. I need to release the lock and report that the transfer cannot be completed.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01HSkpsE38fZazocLCbxF4vG",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:treasury-meadow\", \"status\": 200}",
+       "tool_use_id": "toolu_01HSkpsE38fZazocLCbxF4vG",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Transfer failed: account:treasury-meadow has insufficient funds (15.00 available, 70.00 required).",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Move 70.00 from account:treasury-meadow to account:account-meadow-cedar, only if account:treasury-meadow has enough.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T16:24:55Z",
+     "content": [
+      {
+       "text": "I'll help you move 70.00 from account:treasury-meadow to account:account-meadow-cedar, but first let me check the balance in the source account.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011HaYACstAr1BbUEAdHfXKp",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001061,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1622,
+      "output": 100
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:28:17Z",
+     "content": [
+      {
+       "text": "Good! The treasury-meadow account has 85.00, which is enough for the 70.00 transfer. Now I'll acquire a lock on the source account to perform the transfer atomically.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015ZeFDuCEWw9ZGb5GtiE2S4",
+       "input": {
+        "lease_calls": 3,
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0011935,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1772,
+      "output": 123
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:53:32Z",
+     "content": [
+      {
+       "text": "The lock was granted after waiting. Let me verify the current balance again and get the destination account balance:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_015to9AYsi64hqPqp3yumvdt",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01GmoHyxeek6DoAH7i66Hoir",
+       "input": {
+        "record_id": "account:account-meadow-cedar"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013135,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1992,
+      "output": 127
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:11:38Z",
+     "content": [
+      {
+       "text": "I see the balance has changed to 15.00, which is not enough for the 70.00 transfer. I need to release the lock and report that the transfer cannot be completed.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01HSkpsE38fZazocLCbxF4vG",
+       "input": {
+        "record_id": "account:treasury-meadow"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013825,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2260,
+      "output": 101
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:13:54Z",
+     "content": [
+      {
+       "text": "Transfer failed: account:treasury-meadow has insufficient funds (15.00 available, 70.00 required).",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0012705,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2396,
+      "output": 29
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 10042,
+    "output": 480
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "locks_signals",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__locks_signals__transfer_same_amount@i10__n2__s0",
+ "final_store": {
+  "account:account-meadow-cedar": {
+   "value": "10.00",
+   "version": 1
+  },
+  "account:account-meadow-juniper": {
+   "value": "80.00",
+   "version": 2
+  },
+  "account:treasury-meadow": {
+   "value": "15.00",
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Transfer failed: account:treasury-meadow has insufficient funds (15.00 available, 70.00 required).",
+    "step": 27,
+    "turns": 5
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "The lock appears to have already expired (which is fine since we completed our operations). The transfer is complete: 70.00 has been successfully moved from account:treasury-meadow (now at 15.00) to account:account-meadow-juniper (now at 80.00).\n\nSuccessfully transferred 70.00 from account:treasury-meadow to account:account-meadow-juniper, reducing the source account from 85.00 to 15.00 and increasing the destination account from 10.00 to 80.00.",
+    "step": 27,
+    "turns": 7
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:treasury-meadow"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:treasury-meadow",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:treasury-meadow",
+     "status": 200,
+     "value": "85.00"
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 3,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:treasury-meadow"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:treasury-meadow",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:treasury-meadow",
+     "status": 200,
+     "value": "85.00"
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 4,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 3,
+     "record_id": "account:treasury-meadow"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 3,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:treasury-meadow",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 3,
+     "ok": true,
+     "record_id": "account:treasury-meadow",
+     "status": 200
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 7,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:treasury-meadow",
+     "value": 15.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 2,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:treasury-meadow",
+    "response": {
+     "lease_remaining": 2,
+     "ok": true,
+     "record_id": "account:treasury-meadow",
+     "status": 200,
+     "value": "15.00"
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 8,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:account-meadow-juniper"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:account-meadow-juniper",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:account-meadow-juniper",
+     "status": 200,
+     "value": "10.00"
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 9,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:account-meadow-juniper",
+     "value": 80.0
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": null,
+    "reason": "invalid_arguments",
+    "record_id": "account:account-meadow-juniper",
+    "response": {
+     "error": "invalid_arguments",
+     "message": "400 Bad Request: 1 is not a fencing token for account:account-meadow-juniper.",
+     "ok": false,
+     "status": 400
+    },
+    "seq": 6,
+    "status": 400,
+    "step": 12,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:account-meadow-juniper",
+     "value": 80.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:account-meadow-juniper",
+    "response": {
+     "ok": true,
+     "record_id": "account:account-meadow-juniper",
+     "status": 200,
+     "value": "80.00"
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 17,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 3,
+     "record_id": "account:treasury-meadow"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 3,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:treasury-meadow",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 3,
+     "note": "The record was locked when you asked; this call waited 10 rounds before the lock was granted. Values you read before this grant may be out of date.",
+     "ok": true,
+     "record_id": "account:treasury-meadow",
+     "status": 200,
+     "waited_rounds": 10
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 17,
+    "tool": "acquire_lock",
+    "waited_rounds": 10
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:treasury-meadow"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 3,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "account:treasury-meadow",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:treasury-meadow",
+     "status": 200,
+     "value": "15.00"
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 19,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:account-meadow-cedar"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:account-meadow-cedar",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:account-meadow-cedar",
+     "status": 200,
+     "value": "10.00"
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 20,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:treasury-meadow"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 7,
+    "read_version": null,
+    "reason": "not_lock_holder",
+    "record_id": "account:treasury-meadow",
+    "response": {
+     "error": "not_lock_holder",
+     "message": "409 Conflict: you do not hold a lock on account:treasury-meadow.",
+     "ok": false,
+     "status": 409
+    },
+    "seq": 11,
+    "status": 409,
+    "step": 22,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:treasury-meadow"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:treasury-meadow",
+    "response": {
+     "ok": true,
+     "record_id": "account:treasury-meadow",
+     "status": 200
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 24,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:treasury-meadow",
+     "value": 15.0
+    },
+    "new_value": "15.00",
+    "new_version": 2,
+    "old_value": "85.00",
+    "old_version": 1,
+    "record_id": "account:treasury-meadow",
+    "seq": 1,
+    "step": 8,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:account-meadow-juniper",
+     "value": 80.0
+    },
+    "new_value": "80.00",
+    "new_version": 2,
+    "old_value": "10.00",
+    "old_version": 1,
+    "record_id": "account:account-meadow-juniper",
+    "seq": 2,
+    "step": 17,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 3,
+     "own_call": 2,
+     "record_id": "account:treasury-meadow",
+     "seq": 3,
+     "step": 7,
+     "token": 1
+    },
+    {
+     "event": "expire",
+     "holder": "a0",
+     "own_call": 6,
+     "record_id": "account:treasury-meadow",
+     "seq": 7,
+     "step": 17,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 3,
+     "own_call": 2,
+     "record_id": "account:treasury-meadow",
+     "seq": 8,
+     "step": 17,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "account:treasury-meadow",
+     "seq": 12,
+     "step": 24,
+     "token": 2
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 27,
+   "stall_step": null,
+   "stalled": false,
+   "start_mode": "together",
+   "start_rounds": {
+    "a0": 3,
+    "a1": 4
+   }
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_0134myNSkzLvokCK7xxkcPvg",
+    "msgbatch_01617BewfpRFQ9huMrPmCKpJ",
+    "msgbatch_017N88ULB9756do3WpQtSpCm",
+    "msgbatch_01BExADK9SQGF2T13BziYC3T",
+    "msgbatch_01CUhJ9VYeALGB4cprJTBBw2",
+    "msgbatch_01E4LtxsjxrUQmsTFN2jrBoM",
+    "msgbatch_01JAFHZEXN19WnqgyQkYZSVb",
+    "msgbatch_01KJXyyzxRCbrbcxSJv5GrdZ",
+    "msgbatch_01M7oSAMGyAe487VpGeMqFXT",
+    "msgbatch_01VXobDyiYqygJ8mgi5EzvWY",
+    "msgbatch_01WDkngKA1G1rqLQDttyhn3d"
+   ],
+   "driver": "src7_batch/batch_driver.py",
+   "lockstep_rounds": 11,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-16T18:13:54Z",
+  "started_utc": "2026-11-16T16:17:21Z",
+  "wall_seconds": 6993.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "lead_jitter": 2,
+  "max_rounds": 3000,
+  "seed": 963434098360962471,
+  "stagger_max": 10,
+  "stagger_min": 5,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "start_mode": "together",
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 2,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 1,
+    "fenced_unread_basis": 1,
+    "fenced_writes": 1,
+    "first_contention_call": null,
+    "first_lock_call": 2,
+    "first_perceivable_call": null,
+    "first_protective": "lock",
+    "first_protective_call": 2,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": false,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "own",
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "lock_waits_reported": 0,
+    "locked_reads": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 7,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 2,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 0,
+    "first_contention_call": 2,
+    "first_lock_call": 2,
+    "first_perceivable_call": 2,
+    "first_protective": "lock",
+    "first_protective_call": 2,
+    "fulfilled": false,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": null,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "own",
+    "lock_waits": 1,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 1,
+    "lock_waits_reported": 1,
+    "locked_reads": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 1,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": null,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 5,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "conflict",
+  "committed_agents": [
+   "a0"
+  ],
+  "config": "locks_signals",
+  "conflict_observed": false,
+  "cross_agent_edges": 2,
+  "cross_agent_record_edges": 2,
+  "cycle": [
+   "a0",
+   "a1",
+   "a0"
+  ],
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": false,
+  "dsg_cycle": true,
+  "dsg_cycle_committed": false,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "wr",
+    "record": "account:treasury-meadow",
+    "src": "a0",
+    "version": 2
+   },
+   {
+    "dst": "a0",
+    "kind": "rw",
+    "record": "account:treasury-meadow",
+    "src": "a1",
+    "version": 1
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "transfer_same_amount",
+  "fenced_stale_basis_seqs": [
+   1
+  ],
+  "fenced_unread_basis_seqs": [
+   1
+  ],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": true,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": false,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": false,
+  "interleaving": {
+   "first_mover": "a0",
+   "n_writers": 1,
+   "pattern": "R0R1W0",
+   "reads_overlap": true
+  },
+  "invariant_violations": [],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "clean",
+  "outcome_stratum": "clean",
+  "primary_label": null,
+  "rolled_back_agents": [],
+  "rounds": 27,
+  "serial_witness": [
+   "a0"
+  ],
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "transfer_same_amount@i10/n2"
+ },
+ "seed": 0,
+ "start_mode": "together",
+ "study": 4,
+ "task": {
+  "category": "conflict",
+  "description": "transfers from one source",
+  "factory": "transfer_same_amount",
+  "family": "transfer_same_amount",
+  "fingerprint": "9a832ba5dc77eec3437bd883fcb5f026e37a33e0ab950431c2c2e9453cdf41ce",
+  "initial": {
+   "account:account-meadow-cedar": "10.00",
+   "account:account-meadow-juniper": "10.00",
+   "account:treasury-meadow": "85.00"
+  },
+  "instance": 10,
+  "intents": {
+   "a0": "Move 70.00 from account:treasury-meadow to account:account-meadow-juniper, only if account:treasury-meadow has enough.",
+   "a1": "Move 70.00 from account:treasury-meadow to account:account-meadow-cedar, only if account:treasury-meadow has enough."
+  },
+  "kind": "account",
+  "name": "transfer_same_amount@i10/n2",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 13,
+  "cost_usd": 0.017613,
+  "invalid_calls": 1,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 1,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 0,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 28066,
+   "output": 1432
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

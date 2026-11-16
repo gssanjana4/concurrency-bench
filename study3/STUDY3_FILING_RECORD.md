@@ -21,3 +21,8 @@ facts at the time and was corrected on 2026-11-16.
 
 What rests on the time stamp before the run is the plan text and the frozen code (items 1 and 5), not an OSF
 registration. The paper calls the Study 3 tests pre-specified and reports the registration as retrospective.
+
+**Departure found later (2026-11-16).** The plan names the instance seed space `src6-study3-v1`; the frozen code
+(`src6/instances6.py`, `SPACE`) drew the instances from `src6-study2-v1`. Every draw was still checked to differ from
+all Study 1 and Study 2 instances and from the other Study 3 instances of its family, as planned. The key only selects
+which random draws are made; no test is affected. The paper lists it in its table of Study 3 departures.

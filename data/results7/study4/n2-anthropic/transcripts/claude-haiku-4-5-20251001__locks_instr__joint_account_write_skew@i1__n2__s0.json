@@ -1,0 +1,1573 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.007042,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:estate-ridge-heron"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:estate-ridge-heron",
+      "status": 200,
+      "value": "75.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01QXgCTnwuesh7FtNZreRVhQ"
+    },
+    {
+     "args": {
+      "record_id": "account:estate-ridge-fjord"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:estate-ridge-fjord",
+      "status": 200,
+      "value": "75.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01SB78pbnqKiXWcaFXUaDhie"
+    },
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:estate-ridge-heron"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 5,
+      "ok": true,
+      "record_id": "account:estate-ridge-heron",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01Ya3nZgkSk4s28SuvpiMxdH"
+    },
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "account:estate-ridge-heron",
+      "value": -30.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 4,
+      "ok": true,
+      "record_id": "account:estate-ridge-heron",
+      "status": 200,
+      "value": "-30.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01DD59YehvZBxjuFYYisW8qe"
+    },
+    {
+     "args": {
+      "record_id": "account:estate-ridge-heron"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:estate-ridge-heron",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_011Rwv8diQRQr8ZvqFArZ9L2"
+    }
+   ],
+   "final_text": "Successfully withdrew 105.00 from account:estate-ridge-heron (reducing it from 75.00 to -30.00), leaving the combined balance of both accounts at 45.00, which satisfies the constraint of remaining at least 0.00.",
+   "first_reply": "read",
+   "intent": "Take 105.00 out of account:estate-ridge-heron, provided account:estate-ridge-fjord, account:estate-ridge-heron together still hold at least 0.00 afterwards.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current balances of both accounts to verify the condition.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QXgCTnwuesh7FtNZreRVhQ",
+       "input": {
+        "record_id": "account:estate-ridge-heron"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01SB78pbnqKiXWcaFXUaDhie",
+       "input": {
+        "record_id": "account:estate-ridge-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:estate-ridge-heron\", \"status\": 200, \"value\": \"75.00\"}",
+       "tool_use_id": "toolu_01QXgCTnwuesh7FtNZreRVhQ",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:estate-ridge-fjord\", \"status\": 200, \"value\": \"75.00\"}",
+       "tool_use_id": "toolu_01SB78pbnqKiXWcaFXUaDhie",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I need to verify the condition: after taking 105.00 out of account:estate-ridge-heron, the two accounts together must still hold at least 0.00.\n\nCurrent state:\n- account:estate-ridge-heron: 75.00\n- account:estate-ridge-fjord: 75.00\n- Total: 150.00\n\nIf I take 105.00 from heron:\n- account:estate-ridge-heron would become: 75.00 - 105.00 = -30.00\n- account:estate-ridge-fjord remains: 75.00\n- Total would be: 45.00 (which is \u2265 0.00) \u2713\n\nThe condition is satisfied. Now I need to acquire a lock on the heron account to make the withdrawal safely.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Ya3nZgkSk4s28SuvpiMxdH",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:estate-ridge-heron"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 5, \"ok\": true, \"record_id\": \"account:estate-ridge-heron\", \"status\": 200}",
+       "tool_use_id": "toolu_01Ya3nZgkSk4s28SuvpiMxdH",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I'll update the heron account by subtracting 105.00:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01DD59YehvZBxjuFYYisW8qe",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:estate-ridge-heron",
+        "value": -30.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 4, \"ok\": true, \"record_id\": \"account:estate-ridge-heron\", \"status\": 200, \"value\": \"-30.00\"}",
+       "tool_use_id": "toolu_01DD59YehvZBxjuFYYisW8qe",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! Now let me release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011Rwv8diQRQr8ZvqFArZ9L2",
+       "input": {
+        "record_id": "account:estate-ridge-heron"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:estate-ridge-heron\", \"status\": 200}",
+       "tool_use_id": "toolu_011Rwv8diQRQr8ZvqFArZ9L2",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully withdrew 105.00 from account:estate-ridge-heron (reducing it from 75.00 to -30.00), leaving the combined balance of both accounts at 45.00, which satisfies the constraint of remaining at least 0.00.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Take 105.00 out of account:estate-ridge-heron, provided account:estate-ridge-fjord, account:estate-ridge-heron together still hold at least 0.00 afterwards.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T16:07:16Z",
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current balances of both accounts to verify the condition.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01QXgCTnwuesh7FtNZreRVhQ",
+       "input": {
+        "record_id": "account:estate-ridge-heron"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01SB78pbnqKiXWcaFXUaDhie",
+       "input": {
+        "record_id": "account:estate-ridge-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001158,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1651,
+      "output": 133
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:14:28Z",
+     "content": [
+      {
+       "text": "Now I need to verify the condition: after taking 105.00 out of account:estate-ridge-heron, the two accounts together must still hold at least 0.00.\n\nCurrent state:\n- account:estate-ridge-heron: 75.00\n- account:estate-ridge-fjord: 75.00\n- Total: 150.00\n\nIf I take 105.00 from heron:\n- account:estate-ridge-heron would become: 75.00 - 105.00 = -30.00\n- account:estate-ridge-fjord remains: 75.00\n- Total would be: 45.00 (which is \u2265 0.00) \u2713\n\nThe condition is satisfied. Now I need to acquire a lock on the heron account to make the withdrawal safely.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Ya3nZgkSk4s28SuvpiMxdH",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:estate-ridge-heron"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0016435,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1927,
+      "output": 272
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:20:55Z",
+     "content": [
+      {
+       "text": "Now I'll update the heron account by subtracting 105.00:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01DD59YehvZBxjuFYYisW8qe",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:estate-ridge-heron",
+        "value": -30.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0014265,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2253,
+      "output": 120
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:28:17Z",
+     "content": [
+      {
+       "text": "Perfect! Now let me release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_011Rwv8diQRQr8ZvqFArZ9L2",
+       "input": {
+        "record_id": "account:estate-ridge-heron"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013935,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2427,
+      "output": 72
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:32:52Z",
+     "content": [
+      {
+       "text": "Successfully withdrew 105.00 from account:estate-ridge-heron (reducing it from 75.00 to -30.00), leaving the combined balance of both accounts at 45.00, which satisfies the constraint of remaining at least 0.00.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0014205,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2536,
+      "output": 61
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 10794,
+    "output": 658
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 5,
+   "cost_usd": 0.00707,
+   "executions": [
+    {
+     "args": {
+      "record_id": "account:estate-ridge-fjord"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:estate-ridge-fjord",
+      "status": 200,
+      "value": "75.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01WxBzGtfT3BbjGSUNhFSfBb"
+    },
+    {
+     "args": {
+      "record_id": "account:estate-ridge-heron"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 2,
+     "response": {
+      "kind": "account",
+      "ok": true,
+      "record_id": "account:estate-ridge-heron",
+      "status": 200,
+      "value": "75.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_018Ff9jD9qHKWKj6T6jBNNmQ"
+    },
+    {
+     "args": {
+      "lease_calls": 5,
+      "record_id": "account:estate-ridge-fjord"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 5,
+      "ok": true,
+      "record_id": "account:estate-ridge-fjord",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_017UhJd1XhmUf2FNsraQCUQK"
+    },
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "account:estate-ridge-fjord",
+      "value": -40.0
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 4,
+      "ok": true,
+      "record_id": "account:estate-ridge-fjord",
+      "status": 200,
+      "value": "-40.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_018RY6e3A6d9qxPD4Tjn2Pvv"
+    },
+    {
+     "args": {
+      "record_id": "account:estate-ridge-fjord"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "ok": true,
+      "record_id": "account:estate-ridge-fjord",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01Y3tEjS8bFkFDLUdmVRxec7"
+    }
+   ],
+   "final_text": "Successfully withdrew 115.00 from account:estate-ridge-fjord (from 75.00 to -40.00), leaving combined account balances of 35.00 which satisfies the minimum requirement of 0.00.",
+   "first_reply": "read",
+   "intent": "Take 115.00 out of account:estate-ridge-fjord, provided account:estate-ridge-fjord, account:estate-ridge-heron together still hold at least 0.00 afterwards.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 2,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current balances of both accounts to verify we can take 115.00 from account:estate-ridge-fjord while maintaining at least 0.00 in total.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WxBzGtfT3BbjGSUNhFSfBb",
+       "input": {
+        "record_id": "account:estate-ridge-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_018Ff9jD9qHKWKj6T6jBNNmQ",
+       "input": {
+        "record_id": "account:estate-ridge-heron"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:estate-ridge-fjord\", \"status\": 200, \"value\": \"75.00\"}",
+       "tool_use_id": "toolu_01WxBzGtfT3BbjGSUNhFSfBb",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"account\", \"ok\": true, \"record_id\": \"account:estate-ridge-heron\", \"status\": 200, \"value\": \"75.00\"}",
+       "tool_use_id": "toolu_018Ff9jD9qHKWKj6T6jBNNmQ",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I can see the current balances:\n- account:estate-ridge-fjord: 75.00\n- account:estate-ridge-heron: 75.00\n- Total: 150.00\n\nIf I take 115.00 from account:estate-ridge-fjord, the balances would be:\n- account:estate-ridge-fjord: 75.00 - 115.00 = -40.00\n- account:estate-ridge-heron: 75.00\n- Total: 35.00 (which is >= 0.00) \u2713\n\nThis meets the condition. Now I need to acquire a lock and update the account. Since this involves reading and writing a record, I need to lock it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017UhJd1XhmUf2FNsraQCUQK",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:estate-ridge-fjord"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 5, \"ok\": true, \"record_id\": \"account:estate-ridge-fjord\", \"status\": 200}",
+       "tool_use_id": "toolu_017UhJd1XhmUf2FNsraQCUQK",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I'll update the account by subtracting 115.00 from 75.00:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_018RY6e3A6d9qxPD4Tjn2Pvv",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:estate-ridge-fjord",
+        "value": -40.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 4, \"ok\": true, \"record_id\": \"account:estate-ridge-fjord\", \"status\": 200, \"value\": \"-40.00\"}",
+       "tool_use_id": "toolu_018RY6e3A6d9qxPD4Tjn2Pvv",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Perfect! Now let me release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Y3tEjS8bFkFDLUdmVRxec7",
+       "input": {
+        "record_id": "account:estate-ridge-fjord"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"account:estate-ridge-fjord\", \"status\": 200}",
+       "tool_use_id": "toolu_01Y3tEjS8bFkFDLUdmVRxec7",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully withdrew 115.00 from account:estate-ridge-fjord (from 75.00 to -40.00), leaving combined account balances of 35.00 which satisfies the minimum requirement of 0.00.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 1,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Take 115.00 out of account:estate-ridge-fjord, provided account:estate-ridge-fjord, account:estate-ridge-heron together still hold at least 0.00 afterwards.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T16:07:16Z",
+     "content": [
+      {
+       "text": "I'll help you complete this task. Let me start by reading the current balances of both accounts to verify we can take 115.00 from account:estate-ridge-fjord while maintaining at least 0.00 in total.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01WxBzGtfT3BbjGSUNhFSfBb",
+       "input": {
+        "record_id": "account:estate-ridge-fjord"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_018Ff9jD9qHKWKj6T6jBNNmQ",
+       "input": {
+        "record_id": "account:estate-ridge-heron"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001223,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1651,
+      "output": 159
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:09:49Z",
+     "content": [
+      {
+       "text": "Now I can see the current balances:\n- account:estate-ridge-fjord: 75.00\n- account:estate-ridge-heron: 75.00\n- Total: 150.00\n\nIf I take 115.00 from account:estate-ridge-fjord, the balances would be:\n- account:estate-ridge-fjord: 75.00 - 115.00 = -40.00\n- account:estate-ridge-heron: 75.00\n- Total: 35.00 (which is >= 0.00) \u2713\n\nThis meets the condition. Now I need to acquire a lock and update the account. Since this involves reading and writing a record, I need to lock it.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_017UhJd1XhmUf2FNsraQCUQK",
+       "input": {
+        "lease_calls": 5,
+        "record_id": "account:estate-ridge-fjord"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0016015,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1953,
+      "output": 250
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:12:06Z",
+     "content": [
+      {
+       "text": "Now I'll update the account by subtracting 115.00 from 75.00:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_018RY6e3A6d9qxPD4Tjn2Pvv",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "account:estate-ridge-fjord",
+        "value": -40.0
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0014385,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2257,
+      "output": 124
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:17:06Z",
+     "content": [
+      {
+       "text": "Perfect! Now let me release the lock:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01Y3tEjS8bFkFDLUdmVRxec7",
+       "input": {
+        "record_id": "account:estate-ridge-fjord"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0013975,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2435,
+      "output": 72
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:24:55Z",
+     "content": [
+      {
+       "text": "Successfully withdrew 115.00 from account:estate-ridge-fjord (from 75.00 to -40.00), leaving combined account balances of 35.00 which satisfies the minimum requirement of 0.00.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0014095,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2544,
+      "output": 55
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 10840,
+    "output": 660
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "locks_instr",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__locks_instr__joint_account_write_skew@i1__n2__s0",
+ "final_store": {
+  "account:estate-ridge-fjord": {
+   "value": "-40.00",
+   "version": 2
+  },
+  "account:estate-ridge-heron": {
+   "value": "-30.00",
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Successfully withdrew 115.00 from account:estate-ridge-fjord (from 75.00 to -40.00), leaving combined account balances of 35.00 which satisfies the minimum requirement of 0.00.",
+    "step": 16,
+    "turns": 5
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Successfully withdrew 105.00 from account:estate-ridge-heron (reducing it from 75.00 to -30.00), leaving the combined balance of both accounts at 45.00, which satisfies the constraint of remaining at least 0.00.",
+    "step": 22,
+    "turns": 5
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:estate-ridge-heron"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:estate-ridge-heron",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:estate-ridge-heron",
+     "status": 200,
+     "value": "75.00"
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:estate-ridge-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:estate-ridge-fjord",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:estate-ridge-fjord",
+     "status": 200,
+     "value": "75.00"
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 2,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:estate-ridge-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 2,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:estate-ridge-fjord",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:estate-ridge-fjord",
+     "status": 200,
+     "value": "75.00"
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 3,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:estate-ridge-heron"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 2,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "account:estate-ridge-heron",
+    "response": {
+     "kind": "account",
+     "ok": true,
+     "record_id": "account:estate-ridge-heron",
+     "status": 200,
+     "value": "75.00"
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 3,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:estate-ridge-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:estate-ridge-fjord",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 5,
+     "ok": true,
+     "record_id": "account:estate-ridge-fjord",
+     "status": 200
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 4,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:estate-ridge-fjord",
+     "value": -40.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 4,
+    "own_call": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:estate-ridge-fjord",
+    "response": {
+     "lease_remaining": 4,
+     "ok": true,
+     "record_id": "account:estate-ridge-fjord",
+     "status": 200,
+     "value": "-40.00"
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 6,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 5,
+     "record_id": "account:estate-ridge-heron"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 5,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:estate-ridge-heron",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 5,
+     "ok": true,
+     "record_id": "account:estate-ridge-heron",
+     "status": 200
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 10,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "account:estate-ridge-fjord"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:estate-ridge-fjord",
+    "response": {
+     "ok": true,
+     "record_id": "account:estate-ridge-fjord",
+     "status": 200
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 11,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:estate-ridge-heron",
+     "value": -30.0
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 4,
+    "own_call": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:estate-ridge-heron",
+    "response": {
+     "lease_remaining": 4,
+     "ok": true,
+     "record_id": "account:estate-ridge-heron",
+     "status": 200,
+     "value": "-30.00"
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 13,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "account:estate-ridge-heron"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": null,
+    "reason": null,
+    "record_id": "account:estate-ridge-heron",
+    "response": {
+     "ok": true,
+     "record_id": "account:estate-ridge-heron",
+     "status": 200
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 18,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:estate-ridge-fjord",
+     "value": -40.0
+    },
+    "new_value": "-40.00",
+    "new_version": 2,
+    "old_value": "75.00",
+    "old_version": 1,
+    "record_id": "account:estate-ridge-fjord",
+    "seq": 1,
+    "step": 6,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "account:estate-ridge-heron",
+     "value": -30.0
+    },
+    "new_value": "-30.00",
+    "new_version": 2,
+    "old_value": "75.00",
+    "old_version": 1,
+    "record_id": "account:estate-ridge-heron",
+    "seq": 2,
+    "step": 13,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 5,
+     "own_call": 3,
+     "record_id": "account:estate-ridge-fjord",
+     "seq": 5,
+     "step": 4,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 5,
+     "own_call": 3,
+     "record_id": "account:estate-ridge-heron",
+     "seq": 7,
+     "step": 10,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "account:estate-ridge-fjord",
+     "seq": 8,
+     "step": 11,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a0",
+     "record_id": "account:estate-ridge-heron",
+     "seq": 10,
+     "step": 18,
+     "token": 1
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 22,
+   "stall_step": null,
+   "stalled": false,
+   "start_mode": "together",
+   "start_rounds": {
+    "a0": 2,
+    "a1": 2
+   }
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_0134myNSkzLvokCK7xxkcPvg",
+    "msgbatch_013E9D2BbuwH1eAQgRro5J8b",
+    "msgbatch_014CNNDwzzPd3wvueLQSVyP1",
+    "msgbatch_0178taQrEi9H7wJgnzZaFcJH",
+    "msgbatch_01CFLC3C2LHHWYKeyV7KXRrw",
+    "msgbatch_01FtxYNDJ5prkoh8vzSBkv19",
+    "msgbatch_01JAFHZEXN19WnqgyQkYZSVb",
+    "msgbatch_01WDkngKA1G1rqLQDttyhn3d",
+    "msgbatch_01Y6E1rYkgmgxW9RbFGcCpjV"
+   ],
+   "driver": "src7_batch/batch_driver.py",
+   "lockstep_rounds": 10,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-16T16:32:52Z",
+  "started_utc": "2026-11-16T16:03:43Z",
+  "wall_seconds": 1749.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "lead_jitter": 2,
+  "max_rounds": 3000,
+  "seed": 309267310829381871,
+  "stagger_max": 10,
+  "stagger_min": 5,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "start_mode": "together",
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 1,
+    "fenced_unread_basis": 1,
+    "fenced_writes": 1,
+    "first_contention_call": null,
+    "first_lock_call": 3,
+    "first_perceivable_call": null,
+    "first_protective": "lock",
+    "first_protective_call": 3,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": false,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "own",
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "lock_waits_reported": 0,
+    "locked_reads": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 5,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 1,
+    "fenced_unread_basis": 1,
+    "fenced_writes": 1,
+    "first_contention_call": null,
+    "first_lock_call": 3,
+    "first_perceivable_call": null,
+    "first_protective": "lock",
+    "first_protective_call": 3,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": false,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "own",
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "lock_waits_reported": 0,
+    "locked_reads": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 5,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "write_skew",
+  "committed_agents": [
+   "a0",
+   "a1"
+  ],
+  "config": "locks_instr",
+  "conflict_observed": false,
+  "cross_agent_edges": 2,
+  "cross_agent_record_edges": 2,
+  "cycle": [
+   "a0",
+   "a1",
+   "a0"
+  ],
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": true,
+  "dsg_cycle": true,
+  "dsg_cycle_committed": true,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "rw",
+    "record": "account:estate-ridge-fjord",
+    "src": "a0",
+    "version": 1
+   },
+   {
+    "dst": "a0",
+    "kind": "rw",
+    "record": "account:estate-ridge-heron",
+    "src": "a1",
+    "version": 1
+   }
+  ],
+  "ever_violated_names": [
+   "sum_at_least[account:estate-ridge-heron+account:estate-ridge-fjord]"
+  ],
+  "family": "joint_account_write_skew",
+  "fenced_stale_basis_seqs": [
+   1,
+   2
+  ],
+  "fenced_unread_basis_seqs": [
+   1,
+   2
+  ],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": true,
+   "fenced_stale_basis": true,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": true,
+   "write_skew": true,
+   "wrong_value": false
+  },
+  "fs_nonserializable": true,
+  "interleaving": {
+   "first_mover": "a1",
+   "n_writers": 2,
+   "pattern": "R0R1W1W0",
+   "reads_overlap": true
+  },
+  "invariant_violations": [
+   "sum_at_least[account:estate-ridge-heron+account:estate-ridge-fjord]: combined balance -70.00 < 0"
+  ],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "failed",
+  "outcome_stratum": "failed",
+  "primary_label": "write_skew",
+  "rolled_back_agents": [],
+  "rounds": 22,
+  "serial_witness": null,
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "joint_account_write_skew@i1/n2"
+ },
+ "seed": 0,
+ "start_mode": "together",
+ "study": 4,
+ "task": {
+  "category": "write_skew",
+  "description": "withdrawals from accounts sharing an overdraft limit",
+  "factory": "joint_account_write_skew",
+  "family": "joint_account_write_skew",
+  "fingerprint": "97f7a4a8d4fe288332c85b1bde040df6064c4dca4c2a2a03ccf30b5695088e4a",
+  "initial": {
+   "account:estate-ridge-fjord": "75.00",
+   "account:estate-ridge-heron": "75.00"
+  },
+  "instance": 1,
+  "intents": {
+   "a0": "Take 105.00 out of account:estate-ridge-heron, provided account:estate-ridge-fjord, account:estate-ridge-heron together still hold at least 0.00 afterwards.",
+   "a1": "Take 115.00 out of account:estate-ridge-fjord, provided account:estate-ridge-fjord, account:estate-ridge-heron together still hold at least 0.00 afterwards."
+  },
+  "kind": "account",
+  "name": "joint_account_write_skew@i1/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 10,
+  "cost_usd": 0.014112,
+  "invalid_calls": 0,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 2,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 0,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 21634,
+   "output": 1318
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

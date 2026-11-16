@@ -1,0 +1,2184 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 4,
+   "cost_usd": 0.009675,
+   "executions": [
+    {
+     "args": {
+      "lease_calls": 20,
+      "record_id": "budget:finance-central/spend-events"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 20,
+      "note": "The record was locked when you asked; this call waited 20 rounds before the lock was granted. Values you read before this grant may be out of date.",
+      "ok": true,
+      "record_id": "budget:finance-central/spend-events",
+      "status": 200,
+      "waited_rounds": 20
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01TnGzM1cVmmtDC7GmGTwoKW"
+    },
+    {
+     "args": {
+      "lease_calls": 20,
+      "record_id": "budget:finance-central/spend-travel"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 20,
+      "note": "The record was locked when you asked; this call waited 2 rounds before the lock was granted. Values you read before this grant may be out of date.",
+      "ok": true,
+      "record_id": "budget:finance-central/spend-travel",
+      "status": 200,
+      "waited_rounds": 2
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_019Myw6YUSAqM3r4VkoDw2BX"
+    },
+    {
+     "args": {
+      "lease_calls": 20,
+      "record_id": "budget:finance-central/cap"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 20,
+      "ok": true,
+      "record_id": "budget:finance-central/cap",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01NLHwSG9W7PZMJ26Nr8Pqwj"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/spend-events"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:finance-central/spend-events",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_016G6xrK7CASoESZkbfw2Avo"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/spend-travel"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:finance-central/spend-travel",
+      "status": 200,
+      "value": "45.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_011sEr4uxw5zFFLVPDPV748a"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/cap"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:finance-central/cap",
+      "status": 200,
+      "value": "80.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01WYCvsGFmxvNKLm1fUbH1eU"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/spend-events"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "ok": true,
+      "record_id": "budget:finance-central/spend-events",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_011v21HHBX51A4e8b2RVpsNa"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/spend-travel"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "ok": true,
+      "record_id": "budget:finance-central/spend-travel",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01WHsFgqgVt6CLV5cKABk6Ck"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/cap"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "ok": true,
+      "record_id": "budget:finance-central/cap",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01MyRBKViKgGqUW6JBtpKVpb"
+    }
+   ],
+   "final_text": "Spend not recorded: current total (0.00 events + 45.00 travel = 45.00) plus 50.00 would total 95.00, exceeding the 80.00 cap, so no update was made.",
+   "first_reply": "lock",
+   "intent": "Record a spend of 50.00 in budget:finance-central/spend-events, only if total spend across budget:finance-central/spend-events, budget:finance-central/spend-travel stays within budget:finance-central/cap.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 3,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1300,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01TnGzM1cVmmtDC7GmGTwoKW",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_019Myw6YUSAqM3r4VkoDw2BX",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01NLHwSG9W7PZMJ26Nr8Pqwj",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 20, \"note\": \"The record was locked when you asked; this call waited 20 rounds before the lock was granted. Values you read before this grant may be out of date.\", \"ok\": true, \"record_id\": \"budget:finance-central/spend-events\", \"status\": 200, \"waited_rounds\": 20}",
+       "tool_use_id": "toolu_01TnGzM1cVmmtDC7GmGTwoKW",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 20, \"note\": \"The record was locked when you asked; this call waited 2 rounds before the lock was granted. Values you read before this grant may be out of date.\", \"ok\": true, \"record_id\": \"budget:finance-central/spend-travel\", \"status\": 200, \"waited_rounds\": 2}",
+       "tool_use_id": "toolu_019Myw6YUSAqM3r4VkoDw2BX",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 20, \"ok\": true, \"record_id\": \"budget:finance-central/cap\", \"status\": 200}",
+       "tool_use_id": "toolu_01NLHwSG9W7PZMJ26Nr8Pqwj",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now reading the current values of all three records.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_016G6xrK7CASoESZkbfw2Avo",
+       "input": {
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_011sEr4uxw5zFFLVPDPV748a",
+       "input": {
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01WYCvsGFmxvNKLm1fUbH1eU",
+       "input": {
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:finance-central/spend-events\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_016G6xrK7CASoESZkbfw2Avo",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:finance-central/spend-travel\", \"status\": 200, \"value\": \"45.00\"}",
+       "tool_use_id": "toolu_011sEr4uxw5zFFLVPDPV748a",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:finance-central/cap\", \"status\": 200, \"value\": \"80.00\"}",
+       "tool_use_id": "toolu_01WYCvsGFmxvNKLm1fUbH1eU",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 908,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_011v21HHBX51A4e8b2RVpsNa",
+       "input": {
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01WHsFgqgVt6CLV5cKABk6Ck",
+       "input": {
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01MyRBKViKgGqUW6JBtpKVpb",
+       "input": {
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"budget:finance-central/spend-events\", \"status\": 200}",
+       "tool_use_id": "toolu_011v21HHBX51A4e8b2RVpsNa",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"budget:finance-central/spend-travel\", \"status\": 200}",
+       "tool_use_id": "toolu_01WHsFgqgVt6CLV5cKABk6Ck",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"budget:finance-central/cap\", \"status\": 200}",
+       "tool_use_id": "toolu_01MyRBKViKgGqUW6JBtpKVpb",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Spend not recorded: current total (0.00 events + 45.00 travel = 45.00) plus 50.00 would total 95.00, exceeding the 80.00 cap, so no update was made.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 3,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Record a spend of 50.00 in budget:finance-central/spend-events, only if total spend across budget:finance-central/spend-events, budget:finance-central/spend-travel stays within budget:finance-central/cap.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T18:34:35Z",
+     "content": [
+      {
+       "signature_chars": 1300,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01TnGzM1cVmmtDC7GmGTwoKW",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_019Myw6YUSAqM3r4VkoDw2BX",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01NLHwSG9W7PZMJ26Nr8Pqwj",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0025616,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1651,
+      "cache_write": 158,
+      "input": 99,
+      "output": 420
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:52:09Z",
+     "content": [
+      {
+       "text": "Now reading the current values of all three records.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_016G6xrK7CASoESZkbfw2Avo",
+       "input": {
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_011sEr4uxw5zFFLVPDPV748a",
+       "input": {
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01WYCvsGFmxvNKLm1fUbH1eU",
+       "input": {
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0021755999999999998,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1651,
+      "cache_write": 158,
+      "input": 883,
+      "output": 186
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:55:29Z",
+     "content": [
+      {
+       "signature_chars": 908,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_011v21HHBX51A4e8b2RVpsNa",
+       "input": {
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01WHsFgqgVt6CLV5cKABk6Ck",
+       "input": {
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01MyRBKViKgGqUW6JBtpKVpb",
+       "input": {
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0027119,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1809,
+      "cache_write": 0,
+      "input": 1296,
+      "output": 247
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:59:55Z",
+     "content": [
+      {
+       "text": "Spend not recorded: current total (0.00 events + 45.00 travel = 45.00) plus 50.00 would total 95.00, exceeding the 80.00 cap, so no update was made.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0022259000000000003,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1809,
+      "cache_write": 0,
+      "input": 1720,
+      "output": 65
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 6920,
+    "cache_write": 316,
+    "input": 3998,
+    "output": 918
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 5,
+   "cost_usd": 0.011411699999999999,
+   "executions": [
+    {
+     "args": {
+      "lease_calls": 20,
+      "record_id": "budget:finance-central/cap"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 20,
+      "ok": true,
+      "record_id": "budget:finance-central/cap",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_012awQ3dinvvaNF64Niqg7Zt"
+    },
+    {
+     "args": {
+      "lease_calls": 20,
+      "record_id": "budget:finance-central/spend-events"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 20,
+      "ok": true,
+      "record_id": "budget:finance-central/spend-events",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_016Ggd1j6SduWZkzZxPDhxvK"
+    },
+    {
+     "args": {
+      "lease_calls": 20,
+      "record_id": "budget:finance-central/spend-travel"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 20,
+      "ok": true,
+      "record_id": "budget:finance-central/spend-travel",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01T6ECimyDFc8TkBXFymFcnr"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/cap"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:finance-central/cap",
+      "status": 200,
+      "value": "80.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01R2P2u5L7rKGDbFRiWUFNnj"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/spend-events"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:finance-central/spend-events",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01K3t2v3EyQm6DMpVnWjf9fB"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/spend-travel"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "kind": "budget",
+      "ok": true,
+      "record_id": "budget:finance-central/spend-travel",
+      "status": 200,
+      "value": "0.00"
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01T2WgyrcU2vDTr69KKBiNVW"
+    },
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "budget:finance-central/spend-travel",
+      "value": "45.00"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 16,
+      "ok": true,
+      "record_id": "budget:finance-central/spend-travel",
+      "status": 200,
+      "value": "45.00"
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01U9WSQhJj9arU9hPpA4x5Jq"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/cap"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 3,
+     "response": {
+      "ok": true,
+      "record_id": "budget:finance-central/cap",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01CiRXqfHjrxyRL1YvgDhhjs"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/spend-events"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 1,
+     "queue_len": 3,
+     "response": {
+      "ok": true,
+      "record_id": "budget:finance-central/spend-events",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01A2u9KLqqvFhFwpQ54Xkx6x"
+    },
+    {
+     "args": {
+      "record_id": "budget:finance-central/spend-travel"
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 2,
+     "queue_len": 3,
+     "response": {
+      "ok": true,
+      "record_id": "budget:finance-central/spend-travel",
+      "status": 200
+     },
+     "tool": "release_lock",
+     "tool_use_id": "toolu_01P99aX655Yq5wXTsKs5FA9f"
+    }
+   ],
+   "final_text": "Recorded a 45.00 spend in spend-travel since total spend (45.00 events+travel) stays within the 80.00 cap.",
+   "first_reply": "lock",
+   "intent": "Record a spend of 45.00 in budget:finance-central/spend-travel, only if total spend across budget:finance-central/spend-events, budget:finance-central/spend-travel stays within budget:finance-central/cap.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 3,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 1424,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_012awQ3dinvvaNF64Niqg7Zt",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_016Ggd1j6SduWZkzZxPDhxvK",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01T6ECimyDFc8TkBXFymFcnr",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 20, \"ok\": true, \"record_id\": \"budget:finance-central/cap\", \"status\": 200}",
+       "tool_use_id": "toolu_012awQ3dinvvaNF64Niqg7Zt",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 20, \"ok\": true, \"record_id\": \"budget:finance-central/spend-events\", \"status\": 200}",
+       "tool_use_id": "toolu_016Ggd1j6SduWZkzZxPDhxvK",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 20, \"ok\": true, \"record_id\": \"budget:finance-central/spend-travel\", \"status\": 200}",
+       "tool_use_id": "toolu_01T6ECimyDFc8TkBXFymFcnr",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01R2P2u5L7rKGDbFRiWUFNnj",
+       "input": {
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01K3t2v3EyQm6DMpVnWjf9fB",
+       "input": {
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01T2WgyrcU2vDTr69KKBiNVW",
+       "input": {
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:finance-central/cap\", \"status\": 200, \"value\": \"80.00\"}",
+       "tool_use_id": "toolu_01R2P2u5L7rKGDbFRiWUFNnj",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:finance-central/spend-events\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01K3t2v3EyQm6DMpVnWjf9fB",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"kind\": \"budget\", \"ok\": true, \"record_id\": \"budget:finance-central/spend-travel\", \"status\": 200, \"value\": \"0.00\"}",
+       "tool_use_id": "toolu_01T2WgyrcU2vDTr69KKBiNVW",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "signature_chars": 784,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01U9WSQhJj9arU9hPpA4x5Jq",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "budget:finance-central/spend-travel",
+        "value": "45.00"
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 16, \"ok\": true, \"record_id\": \"budget:finance-central/spend-travel\", \"status\": 200, \"value\": \"45.00\"}",
+       "tool_use_id": "toolu_01U9WSQhJj9arU9hPpA4x5Jq",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "id": "toolu_01CiRXqfHjrxyRL1YvgDhhjs",
+       "input": {
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01A2u9KLqqvFhFwpQ54Xkx6x",
+       "input": {
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01P99aX655Yq5wXTsKs5FA9f",
+       "input": {
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"ok\": true, \"record_id\": \"budget:finance-central/cap\", \"status\": 200}",
+       "tool_use_id": "toolu_01CiRXqfHjrxyRL1YvgDhhjs",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"budget:finance-central/spend-events\", \"status\": 200}",
+       "tool_use_id": "toolu_01A2u9KLqqvFhFwpQ54Xkx6x",
+       "type": "tool_result"
+      },
+      {
+       "content": "{\"ok\": true, \"record_id\": \"budget:finance-central/spend-travel\", \"status\": 200}",
+       "tool_use_id": "toolu_01P99aX655Yq5wXTsKs5FA9f",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Recorded a 45.00 spend in spend-travel since total spend (45.00 events+travel) stays within the 80.00 cap.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 3,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Record a spend of 45.00 in budget:finance-central/spend-travel, only if total spend across budget:finance-central/spend-events, budget:finance-central/spend-travel stays within budget:finance-central/cap.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T18:30:14Z",
+     "content": [
+      {
+       "signature_chars": 1424,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_012awQ3dinvvaNF64Niqg7Zt",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_016Ggd1j6SduWZkzZxPDhxvK",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01T6ECimyDFc8TkBXFymFcnr",
+       "input": {
+        "lease_calls": 20,
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00270785,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1651,
+      "cache_write": 159,
+      "input": 99,
+      "output": 449
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:39:23Z",
+     "content": [
+      {
+       "id": "toolu_01R2P2u5L7rKGDbFRiWUFNnj",
+       "input": {
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01K3t2v3EyQm6DMpVnWjf9fB",
+       "input": {
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01T2WgyrcU2vDTr69KKBiNVW",
+       "input": {
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.00202485,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1651,
+      "cache_write": 159,
+      "input": 796,
+      "output": 173
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:42:43Z",
+     "content": [
+      {
+       "signature_chars": 784,
+       "thinking": "",
+       "type": "thinking"
+      },
+      {
+       "id": "toolu_01U9WSQhJj9arU9hPpA4x5Jq",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "budget:finance-central/spend-travel",
+        "value": "45.00"
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002072,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "provider_meta": {
+      "thinking_blocks": 1,
+      "thinking_chars": 0
+     },
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 1,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1810,
+      "cache_write": 0,
+      "input": 1196,
+      "output": 139
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:46:01Z",
+     "content": [
+      {
+       "id": "toolu_01CiRXqfHjrxyRL1YvgDhhjs",
+       "input": {
+        "record_id": "budget:finance-central/cap"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01A2u9KLqqvFhFwpQ54Xkx6x",
+       "input": {
+        "record_id": "budget:finance-central/spend-events"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      },
+      {
+       "id": "toolu_01P99aX655Yq5wXTsKs5FA9f",
+       "input": {
+        "record_id": "budget:finance-central/spend-travel"
+       },
+       "name": "release_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002451,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1810,
+      "cache_write": 0,
+      "input": 1390,
+      "output": 176
+     }
+    },
+    {
+     "at_utc": "2026-11-16T18:48:15Z",
+     "content": [
+      {
+       "text": "Recorded a 45.00 spend in spend-travel since total spend (45.00 events+travel) stays within the 80.00 cap.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.002156,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-sonnet-5",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 1810,
+      "cache_write": 0,
+      "input": 1745,
+      "output": 46
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 8732,
+    "cache_write": 318,
+    "input": 5226,
+    "output": 983
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "locks",
+ "dry_run": false,
+ "episode_id": "claude-sonnet-5__locks__budget_write_skew@i4__n2__s0",
+ "final_store": {
+  "budget:finance-central/cap": {
+   "value": "80.00",
+   "version": 1
+  },
+  "budget:finance-central/spend-events": {
+   "value": "0.00",
+   "version": 1
+  },
+  "budget:finance-central/spend-travel": {
+   "value": "45.00",
+   "version": 2
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Recorded a 45.00 spend in spend-travel since total spend (45.00 events+travel) stays within the 80.00 cap.",
+    "step": 33,
+    "turns": 10
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 1,
+    "locks_held": [],
+    "reason": "returned",
+    "report": "Spend not recorded: current total (0.00 events + 45.00 travel = 45.00) plus 50.00 would total 95.00, exceeding the 80.00 cap, so no update was made.",
+    "step": 49,
+    "turns": 9
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 20,
+     "record_id": "budget:finance-central/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 20,
+    "own_call": 1,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/cap",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 20,
+     "ok": true,
+     "record_id": "budget:finance-central/cap",
+     "status": 200
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 4,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 20,
+     "record_id": "budget:finance-central/spend-events"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 20,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-events",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 20,
+     "ok": true,
+     "record_id": "budget:finance-central/spend-events",
+     "status": 200
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 5,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 20,
+     "record_id": "budget:finance-central/spend-travel"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 20,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-travel",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 20,
+     "ok": true,
+     "record_id": "budget:finance-central/spend-travel",
+     "status": 200
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 8,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:finance-central/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:finance-central/cap",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:finance-central/cap",
+     "status": 200,
+     "value": "80.00"
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 9,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:finance-central/spend-events"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-events",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:finance-central/spend-events",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 11,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:finance-central/spend-travel"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-travel",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:finance-central/spend-travel",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 12,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "budget:finance-central/spend-travel",
+     "value": "45.00"
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 16,
+    "own_call": 7,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-travel",
+    "response": {
+     "lease_remaining": 16,
+     "ok": true,
+     "record_id": "budget:finance-central/spend-travel",
+     "status": 200,
+     "value": "45.00"
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 18,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:finance-central/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 8,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/cap",
+    "response": {
+     "ok": true,
+     "record_id": "budget:finance-central/cap",
+     "status": 200
+    },
+    "seq": 8,
+    "status": 200,
+    "step": 23,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:finance-central/spend-events"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 9,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-events",
+    "response": {
+     "ok": true,
+     "record_id": "budget:finance-central/spend-events",
+     "status": 200
+    },
+    "seq": 9,
+    "status": 200,
+    "step": 25,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 20,
+     "record_id": "budget:finance-central/spend-events"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 20,
+    "own_call": 1,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-events",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 20,
+     "note": "The record was locked when you asked; this call waited 20 rounds before the lock was granted. Values you read before this grant may be out of date.",
+     "ok": true,
+     "record_id": "budget:finance-central/spend-events",
+     "status": 200,
+     "waited_rounds": 20
+    },
+    "seq": 10,
+    "status": 200,
+    "step": 25,
+    "tool": "acquire_lock",
+    "waited_rounds": 20
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "budget:finance-central/spend-travel"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 10,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-travel",
+    "response": {
+     "ok": true,
+     "record_id": "budget:finance-central/spend-travel",
+     "status": 200
+    },
+    "seq": 11,
+    "status": 200,
+    "step": 28,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 20,
+     "record_id": "budget:finance-central/spend-travel"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 20,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-travel",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 20,
+     "note": "The record was locked when you asked; this call waited 2 rounds before the lock was granted. Values you read before this grant may be out of date.",
+     "ok": true,
+     "record_id": "budget:finance-central/spend-travel",
+     "status": 200,
+     "waited_rounds": 2
+    },
+    "seq": 12,
+    "status": 200,
+    "step": 28,
+    "tool": "acquire_lock",
+    "waited_rounds": 2
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 20,
+     "record_id": "budget:finance-central/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 20,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/cap",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 20,
+     "ok": true,
+     "record_id": "budget:finance-central/cap",
+     "status": 200
+    },
+    "seq": 13,
+    "status": 200,
+    "step": 29,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:finance-central/spend-events"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 4,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-events",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:finance-central/spend-events",
+     "status": 200,
+     "value": "0.00"
+    },
+    "seq": 14,
+    "status": 200,
+    "step": 34,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:finance-central/spend-travel"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 5,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-travel",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:finance-central/spend-travel",
+     "status": 200,
+     "value": "45.00"
+    },
+    "seq": 15,
+    "status": 200,
+    "step": 36,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:finance-central/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 6,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "budget:finance-central/cap",
+    "response": {
+     "kind": "budget",
+     "ok": true,
+     "record_id": "budget:finance-central/cap",
+     "status": 200,
+     "value": "80.00"
+    },
+    "seq": 16,
+    "status": 200,
+    "step": 39,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:finance-central/spend-events"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 7,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-events",
+    "response": {
+     "ok": true,
+     "record_id": "budget:finance-central/spend-events",
+     "status": 200
+    },
+    "seq": 17,
+    "status": 200,
+    "step": 42,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:finance-central/spend-travel"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 8,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/spend-travel",
+    "response": {
+     "ok": true,
+     "record_id": "budget:finance-central/spend-travel",
+     "status": 200
+    },
+    "seq": 18,
+    "status": 200,
+    "step": 45,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "budget:finance-central/cap"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 9,
+    "read_version": null,
+    "reason": null,
+    "record_id": "budget:finance-central/cap",
+    "response": {
+     "ok": true,
+     "record_id": "budget:finance-central/cap",
+     "status": 200
+    },
+    "seq": 19,
+    "status": 200,
+    "step": 46,
+    "tool": "release_lock",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "budget:finance-central/spend-travel",
+     "value": "45.00"
+    },
+    "new_value": "45.00",
+    "new_version": 2,
+    "old_value": "0.00",
+    "old_version": 1,
+    "record_id": "budget:finance-central/spend-travel",
+    "seq": 1,
+    "step": 18,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 20,
+     "own_call": 1,
+     "record_id": "budget:finance-central/cap",
+     "seq": 1,
+     "step": 4,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 20,
+     "own_call": 2,
+     "record_id": "budget:finance-central/spend-events",
+     "seq": 2,
+     "step": 5,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 20,
+     "own_call": 3,
+     "record_id": "budget:finance-central/spend-travel",
+     "seq": 3,
+     "step": 8,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "budget:finance-central/cap",
+     "seq": 8,
+     "step": 23,
+     "token": 1
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "budget:finance-central/spend-events",
+     "seq": 9,
+     "step": 25,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 20,
+     "own_call": 1,
+     "record_id": "budget:finance-central/spend-events",
+     "seq": 10,
+     "step": 25,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a1",
+     "record_id": "budget:finance-central/spend-travel",
+     "seq": 11,
+     "step": 28,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 20,
+     "own_call": 2,
+     "record_id": "budget:finance-central/spend-travel",
+     "seq": 12,
+     "step": 28,
+     "token": 2
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 20,
+     "own_call": 3,
+     "record_id": "budget:finance-central/cap",
+     "seq": 13,
+     "step": 29,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a0",
+     "record_id": "budget:finance-central/spend-events",
+     "seq": 17,
+     "step": 42,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a0",
+     "record_id": "budget:finance-central/spend-travel",
+     "seq": 18,
+     "step": 45,
+     "token": 2
+    },
+    {
+     "event": "release",
+     "holder": "a0",
+     "record_id": "budget:finance-central/cap",
+     "seq": 19,
+     "step": 46,
+     "token": 2
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 49,
+   "stall_step": null,
+   "stalled": false,
+   "start_mode": "together",
+   "start_rounds": {
+    "a0": 5,
+    "a1": 4
+   }
+  }
+ },
+ "model": "claude-sonnet-5",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_01FEVSYU4ytyjydJZfiuomKX",
+    "msgbatch_01KYH3h7HLLBYUCT5mpFAatr",
+    "msgbatch_01MzHeogzEZi394EBfUJA8Xf",
+    "msgbatch_01PTEcQZ9eA6roSrb78112pt",
+    "msgbatch_01Q5Ci1UqKN6XF5wW4QqZcVr",
+    "msgbatch_01RRvvHdz2Ajw7EcCw5wzeEE",
+    "msgbatch_01Vz293mHRcUfRmeWnisX3B6",
+    "msgbatch_01XqNJMMvHfu9hy9FX6FdcZR",
+    "msgbatch_01Yb9Uru2G5TFyu6f6DshcUU"
+   ],
+   "driver": "src7_batch/batch_driver.py",
+   "lockstep_rounds": 10,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-16T18:59:55Z",
+  "started_utc": "2026-11-16T18:24:51Z",
+  "wall_seconds": 2104.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "lead_jitter": 2,
+  "max_rounds": 3000,
+  "seed": 265456891997532059,
+  "stagger_max": 10,
+  "stagger_min": 5,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "start_mode": "together",
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 0,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 4,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 0,
+    "first_contention_call": 1,
+    "first_lock_call": 1,
+    "first_perceivable_call": 1,
+    "first_protective": "lock",
+    "first_protective_call": 1,
+    "fulfilled": false,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": null,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "all",
+    "lock_waits": 2,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 2,
+    "lock_waits_reported": 2,
+    "locked_reads": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 2,
+    "policy": "model:claude-sonnet-5",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": null,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 9,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 1,
+    "first_contention_call": null,
+    "first_lock_call": 1,
+    "first_perceivable_call": null,
+    "first_protective": "lock",
+    "first_protective_call": 1,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": true,
+    "lock_granted": true,
+    "lock_leak": false,
+    "lock_scope": "all",
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "lock_waits_reported": 0,
+    "locked_reads": 0,
+    "locks_held_at_end": [],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 0,
+    "policy": "model:claude-sonnet-5",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": false,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 10,
+    "unnecessary_give_up": false,
+    "valid_at_end": false,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "write_skew",
+  "committed_agents": [
+   "a1"
+  ],
+  "config": "locks",
+  "conflict_observed": false,
+  "cross_agent_edges": 1,
+  "cross_agent_record_edges": 1,
+  "cycle": null,
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": false,
+  "dsg_cycle": false,
+  "dsg_cycle_committed": false,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a0",
+    "kind": "wr",
+    "record": "budget:finance-central/spend-travel",
+    "src": "a1",
+    "version": 2
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "budget_write_skew",
+  "fenced_stale_basis_seqs": [],
+  "fenced_unread_basis_seqs": [],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": false,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": false,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": false,
+  "interleaving": {
+   "first_mover": "a1",
+   "n_writers": 1,
+   "pattern": "R1W1R0",
+   "reads_overlap": false
+  },
+  "invariant_violations": [],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "clean",
+  "outcome_stratum": "clean",
+  "primary_label": null,
+  "rolled_back_agents": [],
+  "rounds": 49,
+  "serial_witness": [
+   "a1"
+  ],
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "budget_write_skew@i4/n2"
+ },
+ "seed": 0,
+ "start_mode": "together",
+ "study": 4,
+ "task": {
+  "category": "write_skew",
+  "description": "agents spend from a shared budget",
+  "factory": "budget_write_skew",
+  "family": "budget_write_skew",
+  "fingerprint": "12e3dce60338edbfc0cf134a24d5abe815602af7d78afaacf271371dbac40e5e",
+  "initial": {
+   "budget:finance-central/cap": "80.00",
+   "budget:finance-central/spend-events": "0.00",
+   "budget:finance-central/spend-travel": "0.00"
+  },
+  "instance": 4,
+  "intents": {
+   "a0": "Record a spend of 50.00 in budget:finance-central/spend-events, only if total spend across budget:finance-central/spend-events, budget:finance-central/spend-travel stays within budget:finance-central/cap.",
+   "a1": "Record a spend of 45.00 in budget:finance-central/spend-travel, only if total spend across budget:finance-central/spend-events, budget:finance-central/spend-travel stays within budget:finance-central/cap."
+  },
+  "kind": "budget",
+  "name": "budget_write_skew@i4/n2",
+  "wording": 0
+ },
+ "totals": {
+  "completions": 9,
+  "cost_usd": 0.0210867,
+  "invalid_calls": 0,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 6,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 4,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 15652,
+   "cache_write": 634,
+   "input": 9224,
+   "output": 1901
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

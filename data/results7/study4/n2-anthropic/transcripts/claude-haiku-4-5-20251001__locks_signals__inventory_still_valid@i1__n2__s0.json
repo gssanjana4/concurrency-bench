@@ -1,0 +1,1350 @@
+{
+ "agents": {
+  "a0": {
+   "agent_id": "a0",
+   "completions": 5,
+   "cost_usd": 0.0061025,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:kayak-east"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:kayak-east",
+      "status": 200,
+      "value": 9
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_013rtojsvKQqTfAadMy3PmDP"
+    },
+    {
+     "args": {
+      "lease_calls": 2,
+      "record_id": "inventory:kayak-east"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 2,
+      "lease_remaining": 2,
+      "note": "The record was locked when you asked; this call waited 4 rounds before the lock was granted. Values you read before this grant may be out of date.",
+      "ok": true,
+      "record_id": "inventory:kayak-east",
+      "status": 200,
+      "waited_rounds": 4
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01SdwZjATUj1pSYUhgqB4SK1"
+    },
+    {
+     "args": {
+      "record_id": "inventory:kayak-east"
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:kayak-east",
+      "status": 200,
+      "value": 5
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01KCRCDbfEGEjn2LMdPY1BhF"
+    },
+    {
+     "args": {
+      "fencing_token": 2,
+      "record_id": "inventory:kayak-east",
+      "value": 4
+     },
+     "completion": 3,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 0,
+      "ok": true,
+      "record_id": "inventory:kayak-east",
+      "status": 200,
+      "value": 4
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01K791gfbtxLromqP94t2UDL"
+    }
+   ],
+   "final_text": "Successfully reduced inventory:kayak-east from 5 to 4 units, recording the sale.",
+   "first_reply": "read",
+   "intent": "Reduce inventory:kayak-east by 1 to record a sale, but only if at least 1 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for kayak-east by 1, but only if at least 1 is in stock. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013rtojsvKQqTfAadMy3PmDP",
+       "input": {
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:kayak-east\", \"status\": 200, \"value\": 9}",
+       "tool_use_id": "toolu_013rtojsvKQqTfAadMy3PmDP",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Great! The current inventory for kayak-east is 9 units, so there is at least 1 in stock. Now I'll acquire a lock on this record and reduce the inventory by 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01SdwZjATUj1pSYUhgqB4SK1",
+       "input": {
+        "lease_calls": 2,
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 2, \"lease_remaining\": 2, \"note\": \"The record was locked when you asked; this call waited 4 rounds before the lock was granted. Values you read before this grant may be out of date.\", \"ok\": true, \"record_id\": \"inventory:kayak-east\", \"status\": 200, \"waited_rounds\": 4}",
+       "tool_use_id": "toolu_01SdwZjATUj1pSYUhgqB4SK1",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I've acquired the lock. Now let me verify the current value again and update it to 8 (reducing by 1 from 9).",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KCRCDbfEGEjn2LMdPY1BhF",
+       "input": {
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:kayak-east\", \"status\": 200, \"value\": 5}",
+       "tool_use_id": "toolu_01KCRCDbfEGEjn2LMdPY1BhF",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "The inventory is now 5 units (it has changed since my first read). Since there is still at least 1 in stock, I'll proceed with reducing it by 1 to 4.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01K791gfbtxLromqP94t2UDL",
+       "input": {
+        "fencing_token": 2,
+        "record_id": "inventory:kayak-east",
+        "value": 4
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 0, \"ok\": true, \"record_id\": \"inventory:kayak-east\", \"status\": 200, \"value\": 4}",
+       "tool_use_id": "toolu_01K791gfbtxLromqP94t2UDL",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully reduced inventory:kayak-east from 5 to 4 units, recording the sale.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a0. Use the tools to complete your task.\nTask: Reduce inventory:kayak-east by 1 to record a sale, but only if at least 1 is in stock.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T16:09:49Z",
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for kayak-east by 1, but only if at least 1 is in stock. Let me start by checking the current inventory level.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_013rtojsvKQqTfAadMy3PmDP",
+       "input": {
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001056,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1617,
+      "output": 99
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:12:06Z",
+     "content": [
+      {
+       "text": "Great! The current inventory for kayak-east is 9 units, so there is at least 1 in stock. Now I'll acquire a lock on this record and reduce the inventory by 1.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01SdwZjATUj1pSYUhgqB4SK1",
+       "input": {
+        "lease_calls": 2,
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0011915,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1763,
+      "output": 124
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:20:55Z",
+     "content": [
+      {
+       "text": "I've acquired the lock. Now let me verify the current value again and update it to 8 (reducing by 1 from 9).",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01KCRCDbfEGEjn2LMdPY1BhF",
+       "input": {
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001222,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1984,
+      "output": 92
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:24:55Z",
+     "content": [
+      {
+       "text": "The inventory is now 5 units (it has changed since my first read). Since there is still at least 1 in stock, I'll proceed with reducing it by 1 to 4.",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01K791gfbtxLromqP94t2UDL",
+       "input": {
+        "fencing_token": 2,
+        "record_id": "inventory:kayak-east",
+        "value": 4
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001414,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2123,
+      "output": 141
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:28:17Z",
+     "content": [
+      {
+       "text": "Successfully reduced inventory:kayak-east from 5 to 4 units, recording the sale.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001219,
+     "index": 5,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2313,
+      "output": 25
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 9800,
+    "output": 481
+   }
+  },
+  "a1": {
+   "agent_id": "a1",
+   "completions": 4,
+   "cost_usd": 0.0047044999999999995,
+   "executions": [
+    {
+     "args": {
+      "record_id": "inventory:kayak-east"
+     },
+     "completion": 0,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "kind": "inventory",
+      "ok": true,
+      "record_id": "inventory:kayak-east",
+      "status": 200,
+      "value": 9
+     },
+     "tool": "get_record",
+     "tool_use_id": "toolu_01PPfUNQYM6oVQnJh3q7qAJ5"
+    },
+    {
+     "args": {
+      "lease_calls": 2,
+      "record_id": "inventory:kayak-east"
+     },
+     "completion": 1,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "fencing_token": 1,
+      "lease_remaining": 2,
+      "ok": true,
+      "record_id": "inventory:kayak-east",
+      "status": 200
+     },
+     "tool": "acquire_lock",
+     "tool_use_id": "toolu_01PPaghyB2mC5YxR4zB3aY13"
+    },
+    {
+     "args": {
+      "fencing_token": 1,
+      "record_id": "inventory:kayak-east",
+      "value": 5
+     },
+     "completion": 2,
+     "malformed_args": false,
+     "queue_index": 0,
+     "queue_len": 1,
+     "response": {
+      "lease_remaining": 1,
+      "ok": true,
+      "record_id": "inventory:kayak-east",
+      "status": 200,
+      "value": 5
+     },
+     "tool": "update_record",
+     "tool_use_id": "toolu_01JGQUi5ZGFJdz5juy3yobyN"
+    }
+   ],
+   "final_text": "Successfully reduced inventory:kayak-east from 9 to 5 units to record the sale of 4 kayaks.",
+   "first_reply": "read",
+   "intent": "Reduce inventory:kayak-east by 4 to record a sale, but only if at least 4 is in stock.",
+   "invalid_calls": [],
+   "max_tool_calls_in_turn": 1,
+   "messages": [
+    {
+     "content": "Begin. When you are finished, reply with a one-line summary and no tool call.",
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for kayak-east by 4, but first I need to check the current stock level and then update it only if there are at least 4 units available.\n\nLet me start by getting the current inventory value:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PPfUNQYM6oVQnJh3q7qAJ5",
+       "input": {
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"kind\": \"inventory\", \"ok\": true, \"record_id\": \"inventory:kayak-east\", \"status\": 200, \"value\": 9}",
+       "tool_use_id": "toolu_01PPfUNQYM6oVQnJh3q7qAJ5",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Good! There are 9 units in stock, which is at least 4. Now I'll acquire a lock on this record and then update it to reduce the inventory by 4 (from 9 to 5):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PPaghyB2mC5YxR4zB3aY13",
+       "input": {
+        "lease_calls": 2,
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"fencing_token\": 1, \"lease_remaining\": 2, \"ok\": true, \"record_id\": \"inventory:kayak-east\", \"status\": 200}",
+       "tool_use_id": "toolu_01PPaghyB2mC5YxR4zB3aY13",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Now I'll update the inventory to 5 (reducing by 4):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JGQUi5ZGFJdz5juy3yobyN",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "inventory:kayak-east",
+        "value": 5
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "role": "assistant"
+    },
+    {
+     "content": [
+      {
+       "content": "{\"lease_remaining\": 1, \"ok\": true, \"record_id\": \"inventory:kayak-east\", \"status\": 200, \"value\": 5}",
+       "tool_use_id": "toolu_01JGQUi5ZGFJdz5juy3yobyN",
+       "type": "tool_result"
+      }
+     ],
+     "role": "user"
+    },
+    {
+     "content": [
+      {
+       "text": "Successfully reduced inventory:kayak-east from 9 to 5 units to record the sale of 4 kayaks.",
+       "type": "text"
+      }
+     ],
+     "role": "assistant"
+    }
+   ],
+   "multi_tool_turns": 0,
+   "probe_calls": null,
+   "prompt_caching": true,
+   "stop_reason": "end_turn",
+   "system": "You are agent a1. Use the tools to complete your task.\nTask: Reduce inventory:kayak-east by 4 to record a sale, but only if at least 4 is in stock.",
+   "truncated": false,
+   "turns": [
+    {
+     "at_utc": "2026-11-16T16:07:16Z",
+     "content": [
+      {
+       "text": "I'll help you reduce the inventory for kayak-east by 4, but first I need to check the current stock level and then update it only if there are at least 4 units available.\n\nLet me start by getting the current inventory value:",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PPfUNQYM6oVQnJh3q7qAJ5",
+       "input": {
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "get_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.0010935,
+     "index": 1,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1617,
+      "output": 114
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:09:49Z",
+     "content": [
+      {
+       "text": "Good! There are 9 units in stock, which is at least 4. Now I'll acquire a lock on this record and then update it to reduce the inventory by 4 (from 9 to 5):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01PPaghyB2mC5YxR4zB3aY13",
+       "input": {
+        "lease_calls": 2,
+        "record_id": "inventory:kayak-east"
+       },
+       "name": "acquire_lock",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001209,
+     "index": 2,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1778,
+      "output": 128
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:14:28Z",
+     "content": [
+      {
+       "text": "Now I'll update the inventory to 5 (reducing by 4):",
+       "type": "text"
+      },
+      {
+       "id": "toolu_01JGQUi5ZGFJdz5juy3yobyN",
+       "input": {
+        "fencing_token": 1,
+        "record_id": "inventory:kayak-east",
+        "value": 5
+       },
+       "name": "update_record",
+       "type": "tool_use"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001264,
+     "index": 3,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "tool_use",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 1958,
+      "output": 114
+     }
+    },
+    {
+     "at_utc": "2026-11-16T16:17:06Z",
+     "content": [
+      {
+       "text": "Successfully reduced inventory:kayak-east from 9 to 5 units to record the sale of 4 kayaks.",
+       "type": "text"
+      }
+     ],
+     "cost_source": "price_table",
+     "cost_usd": 0.001138,
+     "index": 4,
+     "max_tokens_exceeded": false,
+     "model_served": "claude-haiku-4-5-20251001",
+     "reasoning_tokens": null,
+     "served_host": "anthropic",
+     "stop_reason": "end_turn",
+     "temperature_effective": null,
+     "temperature_requested": 0.0,
+     "thinking_blocks": 0,
+     "thinking_chars": 0,
+     "usage": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 2121,
+      "output": 31
+     }
+    }
+   ],
+   "unexecuted_tool_calls": [],
+   "usage": {
+    "cache_read": 0,
+    "cache_write": 0,
+    "input": 7474,
+    "output": 387
+   }
+  }
+ },
+ "concurrency_aware_prompt": false,
+ "config": "locks_signals",
+ "dry_run": false,
+ "episode_id": "claude-haiku-4-5-20251001__locks_signals__inventory_still_valid@i1__n2__s0",
+ "final_store": {
+  "inventory:kayak-east": {
+   "value": 4,
+   "version": 3
+  }
+ },
+ "generation": {
+  "max_tokens": 4096,
+  "prompt_caching": true,
+  "temperature_requested": 0.0
+ },
+ "ledger": {
+  "agent_ends": [
+   {
+    "agent_id": "a1",
+    "effects_at_end": 1,
+    "locks_held": [
+     "inventory:kayak-east"
+    ],
+    "reason": "returned",
+    "report": "Successfully reduced inventory:kayak-east from 9 to 5 units to record the sale of 4 kayaks.",
+    "step": 14,
+    "turns": 3
+   },
+   {
+    "agent_id": "a0",
+    "effects_at_end": 2,
+    "locks_held": [
+     "inventory:kayak-east"
+    ],
+    "reason": "returned",
+    "report": "Successfully reduced inventory:kayak-east from 5 to 4 units, recording the sale.",
+    "step": 27,
+    "turns": 4
+   }
+  ],
+  "calls": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "record_id": "inventory:kayak-east"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:kayak-east",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:kayak-east",
+     "status": 200,
+     "value": 9
+    },
+    "seq": 1,
+    "status": 200,
+    "step": 1,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:kayak-east"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 1,
+    "read_version": 1,
+    "reason": null,
+    "record_id": "inventory:kayak-east",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:kayak-east",
+     "status": 200,
+     "value": 9
+    },
+    "seq": 2,
+    "status": 200,
+    "step": 6,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "lease_calls": 2,
+     "record_id": "inventory:kayak-east"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 2,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-east",
+    "response": {
+     "fencing_token": 1,
+     "lease_remaining": 2,
+     "ok": true,
+     "record_id": "inventory:kayak-east",
+     "status": 200
+    },
+    "seq": 3,
+    "status": 200,
+    "step": 6,
+    "tool": "acquire_lock",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "inventory:kayak-east",
+     "value": 5
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 1,
+    "fencing_token": 1,
+    "lease_expires_at": null,
+    "lease_remaining": 1,
+    "own_call": 3,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-east",
+    "response": {
+     "lease_remaining": 1,
+     "ok": true,
+     "record_id": "inventory:kayak-east",
+     "status": 200,
+     "value": 5
+    },
+    "seq": 4,
+    "status": 200,
+    "step": 11,
+    "tool": "update_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "lease_calls": 2,
+     "record_id": "inventory:kayak-east"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 2,
+    "own_call": 2,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-east",
+    "response": {
+     "fencing_token": 2,
+     "lease_remaining": 2,
+     "note": "The record was locked when you asked; this call waited 4 rounds before the lock was granted. Values you read before this grant may be out of date.",
+     "ok": true,
+     "record_id": "inventory:kayak-east",
+     "status": 200,
+     "waited_rounds": 4
+    },
+    "seq": 5,
+    "status": 200,
+    "step": 14,
+    "tool": "acquire_lock",
+    "waited_rounds": 4
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "record_id": "inventory:kayak-east"
+    },
+    "committed": false,
+    "conflict": false,
+    "effect_seq": null,
+    "fencing_token": null,
+    "lease_expires_at": null,
+    "lease_remaining": null,
+    "own_call": 3,
+    "read_version": 2,
+    "reason": null,
+    "record_id": "inventory:kayak-east",
+    "response": {
+     "kind": "inventory",
+     "ok": true,
+     "record_id": "inventory:kayak-east",
+     "status": 200,
+     "value": 5
+    },
+    "seq": 6,
+    "status": 200,
+    "step": 15,
+    "tool": "get_record",
+    "waited_rounds": 0
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "fencing_token": 2,
+     "record_id": "inventory:kayak-east",
+     "value": 4
+    },
+    "committed": true,
+    "conflict": false,
+    "effect_seq": 2,
+    "fencing_token": 2,
+    "lease_expires_at": null,
+    "lease_remaining": 0,
+    "own_call": 4,
+    "read_version": null,
+    "reason": null,
+    "record_id": "inventory:kayak-east",
+    "response": {
+     "lease_remaining": 0,
+     "ok": true,
+     "record_id": "inventory:kayak-east",
+     "status": 200,
+     "value": 4
+    },
+    "seq": 7,
+    "status": 200,
+    "step": 21,
+    "tool": "update_record",
+    "waited_rounds": 0
+   }
+  ],
+  "effects": [
+   {
+    "agent_id": "a1",
+    "args": {
+     "fencing_token": 1,
+     "record_id": "inventory:kayak-east",
+     "value": 5
+    },
+    "new_value": 5,
+    "new_version": 2,
+    "old_value": 9,
+    "old_version": 1,
+    "record_id": "inventory:kayak-east",
+    "seq": 1,
+    "step": 11,
+    "tool": "update_record"
+   },
+   {
+    "agent_id": "a0",
+    "args": {
+     "fencing_token": 2,
+     "record_id": "inventory:kayak-east",
+     "value": 4
+    },
+    "new_value": 4,
+    "new_version": 3,
+    "old_value": 5,
+    "old_version": 2,
+    "record_id": "inventory:kayak-east",
+    "seq": 2,
+    "step": 21,
+    "tool": "update_record"
+   }
+  ],
+  "flags": {
+   "deadlock_agents": [],
+   "deadlock_first_step": null,
+   "deadlock_rounds": 0,
+   "lock_events": [
+    {
+     "event": "grant",
+     "holder": "a1",
+     "lease": 2,
+     "own_call": 2,
+     "record_id": "inventory:kayak-east",
+     "seq": 3,
+     "step": 6,
+     "token": 1
+    },
+    {
+     "event": "end_release",
+     "holder": "a1",
+     "record_id": "inventory:kayak-east",
+     "seq": 5,
+     "step": 14,
+     "token": 1
+    },
+    {
+     "event": "grant",
+     "holder": "a0",
+     "lease": 2,
+     "own_call": 2,
+     "record_id": "inventory:kayak-east",
+     "seq": 5,
+     "step": 14,
+     "token": 2
+    },
+    {
+     "event": "end_release",
+     "holder": "a0",
+     "record_id": "inventory:kayak-east",
+     "seq": 8,
+     "step": 27,
+     "token": 2
+    }
+   ],
+   "locks_held_at_end": {},
+   "rounds": 27,
+   "stall_step": null,
+   "stalled": false,
+   "start_mode": "together",
+   "start_rounds": {
+    "a0": 6,
+    "a1": 1
+   }
+  }
+ },
+ "model": "claude-haiku-4-5-20251001",
+ "n_agents": 2,
+ "probe": false,
+ "provider": "anthropic",
+ "provider_family": "anthropic",
+ "run_info": {
+  "execution": {
+   "batch_ids": [
+    "msgbatch_013E9D2BbuwH1eAQgRro5J8b",
+    "msgbatch_014CNNDwzzPd3wvueLQSVyP1",
+    "msgbatch_0178taQrEi9H7wJgnzZaFcJH",
+    "msgbatch_01CFLC3C2LHHWYKeyV7KXRrw",
+    "msgbatch_01FtxYNDJ5prkoh8vzSBkv19",
+    "msgbatch_01JAFHZEXN19WnqgyQkYZSVb",
+    "msgbatch_01WDkngKA1G1rqLQDttyhn3d",
+    "msgbatch_01Y6E1rYkgmgxW9RbFGcCpjV"
+   ],
+   "driver": "src7_batch/batch_driver.py",
+   "lockstep_rounds": 9,
+   "mode": "anthropic_message_batches",
+   "price_factor": 0.5,
+   "retried_requests": 0,
+   "retry_generation": 0
+  },
+  "finished_utc": "2026-11-16T16:28:17Z",
+  "started_utc": "2026-11-16T16:03:43Z",
+  "wall_seconds": 1474.0
+ },
+ "schedule": {
+  "gap_max": 4,
+  "gap_min": 0,
+  "latency_max": 2,
+  "latency_p": 0.3,
+  "lead_jitter": 2,
+  "max_rounds": 3000,
+  "seed": 934006923754025863,
+  "stagger_max": 10,
+  "stagger_min": 5,
+  "stall_rounds": 6,
+  "start_jitter": 6,
+  "start_mode": "together",
+  "turn_cap": 28
+ },
+ "score": {
+  "agent_errors": 0,
+  "agents": {
+   "a0": {
+    "abandoned": false,
+    "agent_id": "a0",
+    "cas": false,
+    "choices": [
+     "reread",
+     "lock"
+    ],
+    "committed_writes": 1,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 2,
+    "end_reason": "returned",
+    "fenced_stale_basis": 0,
+    "fenced_unread_basis": 0,
+    "fenced_writes": 1,
+    "first_contention_call": 2,
+    "first_lock_call": 2,
+    "first_perceivable_call": 2,
+    "first_protective": "lock",
+    "first_protective_call": 2,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": true,
+    "lock_granted": true,
+    "lock_leak": true,
+    "lock_scope": "all",
+    "lock_waits": 1,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 1,
+    "lock_waits_reported": 1,
+    "locked_reads": 0,
+    "locks_held_at_end": [
+     "inventory:kayak-east"
+    ],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 1,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": false,
+    "reread": true,
+    "rolled_back": false,
+    "turns": 4,
+    "unnecessary_give_up": false,
+    "valid_at_end": true,
+    "wrong_value": false
+   },
+   "a1": {
+    "abandoned": false,
+    "agent_id": "a1",
+    "cas": false,
+    "choices": [
+     "lock"
+    ],
+    "committed_writes": 1,
+    "compensate": false,
+    "conflicts_seen": 0,
+    "contention_signals": 0,
+    "end_reason": "returned",
+    "fenced_stale_basis": 1,
+    "fenced_unread_basis": 1,
+    "fenced_writes": 1,
+    "first_contention_call": null,
+    "first_lock_call": 2,
+    "first_perceivable_call": null,
+    "first_protective": "lock",
+    "first_protective_call": 2,
+    "fulfilled": true,
+    "guard_violation": false,
+    "laundered_cas_writes": 0,
+    "lease_rejections": 0,
+    "lock": true,
+    "lock_after_contention": false,
+    "lock_effective": false,
+    "lock_granted": true,
+    "lock_leak": true,
+    "lock_scope": "all",
+    "lock_waits": 0,
+    "lock_waits_423": 0,
+    "lock_waits_granted": 0,
+    "lock_waits_reported": 0,
+    "locked_reads": 0,
+    "locks_held_at_end": [
+     "inventory:kayak-east"
+    ],
+    "message": false,
+    "messages_received": 0,
+    "messages_sent": 0,
+    "missing_leg": false,
+    "out_of_intent_write": false,
+    "perceivable_signals": 0,
+    "policy": "model:claude-haiku-4-5-20251001",
+    "promote": false,
+    "protect_before_contention": true,
+    "protect_before_perceivable": true,
+    "read_before_lock": true,
+    "reread": false,
+    "rolled_back": false,
+    "turns": 3,
+    "unnecessary_give_up": false,
+    "valid_at_end": true,
+    "wrong_value": false
+   }
+  },
+  "cap_endings": 0,
+  "cap_truncated": false,
+  "category": "still_valid",
+  "committed_agents": [
+   "a0",
+   "a1"
+  ],
+  "config": "locks_signals",
+  "conflict_observed": false,
+  "cross_agent_edges": 3,
+  "cross_agent_record_edges": 3,
+  "cycle": [
+   "a0",
+   "a1",
+   "a0"
+  ],
+  "deadlock": false,
+  "deadlock_rounds": 0,
+  "dsg_basis_cycle": false,
+  "dsg_cycle": true,
+  "dsg_cycle_committed": true,
+  "dsg_g1c": false,
+  "edges": [
+   {
+    "dst": "a1",
+    "kind": "rw",
+    "record": "inventory:kayak-east",
+    "src": "a0",
+    "version": 1
+   },
+   {
+    "dst": "a0",
+    "kind": "wr",
+    "record": "inventory:kayak-east",
+    "src": "a1",
+    "version": 2
+   },
+   {
+    "dst": "a0",
+    "kind": "ww",
+    "record": "inventory:kayak-east",
+    "src": "a1",
+    "version": 2
+   }
+  ],
+  "ever_violated_names": [],
+  "family": "inventory_still_valid",
+  "fenced_stale_basis_seqs": [
+   1
+  ],
+  "fenced_unread_basis_seqs": [
+   1
+  ],
+  "flags": {
+   "compensated": false,
+   "compensated_after_violation": false,
+   "compensation_exposed": false,
+   "ever_violated": false,
+   "fenced_stale_basis": true,
+   "guard_violation": false,
+   "laundered_cas": false,
+   "lost_update": false,
+   "missing_leg": false,
+   "out_of_intent_write": false,
+   "stale_overwrite": false,
+   "violated_at_end": false,
+   "write_skew": false,
+   "wrong_value": false
+  },
+  "fs_nonserializable": false,
+  "interleaving": {
+   "first_mover": "a1",
+   "n_writers": 2,
+   "pattern": "R1R0W1W0",
+   "reads_overlap": true
+  },
+  "invariant_violations": [],
+  "laundered_cas_seqs": [],
+  "lost_update_seqs": [],
+  "messages_delivered": 0,
+  "outcome": "clean",
+  "outcome_stratum": "clean",
+  "primary_label": null,
+  "rolled_back_agents": [],
+  "rounds": 27,
+  "serial_witness": [
+   "a0",
+   "a1"
+  ],
+  "stale_overwrite_seqs": [],
+  "stall": false,
+  "task": "inventory_still_valid@i1/n2"
+ },
+ "seed": 0,
+ "start_mode": "together",
+ "study": 4,
+ "task": {
+  "category": "still_valid",
+  "description": "shared stock",
+  "factory": "inventory_still_valid",
+  "family": "inventory_still_valid",
+  "fingerprint": "9ec02abf8db219e2ea5ceb05c10e2815621141d4563e444b1a48181db54fd052",
+  "initial": {
+   "inventory:kayak-east": 9
+  },
+  "instance": 1,
+  "intents": {
+   "a0": "Reduce inventory:kayak-east by 1 to record a sale, but only if at least 1 is in stock.",
+   "a1": "Reduce inventory:kayak-east by 4 to record a sale, but only if at least 4 is in stock."
+  },
+  "kind": "inventory",
+  "name": "inventory_still_valid@i1/n2",
+  "wording": 1
+ },
+ "totals": {
+  "completions": 9,
+  "cost_usd": 0.010807,
+  "invalid_calls": 0,
+  "max_tokens_exceeded": 0,
+  "multi_tool_turns": 0,
+  "reasoning_tokens": 0,
+  "thinking_blocks": 0,
+  "truncated_agents": [],
+  "usage": {
+   "cache_read": 0,
+   "cache_write": 0,
+   "input": 17274,
+   "output": 868
+  }
+ },
+ "world": {
+  "lock_expiry": true,
+  "lock_wait_rounds": 150,
+  "max_lease_calls": 20
+ }
+}

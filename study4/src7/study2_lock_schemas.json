@@ -1,0 +1,472 @@
+{
+ "_README": "Study 2 tool schemas (src5/world5.tool_schemas) per Study 2 config, and the Study 2 system prompt of a sample agent; frozen fixture for tests7.",
+ "prompt": "You are agent a0. Use the tools to complete your task.\nTask: Sell 2 from inventory:x, only if enough remains.",
+ "schemas": {
+  "all_available": [
+   {
+    "description": "Read a record. Returns its current value and version.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "get_record"
+   },
+   {
+    "description": "Set a record's value. Optionally conditional on expected_version.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "expected_version": {
+       "description": "Commit only if the record is still at this version; otherwise 409.",
+       "minimum": 1,
+       "type": "integer"
+      },
+      "fencing_token": {
+       "description": "The fencing_token returned by acquire_lock. Required while the record is locked. A write whose token's lease has ended is rejected with 409.",
+       "minimum": 1,
+       "type": "integer"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      },
+      "value": {
+       "description": "New value: integer stock, decimal string for money, holder name or null."
+      }
+     },
+     "required": [
+      "record_id",
+      "value"
+     ],
+     "type": "object"
+    },
+    "name": "update_record"
+   },
+   {
+    "description": "Set the holder of a seat or ticket record (holder defaults to your agent id). Optionally conditional on expected_version.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "expected_version": {
+       "description": "Commit only if the record is still at this version; otherwise 409.",
+       "minimum": 1,
+       "type": "integer"
+      },
+      "fencing_token": {
+       "description": "The fencing_token returned by acquire_lock. Required while the record is locked. A write whose token's lease has ended is rejected with 409.",
+       "minimum": 1,
+       "type": "integer"
+      },
+      "holder": {
+       "type": "string"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "claim"
+   },
+   {
+    "description": "List the writes you have committed, optionally for one record.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "type": "object"
+    },
+    "name": "list_effects"
+   },
+   {
+    "description": "Take an exclusive lock on a record. The lease covers your next lease_calls tool calls (1-20): every tool call you make after this one, of any kind and on any record, uses one unit; time between your calls does not count. Returns fencing_token and lease_remaining. While the lock is held, writes to the record are accepted only if they carry this fencing_token (writes without it get 423). When the lease runs out or you release it, the lock ends and the token stops working. If the record is already locked, the call waits up to 150 rounds (a round is one scheduling step) for it to be released, then returns 423.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "lease_calls": {
+       "description": "Lease length in your own tool calls (1-20).",
+       "maximum": 20,
+       "minimum": 1,
+       "type": "integer"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id",
+      "lease_calls"
+     ],
+     "type": "object"
+    },
+    "name": "acquire_lock"
+   },
+   {
+    "description": "Restart the lease of a lock you still hold so it covers your next lease_calls tool calls (1-20). Returns the same fencing_token and lease_remaining. Fails with 409 if you no longer hold the lock.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "lease_calls": {
+       "description": "Lease length in your own tool calls (1-20).",
+       "maximum": 20,
+       "minimum": 1,
+       "type": "integer"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id",
+      "lease_calls"
+     ],
+     "type": "object"
+    },
+    "name": "renew_lock"
+   },
+   {
+    "description": "Release a lock you hold.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "release_lock"
+   }
+  ],
+  "cas_available": [
+   {
+    "description": "Read a record. Returns its current value and version.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "get_record"
+   },
+   {
+    "description": "Set a record's value. Optionally conditional on expected_version.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "expected_version": {
+       "description": "Commit only if the record is still at this version; otherwise 409.",
+       "minimum": 1,
+       "type": "integer"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      },
+      "value": {
+       "description": "New value: integer stock, decimal string for money, holder name or null."
+      }
+     },
+     "required": [
+      "record_id",
+      "value"
+     ],
+     "type": "object"
+    },
+    "name": "update_record"
+   },
+   {
+    "description": "Set the holder of a seat or ticket record (holder defaults to your agent id). Optionally conditional on expected_version.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "expected_version": {
+       "description": "Commit only if the record is still at this version; otherwise 409.",
+       "minimum": 1,
+       "type": "integer"
+      },
+      "holder": {
+       "type": "string"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "claim"
+   },
+   {
+    "description": "List the writes you have committed, optionally for one record.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "type": "object"
+    },
+    "name": "list_effects"
+   }
+  ],
+  "locks": [
+   {
+    "description": "Read a record. Returns its current value.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "get_record"
+   },
+   {
+    "description": "Set a record's value.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "fencing_token": {
+       "description": "The fencing_token returned by acquire_lock. Required while the record is locked. A write whose token's lease has ended is rejected with 409.",
+       "minimum": 1,
+       "type": "integer"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      },
+      "value": {
+       "description": "New value: integer stock, decimal string for money, holder name or null."
+      }
+     },
+     "required": [
+      "record_id",
+      "value"
+     ],
+     "type": "object"
+    },
+    "name": "update_record"
+   },
+   {
+    "description": "Set the holder of a seat or ticket record (holder defaults to your agent id).",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "fencing_token": {
+       "description": "The fencing_token returned by acquire_lock. Required while the record is locked. A write whose token's lease has ended is rejected with 409.",
+       "minimum": 1,
+       "type": "integer"
+      },
+      "holder": {
+       "type": "string"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "claim"
+   },
+   {
+    "description": "List the writes you have committed, optionally for one record.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "type": "object"
+    },
+    "name": "list_effects"
+   },
+   {
+    "description": "Take an exclusive lock on a record. The lease covers your next lease_calls tool calls (1-20): every tool call you make after this one, of any kind and on any record, uses one unit; time between your calls does not count. Returns fencing_token and lease_remaining. While the lock is held, writes to the record are accepted only if they carry this fencing_token (writes without it get 423). When the lease runs out or you release it, the lock ends and the token stops working. If the record is already locked, the call waits up to 150 rounds (a round is one scheduling step) for it to be released, then returns 423.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "lease_calls": {
+       "description": "Lease length in your own tool calls (1-20).",
+       "maximum": 20,
+       "minimum": 1,
+       "type": "integer"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id",
+      "lease_calls"
+     ],
+     "type": "object"
+    },
+    "name": "acquire_lock"
+   },
+   {
+    "description": "Restart the lease of a lock you still hold so it covers your next lease_calls tool calls (1-20). Returns the same fencing_token and lease_remaining. Fails with 409 if you no longer hold the lock.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "lease_calls": {
+       "description": "Lease length in your own tool calls (1-20).",
+       "maximum": 20,
+       "minimum": 1,
+       "type": "integer"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id",
+      "lease_calls"
+     ],
+     "type": "object"
+    },
+    "name": "renew_lock"
+   },
+   {
+    "description": "Release a lock you hold.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "release_lock"
+   }
+  ],
+  "none": [
+   {
+    "description": "Read a record. Returns its current value.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "get_record"
+   },
+   {
+    "description": "Set a record's value.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      },
+      "value": {
+       "description": "New value: integer stock, decimal string for money, holder name or null."
+      }
+     },
+     "required": [
+      "record_id",
+      "value"
+     ],
+     "type": "object"
+    },
+    "name": "update_record"
+   },
+   {
+    "description": "Set the holder of a seat or ticket record (holder defaults to your agent id).",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "holder": {
+       "type": "string"
+      },
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "required": [
+      "record_id"
+     ],
+     "type": "object"
+    },
+    "name": "claim"
+   },
+   {
+    "description": "List the writes you have committed, optionally for one record.",
+    "input_schema": {
+     "additionalProperties": false,
+     "properties": {
+      "record_id": {
+       "description": "Record id, e.g. 'inventory:widget'.",
+       "type": "string"
+      }
+     },
+     "type": "object"
+    },
+    "name": "list_effects"
+   }
+  ]
+ }
+}

@@ -1,6 +1,6 @@
 # OSF registration records
 
-Studies 1 and 2 were registered on the OSF before their runs; Study 3's registration is retrospective (below). All three registrations are embargoed. This file lets a reader check the
+Studies 1, 2 and 4 were registered on the OSF before their runs; Study 3's registration is retrospective (below). All four registrations are embargoed. This file lets a reader check the
 timing claims of the paper against the shipped files without the embargo being lifted. Every value below is copied
 from a record kept at the time (source named in each row); nothing here was read from the OSF after the fact, and
 no OSF setting was changed to write it. Reviewers can be given a view-only link to the registrations on request.
@@ -56,9 +56,25 @@ that exists is retrospective. The record below is complete, including the failur
 | frozen code named in the plan | `study3/src6/FREEZE.md` sha256 `7dc10fab662462e12815eb89d9c379ad10d126c79aae13da565bc657c7f3b912`; `study3/run_conc_study3.sh` sha256 `6c9a79126a0d974673883bc80ed06cea501df14bf5b4e77ba691f42932342fbe`; `study3/analysis6/analyze6.py` sha256 `55f05ef1898a99dd7aade70e2a6132635fce590f020b18ecf1cb910c040e71a6` | the plan's "Freeze" table |
 | uploaded code archive | `study3/osf_upload/study3_frozen_code_and_plan.zip`, sha256 `7924a02bce7f1ed43bd0ad529624859751f4ccfc2f3916d76026fc70596371e4` | equals the OSF-computed sha256 |
 
+## Study 4
+
+Registered before any paid call; the run script refused to spend until the OSF reported the registration archived.
+
+| field | value | source |
+|---|---|---|
+| registration id | `6asc8` (https://osf.io/6asc8), in OSF project `9qvpt`, OSF Preregistration template | OSF API |
+| date_registered | 2026-11-16T15:31:50Z; archiving finished within a minute; the embargo was approved by the author at about 16:01Z | OSF API; OSF email "Pending Embargo" |
+| record the gate checked | read 2026-11-16T16:02:31Z in the signed-in browser (the registration is embargoed): `archiving` false, `withdrawn` false, no pending approval; saved as `study4/.study4_osf_api.json`, sha256 `7eabf20a85ed0fb601edca963fe1ca213b4b1a95cdb4d23afacd217284dd6a59` | `study4/.study4_registered` |
+| paid run | started 2026-11-16T16:03:19Z; Anthropic lane ended 21:36:21Z; OpenRouter lane stopped for good 21:46:57Z | `data/results7/study4/run_study4.log`, `study4/STUDY4_RUN_NOTES.md` |
+| embargo end | 2027-11-01 | OSF API |
+| registered text | every form field holds the plan's text for that field; the title and description are the plan's | OSF registration |
+| plan text in the artifact | `preregistration/PREREGISTRATION_STUDY4.md` (also `study4/PREREGISTRATION_STUDY4.md`), sha256 `5dea5e38d5afd6ac18af9e717feb231eb68a4e29971739d2982f7a03ae0fe79a` | this artifact |
+| frozen code named in the plan | `study4/src7/FREEZE.md` sha256 `a14bba8e0a99ce0918f1a56bbbae2cc926256dd25bd9b25ec7498f8987b0e00e`; `study4/analysis7/analyze7.py` sha256 `eec68bbac58a213230dab31efdbd83222b75d37c0aae499ac02a518b241168cc` (the plan's Freeze table lists 15 files) | the plan's "Freeze" table |
+| frozen files on the OSF | not uploaded to the project; bound by the hashes in the registered Freeze table | `study4/STUDY4_FILING_RECORD.md` |
+
 ## How to check
 
-- `sha256sum preregistration/PREREGISTRATION.md preregistration/PREREGISTRATION_STUDY2.md analysis5/out_study2/eligibility.json src5/FREEZE.md run_conc_study2.sh preregistration/PREREGISTRATION_STUDY3.md study3/src6/FREEZE.md study3/run_conc_study3.sh study3/analysis6/analyze6.py study3/osf_upload/study3_frozen_code_and_plan.zip`
+- `sha256sum preregistration/PREREGISTRATION.md preregistration/PREREGISTRATION_STUDY2.md analysis5/out_study2/eligibility.json src5/FREEZE.md run_conc_study2.sh preregistration/PREREGISTRATION_STUDY3.md study3/src6/FREEZE.md study3/run_conc_study3.sh study3/analysis6/analyze6.py study3/osf_upload/study3_frozen_code_and_plan.zip preregistration/PREREGISTRATION_STUDY4.md study4/src7/FREEZE.md study4/analysis7/analyze7.py study4/.study4_osf_api.json`
   must print the values above.
 - After the embargo ends (2027-11-01), or through a view-only link given on request, the OSF pages show
   `date_registered` and the registered text, and the project's file list shows the eligibility file's upload time
