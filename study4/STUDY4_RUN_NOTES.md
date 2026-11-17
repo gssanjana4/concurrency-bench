@@ -30,4 +30,7 @@
 - 2026-11-16 ~22:50Z: the author chose not to add credit. The Qwen block stops at 82 episodes (a cap-like stop before
   any analysis): Qwen's tests have fewer than 96 clusters and are "not tested" under the registered rule; the pooled
   tests use the models whose own tests run. Decided before any analysis was run or any summary opened.
-- Python for the analysis: the session VM's python3 (version recorded in the analysis log).
+- Python for the analysis: Python 3.10.12 in a Linux VM on the run machine (version recorded in the analysis log).
+- After the analysis (exploratory, not registered): `paper7/qwen_exploratory7.py` computes the plan's contrasts on
+  the 20 Qwen clusters that have all four configs (instances 0 and 1 of every family, and four families of instance 2),
+  with exact sign-flip p values and no adjustment. The paper labels it exploratory.

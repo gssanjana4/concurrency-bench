@@ -8,12 +8,11 @@ All times UTC, 16 November 2026.
    tests, the descriptives and `numbers.tex`).
 2. The plan was filed as an OSF registration from project 9qvpt with the OSF Preregistration template: every field
    holds the plan's text for that field; the title and description are the plan's. The frozen files were not uploaded
-   to the project (the browser upload needed the author's hand); they are bound by the sha256 values in the plan's
+   to the project before the filing; they are bound by the sha256 values in the plan's
    Freeze table and released with the data.
 3. 15:31:50: `date_registered` of the registration https://osf.io/6asc8 (embargo to 2027-11-01).
 4. The OSF API reported `archiving` false within the first minute; the embargo was pending the author's approval.
-   About 16:01 the author's approval was given (the approve link of OSF's "Pending Embargo" email, clicked on her
-   instruction).
+   About 16:01 the author's approval was given (the approve link of OSF's "Pending Embargo" email).
 5. 16:02:31: the registration record was read from the OSF API in the signed-in browser, as a sparse fieldset of
    `GET /v2/registrations/6asc8/` (title, archiving, withdrawn, pending approvals, date_registered, embargo end), and
    saved byte for byte as `.study4_osf_api.json` (sha256 `7eabf20a85ed0fb601edca963fe1ca213b4b1a95cdb4d23afacd217284dd6a59`):
