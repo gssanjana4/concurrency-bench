@@ -169,14 +169,15 @@ def main() -> int:
           r"percentile cluster bootstrap, unadjusted. $p$: exact sign-flip; Holm within each hypothesis.}",
           r"\label{tab:s4-tests}", r"\end{table*}"]
     open(os.path.join(dst, "tables", "s4_tests.tex"), "w").write("\n".join(x for x in L if x is not None) + "\n")
-    L = [r"\begin{table}[tp]", r"\centering\scriptsize", r"\begin{tabular}{@{}l" + "r" * len(CONFIGS) + "@{}}", r"\toprule",
+    L = [r"\begin{table}[tp]", r"\centering\scriptsize\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}l" + "r" * len(CONFIGS) + "@{}}", r"\toprule",
          "model & " + " & ".join(CFG_TT[c] for c in CONFIGS) + r" \\", r"\midrule"]
     for m in MODELS:
         row = []
         for c in CONFIGS:
             v = res["descriptive"]["fs"].get(f"{m}|{c}")
             row.append(r"\textemdash{}" if not v or not v["episodes"] else f"{v['failed']}/{v['episodes']}")
-        L.append(f"{NAME[m]} & " + " & ".join(row) + r" \\")
+        label = NAME[m] + (r"{} (incomplete)" if m == "Qwen" else "")
+        L.append(f"{label} & " + " & ".join(row) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}",
           r"\caption{\SFour{} contended integrity failures (failed / episodes) per model and configuration: the \STwo{} lock text (\texttt{locks\_s2text}), its instruction only (\texttt{locks\_instr}), its signals only (\texttt{locks\_signals}) and the \SThree{} bundle (\texttt{locks}). \ModelQwenName{} stopped after \SivQwenDone{} episodes and \ModelFableName{} after its first config (Appendix~\ref{app:s4}).}",
           r"\label{tab:s4-fs}", r"\end{table}"]
